@@ -23,9 +23,15 @@ namespace ASPJ_Project
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/game/logic").Include(
+                        "~/Scripts/tofu-universe.js)"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/game/css").Include(
+                        "~/Content/tofu-universe.css"));
         }
     }
 }

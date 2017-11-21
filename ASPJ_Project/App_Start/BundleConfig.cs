@@ -31,7 +31,8 @@ namespace ASPJ_Project
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/game/css").Include(
-                        "~/Content/tofu-universe.css"));
+                        "~/Content/Main.css",
+                        "~/Content/bootstrap.css"));
         }
     }
 }

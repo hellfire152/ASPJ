@@ -70,7 +70,7 @@ namespace ASPJ_Project.Models
         public Tuple<char, float> effect { get; set; }
 
         public Upgrade(string name, string description,
-            string id, string affected, Tuple<char, float> effect)
+            int id, string affected, Tuple<char, float> effect)
         {
             this.name = name;
             this.description = description;

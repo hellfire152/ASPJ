@@ -13,7 +13,6 @@ namespace ASPJ_Project.Controllers
         public ActionResult Index()
         {
             //HARDCODED SHOP
-            ShopList s = new ShopList();
             Dictionary<int, Item > itemList= new Dictionary<int, Item>();
             Dictionary<int, Upgrade> upgradeList = new Dictionary<int, Upgrade>();
 
@@ -36,6 +35,7 @@ namespace ASPJ_Project.Controllers
             itemList.Add(farm.id, farm);
             upgradeList.Add(betterClicks.id, betterClicks);
 
+            ShopList s = new ShopList(itemList, upgradeList);
             return View(s);
         }
     }

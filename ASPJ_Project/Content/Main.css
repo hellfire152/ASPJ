@@ -1,0 +1,18 @@
+﻿body {
+    background-image : url(~/Content/images/woodback.jpg);
+}
+
+.tofu-area {
+    padding : 30px;
+    margin: 10px;
+}
+
+#tofu-img {
+    max-width: 70%;
+    max-height: 40%;
+}
+
+#tofu-count {
+    text-align : center;
+    margin: auto;
+}

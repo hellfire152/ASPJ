@@ -1,20 +1,38 @@
 ﻿
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Tofu Universe!";
 }
+@model ASPJ_Project.Models.ShopList
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3" id="tofu-area">
-
+<div class="row">
+    <div class="col-sm-6" id="tofu-area">
+        <div class="row" id="tofu-count">
+            0 Tofu
         </div>
-        <div class="col-sm-4" id="stats-area">
-
-        </div>
-        <div class="col-sm-5" id="shop-area">
-
+        <div class="row" id="tofu">
+            <img id="'tofu-img" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")"/>
         </div>
     </div>
+    <div class="col-sm-6" id="shop-area">
+        <div class="row" id="shop-upgrades">
+            @{ 
+                foreach(var upgrade in Model.upgradeList) {
+                    <div class="shop-upgrade">
 
+                    </div>
+                }
+            }
+        </div>
+        <div class="row" id="shop-items">
+            @{ 
+                foreach(var item in Model.itemList)
+                {
+                    <div class="shop-item">
+
+                    </div>
+                }
+            }
+        </div>
+    </div>
 </div>
 

@@ -12,8 +12,8 @@ namespace ASPJ_Project.Models
         public BigInteger tofu;
         public BigInteger beans;
         public BigInteger tps;
-        public int[] items;
-        public List<Upgrade> upgrades;
+        public Dictionary<int, int> items;
+        public Dictionary<string, List<Upgrade>> upgrades;
 
         //Creates a new player object, from scratch
         public Player()

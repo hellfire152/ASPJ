@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 
 namespace ASPJ_Project.Models
 {
@@ -15,19 +16,43 @@ namespace ASPJ_Project.Models
     //can be done through reading a file or hardcoded here
     public static class Shop
     {
-        public static Item cursor = new Item();
+        public static ShopList initializeShop()
+        {
+            Dictionary<int, Item> itemList = new Dictionary<int,Item>();
+            Dictionary<int, Upgrade> upgradeList = new Dictionary<int, Upgrade>();
+
+
+            //TODO::get details from database
+
+
+            return new ShopList(itemList, upgradeList);
+        }
+    }
+
+    public struct ShopList
+    {
+        public Dictionary<int, Item> itemList;
+        public Dictionary<int, Upgrade> upgradeList;
+
+        public ShopList(Dictionary<int, Item> itemList, Dictionary<int, Upgrade> upgradeList)
+        {
+            this.itemList = itemList;
+            this.upgradeList = upgradeList;
+        }
     }
 
     public struct Item
     {
+        public int id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public ulong baseCost { get; }
-        public ulong baseTps { get; }
+        public decimal baseCost { get; set; }
+        public decimal baseTps { get; set; }
 
-        public Item(string name, string description,
-            ulong baseCost, ulong baseTps)
+        public Item(int id, string name, string description,
+            decimal baseCost, decimal baseTps)
         {
+            this.id = id;
             this.name = name;
             this.description = description;
             this.baseCost = baseCost;
@@ -35,11 +60,23 @@ namespace ASPJ_Project.Models
         }
     }
 
+    
     public struct Upgrade
     {
         public string name { get; set; }
         public string description { get; set; }
-        public string id { get; } //for identification in savefiles
-        public string effect { get;}
+        public int id { get; set; } //for identification in savefiles
+        public string affected { get; set; }
+        public Tuple<char, float> effect { get; set; }
+
+        public Upgrade(string name, string description,
+            int id, string affected, Tuple<char, float> effect)
+        {
+            this.name = name;
+            this.description = description;
+            this.id = id;
+            this.affected = affected;
+            this.effect = effect;
+        }
     }
 }

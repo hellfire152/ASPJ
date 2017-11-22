@@ -17,5 +17,9 @@ namespace ASPJ_Project.Controllers
         {
             return View();
         }
+        public ActionResult Thread()
+        {
+            return View();
+        }
     }
 }

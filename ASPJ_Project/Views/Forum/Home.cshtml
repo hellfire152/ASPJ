@@ -4,27 +4,147 @@
     Layout = "~/Views/Forum/Forum_Layout.cshtml";
 
 }
+<style>
+    * {
+        color: white;
+    }
+    .ForumTable, .TopicsTable {
+        outline: auto;
+        margin-bottom: 10px;
+        background-color: black;
+    }
+    .ForumHeader {
+        margin-bottom: 10px;
+        border-bottom: 1px dashed #808080
+    }
+    .Thread {
+        margin-top: 10px;
+        padding: 10px 10px 10px 10px;
+        border-bottom: 1px solid #808080
+    }
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .ThreadTitle {
+        
+    }
+    .ThreadImage, .ThreadTitle, .ThreadComments {
+        
+    }
+    
+  .container.fluid.ForumTable,.container.fluid.TopicsTable {
+      margin:0;
+  }
+
+
+ </style>
 <h2>Home</h2>
 
+<div class="container.fluid">
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            <div class="container.fluid ForumTable">
+                <div class="row ForumHeader">
+                    <div class="col-md-12 col-xs-12">
+                        <h3>Forum</h3>
+                    </div>
+                </div>
+                <div class="row Thread">
+                    <div class="col-md-1 col-xs-2 ThreadImage">
+                        <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="60" width="60">
+                    </div>
+                    <div class="col-md-9 col-xs-7 ThreadTitle">
+                        <div class="row">
+                            <h4>@Html.ActionLink("Flash is missing", "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                        </div>
+                        <div class="row">
+                            <h5>Posted by Alex Ang <small><i>Posted on February 19, 2016</i></small></h5>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-3 ThreadComments">
+                        <div class="row">
+                            <h5>5 comments</h5>
+                        </div>
+                        <div class="row">
+                            <div class="votes">
+                                <h5>425 votes</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Duplicate Thread-->
+                <div class="row Thread">
+                    <div class="col-md-1 col-xs-2 ThreadImage">
+                        <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="40" width="40">
+                    </div>
+                    <div class="col-md-8 col-xs-7 ThreadTitle">
+                        <h4>@Html.ActionLink("Flash is missing", "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                    </div>
+                    <div class="col-md-3 col-xs-3 ThreadComments">
+                        
+                        <h5>10 comments</h5>
+                    </div>
+                </div>
 
-<div class="container">
-    <div class="media" style="outline:auto">
-        <div class="media-left">
-            <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="80" width="80">
+                <div class="row Thread">
+                    <div class="col-md-1 col-xs-2 ThreadImage">
+                        <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="40" width="40">
+                    </div>
+                    <div class="col-md-8 col-xs-7 ThreadTitle">
+                        <h4>@Html.ActionLink("Flash is missing", "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                    </div>
+                    <div class="col-md-3 col-xs-3 ThreadComments">
+                        <h5>10 comments</h5>
+                    </div>
+                </div>
+
+                <div class="row Thread">
+                    <div class="col-md-1 col-xs-2 ThreadImage">
+                        <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="40" width="40">
+                    </div>
+                    <div class="col-md-8 col-xs-7 ThreadTitle">
+                        <h4>@Html.ActionLink("Flash is missing", "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                    </div>
+                    <div class="col-md-3 col-xs-3 ThreadComments">
+                        <h5>10 comments</h5>
+                    </div>
+                </div>
+
+                <div class="row Thread">
+                    <div class="col-md-1 col-xs-2 ThreadImage">
+                        <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="40" width="40">
+                    </div>
+                    <div class="col-md-8 col-xs-7 ThreadTitle">
+                        <h4>@Html.ActionLink("Flash is missing", "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                    </div>
+                    <div class="col-md-3 col-xs-3 ThreadComments">
+                        <h5>10 comments</h5>
+                    </div>
+                </div>
+
+                <div class="row Thread">
+                    <div class="col-md-1 col-xs-2 ThreadImage">
+                        <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="40" width="40">
+                    </div>
+                    <div class="col-md-8 col-xs-7 ThreadTitle">
+                        <h4>@Html.ActionLink("Flash is missing", "Thread", "Forum", null, new{style= "color:turquoise"})</h4>
+                    </div>
+                    <div class="col-md-3 col-xs-3 ThreadComments">
+                        <h5>10 comments</h5>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="media-body">
-            <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
-            <p style="padding-right: 2em">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <div class="col-md-4 col-xs-12">
+            <div class="container.fluid TopicsTable">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <h3>Trending</h3>
+                    </div> 
+                </div>
+            </div>
         </div>
     </div>
-    <div class="media" style="outline:auto">
-        <div class="media-left">
-            <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="80" width="80">
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading" style="padding-right: 2em">@Html.ActionLink("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Thread", "Forum")</h4>
-            <p class="media-right">John Doe <small><i>Posted on February 19, 2016</i></small></p>
-
-        </div>
-    </div>
+    
 </div>

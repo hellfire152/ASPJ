@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Tofu Universe!";
 }
 @model ASPJ_Project.Models.ShopList
@@ -9,28 +8,38 @@
         <div class="row" id="tofu-count">
             0 Tofu
         </div>
+        <div class="row" id="tps">
+            0 Tofu per second
+        </div>
         <div class="row" id="tofu">
-            <img id="'tofu-img" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")"/>
+            <img id="tofu-img" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")"/>
         </div>
     </div>
     <div class="col-sm-6" id="shop-area">
         <div class="row" id="shop-upgrades">
-            @{ 
-                foreach(var upgrade in Model.upgradeList) {
-                    <div class="shop-upgrade">
-
-                    </div>
-                }
+            @foreach(var u in Model.upgradeList) {
+                <div class="shop-upgrade" id="@u.Id">
+                    <img src="~/Content/images/upgrade/@u.Icon" />      
+                </div>
+                <div class="hover-description">
+                    <div class="hover-description-header">@u.Name</div>
+                    <div class="hover-description-text">@u.Description</div>
+                </div>
             }
         </div>
         <div class="row" id="shop-items">
-            @{ 
-                foreach(var item in Model.itemList)
-                {
-                    <div class="shop-item">
-
-                    </div>
-                }
+            @foreach (var i in Model.itemList)
+            {
+                <div class="shop-item">
+                    <img class="shop-icon" src="@i.Icon" />
+                    <div class="item-cost" id="@{@i.Name}-cost">@i.BaseCost</div>
+                    <div class="item-tps" id="@{@i.Name}-tps">@i.BaseCost</div>
+                    <div class="no-owned" id="@{@i.Name}-owned">0</div>
+                </div>
+                <div class="hover-description">
+                    <div class="hover-description-header">@i.Name</div>
+                    <div class="hover-description-text">@i.Description</div>
+                </div>
             }
         </div>
     </div>

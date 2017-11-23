@@ -108,3 +108,7 @@ D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\Pa
 D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\PagedList.Mvc.dll
 D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\PagedList.xml
 D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\PagedList.Mvc.xml
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\EntityFramework.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\EntityFramework.SqlServer.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\EntityFramework.xml
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ\ASPJ_Project\bin\EntityFramework.SqlServer.xml

@@ -13,15 +13,15 @@ namespace ASPJ_Project.Controllers
         // GET: Forum
         public ActionResult Index(string currentFilter, string searchString, int? page)
         {
-            if(searchString != null)
+            if (searchString != null)
             {
                 page = 1;
-            } 
+            }
             else
             {
                 searchString = currentFilter;
             }
-            ViewBag.CurrentView = currentFilter;
+            ViewBag.CurrentView = searchString;
             return View();
         }
         public ActionResult Home()

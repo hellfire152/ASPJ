@@ -7,6 +7,14 @@
     margin: 10px;
 }
 
+.hover-description {
+    display : none;
+}
+
+.shop-item + div, .shop-upgrade + div{
+    display : block;
+}
+
 #tofu-img {
     max-width: 70%;
     max-height: 40%;

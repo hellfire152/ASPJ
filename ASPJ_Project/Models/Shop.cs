@@ -16,10 +16,10 @@ namespace ASPJ_Project.Models
     //can be done through reading a file or hardcoded here
     public static class Shop
     {
-        public static ShopList initializeShop()
+        public static ShopList InitializeShop()
         {
-            Dictionary<int, Item> itemList = new Dictionary<int,Item>();
-            Dictionary<int, Upgrade> upgradeList = new Dictionary<int, Upgrade>();
+            List<Item> itemList = new List<Item>();
+            List<Upgrade> upgradeList = new List<Upgrade>();
 
 
             //TODO::get details from database
@@ -31,10 +31,10 @@ namespace ASPJ_Project.Models
 
     public struct ShopList
     {
-        public Dictionary<int, Item> itemList;
-        public Dictionary<int, Upgrade> upgradeList;
+        public List<Item> itemList;
+        public List<Upgrade> upgradeList;
 
-        public ShopList(Dictionary<int, Item> itemList, Dictionary<int, Upgrade> upgradeList)
+        public ShopList(List<Item> itemList, List<Upgrade> upgradeList)
         {
             this.itemList = itemList;
             this.upgradeList = upgradeList;
@@ -43,40 +43,69 @@ namespace ASPJ_Project.Models
 
     public struct Item
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public decimal baseCost { get; set; }
-        public decimal baseTps { get; set; }
-
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal BaseCost { get; set; }
+        public decimal BaseTps { get; set; }
+        public string Icon { get; set; }
         public Item(int id, string name, string description,
-            decimal baseCost, decimal baseTps)
+            decimal baseCost, decimal baseTps, string icon)
         {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.baseCost = baseCost;
-            this.baseTps = baseTps;
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.BaseCost = baseCost;
+            this.BaseTps = baseTps;
+            this.Icon = icon;
+        }
+
+        public void ApplyUpgrade(Upgrade u)
+        {
+            switch(u.Effect.Item1)
+            {
+                case "tps":
+                    if(u.Effect.Item2.Length == 1)
+                    {
+                        switch(u.Effect.Item2[0])
+                        {
+                            case '+':
+                                this.BaseTps + u.Effect.Item3;
+                                break;
+                        }
+                    }
+                    break;
+                case "cost":
+                    break;
+                case "description":
+                    break;
+                case "icon":
+                    break;
+                case "name":
+                    break;
+            }
         }
     }
 
     
     public struct Upgrade
     {
-        public string name { get; set; }
-        public string description { get; set; }
-        public int id { get; set; } //for identification in savefiles
-        public string affected { get; set; }
-        public Tuple<char, float> effect { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Id { get; set; } //for identification in savefiles
+        public string Affected { get; set; }
+        public Tuple<string, string, float> Effect { get; set; }
+        public string Icon { get; set; }
 
-        public Upgrade(string name, string description,
-            int id, string affected, Tuple<char, float> effect)
+        public Upgrade(string name, string description, string icon,
+            int id, string affected, Tuple<string, string, float> effect)
         {
-            this.name = name;
-            this.description = description;
-            this.id = id;
-            this.affected = affected;
-            this.effect = effect;
+            this.Name = name;
+            this.Description = description;
+            this.Id = id;
+            this.Affected = affected;
+            this.Effect = effect;
+            this.Icon = icon;
         }
     }
 }

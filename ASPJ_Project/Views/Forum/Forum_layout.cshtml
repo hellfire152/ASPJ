@@ -23,16 +23,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Home", "Forum")</li>
+                    <li>@Html.ActionLink("Hot", "Home", "Forum")</li>
+                    <li>@Html.ActionLink("My threads","Thread","Forum")</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container.fluid">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p style="color:black">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 

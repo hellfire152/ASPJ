@@ -1,18 +1,113 @@
-﻿
+﻿@model ASPJ_Project.ViewModels.ForumViewModel
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/Forum/Forum_Layout.cshtml";
-
 }
-<h2>Home</h2>
-<div class="media">
-    <div class="media-left">
-        <a href="#">
-            <img class="media-object" src="..." alt="...">
-        </a>
+
+<style>
+    
+    .ForumTable, .TopicsTable {
+        outline: auto;
+        margin-bottom: 10px;
+        background-color: black;
+        color: white;
+
+    }
+    .ForumHeader {
+        margin-bottom: 10px;
+        border-bottom: 1px dashed #808080
+    }
+    .Thread {
+        margin-top: 10px;
+        padding: 10px 10px 10px 10px;
+        border-bottom: 1px solid #808080
+    }
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .ThreadTitle {
+        
+    }
+    .ThreadImage, .ThreadTitle, .ThreadComments {
+        
+    }
+    
+  .container.fluid.ForumTable,.container.fluid.TopicsTable {
+      margin:0;
+  }
+
+  .SearchBox {
+      margin-top: 10px;
+  }
+
+ </style>
+
+<div class="container.fluid">
+    <div class="row">
+        <div class="col-md-3 col-xs-3">
+            <h2>Hot</h2>
+        </div>
+        <div class="col-md-6 col-xs-3">
+
+        </div>
+        <div class="col-md-3 col-xs-6 SearchBox">
+            @using (Html.BeginForm())
+            {
+                <p class="right">
+                    Search title: @Html.TextBox("SearchString")
+                    <input type="submit" value="submit"/>
+                </p>
+
+            }
+        </div>
+
     </div>
-    <div class="media-body">
-        <h4 class="media-heading">Alex Ang</h4>
-        ...
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            <div class="container.fluid ForumTable">
+                <div class="row ForumHeader">
+                    <div class="col-md-12 col-xs-12">
+                        <h3>Forum</h3>
+                    </div>
+                </div>
+                @foreach (var thread in Model.Threads)
+                {
+                    <div class="row Thread">
+                        <div class="col-md-1 col-xs-2 ThreadImage">
+                            <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="60" width="60">
+                        </div>
+                        <div class="col-md-9 col-xs-7 ThreadTitle">
+                            <div class="row">
+                                <h4>@Html.ActionLink(thread.title , "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                            </div>
+                            <div class="row">
+                                <h5>Posted by @thread.username <small><i>Posted on @thread.PostedDate</i></small></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-3 ThreadComments">
+                            <div class="row">
+                                <h5>5 comments</h5>
+                            </div>
+                            <div class="row">
+                                <div class="votes">
+                                    <h5>@thread.votes votes</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <div class="container.fluid TopicsTable">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <h3>Trending</h3>
+                    </div> 
+                </div>
+            </div>
+        </div>
     </div>
+    
 </div>

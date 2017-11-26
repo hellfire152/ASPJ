@@ -2,25 +2,7 @@
     background-image : url(~/Content/images/woodback.jpg);
 }
 
-.tofu-area {
-    padding : 30px;
-    margin: 10px;
+.shop-display {
+   display: none; 
 }
 
-.hover-description {
-    display : none;
-}
-
-.shop-item + div, .shop-upgrade + div{
-    display : block;
-}
-
-#tofu-img {
-    max-width: 70%;
-    max-height: 40%;
-}
-
-#tofu-count {
-    text-align : center;
-    margin: auto;
-}

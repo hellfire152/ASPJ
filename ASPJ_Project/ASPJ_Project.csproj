@@ -181,7 +181,6 @@
     </Compile>
     <Compile Include="Hubs\Startup.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
-    <Compile Include="Models\PaginationContext.cs" />
     <Compile Include="Models\Thread.cs" />
     <Compile Include="Models\ForumUser.cs" />
     <Compile Include="Models\SaveFileParser.cs" />
@@ -248,7 +247,7 @@
     <Content Include="Views\Game\_Layout.cshtml" />
     <Content Include="Views\Game\_ViewStart.cshtml" />
     <Content Include="Views\Forum\Home.cshtml" />
-    <Content Include="Views\Forum\Forum_layout.cshtml" />
+    <Content Include="Views\Forum\_ForumLayout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
   </ItemGroup>
   <ItemGroup>

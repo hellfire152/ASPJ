@@ -1,7 +1,7 @@
 ﻿@model ASPJ_Project.ViewModels.ForumViewModel
 @{
     ViewBag.Title = "Home";
-    Layout = "~/Views/Forum/Forum_Layout.cshtml";
+    Layout = "~/Views/Forum/_ForumLayout.cshtml";
 }
 
 <style>
@@ -40,6 +40,9 @@
   .SearchBox {
       margin-top: 10px;
   }
+   h4 {
+        word-wrap: break-word;
+    }
 
  </style>
 
@@ -64,7 +67,7 @@
 
     </div>
     <div class="row">
-        <div class="col-md-8 col-xs-12">
+        <div class="col-md-9 col-xs-12">
             <div class="container.fluid ForumTable">
                 <div class="row ForumHeader">
                     <div class="col-md-12 col-xs-12">
@@ -74,10 +77,10 @@
                 @foreach (var thread in Model.Threads)
                 {
                     <div class="row Thread">
-                        <div class="col-md-1 col-xs-2 ThreadImage">
+                        <div class="col-md-1 col-xs-3 ThreadImage">
                             <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="60" width="60">
                         </div>
-                        <div class="col-md-9 col-xs-7 ThreadTitle">
+                        <div class="col-md-9 col-xs-6 ThreadTitle">
                             <div class="row">
                                 <h4>@Html.ActionLink(thread.title , "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
                             </div>
@@ -99,7 +102,7 @@
                 }
             </div>
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-3 col-xs-12">
             <div class="container.fluid TopicsTable">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">

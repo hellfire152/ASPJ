@@ -1,8 +1,38 @@
-﻿body {
+﻿@import url('Main.css');
+body {
     background-image : url(~/Content/images/woodback.jpg);
 }
 
-.shop-display {
-   display: none; 
+.shop-area {
+    min-height : 50%;
 }
 
+.shop-item {
+    width:  100%;
+    min-height: 100px;
+    max-height: 300px;
+}
+
+.shop-upgrade {
+    display:inline-block;
+    margin: 5px;
+    width: 20%;
+}
+
+.shop-item-icon, .shop-upgrade-icon {
+    width:50px;
+    height:50px;
+}
+
+.shop-item:hover .shop-item-description {
+    visibility :visible;
+}
+
+#tofu {
+    max-width: 50%;
+    margin:auto;
+}
+
+#shop-nav {
+    padding:10px;
+}

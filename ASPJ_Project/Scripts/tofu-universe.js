@@ -40,25 +40,25 @@ _tofuUniverse.UPGRADES = {
         "name": "Quality clicks",
         "description": "Quality > Quantity",
         "effectDescription": "+1 tofu per click",
-        "effect": ["0+1,1.tps+0.1"],
+        "effect": "0+1,1.tps+0.1",
         "cost": 100,
         "icon":"quality-clicks.png"
     }
 };
 
 //clone ITEMS to player
-Object.assign(_tofuUniverse.player.items, _tofuUniverse.ITEMS);
+jQuery.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
 
 //setting tps of items
-for (let itemKey in _tofuUniverse.ITEMS) {
-    if (_tofuUniverse.ITEMS.hasOwnProperty(itemKey)) {
-        let i = _tofuUniverse.player.itemTps;
-        i[itemKey] = _tofuUniverse.ITEMS[itemKey]; //set base tps
-    }
-}
+$.each(_tofuUniverse.player.items, (index, item) => {
+    item.cost = item.baseCost;
+    item.owned = 0;
+});
 
 //function for applying upgrades
 function applyUpgrade(upgradeText) {
+    let p = _tofuUniverse.player;
+
     //split multiple effects up
     let effects = upgradeText.split(",");
     //for each effect
@@ -68,11 +68,6 @@ function applyUpgrade(upgradeText) {
 
         let matches = regexMatch(reg, effect);
 
-        if (matches[0] === 0) {  //upgrade to the click
-
-        } else {
-
-        }
         //form of "<id><op><value>" <- implies tps/click property
         //or "<id><property><op><value>" <- set any other property
         let tpsAdd = matches.length <= 3 ? true : false;
@@ -84,7 +79,7 @@ function applyUpgrade(upgradeText) {
         let operand = tpsAdd ? matches[2] : matches[3];
 
         //adding upgrade to the upgrade list
-        _tofuUniverse.player.upgradeEffects[benefactorId].push([operator, operand]);
+        p.upgradeEffects[benefactorId].push([benefactorProperty, operator, operand]);
         //^^^Why do I do this to myself^^^
         //update tps value after upgrade
         updateTps(benefactorId);
@@ -92,10 +87,15 @@ function applyUpgrade(upgradeText) {
 }
 
 //recalculates the tps of an item after upgrades
+//also updates the click value
 function updateTps(itemId) {
     let upgradeEffectsList = _tofuUniverse.player.upgradeEffects[itemId];
 
-    //applying upgrades
+    //applying upgrades to items
+    $.each(upgradeEffectsList, (index, upgradeEffect) +> {
+        let multiplier = 1;
+        let
+    });
     let multiplier = 1;
     let tps = _tofuUniverse.ITEMS[itemId].baseTps;
     //tps additions apply BEFORE multiplier
@@ -125,21 +125,29 @@ function regexMatch(regex, string) {
     let matchArr = [];
     let match;
     while (match = regex.exec(string)) {
-        matcheArr.push(match[index]);
+        matchArr.push(match[index]);
     }
     return matchArr;
 }
 
 //processes all purchases
 function purchase(purchaseType, purchaseId) {
-    //check costs
-
     //update player data if successful
     let p = _tofuUniverse.player;
     switch (purchaseType) {
         case "item":
-            p.tps += p.itemTps[purchaseId];
-            break;
+            //check cost
+            if (p.tCount > p.items[purchseId].cost) {
+                //add to tps
+                p.tps += p.itemTps[purchaseId];
+                //increment item owned counter
+                p.items[purchaseId].owned++;
+                //increase cost of item
+                setCost(purchaseId);
+                break;
+            } else {
+                
+            }
         case "upgrade":
             p.upgrades.push(purchaseId);
             applyUpgrade(_tofuUniverse.UPGRADES[purchaseId]);
@@ -147,6 +155,18 @@ function purchase(purchaseType, purchaseId) {
         case "beanUpgrade":
             break;
     }
+}
+
+/*
+    Handles the calculation regarding the increasing
+    cost of items
+*/
+function setCost(itemId) {
+    let i = _tofuUniverse.player.items[itemId];
+    i.cost = i.baseCost * Math.pow(1.15, i.owned);
+
+    //update display
+
 }
 
 //does all the ui updating
@@ -158,7 +178,12 @@ function gameloop(time) {
     //calculate auto-generated tofu
     let s = dt / 1000; //convert ms to s
     _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps;
-    
+
+    //Updating of shop display
+    //for items
+    $.each(_tofuUniverse.player.items, () => {
+
+    });
 }
 
 window.onload(() => {
@@ -169,34 +194,63 @@ window.onload(() => {
         let shopItem = $("<div>", {
             "id": "shop-item-" + index,
             "name": index,
-            "cost": item.baseCost,
             "class": "shop-item",
             "click": () => {
-                purchase("item", index);
-            }
+                purchase("item", this.name);
+            },
+        });
+        let description = $("<div>", {
+            "id": "shop-item-description-" + index,
+            "class": "shop-item-description"
         });
         let icon = $("<img>", {
-            "src": "~\\Content\\images\\items\\"
-            + item.icon
+            "src": "~\\Content\\Images\\Items\\"
+            + item.icon,
+            "class": "shop-item-icon"
         });
+        let cost = $("<span>", {
+            "class": "shop-item-cost",
+            "id": "item-cost-" + index
+        });
+        let owned = $("<span>", {
+            "class": "shop-item-owned",
+            "id": "item-owned-" + index
+        });
+        description.append(_tofuUniverse.ITEMS[index].description);
+        owned.append("0");
+
         shopItem.append(icon);
-        $("shop-items").append(shopItem);
+        $("#shop-items").append(shopItem).append(owned);
     });
     //upgrade shop
-    $.each(_tofuUniverse.UPGRADES, (index, upgrade) => {
+    $.each(_tofuUniverse.UPGRADES, (key, upgrade) => {
         let shopUpgrade = $("<div>", {
-            "id": "shop-upgrade-" + index,
-            "name": index,
-            "cost": upgrade.cost,
+            "id": "shop-upgrade-" + key,
+            "name": key,
             "class": "shop-upgrade",
             "click": () => {
-                purchase("upgrade", index);
+                purchase("upgrade", this.name);
             }
         });
+        let description = $("<div>", {
+            "id": "shop-upgrade-description-container-" + key,
+            "class":"shop-upgrade-description-container"
+        });
+        let cost = $("<h6>");
+        cost.append(upgrade.cost);
+        let flair = $("<div>")
+        flair.append(upgrade.description);
+        let effectDescription = $("<div>");
+        effectDescription.append(upgrade.effectDescription);
+
         let icon = $("<img>", {
             "src": "~\\Contect\\images\\upgrades\\"
-            +  upgrade.icon
+            + upgrade.icon,
+            "class": "shop-upgrade-icon"
         });
+
+        description.append(cost).append(flair).append(effectDescription);
+        shopUpgrade.append(icon).append(description);
     });
 
     //load save (if any)
@@ -209,3 +263,14 @@ window.onload(() => {
     //start game loop
     window.requestAnimationFrame(gameloop);
 });
+
+
+//functions for the tabbed display to work
+function openItems() {
+    $("#shop-items").display = "block";
+    $("#shop-upgrades").display = "none";
+}
+function openUpgrades() {
+    $("#shop-items").display = "none";
+    $("#shop-upgrades").display = "block";
+}

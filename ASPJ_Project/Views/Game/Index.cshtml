@@ -1,16 +1,17 @@
 ﻿@{
     ViewBag.Title = "Tofu Universe!";
 }
-
-<div class="col-md-5" id="shop-area">
-    <ul class="nav nav-tabs" id="shop-nav">
-        <li onclick="openItems();">Shop</li>
-        <li onclick="openUpgrades();">Upgrades</li>
-    </ul>
-    <div class="shop-display" id="shop-items"></div>
-    <div class="shop-display" id="shop-upgrades"></div>
+<div class="col-md-5" id="left-side-container">
+    <div class="col-md-5" id="shop-area">
+        <ul class="nav nav-tabs" id="shop-nav">
+            <li onclick="openItems();">Shop</li>
+            <li onclick="openUpgrades();">Upgrades</li>
+        </ul>
+        <div class="shop-display" id="shop-items"></div>
+        <div class="shop-display" id="shop-upgrades"></div>
+    </div>
     <div id="stats"></div>
 </div>
 <div class="col-md-7" id="tofu-area">
-    <img src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
+    <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
 </div>

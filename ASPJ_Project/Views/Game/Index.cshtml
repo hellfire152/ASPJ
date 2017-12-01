@@ -1,17 +1,27 @@
 ﻿@{
     ViewBag.Title = "Tofu Universe!";
 }
-<div class="col-md-5" id="left-side-container">
-    <div class="col-md-5" id="shop-area">
-        <ul class="nav nav-tabs" id="shop-nav">
-            <li onclick="openItems();">Shop</li>
-            <li onclick="openUpgrades();">Upgrades</li>
-        </ul>
-        <div class="shop-display" id="shop-items"></div>
-        <div class="shop-display" id="shop-upgrades"></div>
+<div class="container">
+    <div class="col-md-5" id="left-side-container">
+        <div id="shop-area">
+            <ul class="nav nav-tabs" id="shop-nav">
+                <li class="active"><a href="#1" data-toggle="tab">Items</a></li>
+                <li><a href="#2" data-toggle="tab">Upgrades</a></li>
+            </ul>
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <div class="shop-display" id="shop-items"></div>
+                </div>
+                <div class="tab-pane" id="2">
+                    <div class="shop-display" id="shop-upgrades"></div>
+                </div>
+            </div>
+        </div>
+        <div id="stats"></div>
     </div>
-    <div id="stats"></div>
-</div>
-<div class="col-md-7" id="tofu-area">
-    <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
+    <div class="col-md-7" id="tofu-area">
+        <div id="tofu-count">0 Tofu</div>
+        <div id="tps">0 Tofu / second</div>
+        <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
+    </div>
 </div>

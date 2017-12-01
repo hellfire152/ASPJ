@@ -1,16 +1,20 @@
 ﻿@import url('Main.css');
 body {
-    background-image : url(~/Content/images/woodback.jpg);
+    background-image : url(/Content/images/woodback.jpg);
 }
 
 .shop-area {
     min-height : 50%;
 }
 
+#shop-items {
+    margin:10px;
+}
+
 .shop-item {
     width:  100%;
-    min-height: 100px;
-    max-height: 300px;
+    height: 15%;
+    min-height:100px;
 }
 
 .shop-upgrade {
@@ -24,15 +28,38 @@ body {
     height:50px;
 }
 
+.shop-item-description {
+    display:none;
+    position:absolute;
+    font-size : 1.2;
+    color:white;
+    background-color:black;
+    padding: 20px;
+}
+
 .shop-item:hover .shop-item-description {
-    visibility :visible;
+    display:block
+}
+
+.shop-item-owned {
+    float:right;
+    font-size: 4em;
 }
 
 #tofu {
-    max-width: 50%;
-    margin:auto;
+    max-width: 70%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 
 #shop-nav {
     padding:10px;
+}
+
+#shop-area {
+    background-color: white;
 }

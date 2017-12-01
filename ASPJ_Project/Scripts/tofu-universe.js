@@ -19,7 +19,7 @@ _tofuUniverse.player = {
 _tofuUniverse.ITEMS = {
     1: {
         "name": "cursor",
-        "baseCost": "10",
+        "baseCost": 10,
         "baseTps": 0.1,
         "tps": 0.1,
         "description": "A cursor to help you click!",
@@ -47,7 +47,7 @@ _tofuUniverse.UPGRADES = {
 };
 
 //clone ITEMS to player
-jQuery.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
+$.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
 
 //setting tps of items
 $.each(_tofuUniverse.player.items, (index, item) => {
@@ -91,11 +91,6 @@ function applyUpgrade(upgradeText) {
 function updateTps(itemId) {
     let upgradeEffectsList = _tofuUniverse.player.upgradeEffects[itemId];
 
-    //applying upgrades to items
-    $.each(upgradeEffectsList, (index, upgradeEffect) +> {
-        let multiplier = 1;
-        let
-    });
     let multiplier = 1;
     let tps = _tofuUniverse.ITEMS[itemId].baseTps;
     //tps additions apply BEFORE multiplier
@@ -137,16 +132,19 @@ function purchase(purchaseType, purchaseId) {
     switch (purchaseType) {
         case "item":
             //check cost
-            if (p.tCount > p.items[purchseId].cost) {
+            if (p.tCount > p.items[purchaseId].cost) {
+                //pay cost
+                p.tCount -= p.items[purchaseId].cost;
                 //add to tps
-                p.tps += p.itemTps[purchaseId];
+                p.tps += p.items[purchaseId].tps;
                 //increment item owned counter
                 p.items[purchaseId].owned++;
                 //increase cost of item
                 setCost(purchaseId);
                 break;
             } else {
-                
+                console.log("Not enough Tofu!");
+                break;
             }
         case "upgrade":
             p.upgrades.push(purchaseId);
@@ -172,8 +170,12 @@ function setCost(itemId) {
 //does all the ui updating
 var t, dt;
 function gameloop(time) {
-    if (!t) t = time;
+    if (!t) {
+        t = time;
+        dt = time;
+    }
     dt = time - t;
+    t = time;
 
     //calculate auto-generated tofu
     let s = dt / 1000; //convert ms to s
@@ -184,19 +186,24 @@ function gameloop(time) {
     $.each(_tofuUniverse.player.items, () => {
 
     });
+
+    //updating tofu count
+    $("#tofu-count").text(_tofuUniverse.player.tCount + " Tofu");
+
+    //continue game loop
+    requestAnimationFrame(gameloop);
 }
 
-window.onload(() => {
+window.onload = () => {
     //dynamically generate all the item and upgrade displays
     //item shop
-    $("#shop-items").style.display = "block";    //show item shop first
     $.each(_tofuUniverse.ITEMS, (index, item) => {
         let shopItem = $("<div>", {
             "id": "shop-item-" + index,
             "name": index,
             "class": "shop-item",
             "click": () => {
-                purchase("item", this.name);
+                purchase("item", index);
             },
         });
         let description = $("<div>", {
@@ -204,7 +211,7 @@ window.onload(() => {
             "class": "shop-item-description"
         });
         let icon = $("<img>", {
-            "src": "~\\Content\\Images\\Items\\"
+            "src": "\\Content\\Images\\Items\\"
             + item.icon,
             "class": "shop-item-icon"
         });
@@ -219,8 +226,8 @@ window.onload(() => {
         description.append(_tofuUniverse.ITEMS[index].description);
         owned.append("0");
 
-        shopItem.append(icon);
-        $("#shop-items").append(shopItem).append(owned);
+        shopItem.append(icon).append(description).append(owned);
+        $("#shop-items").append(shopItem);
     });
     //upgrade shop
     $.each(_tofuUniverse.UPGRADES, (key, upgrade) => {
@@ -244,7 +251,7 @@ window.onload(() => {
         effectDescription.append(upgrade.effectDescription);
 
         let icon = $("<img>", {
-            "src": "~\\Contect\\images\\upgrades\\"
+            "src": "\\Contect\\images\\upgrades\\"
             + upgrade.icon,
             "class": "shop-upgrade-icon"
         });
@@ -256,21 +263,10 @@ window.onload(() => {
     //load save (if any)
 
     //set tofu onclick
-    $("#tofu-img").click(() => {
+    $("#tofu").click(() => {
         _tofuUniverse.player.tCount += _tofuUniverse.player.click;
     });
 
     //start game loop
     window.requestAnimationFrame(gameloop);
-});
-
-
-//functions for the tabbed display to work
-function openItems() {
-    $("#shop-items").display = "block";
-    $("#shop-upgrades").display = "none";
-}
-function openUpgrades() {
-    $("#shop-items").display = "none";
-    $("#shop-upgrades").display = "block";
-}
+};

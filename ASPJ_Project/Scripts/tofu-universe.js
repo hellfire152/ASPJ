@@ -8,27 +8,26 @@ _tofuUniverse.player = {
     "click": 1, //tofu earned per click
     "items": {}, //initially a clone of the ITEMS object
     "upgrades": [], //upgrades owned
-    "upgradeEffects": {   //effects of said upgrades
-        0: [],
-        1: [],
-        2: []
-    }
+    "upgradeEffects": {} //list of effects of said upgrades
 };
 
 //item data
 _tofuUniverse.ITEMS = {
+    0: {
+        "name": "click",
+        "tps": 1 //tofu per click
+    },
     1: {
         "name": "cursor",
-        "baseCost": 10,
-        "baseTps": 0.1,
+        "cost": 10,
         "tps": 0.1,
         "description": "A cursor to help you click!",
         "icon" : "cursor.png"
     },
     2: {
         "name": "farm",
-        "baseCost": "500",
-        "baseTps": 10,  //base tps
+        "cost": 500,
+        "tps": 10,
         "description": "Farm for more tofu!",
         "icon" : "farm.png"
     }
@@ -36,7 +35,7 @@ _tofuUniverse.ITEMS = {
 
 //upgrade data
 _tofuUniverse.UPGRADES = {
-    1: {
+    100: {
         "name": "Quality clicks",
         "description": "Quality > Quantity",
         "effectDescription": "+1 tofu per click",
@@ -49,10 +48,10 @@ _tofuUniverse.UPGRADES = {
 //clone ITEMS to player
 $.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
 
-//setting tps of items
+//setting extra values for player
 $.each(_tofuUniverse.player.items, (index, item) => {
-    item.cost = item.baseCost;
     item.owned = 0;
+    _tofuUniverse.player.upgradeEffects[index] = [];
 });
 
 //function for applying upgrades
@@ -79,40 +78,71 @@ function applyUpgrade(upgradeText) {
         let operand = tpsAdd ? matches[2] : matches[3];
 
         //adding upgrade to the upgrade list
-        p.upgradeEffects[benefactorId].push([benefactorProperty, operator, operand]);
-        //^^^Why do I do this to myself^^^
-        //update tps value after upgrade
-        updateTps(benefactorId);
+        let eff = [benefactorProperty, operator, operand];
+        p.upgradeEffects[benefactorId].push(eff);
+
+        applyEffects(benefactorId);
     });
 }
 
-//recalculates the tps of an item after upgrades
-//also updates the click value
-function updateTps(itemId) {
-    let upgradeEffectsList = _tofuUniverse.player.upgradeEffects[itemId];
+function applyEffects(benefactorId) {
+    let b = _tofuUniverse.ITEMS[benefactorId];
+    //first reset item properties to their base
+    item.cost = b.cost
+    item.tps = b.tps
+    item.description = b.description;
+    item.icon = b.icon;
 
-    let multiplier = 1;
-    let tps = _tofuUniverse.ITEMS[itemId].baseTps;
-    //tps additions apply BEFORE multiplier
-    $.each(upgradeEffectsList, (index, value) => {
-        switch (value[0]) {
+    let item = _tofuUniverse.player.items[benefactorId];
+    //first sort the upgrade effects
+    sortUpgradeEffects(benefactorId);
+    //now apply the effects!
+    $.each(_tofuUniverse.player.upgradeEffects, (index, eff) => {
+        switch (eff[1]) {
             case '*':
-                multiplier * value[1]; //multiplier stacks multiplicatively
-                break;
-            case '/':
-                multiplier / value[1];
+                item[eff[0]] *= eff[2];
                 break;
             case '+':
-                tps + value[1];
+                item[eff[0]] += eff[2];
                 break;
             case '-':
-                tps - value[1];
+                item[eff[0]] -= eff[2];
+                break;
+            case '/':
+                item[eff[0]] /= eff[2];
+                break;
+            case '=':
+                item[eff[0]] = eff[2];
                 break;
         }
     });
+}
 
-    //calculate and update tps
-    _tofuUniverse.player.items[itemId].tps = tps * multiplier;
+//object containing the operator hierarchy, used in sortUpgradeEffects
+let operatorRank = {
+    '+': 0,
+    '-': 1,
+    '*': 2,
+    '/': 3,
+    '=': 4
+};
+//sorts the upgrade effects list, so that applying upgrades is easier
+function sortUpgradeEffects(benefactorId) {
+    let upgradeEffects = _tofuUniverse.player.upgradeEffects[benefactorId];
+
+    upgradeEffects.sort((a, b) => {
+        return operatorRank[a] - operatorRank[b];
+    });
+}
+
+//recalculates the total tps across all upgrades and items, and updates the display
+function recalculateTotalTps() {
+    let tps = 0;
+    $.each(_tofuUniverse.player.items, (index, item) => {
+        tps += item.tps * item.owned;
+    });
+
+    $("#tps").text(tps);
 }
 
 //gets all matches for some regex
@@ -132,15 +162,17 @@ function purchase(purchaseType, purchaseId) {
     switch (purchaseType) {
         case "item":
             //check cost
-            if (p.tCount > p.items[purchaseId].cost) {
+            if (p.tCount >= p.items[purchaseId].cost) {
                 //pay cost
                 p.tCount -= p.items[purchaseId].cost;
                 //add to tps
                 p.tps += p.items[purchaseId].tps;
-                //increment item owned counter
-                p.items[purchaseId].owned++;
                 //increase cost of item
                 setCost(purchaseId);
+
+                //update owned display
+                let o = ++p.items[purchaseId].owned;
+                $("#item-owned-" + purchaseId).text(o);
                 break;
             } else {
                 console.log("Not enough Tofu!");
@@ -153,6 +185,7 @@ function purchase(purchaseType, purchaseId) {
         case "beanUpgrade":
             break;
     }
+    recalculateTotalTps();
 }
 
 /*
@@ -161,25 +194,24 @@ function purchase(purchaseType, purchaseId) {
 */
 function setCost(itemId) {
     let i = _tofuUniverse.player.items[itemId];
-    i.cost = i.baseCost * Math.pow(1.15, i.owned);
-
-    //update display
-
+    i.cost = _tofUniverse.ITEMS[itemId].cost * Math.pow(1.15, i.owned);
+    applyEffects(itemId);
 }
 
 //does all the ui updating
 var t, dt;
 function gameloop(time) {
+    //settling delta time
     if (!t) {
         t = time;
         dt = time;
     }
     dt = time - t;
     t = time;
+    let s = dt / 1000; //delta time in seconds
 
     //calculate auto-generated tofu
-    let s = dt / 1000; //convert ms to s
-    _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps;
+    _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps, 1;
 
     //Updating of shop display
     //for items
@@ -188,7 +220,7 @@ function gameloop(time) {
     });
 
     //updating tofu count
-    $("#tofu-count").text(_tofuUniverse.player.tCount + " Tofu");
+    $("#tofu-count").text(Math.round(_tofuUniverse.player.tCount, 1));
 
     //continue game loop
     requestAnimationFrame(gameloop);
@@ -258,6 +290,7 @@ window.onload = () => {
 
         description.append(cost).append(flair).append(effectDescription);
         shopUpgrade.append(icon).append(description);
+        $("#shop-upgrades").append(upgrade);
     });
 
     //load save (if any)
@@ -265,8 +298,23 @@ window.onload = () => {
     //set tofu onclick
     $("#tofu").click(() => {
         _tofuUniverse.player.tCount += _tofuUniverse.player.click;
+
+        //the +<tofu earned> thing
+        let earning = $("<span>", {
+            "class": "click-earn"
+        });
+        earning.text = _tofuUniverse.player.click;
+
+        //animate the tofu
+
     });
 
     //start game loop
     window.requestAnimationFrame(gameloop);
 };
+
+//TEST FUNCTION
+//gives the player more tofu without triggering anti-cheat
+function giveMeMoreTofuPlease(tofu) {
+    _tofuUniverse.player.tCount += tofu;
+}

@@ -198,6 +198,7 @@
     <Content Include="Content\images\woodback.jpg" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="css\Forum.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -249,6 +250,8 @@
     <Content Include="Views\Forum\Home.cshtml" />
     <Content Include="Views\Forum\_ForumLayout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
+    <Content Include="Views\Forum\Home2.cshtml" />
+    <Content Include="Views\Forum\CreateThread.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

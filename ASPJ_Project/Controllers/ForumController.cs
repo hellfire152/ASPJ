@@ -28,9 +28,9 @@ namespace ASPJ_Project.Controllers
         {
             var threads = new List<Thread>
             {
-                new Thread{ title = "Flash is missing", username = "Alex Ang", PostedDate = DateTime.Now, votes = 0 },
-                new Thread{ title = "Flash is missing", username = "Alex Ang", PostedDate = DateTime.Now, votes = 0 },
-                new Thread{ title = "Flash is missing", username = "Alex Ang", PostedDate = DateTime.Now, votes = 0 }
+                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
+                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
+                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 }
             };
 
             var viewModel = new ForumViewModel
@@ -39,9 +39,25 @@ namespace ASPJ_Project.Controllers
             };
             return View(viewModel);
         }
+        public ActionResult Home2()
+        {
+            var threads = new List<Thread>
+            {
+                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
+                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
+                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 }
+            };
+            return View(threads);
+        }
+        public ActionResult CreateThread()
+        {
+            return View();
+        }
+
         public ActionResult Thread()
         {
             return View();
         }
+
     }
 }

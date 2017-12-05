@@ -82,10 +82,10 @@
                         </div>
                         <div class="col-md-9 col-xs-6 ThreadTitle">
                             <div class="row">
-                                <h4>@Html.ActionLink(thread.title , "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                                <h4>@Html.ActionLink(thread.Title , "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
                             </div>
                             <div class="row">
-                                <h5>Posted by @thread.username <small><i>Posted on @thread.PostedDate</i></small></h5>
+                                <h5>Posted by @thread.Username <small><i>Posted on @thread.Date</i></small></h5>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-3 ThreadComments">
@@ -94,7 +94,7 @@
                             </div>
                             <div class="row">
                                 <div class="votes">
-                                    <h5>@thread.votes votes</h5>
+                                    <h5>@thread.Votes votes</h5>
                                 </div>
                             </div>
                         </div>

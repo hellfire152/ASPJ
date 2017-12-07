@@ -46,6 +46,14 @@ body {
     font-size: 4em;
 }
 
+#tofu-count-container, #tps-container {
+    width: 80%;
+    margin: auto;
+    color:white;
+    background-color:black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 #tofu-area {
     margin:auto;
 }

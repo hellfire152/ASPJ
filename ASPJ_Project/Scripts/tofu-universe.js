@@ -18,14 +18,14 @@ _tofuUniverse.ITEMS = {
         "tps": 1 //tofu per click
     },
     1: {
-        "name": "cursor",
+        "name": "Cursor",
         "cost": 10,
         "tps": 0.1,
         "description": "A cursor to help you click!",
         "icon" : "cursor.png"
     },
     2: {
-        "name": "farm",
+        "name": "Farm",
         "cost": 500,
         "tps": 10,
         "description": "Farm for more tofu!",
@@ -41,7 +41,7 @@ _tofuUniverse.UPGRADES = {
         "effectDescription": "+1 tofu per click",
         "effect": "0+1,1.tps+0.1",
         "cost": 100,
-        "icon":"quality-clicks.png"
+        "icon":"bettercursor.jpg"
     }
 };
 
@@ -55,6 +55,7 @@ $.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
 
 //setting extra values for player
 $.each(_tofuUniverse.player.items, (index, item) => {
+    item.baseCost = item.cost;
     item.owned = 0;
     _tofuUniverse.player.upgradeEffects[index] = [];
 });
@@ -68,11 +69,8 @@ function applyUpgrade(upgradeText) {
     console.log(effects);
     //for each effect
     $.each(effects, (index, effect) => {
-        console.log("for each effect...");
         //I LOVE REGEX
         let reg = /(\d+)(?:(?:([\+\-\*\/=])(\d+(?:\.\d+)?))|(?:\.([a-zA-Z]+)(?:([\+\-\*\/=])(\d+(?:\.\d+)?))))/;
-
-        console.log("attempting to match...");
         let matches = regexMatch(reg, effect);
 
         //form of "<id><op><value>" <- implies tps/click property
@@ -88,7 +86,6 @@ function applyUpgrade(upgradeText) {
         //adding upgrade to the upgrade list
         let eff = [benefactorProperty, operator, operand];
         p.upgradeEffects[benefactorId].push(eff);
-
         applyEffects(benefactorId);
     });
 }
@@ -97,6 +94,7 @@ function applyEffects(benefactorId) {
     let b = _tofuUniverse.ITEMS[benefactorId];
     let item = _tofuUniverse.player.items[benefactorId];
     //first reset item properties to their base
+    item.baseCost = b.cost;
     item.cost = b.cost;
     item.tps = b.tps
     item.description = b.description;
@@ -105,25 +103,33 @@ function applyEffects(benefactorId) {
     //first sort the upgrade effects
     sortUpgradeEffects(benefactorId);
     //now apply the effects!
-    $.each(_tofuUniverse.player.upgradeEffects, (index, eff) => {
+    $.each(_tofuUniverse.player.upgradeEffects[benefactorId], (index, eff) => {
+        console.log("Applying effect:");
+        console.log(eff);
+        console.log("BEFORE: " + item[eff[0]]);
+        console.log(item[eff[0]]);
         switch (eff[1]) {
             case '*':
-                item[eff[0]] *= eff[2];
+                item[eff[0]] *= Number(eff[2]);
                 break;
             case '+':
-                item[eff[0]] += eff[2];
+                item[eff[0]] += Number(eff[2]);
                 break;
             case '-':
-                item[eff[0]] -= eff[2];
+                item[eff[0]] -= Number(eff[2]);
                 break;
             case '/':
-                item[eff[0]] /= eff[2];
+                item[eff[0]] /= Number(eff[2]);
                 break;
             case '=':
-                item[eff[0]] = eff[2];
+                let n = Number(eff[2]);
+                if (n == NaN) item[eff[0]] = eff[2];
+                else item[eff[0]] = n;
                 break;
         }
+        console.log("AFTER: " + item[eff[0]]);
     });
+    setCost(benefactorId); 
 }
 
 //object containing the operator hierarchy, used in sortUpgradeEffects
@@ -161,7 +167,6 @@ function regexMatch(regex, string) {
         if(m !== string && m !== undefined)
              matchArr.push(m);
     });
-    console.log(matchArr);
     return matchArr;
 }
 
@@ -179,10 +184,10 @@ function purchase(purchaseType, purchaseId) {
                 p.tps += p.items[purchaseId].tps;
                 //increase cost of item
                 applyEffects(purchaseId);
-                setCost(purchaseId);
 
                 //update owned display
                 let o = ++p.items[purchaseId].owned;
+                setCost(purchaseId);
                 $("#item-owned-" + purchaseId).text(o);
                 break;
             } else {
@@ -190,8 +195,19 @@ function purchase(purchaseType, purchaseId) {
                 break;
             }
         case "upgrade":
-            p.upgrades.push(purchaseId);
-            applyUpgrade(_tofuUniverse.UPGRADES[purchaseId].effect);
+            //check cost and if purchased before
+            if (p.tCount >= _tofuUniverse.UPGRADES[purchaseId].cost
+                && p.upgrades.indexOf(purchaseId) < 0) {
+                //pay cost
+                p.tCount -= _tofuUniverse.UPGRADES[purchaseId].cost;
+                //applying upgrade
+                p.upgrades.push(purchaseId);
+                applyUpgrade(_tofuUniverse.UPGRADES[purchaseId].effect);
+                //removing the upgrade purchase icon
+                $("#shop-upgrade-" + purchaseId).remove();
+            } else {
+                console.log("Not enough tofu (upgrade)!");
+            }
             break;
         case "beanUpgrade":
             break;
@@ -205,7 +221,9 @@ function purchase(purchaseType, purchaseId) {
 */
 function setCost(itemId) {
     let i = _tofuUniverse.player.items[itemId];
-    i.cost = _tofuUniverse.ITEMS[itemId].cost * Math.pow(1.15, i.owned);
+    i.cost = i.baseCost * Math.pow(1.15, i.owned);
+    //update display
+    $("#shop-item-cost-" + itemId).text(i.cost + " tofu");
 }
 
 //does all the ui updating
@@ -221,7 +239,7 @@ function gameloop(time) {
     let s = dt / 1000; //delta time in seconds
 
     //calculate auto-generated tofu
-    _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps, 1;
+    _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps;
 
     //updating tofu count
     $("#tofu-count").text(round(_tofuUniverse.player.tCount, 0));
@@ -256,27 +274,34 @@ window.onload = () => {
                 purchase("item", index);
             },
         });
+        let name = $("<div>", {
+            "id": "shop-item-name-" + index,
+            "class": "shop-item-name"
+        });
+        name.append(item.name);
         let description = $("<div>", {
             "id": "shop-item-description-" + index,
             "class": "shop-item-description"
         });
+        description.append(item.cost);
         let icon = $("<img>", {
             "src": "\\Content\\Images\\Items\\"
             + item.icon,
             "class": "shop-item-icon"
         });
-        let cost = $("<span>", {
+        let cost = $("<div>", {
             "class": "shop-item-cost",
-            "id": "item-cost-" + index
+            "id": "shop-item-cost-" + index
         });
+        cost.append(item.cost)
         let owned = $("<span>", {
             "class": "shop-item-owned",
             "id": "item-owned-" + index
         });
-        description.append(_tofuUniverse.ITEMS[index].description);
-        owned.append("0");
+        owned.append(0);
 
-        shopItem.append(icon).append(description).append(owned);
+        shopItem.append(icon).append(name).append(cost)
+            .append(description).append(owned);
         $("#shop-items").append(shopItem);
     });
     //upgrade shop
@@ -310,7 +335,7 @@ window.onload = () => {
         effectDescription.append(upgrade.effectDescription);
 
         let icon = $("<img>", {
-            "src": "\\Contect\\images\\upgrades\\"
+            "src": "\\Content\\Images\\Upgrades\\"
             + upgrade.icon,
             "class": "shop-upgrade-icon"
         });
@@ -324,7 +349,7 @@ window.onload = () => {
 
     //set tofu onclick
     $("#tofu").click(() => {
-        _tofuUniverse.player.tCount += _tofuUniverse.player.click;
+        _tofuUniverse.player.tCount += _tofuUniverse.player.items[0].tps;
 
         if (_tofuUniverse.settings.showEarnings) {
             //the +<tofu earned> thing
@@ -332,7 +357,7 @@ window.onload = () => {
                 "class": "click-earn"
             });
             earning.css("style", "position:absolute;left:"+mouseX);
-            earning.text(_tofuUniverse.player.click);
+            earning.text(_tofuUniverse.player.items[0].tps);
             $("temp").append(earning);
             
             //animate the tofu

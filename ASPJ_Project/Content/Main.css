@@ -15,6 +15,7 @@ body {
     width:  100%;
     height: 15%;
     min-height:100px;
+    padding-right: 20px;
 }
 
 .shop-upgrade {
@@ -23,22 +24,35 @@ body {
     width: 20%;
 }
 
+.shop-item-name {
+    display:inline-block;
+    position:relative;
+    left:30px;
+    font-size:3em;
+    opacity: 0.8;
+}
+
+.shop-item-cost {
+    display:inline-block;
+    position:relative;
+}
+
 .shop-item-icon, .shop-upgrade-icon {
     width:50px;
     height:50px;
 }
 
-.shop-item-description {
+.shop-item-description, .upgrade-description-container {
     display:none;
     position:absolute;
-    font-size : 1.2;
+    font-size : 1.2em;
     color:white;
     background-color:black;
     padding: 20px;
 }
 
-.shop-item:hover .shop-item-description {
-    display:block
+.shop-item:hover .shop-item-description, .shop-upgrade:hover .upgrade-description-container{
+    display:block;
 }
 
 .shop-item-owned {

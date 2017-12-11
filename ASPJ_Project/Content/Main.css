@@ -1,26 +1,85 @@
-﻿body {
-    background-image : url(~/Content/images/woodback.jpg);
+﻿@import url('Main.css');
+body {
+    background-image : url(/Content/images/woodback.jpg);
 }
 
-.tofu-area {
-    padding : 30px;
-    margin: 10px;
+.shop-area {
+    min-height : 50%;
 }
 
-.hover-description {
-    display : none;
+#shop-items {
+    margin:10px;
 }
 
-.shop-item + div, .shop-upgrade + div{
-    display : block;
+.shop-item {
+    width:  100%;
+    height: 15%;
+    min-height:100px;
+    padding-right: 20px;
 }
 
-#tofu-img {
-    max-width: 70%;
-    max-height: 40%;
+.shop-upgrade {
+    display:inline-block;
+    margin: 5px;
+    width: 20%;
 }
 
-#tofu-count {
-    text-align : center;
+.shop-item-name {
+    display:inline-block;
+    position:relative;
+    left:30px;
+    font-size:3em;
+    opacity: 0.8;
+}
+
+.shop-item-cost {
+    display:inline-block;
+    position:relative;
+}
+
+.shop-item-icon, .shop-upgrade-icon {
+    width:50px;
+    height:50px;
+}
+
+.shop-item-description, .upgrade-description-container {
+    display:none;
+    position:absolute;
+    font-size : 1.2em;
+    color:white;
+    background-color:black;
+    padding: 20px;
+}
+
+.shop-item:hover .shop-item-description, .shop-upgrade:hover .upgrade-description-container{
+    display:block;
+}
+
+.shop-item-owned {
+    float:right;
+    font-size: 4em;
+}
+
+#tofu-count-container, #tps-container {
+    width: 80%;
     margin: auto;
+    color:white;
+    background-color:black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#tofu-area {
+    margin:auto;
+}
+
+#tofu {
+    max-width: 70%;
+}
+
+#shop-nav {
+    padding:10px;
+}
+
+#shop-area {
+    background-color: white;
 }

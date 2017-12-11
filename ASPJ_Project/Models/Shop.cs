@@ -69,10 +69,7 @@ namespace ASPJ_Project.Models
                     {
                         /*switch(u.Effect.Item2[0])
                         {
-                            case '+':
-                                this.BaseTps + u.Effect.Item3;
-                                break;
-                        }*/
+                        }
                     }
                     break;
                 case "cost":

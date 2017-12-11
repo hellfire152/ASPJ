@@ -1,47 +1,28 @@
 ﻿@{
     ViewBag.Title = "Tofu Universe!";
 }
-@model ASPJ_Project.Models.ShopList
-
-<div class="row">
-    <div class="col-sm-6" id="tofu-area">
-        <div class="row" id="tofu-count">
-            0 Tofu
+<div class="container">
+    <div class="col-md-5" id="left-side-container">
+        <div id="shop-area">
+            <ul class="nav nav-tabs" id="shop-nav">
+                <li class="active"><a href="#1" data-toggle="tab">Items</a></li>
+                <li><a href="#2" data-toggle="tab">Upgrades</a></li>
+            </ul>
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <div class="shop-display" id="shop-items"></div>
+                </div>
+                <div class="tab-pane" id="2">
+                    <div class="shop-display" id="shop-upgrades"></div>
+                </div>
+            </div>
         </div>
-        <div class="row" id="tps">
-            0 Tofu per second
-        </div>
-        <div class="row" id="tofu">
-            <img id="tofu-img" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")"/>
-        </div>
+        <div id="stats"></div>
     </div>
-    <div class="col-sm-6" id="shop-area">
-        <div class="row" id="shop-upgrades">
-            @foreach(var u in Model.upgradeList) {
-                <div class="shop-upgrade" id="@u.Id">
-                    <img src="~/Content/images/upgrade/@u.Icon" />      
-                </div>
-                <div class="hover-description">
-                    <div class="hover-description-header">@u.Name</div>
-                    <div class="hover-description-text">@u.Description</div>
-                </div>
-            }
-        </div>
-        <div class="row" id="shop-items">
-            @foreach (var i in Model.itemList)
-            {
-                <div class="shop-item">
-                    <img class="shop-icon" src="@i.Icon" />
-                    <div class="item-cost" id="@{@i.Name}-cost">@i.BaseCost</div>
-                    <div class="item-tps" id="@{@i.Name}-tps">@i.BaseCost</div>
-                    <div class="no-owned" id="@{@i.Name}-owned">0</div>
-                </div>
-                <div class="hover-description">
-                    <div class="hover-description-header">@i.Name</div>
-                    <div class="hover-description-text">@i.Description</div>
-                </div>
-            }
-        </div>
+    <div class="col-md-7" id="tofu-area">
+        <div id="tofu-count-container"><span id="tofu-count">0</span> Tofu</div>
+        <div id="tps-container"><span id="tps">0</span> Tofu / second</div>
+        <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
     </div>
+    <div id="temp" style="position:absolute"></div>
 </div>
-

@@ -300,8 +300,11 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\images\tofu-clipart-cute-2.png" />
-    <Content Include="Content\images\woodback.jpg" />
+    <Content Include="Content\Images\Items\farm.png" />
+    <Content Include="Content\Images\Items\cursor.png" />
+    <Content Include="Content\Images\tofu-clipart-cute-2.png" />
+    <Content Include="Content\Images\Upgrades\bettercursor.jpg" />
+    <Content Include="Content\Images\woodback.jpg" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="docs\MySqlCommand.xml" />

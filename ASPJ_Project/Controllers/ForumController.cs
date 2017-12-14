@@ -27,31 +27,12 @@ namespace ASPJ_Project.Controllers
         }
         public ActionResult Home()
         {
-            var threads = new List<Thread>
-            {
-                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
-                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
-                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 }
-            };
-
-            var viewModel = new ForumViewModel
-            {
-                Threads = threads
-            };
-            return View(viewModel);
+            return View();
         }
-        public ActionResult Home2()
-        {
-            var threads = new List<Thread>
-            {
-                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
-                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 },
-                new Thread{ Title = "Flash is missing", Username = "Alex Ang", Date = DateTime.Now, Votes = 0 }
-            };
-            return View(threads);
-        }
+    
         public ActionResult CreateThread()
         {
+            var newThread = new Thread();
             return View();
         }
         [HttpGet]
@@ -59,6 +40,24 @@ namespace ASPJ_Project.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult GetThread(int id)
+        {
+            if (RouteData.Values["id"] == null)
+            {
+                return Home();
+            }
+            //ThreadId = RouteData.Values["ThreadId"].ToString();
+            ForumHome threaddata = new ForumHome();
+            var thread = threaddata.getThreadData().ToList().Find(p => p.Key == id);
+            ViewBag.Thread = thread;
+            return View();
+        }
+        public ActionResult Home2()
+        {
+            return View();
+        }
+	
         [HttpPost]
         public ActionResult CreateThread(Thread thread)
         {
@@ -97,47 +96,6 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
-        [HttpPost]
-        public void UploadImage_Click(Thread thread)
-        {
-            HttpPostedFileBase UploadedImage = thread.Image;
-            string ext = System.IO.Path.GetExtension(UploadedImage.FileName);
-            bool isValidFile = false;
-            ViewBag.message = "hi the type is " + ext;
-            if (UploadedImage.ContentLength > 0)
-            {
-                if (ext.ToLower() == ".gif" || ext.ToLower() == ".png" || ext.ToLower() == ".jpeg")
-                {
-                    isValidFile = true;
-                }
-                if (!isValidFile)
-                {
-                    ViewBag.Message.ForeColor = System.Drawing.Color.Red;
-                    ViewBag.Message.Text = "Invalid File. Please upload a File with extension ";
-                }
-                else
-                {
-                    int fileSize = UploadedImage.ContentLength;
-                    if (fileSize > 2097152)
-                    {
-                        ViewBag.Message.ForeColor = System.Drawing.Color.Red;
-                        ViewBag.Message = "Maximum file size (2MB) exceeded";
-                    }
-                    else
-                    {
-                        ViewBag.Message.ForeColor = System.Drawing.Color.Green;
-                        ViewBag.Message = "File uploaded successfully.";
-                    }
-
-                }
-            }
-            else
-            {
-                ViewBag.Message.ForeColor = System.Drawing.Color.Red;
-                ViewBag.Message = "Please select a file to upload";
-            }
-
-        }
 
     }
 }

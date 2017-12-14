@@ -1,9 +1,11 @@
-﻿@model ASPJ_Project.ViewModels.ForumViewModel
-@{
+﻿@{
     ViewBag.Title = "Home";
     Layout = "~/Views/Forum/_ForumLayout.cshtml";
+    ASPJ_Project.ViewModels.ForumHome threadData = new ASPJ_Project.ViewModels.ForumHome();
+    var threads = threadData.getThreadData();
+    var popularThreads = threadData.getPopularThreadData();
 }
-
+@model ASPJ_Project.ViewModels.ForumHome
 <style>
     
     .ForumTable, .TopicsTable {
@@ -74,18 +76,18 @@
                         <h3>Forum</h3>
                     </div>
                 </div>
-                @foreach (var thread in Model.Threads)
+                @foreach (var thread in threads)
                 {
                     <div class="row Thread">
-                        <div class="col-md-1 col-xs-3 ThreadImage">
+                        <div class="col-md-2 col-xs-3 ThreadImage">
                             <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="60" width="60">
                         </div>
-                        <div class="col-md-9 col-xs-6 ThreadTitle">
+                        <div class="col-md-8 col-xs-6 ThreadTitle">
                             <div class="row">
-                                <h4>@Html.ActionLink(thread.Title , "Thread", "Forum", null, new { style = "color:turquoise" })</h4>
+                                <h4><a href="/GetThread/@thread.Key">@thread.Value.Title</a></h4>
                             </div>
                             <div class="row">
-                                <h5>Posted by @thread.Username <small><i>Posted on @thread.Date</i></small></h5>
+                                <h5>Posted by @thread.Value.Username <small><i>Posted on @thread.Value.Date</i></small></h5>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-3 ThreadComments">
@@ -94,7 +96,7 @@
                             </div>
                             <div class="row">
                                 <div class="votes">
-                                    <h5>@thread.Votes votes</h5>
+                                    <h5>@thread.Value.Votes votes</h5>
                                 </div>
                             </div>
                         </div>
@@ -104,11 +106,34 @@
         </div>
         <div class="col-md-3 col-xs-12">
             <div class="container.fluid TopicsTable">
-                <div class="row">
+                <div class="row ForumHeader">
                     <div class="col-md-12 col-sm-12">
                         <h3>Trending</h3>
                     </div> 
                 </div>
+                @foreach (var popularThread in popularThreads)
+                {
+                    <div class="row Thread">
+                        <div class="col-md-12 col-xs-6 ThreadTitle">
+                            <div class="row">
+                                <h4><a href="/GetThread/@popularThread.Key">@popularThread.Value.Title</a></h4>
+                            </div>
+                            <div class="row">
+                                <h5>Posted by @popularThread.Value.Username <small><i>Posted on @popularThread.Value.Date</i></small></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-3 ThreadComments">
+                            <div class="row">
+                                <h5>5 comments</h5>
+                            </div>
+                            <div class="row">
+                                <div class="votes">
+                                    <h5>@popularThread.Value.Votes votes</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

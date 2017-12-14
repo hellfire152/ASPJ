@@ -179,10 +179,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\Startup.cs" />
-    <Compile Include="Hubs\TofuUniverseHub.cs" />
-    <Compile Include="Models\Thread.cs" />
-    <Compile Include="Models\ForumUser.cs" />
+    <Compile Include="Models\Hubs\Startup.cs" />
+    <Compile Include="Models\Hubs\TofuUniverseHub.cs" />
+    <Compile Include="Models\Forum.cs" />
     <Compile Include="Models\SaveFileParser.cs" />
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\Player.cs" />
@@ -250,8 +249,9 @@
     <Content Include="Views\Forum\Home.cshtml" />
     <Content Include="Views\Forum\_ForumLayout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
-    <Content Include="Views\Forum\Home2.cshtml" />
     <Content Include="Views\Forum\CreateThread.cshtml" />
+    <Content Include="Views\Forum\GetThread.cshtml" />
+    <Content Include="Views\Forum\Home2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

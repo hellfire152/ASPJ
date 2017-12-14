@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "GetThread";
+    Layout = "~/Views/Forum/_Forumlayout.cshtml";
+    var thread = ViewBag.Thread;
+}
+
+<div class="container" style="margin-top:10px;">
+    <div class="media">
+        <div class="media-left">
+            <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">@thread.Value.Username <small><i>Posted on @thread.Value.Date</i></small></h4>
+            <p>@thread.Value.Content</p>
+
+            <!-- Nested media object -->
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Alex Ang <small><i>Posted on February 19, 2016</i></small></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                    <!-- Nested media object -->
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Beatricia Liyu <small><i>Posted on February 19, 2016</i></small></h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Home")
+</p>

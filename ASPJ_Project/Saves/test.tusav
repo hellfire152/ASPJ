@@ -1,9 +1,6 @@
-﻿[Profile]
-name:test
-[Game]
-tCount: 500
-[Items]
-1:10
-2:10
-[Upgrades]
-100
+﻿{
+	"profile": {},
+	"game": {},
+	"items": {},
+	"upgrades": []
+}

@@ -317,24 +317,6 @@
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Database\Models\testtable.cs">
-      <DependentUpon>test_model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Models\test_model.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>test_model.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Models\test_model.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>test_model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Models\test_model.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>test_model.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -350,16 +332,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="CSS\Chat.css" />
     <Content Include="CSS\Friends.css" />
-    <Content Include="Database\Models\test_model.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>test_model.Context.cs</LastGenOutput>
-      <DependentUpon>test_model.edmx</DependentUpon>
-    </Content>
-    <Content Include="Database\Models\test_model.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>test_model.edmx</DependentUpon>
-      <LastGenOutput>test_model.cs</LastGenOutput>
-    </Content>
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -379,13 +351,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="Database\Models\test_model.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>test_model.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Database\Models\test_model.edmx.diagram">
-      <DependentUpon>test_model.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -421,6 +386,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Database\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

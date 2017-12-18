@@ -67,7 +67,7 @@ namespace ASPJ_Project.Models
                 case "tps":
                     if(u.Effect.Item2.Length == 1)
                     {
-                        /*switch(u.Effect.Item2[0])
+                        switch(u.Effect.Item2[0])
                         {
                         }
                     }

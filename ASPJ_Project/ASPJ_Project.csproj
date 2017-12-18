@@ -282,17 +282,26 @@
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\Startup.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
+    <Compile Include="Models\PremiumShop.cs" />
     <Compile Include="Models\Thread.cs" />
     <Compile Include="Models\ForumUser.cs" />
     <Compile Include="Models\SaveFileParser.cs" />
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site1.Master.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site1.Master.designer.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +316,28 @@
     <Content Include="Content\Images\woodback.jpg" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\ShopStyle\assets\css\font-awesome.min.css" />
+    <Content Include="Content\ShopStyle\assets\css\ie8.css" />
+    <Content Include="Content\ShopStyle\assets\css\ie9.css" />
+    <Content Include="Content\ShopStyle\assets\css\images\intro.svg" />
+    <Content Include="Content\ShopStyle\assets\css\main.css" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\ShopStyle\assets\js\ie\html5shiv.js" />
+    <Content Include="Content\ShopStyle\assets\js\ie\respond.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.scrollex.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.scrolly.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\main.js" />
+    <Content Include="Content\ShopStyle\assets\js\skel.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\util.js" />
+    <Content Include="Content\ShopStyle\elements.html" />
+    <Content Include="Content\ShopStyle\images\pic01.jpg" />
+    <Content Include="Content\ShopStyle\images\pic02.jpg" />
+    <Content Include="Content\ShopStyle\images\pic03.jpg" />
+    <Content Include="Content\ShopStyle\images\pic04.jpg" />
+    <Content Include="Content\ShopStyle\images\pic05.jpg" />
+    <Content Include="Content\ShopStyle\images\pic06.jpg" />
+    <None Include="Content\ShopStyle\_Layout.cshtml" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -333,6 +364,38 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\ShopStyle\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\ShopStyle\assets\sass\base\_page.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\base\_typography.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_box.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_button.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_features.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_form.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_icon.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_image.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_list.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_section.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_split.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_spotlights.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_table.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_wrapper.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\ie8.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\ie9.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_footer.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_header.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_intro.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_sidebar.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_wrapper.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_functions.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_mixins.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_skel.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_vars.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\main.scss" />
+    <Content Include="Content\ShopStyle\images\Thumbs.db" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -371,6 +434,8 @@
     <Content Include="Views\Forum\Home.cshtml" />
     <Content Include="Views\Forum\Forum_layout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
+    <Content Include="Views\Shop\Shop.cshtml" />
+    <Content Include="Site1.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

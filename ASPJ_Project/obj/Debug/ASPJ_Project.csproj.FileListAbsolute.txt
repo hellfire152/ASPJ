@@ -310,3 +310,4 @@ C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.Extensions.Configuration.Abstractions.xml
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.Extensions.FileProviders.Abstractions.xml
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\bin\System.Text.Encodings.Web.xml
+C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache

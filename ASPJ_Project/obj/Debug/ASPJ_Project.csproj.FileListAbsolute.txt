@@ -401,3 +401,4 @@ D:\ASPJ\ASPJ_Project\bin\MySql.Data.Entity.EF6.xml
 D:\ASPJ\ASPJ_Project\bin\MySql.Web.xml
 D:\ASPJ\ASPJ_Project\bin\MySql.Data.Entity.EF5.dll
 D:\ASPJ\ASPJ_Project\bin\MySql.Data.Entity.EF5.xml
+C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache

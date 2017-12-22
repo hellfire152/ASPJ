@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ASPJ_Project.Models;
+using System.Data.Entity;
 
 namespace ASPJ_Project.Controllers
 {
@@ -23,7 +24,12 @@ namespace ASPJ_Project.Controllers
         // GET: Mvcdb/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            user userModel = new user();
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
+            {
+                userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
+            }
+            return View(userModel);
         }
 
         // GET: Mvcdb/Create
@@ -47,45 +53,48 @@ namespace ASPJ_Project.Controllers
         // GET: Mvcdb/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            user userModel = new user();
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
+            {
+                userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
+            }
+            return View(userModel);
         }
 
         // POST: Mvcdb/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(user userModel)
         {
-            try
+           using(mvccruddbEntities dbModel = new mvccruddbEntities())
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                dbModel.Entry(userModel).State = System.Data.Entity.EntityState.Modified;
+                dbModel.SaveChanges();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: Mvcdb/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            user userModel = new user();
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
+            {
+                userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
+            }
+            return View(userModel);
         }
 
         // POST: Mvcdb/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+           using(mvccruddbEntities dbModel = new mvccruddbEntities())
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                user userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
+                dbModel.users.Remove(userModel);
+                dbModel.SaveChanges();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
     }
 }

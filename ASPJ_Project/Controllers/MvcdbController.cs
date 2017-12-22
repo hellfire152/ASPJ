@@ -29,23 +29,19 @@ namespace ASPJ_Project.Controllers
         // GET: Mvcdb/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new user());
         }
 
         // POST: Mvcdb/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(user userModel)
         {
-            try
+            using(mvccruddbEntities dbModel = new mvccruddbEntities())
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                dbModel.users.Add(userModel);
+                dbModel.SaveChanges();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: Mvcdb/Edit/5

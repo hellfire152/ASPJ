@@ -11,11 +11,15 @@ namespace ASPJ_Project.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     
     public partial class user
     {
         public int UserID { get; set; }
+        //Set spacing for field name
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

@@ -427,6 +427,7 @@
     <Content Include="Views\Chat\Chat.cshtml" />
     <Content Include="Views\Friends\Friends.cshtml" />
     <Content Include="Views\Mvcdb\Index.cshtml" />
+    <Content Include="Views\Mvcdb\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

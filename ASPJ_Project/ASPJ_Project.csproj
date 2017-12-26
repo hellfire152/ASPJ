@@ -428,6 +428,8 @@
     <Content Include="Views\Forum\Forum_layout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
     <Content Include="Views\Shop\Shop.cshtml" />
+    <Content Include="Views\Shop\BeansPurchase.cshtml" />
+    <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

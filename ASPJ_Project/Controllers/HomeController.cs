@@ -26,5 +26,10 @@ namespace ASPJ_Project.Controllers
 
             return View();
         }
+
+        public ActionResult Chat()
+        {
+            return View();
+        }
     }
 }

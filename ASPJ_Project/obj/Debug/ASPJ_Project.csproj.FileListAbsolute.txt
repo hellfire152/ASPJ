@@ -402,3 +402,5 @@ D:\ASPJ\ASPJ_Project\bin\MySql.Web.xml
 D:\ASPJ\ASPJ_Project\bin\MySql.Data.Entity.EF5.dll
 D:\ASPJ\ASPJ_Project\bin\MySql.Data.Entity.EF5.xml
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
+D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.SignalR.Client.dll
+D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.SignalR.Client.xml

@@ -62,6 +62,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult CreateThread(Thread thread)
         {
             HttpPostedFileBase UploadedImage = thread.Image;
+            var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
             string ext = Path.GetExtension(UploadedImage.FileName);
             bool isValidFile = false;
             if (UploadedImage.ContentLength > 0)
@@ -83,7 +84,7 @@ namespace ASPJ_Project.Controllers
                     }
                     else
                     {
-                        string ImageFileName = Path.GetFileName(UploadedImage.FileName);
+                        string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
 
                         string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
 

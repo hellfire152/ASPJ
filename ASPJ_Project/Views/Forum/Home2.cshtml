@@ -1,15 +1,64 @@
-﻿@model ASPJ_Project.ViewModels.ForumHome
+﻿@model IEnumerable<ASPJ_Project.Models.Thread>
 
 @{
     ViewBag.Title = "Home2";
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
-    ASPJ_Project.ViewModels.ForumHome threaddata = new ASPJ_Project.ViewModels.ForumHome();
-    var threads = threaddata.getThreadData();
 }
 
-@{ 
-    foreach (var thread in threads)
-    {
-        <p><a href="/GetThread/@thread.Key" class="btn btn-primary btn-lg">@thread.Value.Title</a></p>
-    }
+<h2>Home2</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Votes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Votes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
 }
+
+</table>

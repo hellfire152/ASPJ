@@ -1,39 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ASPJ_Project.Models;
-using ASPJ_Project.ViewModels;
+using ASPJ_Project.Context;
 using System.IO;
+using System.Net;
 
 namespace ASPJ_Project.Controllers
 {
     public class ForumController : Controller
     {
+        private ForumContext db = new ForumContext();
         // GET: Forum
-        public ActionResult Index(string currentFilter, string searchString, int? page)
-        {
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            ViewBag.CurrentView = searchString;
-            return View();
-        }
+        //public ActionResult Index(string currentFilter, string searchString, int? page)
+        //{
+        //    if (searchString != null)
+        //    {
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        searchString = currentFilter;
+        //    }
+        //    ViewBag.CurrentView = searchString;
+        //    return View();
+        //}
+
         public ActionResult Home()
         {
-            return View();
-        }
-    
-        public ActionResult CreateThread()
-        {
-            var newThread = new Thread();
-            return View();
+
+            return View(db.threads.ToList());
         }
         [HttpGet]
         public ActionResult Thread()
@@ -41,62 +38,123 @@ namespace ASPJ_Project.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult GetThread(int id)
+        public ActionResult CreateThread()
         {
-            if (RouteData.Values["id"] == null)
+            return View();
+        }
+        [HttpGet]
+        public ActionResult GetThread(int? id)
+        {
+            if (id == null)
             {
-                return Home();
+                return RedirectToAction("Home");
             }
             //ThreadId = RouteData.Values["ThreadId"].ToString();
-            ForumHome threaddata = new ForumHome();
-            var thread = threaddata.getThreadData().ToList().Find(p => p.Key == id);
-            ViewBag.Thread = thread;
-            return View();
+            //ForumHome threaddata = new ForumHome();
+            Thread thread = db.threads.Find(id);
+            if (thread == null)
+                return HttpNotFound();
+            return View(thread);
         }
         public ActionResult Home2()
         {
-            return View();
+            return View(db.threads.ToList());
         }
 	
         [HttpPost]
         public ActionResult CreateThread(Thread thread)
         {
-            HttpPostedFileBase UploadedImage = thread.Image;
-            var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
-            string ext = Path.GetExtension(UploadedImage.FileName);
-            bool isValidFile = false;
-            if (UploadedImage.ContentLength > 0)
+            try
             {
-                if (ext.ToLower() == ".gif" || ext.ToLower() == ".png" || ext.ToLower() == ".jpeg")
+                if (ModelState.IsValid)
                 {
-                    isValidFile = true;
-                }
-                if (!isValidFile)
-                {
-                    ViewBag.Message = "Invalid File. Please upload an image file ";
-                }
-                else
-                {
-                    int fileSize = UploadedImage.ContentLength;
-                    if (fileSize > 2097152)
+                    HttpPostedFileBase UploadedImage = thread.Image;
+                    var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
+                    string ext = Path.GetExtension(UploadedImage.FileName);
+                    bool isValidFile = false;
+                    if (UploadedImage.ContentLength > 0)
                     {
-                        ViewBag.Message = "Maximum file size (2MB) exceeded";
+                        if (ext.ToLower() == ".gif" || ext.ToLower() == ".png" || ext.ToLower() == ".jpeg" || ext.ToLower() == ".jpg" )
+                        {
+                            isValidFile = true;
+                        }
+                        if (!isValidFile)
+                        {
+                            ViewBag.Message = "Invalid File. Please upload an image file ";
+                        }
+                        else
+                        {
+                            int fileSize = UploadedImage.ContentLength;
+                            if (fileSize > 2097152)
+                            {
+                                ViewBag.Message = "Maximum file size (2MB) exceeded";
+                            }
+                            else
+                            {
+                                string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
+                                string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
+
+                                UploadedImage.SaveAs(FolderPath);
+                                ViewBag.Message = "File uploaded successfully.";
+
+                                thread.Votes = 0;
+                                thread.Date = DateTime.Now;
+                                thread.ImageName = ImageFileName;
+                                db.threads.Add(thread);
+                                db.SaveChanges();
+                                return RedirectToAction("Home");
+                            }
+
+                        }
                     }
-                    else
-                    {
-                        string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
-
-                        string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
-
-                        UploadedImage.SaveAs(FolderPath);
-                        ViewBag.Message = "File uploaded successfully.";
-                    }
-
+                    
                 }
+                return View(thread);
             }
-            return View();
+            catch
+            {
+                return View();
+            }
+
+        }
+        //Get: /Forum/DeleteThread/
+        [HttpGet]
+        public ActionResult DeleteThread(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            Thread thread = db.threads.Find(id);
+            if (thread == null)
+                return HttpNotFound();
+            return View(thread);
         }
 
+        //Post: /Forum/DeleteThread/
+        [HttpPost, ActionName("DeleteThread")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteThreadConfirmed(int? id)
+        {
+            try
+            {
+                Thread thread = new Thread();
+                    if (ModelState.IsValid)
+                {
+                    if (id == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    thread = db.threads.Find(id);
+                    if (thread == null)
+                        return HttpNotFound();
+                    db.threads.Remove(thread);
+                    db.SaveChanges();
+                    return RedirectToAction("Home");
+                }
+                    return View(thread);
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
     }
 }

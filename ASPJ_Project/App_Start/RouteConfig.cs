@@ -13,11 +13,11 @@ namespace ASPJ_Project
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Default1",
-                url: "GetThread/{id}",
-                defaults: new { controller = "Forum", action = "GetThread"}
-            );
+            //routes.MapRoute(
+            //    name: "Default1",
+            //    url: "GetThread/{id}",
+            //    defaults: new { controller = "Forum", action = "GetThread"}
+            //);
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

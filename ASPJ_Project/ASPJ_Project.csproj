@@ -256,6 +256,7 @@
     <Content Include="Views\Forum\GetThread.cshtml" />
     <Content Include="Views\Forum\Home2.cshtml" />
     <Content Include="Views\Forum\DeleteThread.cshtml" />
+    <Content Include="Views\Forum\MyThreads.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

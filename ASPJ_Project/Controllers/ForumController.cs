@@ -42,6 +42,11 @@ namespace ASPJ_Project.Controllers
         {
             return View();
         }
+        public ActionResult Home2()
+        {
+            return View(db.threads.ToList());
+        }
+
         [HttpGet]
         public ActionResult GetThread(int? id)
         {
@@ -56,11 +61,7 @@ namespace ASPJ_Project.Controllers
                 return HttpNotFound();
             return View(thread);
         }
-        public ActionResult Home2()
-        {
-            return View(db.threads.ToList());
-        }
-	
+
         [HttpPost]
         public ActionResult CreateThread(Thread thread)
         {
@@ -68,46 +69,51 @@ namespace ASPJ_Project.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    HttpPostedFileBase UploadedImage = thread.Image;
-                    var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
-                    string ext = Path.GetExtension(UploadedImage.FileName);
-                    bool isValidFile = false;
-                    if (UploadedImage.ContentLength > 0)
+                    if(thread.Image != null)
                     {
-                        if (ext.ToLower() == ".gif" || ext.ToLower() == ".png" || ext.ToLower() == ".jpeg" || ext.ToLower() == ".jpg" )
+                        HttpPostedFileBase UploadedImage = thread.Image;
+                        var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
+                        string ext = Path.GetExtension(UploadedImage.FileName);
+                        bool isValidFile = false;
+                        if (UploadedImage.ContentLength > 0)
                         {
-                            isValidFile = true;
-                        }
-                        if (!isValidFile)
-                        {
-                            ViewBag.Message = "Invalid File. Please upload an image file ";
-                        }
-                        else
-                        {
-                            int fileSize = UploadedImage.ContentLength;
-                            if (fileSize > 2097152)
+                            if (ext.ToLower() == ".gif" || ext.ToLower() == ".png" || ext.ToLower() == ".jpeg" || ext.ToLower() == ".jpg")
                             {
-                                ViewBag.Message = "Maximum file size (2MB) exceeded";
+                                isValidFile = true;
+                            }
+                            if (!isValidFile)
+                            {
+                                ViewBag.Message = "Invalid File. Please upload an image file ";
                             }
                             else
                             {
-                                string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
-                                string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
+                                int fileSize = UploadedImage.ContentLength;
+                                if (fileSize > 2097152)
+                                {
+                                    ViewBag.Message = "Maximum file size (2MB) exceeded";
+                                }
+                                else
+                                {
+                                    string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
+                                    string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
+                                
+                                    UploadedImage.SaveAs(FolderPath);
+                                    ViewBag.Message = "File uploaded successfully.";
+                                    thread.ImageName = ImageFileName;
 
-                                UploadedImage.SaveAs(FolderPath);
-                                ViewBag.Message = "File uploaded successfully.";
+                                }
 
-                                thread.Votes = 0;
-                                thread.Date = DateTime.Now;
-                                thread.ImageName = ImageFileName;
-                                db.threads.Add(thread);
-                                db.SaveChanges();
-                                return RedirectToAction("Home");
                             }
-
                         }
                     }
-                    
+
+                    thread.Votes = 0;
+                    thread.Date = DateTime.Now;
+                    db.threads.Add(thread);
+                    db.SaveChanges();
+                    return RedirectToAction("Home");
+
+
                 }
                 return View(thread);
             }
@@ -153,6 +159,30 @@ namespace ASPJ_Project.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult MyThreads()
+        {
+            return View(db.threads.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult Comment(int? id)
+        {
+            try
+            {
+                Thread thread = new Thread();
+                if(id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                return View();
+
+            }
+            catch
+            {
+                return GetThread(id);
             }
         }
 

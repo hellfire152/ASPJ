@@ -13,22 +13,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model.date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Content)
+            @Html.DisplayNameFor(model => model.content)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ImageName)
+            @Html.DisplayNameFor(model => model.imageName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Votes)
+            @Html.DisplayNameFor(model => model.votes)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Username)
+            @Html.DisplayNameFor(model => model.username)
         </th>
         <th></th>
     </tr>
@@ -36,22 +36,22 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Date)
+            @Html.DisplayFor(modelItem => item.date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Content)
+            @Html.DisplayFor(modelItem => item.content)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ImageName)
+            @Html.DisplayFor(modelItem => item.imageName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Votes)
+            @Html.DisplayFor(modelItem => item.votes)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Username)
+            @Html.DisplayFor(modelItem => item.username)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

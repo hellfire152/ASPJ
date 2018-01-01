@@ -69,9 +69,9 @@ namespace ASPJ_Project.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if(thread.Image != null)
+                    if(thread.image != null)
                     {
-                        HttpPostedFileBase UploadedImage = thread.Image;
+                        HttpPostedFileBase UploadedImage = thread.image;
                         var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
                         string ext = Path.GetExtension(UploadedImage.FileName);
                         bool isValidFile = false;
@@ -99,7 +99,7 @@ namespace ASPJ_Project.Controllers
                                 
                                     UploadedImage.SaveAs(FolderPath);
                                     ViewBag.Message = "File uploaded successfully.";
-                                    thread.ImageName = ImageFileName;
+                                    thread.imageName = ImageFileName;
 
                                 }
 
@@ -107,8 +107,8 @@ namespace ASPJ_Project.Controllers
                         }
                     }
 
-                    thread.Votes = 0;
-                    thread.Date = DateTime.Now;
+                    thread.votes = 0;
+                    thread.date = DateTime.Now;
                     db.threads.Add(thread);
                     db.SaveChanges();
                     return RedirectToAction("Home");
@@ -167,17 +167,35 @@ namespace ASPJ_Project.Controllers
         {
             return View(db.threads.ToList());
         }
-
-        [HttpPost]
-        public ActionResult Comment(int? id)
+        [HttpGet]
+        public ActionResult MyComments()
+        {
+            return View(db.comments.ToList());
+        }
+        [HttpPost, ActionName("MyComments")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Comment(int? id, Comment comment)
         {
             try
             {
-                Thread thread = new Thread();
-                if(id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if(ModelState.IsValid)
+                {
+                    if (id == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    Thread thread = db.threads.Find(id);
+                    if (thread == null)
+                        return HttpNotFound();
 
-                return View();
+                    comment.threadId = thread.id;
+                    comment.username = "Barry Allen";
+                    comment.date = DateTime.Now;
+                    db.comments.Add(comment);
+                    db.SaveChanges();
+
+                }
+                
+
+                return GetThread(id);
 
             }
             catch

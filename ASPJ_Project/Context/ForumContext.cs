@@ -10,5 +10,6 @@ namespace ASPJ_Project.Context
     public class ForumContext: DbContext
     {
         public DbSet<Thread> threads { get; set; }
+        public DbSet<Comment> comments { get; set; }
     }
 }

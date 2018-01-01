@@ -10,10 +10,10 @@
         </div>
         <div class="media-body">
             <h4 class="media-heading">
-                @Model.Username <small><i>Posted on @Model.Date</i></small>
+                @Model.username <small><i>Posted on @Model.date</i></small>
                 @Html.ActionLink("Delete", "DeleteThread", new { id = Model.id }, new { @class = "btn btn-default" })
             </h4>
-            <p>@Model.Content</p>
+            <p>@Model.content</p>
 
             <!-- Nested media object -->
             <div class="media">

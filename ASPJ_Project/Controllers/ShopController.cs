@@ -5,11 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using ASPJ_Project.Models;
 using ASPJ_Project.ViewModels;
+using System.Text;
+using System.Web.Util;
 
 namespace ASPJ_Project.Controllers
 {
     public class ShopController : Controller
     {
+
         // GET: Shop
         public ActionResult Shop()
         {
@@ -27,8 +30,11 @@ namespace ASPJ_Project.Controllers
         {
             return View();
         }
-        public ActionResult PurchaseConfirmation()
+        public ActionResult PurchaseConfirmation(string username, int beansAmount, double price)
         {
+            ViewData["username"] = username;
+            ViewData["beansAmount"] = beansAmount;
+            ViewData["price"] = price;
             return View();
         }
     }

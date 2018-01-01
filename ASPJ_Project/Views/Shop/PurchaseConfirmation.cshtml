@@ -5,7 +5,9 @@
 <html>
 	<head>
         <style>
-
+            input {
+                color: #000000
+            }
         </style>
 		<title></title>
 		<meta charset="utf-8" />
@@ -34,38 +36,14 @@
                 <!-- Hats -->
 					<section id="one" class="wrapper style3 fade-up">
 						<div class="inner">
-							<h2>Beans</h2>
-							<p>Need some beans? Purchase some here.</p>
+							<h2>@ViewData["beansAmount"] Beans</h2>
+							<p>$@ViewData["price"]</p>
 							<div class="features">
 								<section>
-									<span class="icon major fa-money"></span>
-									<h3>Cup of Beans</h3>
-									<p>60</p>
-								</section>
-                                <section>
-									<span class="icon major fa-money"></span>
-									<h3>Bucket of Beans</h3>
-									<p>150</p>
-								</section>
-                                <section>
-									<span class="icon major fa-money"></span>
-									<h3>Bag of Beans</h3>
-									<p>400</p>
-								</section>
-                                <section>
-									<span class="icon major fa-money"></span>
-									<h3>Sack of Beans</h3>
-									<p>1000</p>
-								</section>
-                                <section>
-									<span class="icon major fa-money"></span>
-									<h3>Box of Beans</h3>
-									<p>2500</p>
-								</section>
-                                <section>
-									<span class="icon major fa-money"></span>
-									<h3>Barrel of Beans</h3>
-									<p>6000</p>
+                                    <form>
+									    <span class="icon major fa-money"></span>
+									    <h3>Credit Card: <input type ="text" name="creditCardNo"/></h3>
+                                    </form>
 								</section>
 							</div>
 							<ul class="actions">

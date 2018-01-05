@@ -60,7 +60,7 @@ namespace ASPJ_Project.Controllers
             Thread thread = db.threads.Find(id);
             if (thread == null)
                 return HttpNotFound();
-            ForumViewModel viewModel = new ForumViewModel();
+            CommentViewModel viewModel = new CommentViewModel();
             var comments = from c in db.comments
                            join t in db.threads on c.threadId equals t.id
                            where t.id == id
@@ -180,6 +180,7 @@ namespace ASPJ_Project.Controllers
         {
             return View(db.comments.ToList());
         }
+        [ValidateInput(false)]
         [HttpPost, ActionName("GetThread")]
         [ValidateAntiForgeryToken]
         public ActionResult Comment(int? id, Comment comment)
@@ -188,12 +189,13 @@ namespace ASPJ_Project.Controllers
             {
                 if (ModelState.IsValidField(comment.content))
                 {
+
                     if (id == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                     Thread thread = db.threads.Find(id);
                     if (thread == null)
                         return HttpNotFound();
-
+                    comment.content = HttpUtility.HtmlEncode(comment.content);
                     comment.threadId = thread.id;
                     comment.username = "Barry Allen";
                     comment.date = DateTime.Now;
@@ -210,6 +212,41 @@ namespace ASPJ_Project.Controllers
             catch
             {
                 return GetThread(id);
+            }
+        }
+        [HttpGet]
+        public ActionResult DeleteComment(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            Comment comment = db.comments.Find(id);
+            if (comment == null)
+                return HttpNotFound();
+            return View(comment);
+        }
+        [HttpPost, ActionName("DeleteComment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCommentConfirmed(int? id)
+        {
+            try
+            {
+                Comment comment = new Comment();
+                if (ModelState.IsValid)
+                {
+                    if (id == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    comment = db.comments.Find(id);
+                    if (comment == null)
+                        return HttpNotFound();
+                    db.comments.Remove(comment);
+                    db.SaveChanges();
+                    return RedirectToAction("MyComments");
+                }
+                return View(comment);
+            }
+            catch
+            {
+                return View();
             }
         }
 

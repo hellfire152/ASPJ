@@ -14,6 +14,12 @@ namespace ASPJ_Project.ViewModels
         public List<Comment> comments;
 
     }
+    public class CommentViewModel
+    {
+        public Thread thread;
+        public Comment comment;
+        public List<Comment> comments;
+    }
     public class ForumHome
     {
         public Dictionary<int, Thread> threads { get; set; }

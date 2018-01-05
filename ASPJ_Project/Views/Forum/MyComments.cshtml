@@ -39,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.date)
         </td>
         <td>
-            @Html.ActionLink("Details", "GetThread", new { id=item.id }) |
+            @Html.ActionLink("Details", "GetThread", new { id=item.threadId }) |
             @Html.ActionLink("Delete", "DeleteComment", new { id=item.id })
         </td>
     </tr>

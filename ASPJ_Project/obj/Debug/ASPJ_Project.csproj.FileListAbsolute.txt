@@ -231,8 +231,10 @@ D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\
 D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
 D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
 D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
-D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.InitialCreate.resources
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.GenerateResource.Cache
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.AddForumContextcomments.resources
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.InitialCreate.resources
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.AddForumContextcomments.resources
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.GenerateResource.Cache

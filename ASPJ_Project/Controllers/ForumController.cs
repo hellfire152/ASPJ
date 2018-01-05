@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using ASPJ_Project.Models;
 using ASPJ_Project.Context;
 using System.IO;
 using System.Net;
+using ASPJ_Project.ViewModels;
 
 namespace ASPJ_Project.Controllers
 {
@@ -29,7 +31,6 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult Home()
         {
-
             return View(db.threads.ToList());
         }
         [HttpGet]
@@ -59,7 +60,14 @@ namespace ASPJ_Project.Controllers
             Thread thread = db.threads.Find(id);
             if (thread == null)
                 return HttpNotFound();
-            return View(thread);
+            ForumViewModel viewModel = new ForumViewModel();
+            var comments = from c in db.comments
+                           join t in db.threads on c.threadId equals t.id
+                           where t.id == id
+                           select c ;
+            viewModel.thread = thread;
+            viewModel.comments = comments.ToList();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -143,7 +151,7 @@ namespace ASPJ_Project.Controllers
             try
             {
                 Thread thread = new Thread();
-                    if (ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     if (id == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -172,13 +180,13 @@ namespace ASPJ_Project.Controllers
         {
             return View(db.comments.ToList());
         }
-        [HttpPost, ActionName("MyComments")]
+        [HttpPost, ActionName("GetThread")]
         [ValidateAntiForgeryToken]
         public ActionResult Comment(int? id, Comment comment)
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValidField(comment.content))
                 {
                     if (id == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -191,6 +199,7 @@ namespace ASPJ_Project.Controllers
                     comment.date = DateTime.Now;
                     db.comments.Add(comment);
                     db.SaveChanges();
+                    return RedirectToAction("GetThread", new { id = id});
 
                 }
                 

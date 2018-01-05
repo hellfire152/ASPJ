@@ -10,7 +10,6 @@ namespace ASPJ_Project.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "ASPJ_Project.Context.ForumContext";
         }
 
         protected override void Seed(ASPJ_Project.Context.ForumContext context)

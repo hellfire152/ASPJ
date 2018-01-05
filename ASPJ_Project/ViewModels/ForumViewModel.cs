@@ -9,8 +9,9 @@ namespace ASPJ_Project.ViewModels
 {
     public class ForumViewModel
     {
-        public List<Thread> threads;
-        public List<Thread> popularThreads;
+        public Thread thread;
+        public Comment comment;
+        public List<Comment> comments;
 
     }
     public class ForumHome

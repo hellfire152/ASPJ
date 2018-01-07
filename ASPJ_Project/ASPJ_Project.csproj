@@ -361,7 +361,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="CSS\Chat.css" />
+    <Content Include="CSS\ChatMvcDb.css" />
     <Content Include="CSS\Friends.css" />
+    <Content Include="CSS\StyleSheet1.css" />
+    <Content Include="CSS\TestPage.css" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -436,6 +439,10 @@
     <Content Include="Views\Mvcdb\Edit.cshtml" />
     <Content Include="Views\Mvcdb\Delete.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\TestPage.cshtml" />
+    <Content Include="Views\Mvcdb\Chat.cshtml" />
+    <Content Include="Views\Mvcdb\ChatTest.cshtml" />
+    <Content Include="Views\Mvcdb\FriendList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

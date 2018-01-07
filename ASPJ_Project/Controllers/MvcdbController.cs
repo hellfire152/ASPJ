@@ -6,11 +6,17 @@ using System.Web.Mvc;
 using ASPJ_Project.Models;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Text;
 
 namespace ASPJ_Project.Controllers
 {
     public class MvcdbController : Controller
     {
+
+        private mvccruddbEntities dbModel = new mvccruddbEntities();
         // GET: Mvcdb
         public ActionResult Index()
         {
@@ -52,6 +58,17 @@ namespace ASPJ_Project.Controllers
                 
             }
             return View(userList);
+        }
+
+        public static void Encrypt(string value)
+        {
+            using(MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                UTF8Encoding utf8 = new UTF8Encoding();
+                byte[] data = md5.ComputeHash(utf8.GetBytes(value));
+                Convert.ToBase64String(data);
+            }
+
         }
 
         // GET: Mvcdb/Details/5
@@ -128,6 +145,36 @@ namespace ASPJ_Project.Controllers
                 dbModel.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ChatTest()
+        {
+            List<user> userList = new List<user>();
+            using(mvccruddbEntities dbModel = new mvccruddbEntities())
+            {
+                userList = dbModel.users.ToList<user>();
+            }
+
+            return View(userList);
+        }
+
+        public ActionResult FriendList(string searchString)
+        {
+            List<user> userList = new List<user>();
+            var searchList = from c in dbModel.users select c;
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    //searchList = searchList.Where(c => c.FirstName == searchString);
+                    searchList = searchList.Where(c => c.FirstName.Contains(searchString));
+                }
+                //userList = dbModel.users.ToList<user>();
+
+            return View(searchList);
+        }
+
+        public ActionResult Chat()
+        {
+            return View();
         }
     }
     public class Censor

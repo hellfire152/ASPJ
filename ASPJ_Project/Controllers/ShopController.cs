@@ -16,11 +16,11 @@ namespace ASPJ_Project.Controllers
         // GET: Shop
         public ActionResult Shop()
         {
-            //var shopItems = new List<PremiumShop.PremiumItem>
-           // {
-              //  new PremiumShop.PremiumItem{ itemName= "Fedora Hat", itemType= "Hat", itemDescription= "Mi'lady.", beansPrice= 100},
-              //  new PremiumShop.PremiumItem{ itemName= "Karate Headband", itemType= "Hat", itemDescription= "Hiya!", beansPrice= 75}
-            //};
+            var shopItems = new List<PremiumShop.PremiumItem>
+            {
+                new PremiumShop.PremiumItem{ itemName= "Fedora Hat", itemType= "Hat", itemDescription= "Mi'lady.", beansPrice= 100},
+                new PremiumShop.PremiumItem{ itemName= "Karate Headband", itemType= "Hat", itemDescription= "Hiya!", beansPrice= 75}
+            };
 
             var currentUser = new PremiumShop.User { username = "jhn905", beansAmount = 400 };
 

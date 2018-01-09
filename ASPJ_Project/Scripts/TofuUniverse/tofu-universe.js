@@ -1,5 +1,18 @@
-﻿//Object that contains ALL Tofu Universe variables and data
-let _tofuUniverse = {};
+﻿//extending jquery for my disableSelection function
+jQuery.fn.extend({
+    disableSelection: function () {
+        return this.each(function () {
+            this.onselectstart = function () { return false; };
+            this.unselectable = "on";
+            jQuery(this).css('user-select', 'none');
+            jQuery(this).css('-o-user-select', 'none');
+            jQuery(this).css('-moz-user-select', 'none');
+            jQuery(this).css('-khtml-user-select', 'none');
+            jQuery(this).css('-webkit-user-select', 'none');
+            jQuery(this).css('user-drag', 'none');
+        });
+    }
+});
 
 //Loading the game
 _tofuUniverse.player = {
@@ -9,40 +22,6 @@ _tofuUniverse.player = {
     "items": {}, //initially a clone of the ITEMS object
     "upgrades": [], //upgrades owned
     "upgradeEffects": {} //list of effects of said upgrades
-};
-
-//item data
-_tofuUniverse.ITEMS = {
-    0: {    //RESERVED ID: Click
-        "name": "click",
-        "tps": 1 //tofu per click
-    },
-    1: {
-        "name": "Cursor",
-        "cost": 10,
-        "tps": 0.1,
-        "description": "A cursor to help you click!",
-        "icon" : "cursor.png"
-    },
-    2: {
-        "name": "Farm",
-        "cost": 500,
-        "tps": 10,
-        "description": "Farm for more tofu!",
-        "icon" : "farm.png"
-    }
-};
-
-//upgrade data
-_tofuUniverse.UPGRADES = {
-    100: {
-        "name": "Quality clicks",
-        "description": "Quality > Quantity",
-        "effectDescription": "+1 tofu per click",
-        "effect": "0+1,1.tps+0.1",
-        "cost": 100,
-        "icon":"bettercursor.jpg"
-    }
 };
 
 //settings object
@@ -70,7 +49,7 @@ function applyUpgrade(upgradeText) {
     //for each effect
     $.each(effects, (index, effect) => {
         //I LOVE REGEX
-        let reg = /(\d+)(?:(?:([\+\-\*\/=])(\d+(?:\.\d+)?))|(?:\.([a-zA-Z]+)(?:([\+\-\*\/=])(\d+(?:\.\d+)?))))/;
+        let reg = /(\d+)(?:(?:([\+\-\*\/=])((?:\d+(?:\.\d+)?)|\w+))|(?:\.([a-zA-Z]+)(?:([\+\-\*\/=])((?:\d+(?:\.\d+)?)|\w+))))/;
         let matches = regexMatch(reg, effect);
 
         //form of "<id><op><value>" <- implies tps/click property
@@ -122,14 +101,14 @@ function applyEffects(benefactorId) {
                 item[eff[0]] /= Number(eff[2]);
                 break;
             case '=':
-                let n = Number(eff[2]);
-                if (n == NaN) item[eff[0]] = eff[2];
-                else item[eff[0]] = n;
+                if (isNaN(eff[2]))
+                    item[eff[0]] = eff[2];
+                else item[eff[0]] = Number(eff[2]);
                 break;
         }
         console.log("AFTER: " + item[eff[0]]);
     });
-    setCost(benefactorId); 
+    setText(benefactorId); 
 }
 
 //object containing the operator hierarchy, used in sortUpgradeEffects
@@ -187,7 +166,7 @@ function purchase(purchaseType, purchaseId) {
 
                 //update owned display
                 let o = ++p.items[purchaseId].owned;
-                setCost(purchaseId);
+                setText(purchaseId);
                 $("#item-owned-" + purchaseId).text(o);
                 break;
             } else {
@@ -217,13 +196,15 @@ function purchase(purchaseType, purchaseId) {
 
 /*
     Handles the calculation regarding the increasing
-    cost of items
+    cost of items, and updates the display to reflect all changes
 */
-function setCost(itemId) {
+function setText(itemId) {
     let i = _tofuUniverse.player.items[itemId];
-    i.cost = i.baseCost * Math.pow(1.15, i.owned);
+    i.cost = Math.round(i.baseCost * Math.pow(1.15, i.owned));
     //update display
-    $("#shop-item-cost-" + itemId).text(i.cost + " tofu");
+    $("#shop-item-cost-" + itemId).text(round(i.cost, 0) + " Tofu");
+    $("#shop-item-name-" + itemId).text(i.name);
+    $("#shop-item-description" + itemId).text(i.description);
 }
 
 //does all the ui updating
@@ -283,7 +264,7 @@ window.onload = () => {
             "id": "shop-item-description-" + index,
             "class": "shop-item-description"
         });
-        description.append(item.cost);
+        description.append(item.description);
         let icon = $("<img>", {
             "src": "\\Content\\Images\\Items\\"
             + item.icon,
@@ -293,15 +274,15 @@ window.onload = () => {
             "class": "shop-item-cost",
             "id": "shop-item-cost-" + index
         });
-        cost.append(item.cost)
+        cost.append(item.cost + ' Tofu')
         let owned = $("<span>", {
             "class": "shop-item-owned",
             "id": "item-owned-" + index
         });
         owned.append(0);
 
-        shopItem.append(icon).append(name).append(cost)
-            .append(description).append(owned);
+        shopItem.append(icon).append(name).append(owned)
+            .append(cost).append(description);
         $("#shop-items").append(shopItem);
     });
     //upgrade shop
@@ -356,9 +337,9 @@ window.onload = () => {
             let earning = $("<span>", {
                 "class": "click-earn"
             });
-            earning.css("style", "position:absolute;left:"+mouseX);
+            earning.css("style", "position:absolute;left:"+mouseX +"px;top:" +mouseY +"px");
             earning.text(_tofuUniverse.player.items[0].tps);
-            $("temp").append(earning);
+            $("#temp").append(earning);
             
             //animate the tofu
             earning.css("opacity", 1);
@@ -378,6 +359,13 @@ window.onload = () => {
        
     });
 
+    //disabling selection so stuff isn't highlighted constantly
+    $(".shop-item").disableSelection();
+    $(".shop-upgrade").disableSelection();
+    $("#tofu").disableSelection();
+    $("#tofu-count-container").disableSelection();
+    $("#tps-container").disableSelection();
+    
     //start game loop
     window.requestAnimationFrame(gameloop);
 };

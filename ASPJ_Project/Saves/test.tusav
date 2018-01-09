@@ -1,6 +1,11 @@
 ﻿{
-	"profile": {},
-	"game": {},
-	"items": {},
-	"upgrades": []
+  "profile": {},
+  "player": {
+    "tCount": 500,
+    "items": {
+      1: 10,
+      2: 1
+    },
+    "upgrades": [ 1 ]
+  }
 }

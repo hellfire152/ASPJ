@@ -16,25 +16,27 @@ body {
     height: 15%;
     min-height:100px;
     padding-right: 20px;
+    padding-bottom: 5px;
 }
 
 .shop-upgrade {
     display:inline-block;
     margin: 5px;
-    width: 20%;
 }
 
 .shop-item-name {
-    display:inline-block;
+    display:inline;
     position:relative;
     left:30px;
     font-size:3em;
     opacity: 0.8;
 }
 
-.shop-item-cost {
-    display:inline-block;
+.shop-item-cost {;
     position:relative;
+    bottom: 15px;
+    left:20%;
+    display:block;
 }
 
 .shop-item-icon, .shop-upgrade-icon {
@@ -48,7 +50,7 @@ body {
     font-size : 1.2em;
     color:white;
     background-color:black;
-    padding: 20px;
+    padding: 10px;
 }
 
 .shop-item:hover .shop-item-description, .shop-upgrade:hover .upgrade-description-container{
@@ -61,11 +63,15 @@ body {
 }
 
 #tofu-count-container, #tps-container {
-    width: 80%;
-    margin: auto;
+    width: 60%;
+    font-size: 1.5em;
+    margin: 5px;
     color:white;
     background-color:black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Comic Sans MS', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #tofu-area {

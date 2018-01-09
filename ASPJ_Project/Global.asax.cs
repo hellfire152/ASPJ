@@ -18,6 +18,14 @@ namespace ASPJ_Project
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //get keys used for encryption
+            //Console.Write("Enter the COOKIE_KEY: ");
+            //string cookieKey = Console.ReadLine();
+
+            //initialize username to connection map
+            Models.UserConnectionMap.CurrentInstance =
+                new Models.UserConnectionMap();
         }
     }
 

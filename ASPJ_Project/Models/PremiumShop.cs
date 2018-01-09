@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Drawing;
+using System.ComponentModel.DataAnnotations;
 
 namespace ASPJ_Project.Models
 {
     public class PremiumShop
     {
-
-        public struct PremiumItem
-        {
-            public string itemName;
-            public string itemType;
-            public Image itemImage;
-            public string itemDescription;
-            public double beansPrice;
-        }
+        [Key]
+        public int itemID { get; set; }
+        public string itemName { get; set; }
+        public string itemType { get; set; }
+        //public Image itemImage { get; set; }
+        public string itemDescription { get; set; }
+        public double beansPrice { get; set; }
+        
 
         public struct User //Dummy User
         {
-            public string username;
-            public double beansAmount;
-            public string creditCardNo;
+            public string username { get; set; }
+            public int userID { get; set; }
+            public double beansAmount { get; set; }
+            public string creditCardNo { get; set; }
         }
 
         //Credit Card Checker

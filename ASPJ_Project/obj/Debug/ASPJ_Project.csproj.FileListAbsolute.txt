@@ -389,4 +389,7 @@ D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.DependencyCollector.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.WindowsServer.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.Web.xml
-D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\EntityFramework.dll
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\EntityFramework.SqlServer.dll
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\EntityFramework.xml
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\EntityFramework.SqlServer.xml

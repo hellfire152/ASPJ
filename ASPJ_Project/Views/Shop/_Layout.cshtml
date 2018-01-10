@@ -1,0 +1,28 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+        <style>
+            .features {
+                overflow-y: scroll;
+            }
+        </style>
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        @Styles.Render("~/Shop/css")
+        @Scripts.Render("~/Shop/js")
+    </head>
+    <body>
+        @RenderBody()
+        <!-- Footer -->
+        <footer id="footer" class="wrapper style1-alt">
+            <div class="inner">
+                <ul class="menu">
+                    <li>&copy; Tofu Universe All rights reserved.</li>
+                </ul>
+            </div>
+        </footer>
+    </body>
+</html>

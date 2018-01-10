@@ -12,17 +12,21 @@ namespace ASPJ_Project.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class user
     {
         public int UserID { get; set; }
         //Set spacing for field name
         [DisplayName("First Name")]
+        [Required(AllowEmptyStrings = true)]
+        [StringLength(50, MinimumLength=5)]
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public Nullable<int> Count { get; set; }
+        public bool AllowEmptyStrings { get; set; }
     }
 }

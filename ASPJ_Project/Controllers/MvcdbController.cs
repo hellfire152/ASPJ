@@ -176,6 +176,16 @@ namespace ASPJ_Project.Controllers
         {
             return View();
         }
+
+        public static string Encode(string serverName)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
+        }
+
+        public static string Decode(string encodedServername)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(encodedServername));
+        }
     }
     public class Censor
     {

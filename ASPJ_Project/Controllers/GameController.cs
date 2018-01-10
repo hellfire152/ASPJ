@@ -10,15 +10,17 @@ namespace ASPJ_Project.Controllers
     public class GameController : Controller
     {
         //needed to set test accounts
-        public static string[] TestUsernames = ["1", "2", "3", "4"];
+        public static string[] TestUsernames = {"1", "2", "3", "4"};
         public static int TestCounter = 0;
 
+        [HttpGet]
         public ActionResult Index()
         {
             //set test username
             HttpCookie usernameCookie = new HttpCookie("username")
             {
-                Value = TestUsernames[TestCounter]
+                Value = Crypto.CurrentInstance.Encrypt(
+                    TestUsernames[TestCounter])
             };
             if (++TestCounter > 3) TestCounter = 0;
 

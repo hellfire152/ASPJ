@@ -14,6 +14,13 @@ jQuery.fn.extend({
     }
 });
 
+//SignalR stuff
+_tofuUniverse.conn = $.connection.tofuUniverseHub;
+_tofuUniverse.conn.client.pong = (message) => {
+    console.log(message);
+}
+$.connection.hub.start();
+
 //Loading the game
 _tofuUniverse.player = {
     "tps": 0,
@@ -246,7 +253,7 @@ window.onload = () => {
     //dynamically generate all the item and upgrade displays
     //item shop
     $.each(_tofuUniverse.ITEMS, (index, item) => {
-        if (index == 0) return; //do not create shop item for click
+        if (index < 1) return; //do not create shop item for reserved ids
         let shopItem = $("<div>", {
             "id": "shop-item-" + index,
             "name": index,
@@ -344,7 +351,7 @@ window.onload = () => {
             //animate the tofu
             earning.css("opacity", 1);
             earning.t = setInterval(() => {
-                if (earning.css("opacity") == 0) {
+                if (earning.css("opacity") === 0) {
                     earning.remove();
                     clearInterval(earning.t);
                 }

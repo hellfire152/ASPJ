@@ -27,6 +27,10 @@ namespace ASPJ_Project
                         "~/Scripts/TofuUniverse/tofu-universe-shop.js",
                         "~/Scripts/TofuUniverse/tofu-universe.js"));
 
+            bundles.Add(new ScriptBundle("~/signalr").Include(
+                        "~/Scripts/jquery.signalR-2.2.2.js"
+                ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

@@ -10,30 +10,40 @@ namespace ASPJ_Project.Models
         public static UserConnectionMap CurrentInstance { get; set; }
 
         private Dictionary<string, string> _connMap;
+        private Dictionary<string, string> _revConnMap;
         
         public UserConnectionMap()
         {
-            _connMap = new Dictionary<string, string>;
+            _connMap = new Dictionary<string, string>();
+            _revConnMap = new Dictionary<string, string>();
         }
 
         public Boolean Add(string username, string connectionId)
         {
-            if(_connMap.ContainsKey(username))
+            if(_connMap.ContainsKey(username) || _revConnMap.ContainsKey(connectionId))
             {
                 return false;
             }
             else
             {
                 _connMap[username] = connectionId;
+                _revConnMap[connectionId] = username;
                 return true;
             }
         }
 
-        public Boolean Remove(string username)
+        public Boolean Remove(string id)
         {
-            if(_connMap.ContainsKey(username))
+            if(_connMap.ContainsKey(id))
             {
-                _connMap.Remove(username);
+                _revConnMap.Remove(_connMap[id]);
+                _connMap.Remove(id);
+                return true;
+            }
+            else if (_revConnMap.ContainsKey(id))
+            {
+                _connMap.Remove(_revConnMap[id]);
+                _revConnMap.Remove(id);
                 return true;
             }
             return false;
@@ -41,14 +51,23 @@ namespace ASPJ_Project.Models
 
         public string ConnectionOf(string username)
         {
-            string connId;
-            _connMap.TryGetValue(username, out connId);
+            _connMap.TryGetValue(username, out string connId);
             return connId;
         }
 
         public string UsernameOf(string connectionId)
         {
-            return _connMap.FirstOrDefault(x => x.Value == connectionId).Key;
+            _revConnMap.TryGetValue(connectionId, out string username);
+            return username;
+        }
+        
+        public string GetAllConnections()
+        {
+            string output = "";
+            foreach(KeyValuePair<string, string> c in _connMap) {
+                output += c.Key + " is " + c.Value + '\n';
+            }
+            return output;
         }
     }
 }

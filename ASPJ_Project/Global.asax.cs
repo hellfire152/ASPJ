@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using System.Threading;
 
 namespace ASPJ_Project
 {
@@ -26,6 +27,7 @@ namespace ASPJ_Project
             //initialize username to connection map
             Models.UserConnectionMap.CurrentInstance =
                 new Models.UserConnectionMap();
+            Models.Crypto.CurrentInstance = new Models.Crypto("cookiekey");
         }
     }
 

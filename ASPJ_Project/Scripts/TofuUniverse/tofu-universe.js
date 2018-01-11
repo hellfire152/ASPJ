@@ -1,4 +1,6 @@
-﻿//extending jquery for my disableSelection function
+﻿//This file contains the main game code of Tofu Universe
+
+//extending jquery for my disableSelection function
 jQuery.fn.extend({
     disableSelection: function () {
         return this.each(function () {
@@ -35,6 +37,10 @@ _tofuUniverse.player = {
 _tofuUniverse.settings = {
     "showEarnings" : true
 };
+
+//logger that contains all the stuff that will be
+//sent to the server for verification
+_tofuUniverse.logger = {};
 
 //clone ITEMS to player
 $.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
@@ -241,6 +247,19 @@ function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
+//AUTO SAVE FUNCTION
+let save = true; //temp
+function save() {
+    //send data to server
+
+    //clear log
+    _tofuUniverse.logger = {
+        "beginTCount": _tofuUniverse.player.tCount,
+        "cookieClickTimes": [],
+        "purchases": []
+    };
+};
+
 //tracking variables for mouse cursor
 var mouseX, mouseY;
 window.onload = () => {
@@ -334,6 +353,12 @@ window.onload = () => {
     });
 
     //load save (if any)
+    _tofuUniverse.conn.server.requestSave()
+        .done((save) => {
+            if (save !== null) {
+
+            }
+        });
 
     //set tofu onclick
     $("#tofu").click(() => {

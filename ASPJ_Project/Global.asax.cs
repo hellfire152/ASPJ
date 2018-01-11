@@ -19,7 +19,9 @@ namespace ASPJ_Project
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
     }
+
 
     public class DubuBaseConnect 
     {

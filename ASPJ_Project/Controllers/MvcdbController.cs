@@ -92,6 +92,18 @@ namespace ASPJ_Project.Controllers
         [HttpPost]
         public ActionResult Create(user userModel)
         {
+            //StringBuilder someComment = new StringBuilder();
+            //someComment.Append(HttpUtility.HtmlEncode(userModel.FirstName));
+
+            //someComment.Replace("&lt;b&gt;", "<b>");
+            //someComment.Replace("&lt;/b&gt;", "</b>");
+            //someComment.Replace("&lt;u&gt;", "<u>");
+            //someComment.Replace("&lt;/u&gt;", "</u>");
+
+            //userModel.FirstName = someComment.ToString();
+
+            //string strComment = HttpUtility.HtmlEncode(userModel.FirstName);
+            //userModel.FirstName = strComment;
             using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
                 dbModel.users.Add(userModel);

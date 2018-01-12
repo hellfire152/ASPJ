@@ -10,7 +10,6 @@ namespace ASPJ_Project.Models
     public class Player
     {
         public BigInteger tofu;
-        public BigInteger beans;
         public BigInteger tps;
         public Dictionary<int, int> items;
         public Dictionary<string, List<Upgrade>> upgrades;

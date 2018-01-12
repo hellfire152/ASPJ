@@ -163,15 +163,16 @@ function regexMatch(regex, string) {
 }
 
 //processes all purchases
-function purchase(purchaseType, purchaseId) {
+function purchase(purchaseType, purchaseId, fromSave) {
+    fromSave = (fromSave === true) ? true : false;  //make sure it's boolean
     //update player data if successful
     let p = _tofuUniverse.player;
     switch (purchaseType) {
         case "item":
             //check cost
-            if (p.tCount >= p.items[purchaseId].cost) {
+            if (p.tCount >= p.items[purchaseId].cost || fromSave) {
                 //pay cost
-                p.tCount -= p.items[purchaseId].cost;
+                if (!fromSave) p.tCount -= p.items[purchaseId].cost;
                 //add to tps
                 p.tps += p.items[purchaseId].tps;
                 //increase cost of item
@@ -181,22 +182,24 @@ function purchase(purchaseType, purchaseId) {
                 let o = ++p.items[purchaseId].owned;
                 setText(purchaseId);
                 $("#item-owned-" + purchaseId).text(o);
-                break;
             } else {
-                console.log("Not enough Tofu!");
-                break;
+                console.log("Not enough Tofu!");;
             }
+            break;
         case "upgrade":
             //check cost and if purchased before
-            if (p.tCount >= _tofuUniverse.UPGRADES[purchaseId].cost
-                && p.upgrades.indexOf(purchaseId) < 0) {
-                //pay cost
-                p.tCount -= _tofuUniverse.UPGRADES[purchaseId].cost;
-                //applying upgrade
-                p.upgrades.push(purchaseId);
-                applyUpgrade(_tofuUniverse.UPGRADES[purchaseId].effect);
-                //removing the upgrade purchase icon
-                $("#shop-upgrade-" + purchaseId).remove();
+            if (p.upgrades.indexOf(purchaseId) < 0) {
+                console.log(purchaseId);
+                console.log(_tofuUniverse.UPGRADES[purchaseId].cost);
+                if (p.tCount >= _tofuUniverse.UPGRADES[purchaseId].cost || fromSave) {
+                    //pay cost
+                    if(!fromSave) p.tCount -= _tofuUniverse.UPGRADES[purchaseId].cost;
+                    //applying upgrade
+                    p.upgrades.push(purchaseId);
+                    applyUpgrade(_tofuUniverse.UPGRADES[purchaseId].effect);
+                    //removing the upgrade purchase icon
+                    $("#shop-upgrade-" + purchaseId).remove();
+                }
             } else {
                 console.log("Not enough tofu (upgrade)!");
             }
@@ -248,7 +251,7 @@ function round(value, decimals) {
 }
 
 //AUTO SAVE FUNCTION
-let save = true; //temp
+let seeip = true; //temp
 function save() {
     //send data to server
 
@@ -353,12 +356,31 @@ window.onload = () => {
     });
 
     //load save (if any)
-    _tofuUniverse.conn.server.requestSave()
+    /*_tofuUniverse.conn.server.requestSave()
         .done((save) => {
             if (save !== null) {
 
             }
-        });
+        });*/
+    //test save
+    let save = {
+        "tCount": 500,
+        "items": {
+            1: 10,
+            2: 10
+        },
+        "upgrades": [100, 1000]
+    }
+    let p = _tofuUniverse.player;
+    p.tCount = save.tCount;
+    $.each(save.items, (key, owned) => {
+        for (let i = 0; i < owned; i++) {
+            purchase("item", key, true);
+        }
+    });
+    $.each(save.upgrades, (key, upgradeId) => {
+        purchase("upgrade", upgradeId, true);
+    });
 
     //set tofu onclick
     $("#tofu").click(() => {

@@ -7,6 +7,7 @@ using ASPJ_Project.Models;
 using ASPJ_Project.ViewModels;
 using System.Text;
 using System.Web.Util;
+using PayPal.Api;
 
 namespace ASPJ_Project.Controllers
 {
@@ -35,6 +36,10 @@ namespace ASPJ_Project.Controllers
             ViewData["username"] = username;
             ViewData["beansAmount"] = beansAmount;
             ViewData["price"] = price;
+            return View();
+        }
+        public ActionResult PaypalConfirmation()
+        {
             return View();
         }
     }

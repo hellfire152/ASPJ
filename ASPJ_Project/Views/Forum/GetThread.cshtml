@@ -1,0 +1,65 @@
+﻿@model ASPJ_Project.ViewModels.CommentViewModel
+@{
+    ViewBag.Title = "GetThread";
+    Layout = "~/Views/Forum/_Forumlayout.cshtml";
+}
+
+    <div class="container" style="margin-top:10px;">
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    @Model.thread.username <small><i>Posted on @Model.thread.date</i></small>
+                    @Html.ActionLink("Delete", "DeleteThread", new { id = Model.thread.id }, new { @class = "btn btn-default" })
+                </h4>
+                <p>@Model.thread.content</p>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+                    </div>
+                    <div class="media-body">
+                        @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control" }, cols = 50, rows = 8 })
+                        @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-10">
+                            <input type="submit" value="Post" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+                <!-- Nested media object -->
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Alex Ang <small><i>Posted on February 19, 2016</i></small></h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                    </div>
+                </div>
+                @foreach (var comment in Model.comments)
+                {
+                    <!-- Nested media object -->
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">@comment.username <small><i>Posted on @comment.date</i></small></h4>
+                            <p>@comment.content</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+<p>
+    @Html.ActionLink("Back to List", "Home")
+</p>

@@ -21,10 +21,6 @@ _tofuUniverse.conn = $.connection.tofuUniverseHub;
 _tofuUniverse.conn.client.pong = (message) => {
     console.log(message);
 }
-$.connection.hub.start()
-    .done(() => {
-        _tofuUniverse.conn.server.ping("Hello!");
-    });
 
 //Loading the game
 _tofuUniverse.player = {
@@ -359,31 +355,29 @@ window.onload = () => {
     });
 
     //load save (if any)
-    /*_tofuUniverse.conn.server.requestSave()
-        .done((save) => {
-            if (save !== null) {
+    $.connection.hub.start()
+        .done(() => {
+            _tofuUniverse.conn.server.requestSave()
+                .done((rawSave) => {
+                    if (rawSave !== null) {
+                        console.log("SAVE: " + rawSave);
+                        let save = JSON.parse(rawSave);
+                        console.log(save);
 
-            }
-        });*/
-    //test save
-    let save = {
-        "tCount": 500,
-        "items": {
-            1: 10,
-            2: 10
-        },
-        "upgrades": [100, 1000]
-    }
-    let p = _tofuUniverse.player;
-    p.tCount = save.tCount;
-    $.each(save.items, (key, owned) => {
-        for (let i = 0; i < owned; i++) {
-            purchase("item", key, true);
-        }
-    });
-    $.each(save.upgrades, (key, upgradeId) => {
-        purchase("upgrade", upgradeId, true);
-    });
+                        //use purchase method to redo progress
+                        let p = _tofuUniverse.player;
+                        p.tCount = save.tCount;
+                        $.each(save.items, (key, owned) => {
+                            for (let i = 0; i < owned; i++) {
+                                purchase("item", key, true);
+                            }
+                        });
+                        $.each(save.upgrades, (key, upgradeId) => {
+                            purchase("upgrade", upgradeId, true);
+                        });
+                    }
+                });
+        });
 
     //set tofu onclick
     $("#tofu").click(() => {

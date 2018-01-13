@@ -11,14 +11,14 @@ namespace ASPJ_Project.Models
     public class SaveFile
     {
         //sends the json as a string
-        public static string getSave(string username)
+        public static string GetSave(string username)
         {
             string s = System.IO.File.ReadAllText(username + ".tusav");
             return s;
         }
 
         //takes in player data and serializes it to json, and saves
-        public static Boolean save(string username, Player player)
+        public static Boolean Save(string username, Player player)
         {
             return true;
         }

@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using ASPJ_Project.Models;
+using System.Diagnostics;
 
 namespace ASPJ_Project.TofuUniverse
 {   
-    [TofuAuthorize]
+    //[TofuAuthorize]
     public class TofuUniverseHub : Hub
     {
-        public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
+        //public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
 
         public Boolean SaveProgress(string save)
         {
@@ -27,12 +28,16 @@ namespace ASPJ_Project.TofuUniverse
             //read cookie
             string c = Crypto.CurrentInstance.Decrypt(
                 Context.RequestCookies["username"].Value);
-            if(c == null || c == "guest")
+            if (c == null || c == "guest")
             {
                 return "NA";
             } else
             {
-                return System.IO.File.ReadAllText("..\\Saves\\" + c + ".tusav");
+                Debug.Write("GETTING SAVE FILE OF: " + c);
+                string projectRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+                Debug.WriteLine(projectRoot);
+                return System.IO.File.ReadAllText(
+                    projectRoot + "\\Saves\\" + c + ".tusav");
             }
         }
 
@@ -61,12 +66,13 @@ namespace ASPJ_Project.TofuUniverse
             }
 
             return base.OnConnected();
-        }*/
+        }
 
         public override Task OnDisconnected(bool stopCalled)
         {
             UserConnectionMap.CurrentInstance.Remove(Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
         }
+        */
     }
 }

@@ -49,7 +49,7 @@ namespace ASPJ_Project.TofuUniverse
             return Clients.Client(Context.ConnectionId).Pong("FROM SERVER: " + message);
         }
 
-        public override Task OnConnected()
+        /*public override Task OnConnected()
         {
             //get username from cookie
             var username = Crypto.CurrentInstance.Decrypt(
@@ -61,7 +61,7 @@ namespace ASPJ_Project.TofuUniverse
             }
 
             return base.OnConnected();
-        }
+        }*/
 
         public override Task OnDisconnected(bool stopCalled)
         {

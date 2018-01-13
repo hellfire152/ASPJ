@@ -21,7 +21,10 @@ _tofuUniverse.conn = $.connection.tofuUniverseHub;
 _tofuUniverse.conn.client.pong = (message) => {
     console.log(message);
 }
-$.connection.hub.start();
+$.connection.hub.start()
+    .done(() => {
+        _tofuUniverse.conn.server.ping("Hello!");
+    });
 
 //Loading the game
 _tofuUniverse.player = {

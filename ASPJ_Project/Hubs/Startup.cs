@@ -5,8 +5,8 @@ using System.Web;
 using Owin;
 using Microsoft.Owin;
 
-[assembly: OwinStartup(typeof(TofuUniverse.Startup))]
-namespace TofuUniverse
+[assembly: OwinStartup(typeof(ASPJ_Project.TofuUniverse.Startup))]
+namespace ASPJ_Project.TofuUniverse
 {
     public class Startup
     {

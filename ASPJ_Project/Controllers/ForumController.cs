@@ -92,6 +92,7 @@ namespace ASPJ_Project.Controllers
                             if (!isValidFile)
                             {
                                 ViewBag.Message = "Invalid File. Please upload an image file ";
+                                return View(thread);
                             }
                             else
                             {
@@ -99,6 +100,7 @@ namespace ASPJ_Project.Controllers
                                 if (fileSize > 2097152)
                                 {
                                     ViewBag.Message = "Maximum file size (2MB) exceeded";
+                                    return View(thread);
                                 }
                                 else
                                 {

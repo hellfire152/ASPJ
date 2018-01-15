@@ -13,8 +13,14 @@
                 <h4 class="media-heading">
                     @Model.thread.username <small><i>Posted on @Model.thread.date</i></small>
                     @Html.ActionLink("Delete", "DeleteThread", new { id = Model.thread.id }, new { @class = "btn btn-default" })
+                    @using (Html.BeginForm("Upvote", "Forum", new { id = Model.thread.id}, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        <input type="submit" value="upvote" class="btn btn-default" />
+                    }
                 </h4>
                 <p>@Model.thread.content</p>
+                <img src="~/Content/UploadedImages/@Model.thread.imageName"/>
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()

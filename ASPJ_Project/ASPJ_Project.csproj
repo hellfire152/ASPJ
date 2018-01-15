@@ -617,7 +617,6 @@
     <Content Include="Views\Forum\Thread.cshtml" />
     <Content Include="Views\Forum\CreateThread.cshtml" />
     <Content Include="Views\Forum\GetThread.cshtml" />
-    <Content Include="Views\Forum\Home2.cshtml" />
     <Content Include="Views\Forum\DeleteThread.cshtml" />
     <Content Include="Views\Forum\MyThreads.cshtml" />
     <Content Include="Views\Forum\MyComments.cshtml" />

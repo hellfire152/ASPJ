@@ -252,5 +252,26 @@ namespace ASPJ_Project.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Upvote(int? id)
+        {
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Thread thread = db.threads.Find(id);
+                if (thread == null)
+                    return HttpNotFound();
+                thread.votes = thread.votes + 1;
+                db.SaveChanges();
+                return RedirectToAction("GetThread", new { id = id });
+            }
+            catch
+            {
+                return GetThread(id);
+            }
+        }
+
     }
 }

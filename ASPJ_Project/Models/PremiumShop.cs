@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Drawing;
+using PayPal.Api;
 
 namespace ASPJ_Project.Models
 {
@@ -13,7 +14,7 @@ namespace ASPJ_Project.Models
         {
             public string itemName;
             public string itemType;
-            public Image itemImage;
+            //public Image itemImage;
             public string itemDescription;
             public double beansPrice;
         }
@@ -25,37 +26,64 @@ namespace ASPJ_Project.Models
             public string creditCardNo;
         }
 
-        //Credit Card Checker
-        public static bool checkCard(string creditCardNumber)
+        public struct Address
         {
-            //// check whether input string is null or empty
-            if (string.IsNullOrEmpty(creditCardNumber))
-            {
-                return false;
-            }
-            //Luhn algorithm
-            int sumOfDigits = creditCardNumber.Where((e) => e >= '0' && e <= '9')
-                            .Reverse()
-                            .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
-                            .Sum((e) => e / 10 + e % 10);
-
-            //// If the final sum is divisible by 10, then the credit card number
-            //   is valid. If it is not divisible by 10, the number is invalid.
-            return sumOfDigits % 10 == 0;
-
+            public string city;
+            public string country_code;
+            public string line1;
+            public string line2;
+            public string postal_code;
+            public string state;
         }
-        //Check if EXPIRED
-        public static bool isValid(string dateString)
-        {
-            DateTime dateValue;
 
-            if (DateTime.TryParse(dateString, out dateValue))
-                if (dateValue < DateTime.Now)
-                    return false;
-                else
-                    return true;
-            else
-                return false;
+        public struct CreditCard
+        {
+            public Address billing_address;
+            public string cvv2;
+            public int expire_month;
+            public int expire_year;
+            public string first_name;
+            public string last_name;
+            public string creditCardNo;
+            public string type;
+        }
+
+        public struct Details
+        {
+            public string subtotal;
+        }
+
+        public struct Amount
+        {
+            public string currency;
+            public string total;
+            public Details details;
+        }
+
+        public struct Transaction
+        {
+            public Amount amnt;
+            public string description;
+            public List<Item> itemList;
+            public string invoiceNo;
+        }
+
+        public struct FundingInstrument
+        {
+            public CreditCard creditCard;
+        }
+
+        public struct Payer
+        {
+            public List<FundingInstrument> fundingInstrumentList;
+            public string payment_method;
+        }
+
+        public struct Payment
+        {
+            public string intent;
+            public Payer payer;
+            public List<Transaction> transactions;
         }
     }
 }

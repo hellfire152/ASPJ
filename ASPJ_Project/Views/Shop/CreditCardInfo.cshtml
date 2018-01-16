@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Shop";
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
+}
+<html>
+	<head>
+        <style>
+            input {
+                color: #000000
+            }
+        </style>
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+		<!-- Sidebar -->
+			<section id="sidebar">
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="#one">Hats</a></li>
+							<li><a href="#two">Outfits</a></li>
+							<li><a href="#three">Backgrounds</a></li>
+                            <li><a>Beans: </a></li>
+                            <li><a href="#">Purchase Beans</a></li>
+                            <li><a href="#">Shopping Cart</a></li>
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+					<section id="one" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h2>Credit Card Information</h2>
+                            <p>@ViewData["beansAmount"]</p>
+							<p>$@ViewData["price"]</p>
+							<div class="features">
+								<section>
+                                    <form>
+                                        <span class="icon major fa-credit-card"></span>
+                                        <h3>Credit Card: </h3>
+                                        <input type="text" name="creditCard" />
+                                        <h3>CVV: </h3>
+                                        <input type="text" name="cvv2" />
+                                        <h3>Expiry Date: </h3>
+                                        <input type="number" name="expiry_month" min="1" max="12"/>
+                                        <input type="number" name="expiry_year" min="10" max="50"/>
+                                        <h3>First Name: </h3>
+                                        <input type="text" name="firstName" />
+                                        <h3>Last Name: </h3>
+                                        <input type="text" name="lastName" /> 
+                                    </form>
+								</section>
+							</div>
+							<ul class="actions">
+								<li><a href="/Shop/BeansPurchase" class="button">Go Back</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Tofu Universe All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+        </body>
+    </html>

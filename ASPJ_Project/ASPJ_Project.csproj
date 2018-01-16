@@ -447,6 +447,7 @@
     <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
+    <Content Include="Views\Shop\CreditCardInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -50,6 +50,11 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
+        public ActionResult CreditCardInfo()
+        {
+            return View();
+        }
+
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
 

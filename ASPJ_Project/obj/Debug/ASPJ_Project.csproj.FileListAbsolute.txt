@@ -389,6 +389,9 @@ D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.DependencyCollector.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.WindowsServer.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AI.Web.xml
-D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\PayPal.dll
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\PayPal.xml
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\log4net.dll
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Stripe.net.dll
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\log4net.xml
+D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

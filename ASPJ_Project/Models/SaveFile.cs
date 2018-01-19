@@ -19,27 +19,6 @@ namespace ASPJ_Project.Models
     
     public class SaveFile
     {
-        //sends the json as a string
-        public static string GetSave(string username)
-        {
-            short mode = (short)MODE.NULL;
-            foreach(string line in saveFileLines)
-            {   
-                //matches [<something>]
-                if(line[0] == '[' && line[line.Length - 1] == ']') {
-                    //remove the square brackets
-                    line.Trim(new char[] { '[', ']' });
-
-                } else
-                {
-
-                }
-            }
-
-            //TEMP surpress return type error
-            return new SaveFile();
-        }
-
         //takes in player data and serializes it to json, and saves
         public static Boolean Save(string username, Player player)
         {

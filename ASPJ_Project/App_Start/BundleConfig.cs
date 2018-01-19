@@ -24,6 +24,7 @@ namespace ASPJ_Project
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/game/logic").Include(
+                        "~/Scripts/TofuUniverse/big.min.js",
                         "~/Scripts/TofuUniverse/tofu-universe-shop.js",
                         "~/Scripts/TofuUniverse/tofu-universe.js"));
 

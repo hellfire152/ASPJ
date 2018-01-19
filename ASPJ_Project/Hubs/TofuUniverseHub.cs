@@ -14,12 +14,15 @@ namespace ASPJ_Project.TofuUniverse
     {
         //public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
 
-        public Boolean SaveProgress(string save)
+        public Boolean SaveProgress(ProgressData save)
         {
             //read cookie
             string c = Crypto.CurrentInstance.Decrypt(
                 Context.RequestCookies["username"].Value);
-            System.IO.File.WriteAllText("..\\Saves\\" + c + ".tusav", save);
+            Debug.WriteLine("SAVING FOR " + c +":\n" + save.ToString());
+            string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+            System.IO.File.WriteAllText(
+                dataRoot + "\\Saves\\" + c + ".tusav", save.ToString());
             return true;
         }
 
@@ -27,25 +30,27 @@ namespace ASPJ_Project.TofuUniverse
         {
             //read cookie
             string c = Crypto.CurrentInstance.Decrypt(
-                Context.RequestCookies["username"].Value);
+               Context.RequestCookies["username"].Value);
             if (c == null || c == "guest")
             {
-                return "NA";
+                return null;
             } else
             {
                 Debug.Write("GETTING SAVE FILE OF: " + c);
-                string projectRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-                Debug.WriteLine(projectRoot);
+                string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+                Debug.WriteLine(dataRoot);
                 return System.IO.File.ReadAllText(
-                    projectRoot + "\\Saves\\" + c + ".tusav");
+                    dataRoot + "\\Saves\\" + c + ".tusav");
             }
         }
 
         //test for set username
         public string RequestUsername()
         {
-            return Crypto.CurrentInstance.Decrypt(
-                Context.RequestCookies["username"].Value);
+            // return Crypto.CurrentInstance.Decrypt(
+            //   Context.RequestCookies["username"].Value);
+            string c = (string)HttpContext.Current.Session["username"];
+            return c ?? "test";
         }
 
         //Test if signalR is working
@@ -72,7 +77,6 @@ namespace ASPJ_Project.TofuUniverse
         {
             UserConnectionMap.CurrentInstance.Remove(Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
-        }
-        */
+        }*/
     }
 }

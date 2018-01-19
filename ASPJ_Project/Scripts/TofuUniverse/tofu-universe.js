@@ -34,12 +34,9 @@ _tofuUniverse.player = {
 
 //settings object
 _tofuUniverse.settings = {
-    "showEarnings" : true
+    "showEarnings": true,
+    "autosave": false
 };
-
-//logger that contains all the stuff that will be
-//sent to the server for verification
-_tofuUniverse.logger = {};
 
 //clone ITEMS to player
 $.extend(true, _tofuUniverse.player.items, _tofuUniverse.ITEMS);
@@ -57,7 +54,6 @@ function applyUpgrade(upgradeText) {
 
     //split multiple effects up
     let effects = upgradeText.split(",");
-    console.log(effects);
     //for each effect
     $.each(effects, (index, effect) => {
         //I LOVE REGEX
@@ -95,10 +91,6 @@ function applyEffects(benefactorId) {
     sortUpgradeEffects(benefactorId);
     //now apply the effects!
     $.each(_tofuUniverse.player.upgradeEffects[benefactorId], (index, eff) => {
-        console.log("Applying effect:");
-        console.log(eff);
-        console.log("BEFORE: " + item[eff[0]]);
-        console.log(item[eff[0]]);
         switch (eff[1]) {
             case '*':
                 item[eff[0]] *= Number(eff[2]);
@@ -118,28 +110,27 @@ function applyEffects(benefactorId) {
                 else item[eff[0]] = Number(eff[2]);
                 break;
         }
-        console.log("AFTER: " + item[eff[0]]);
     });
     setText(benefactorId); 
 }
 
 //object containing the operator hierarchy, used in sortUpgradeEffects
-let operatorRank = {
-    '+': 0,
-    '-': 1,
-    '*': 2,
-    '/': 3,
-    '=': 4
-};
 //sorts the upgrade effects list, so that applying upgrades is easier
 function sortUpgradeEffects(benefactorId) {
+    let operatorRank = {
+        '+': 0,
+        '-': 1,
+        '*': 2,
+        '/': 3,
+        '=': 4
+    };
     let upgradeEffects = _tofuUniverse.player.upgradeEffects[benefactorId];
 
     upgradeEffects.sort((a, b) => {
         return operatorRank[a] - operatorRank[b];
     });
 }
-
+ 
 //recalculates the total tps across all upgrades and items, and updates the display
 function recalculateTotalTps() {
     let tps = 0;
@@ -148,6 +139,7 @@ function recalculateTotalTps() {
     });
 
     $("#tps").text(round(tps, 1));
+    _tofuUniverse.player.tps = tps;
 }
 
 //gets all matches for some regex
@@ -162,15 +154,15 @@ function regexMatch(regex, string) {
 }
 
 //processes all purchases
-function purchase(purchaseType, purchaseId) {
+function purchase(purchaseType, purchaseId, fromSave) {
     //update player data if successful
     let p = _tofuUniverse.player;
     switch (purchaseType) {
         case "item":
             //check cost
-            if (p.tCount >= p.items[purchaseId].cost) {
+            if (p.tCount >= p.items[purchaseId].cost || fromSave) {
                 //pay cost
-                p.tCount -= p.items[purchaseId].cost;
+                if(!fromSave) p.tCount -= p.items[purchaseId].cost;
                 //add to tps
                 p.tps += p.items[purchaseId].tps;
                 //increase cost of item
@@ -187,15 +179,16 @@ function purchase(purchaseType, purchaseId) {
             }
         case "upgrade":
             //check cost and if purchased before
-            if (p.tCount >= _tofuUniverse.UPGRADES[purchaseId].cost
-                && p.upgrades.indexOf(purchaseId) < 0) {
-                //pay cost
-                p.tCount -= _tofuUniverse.UPGRADES[purchaseId].cost;
-                //applying upgrade
-                p.upgrades.push(purchaseId);
-                applyUpgrade(_tofuUniverse.UPGRADES[purchaseId].effect);
-                //removing the upgrade purchase icon
-                $("#shop-upgrade-" + purchaseId).remove();
+            if (p.upgrades.indexOf(purchaseId) < 0) {
+                if (p.tCount >= _tofuUniverse.UPGRADES[purchaseId].cost || fromSave) {
+                    //pay cost
+                    if(!fromSave) p.tCount -= _tofuUniverse.UPGRADES[purchaseId].cost;
+                    //applying upgrade
+                    p.upgrades.push(purchaseId);
+                    applyUpgrade(_tofuUniverse.UPGRADES[purchaseId].effect);
+                    //removing the upgrade purchase icon
+                    $("#shop-upgrade-" + purchaseId).remove();
+                }
             } else {
                 console.log("Not enough tofu (upgrade)!");
             }
@@ -220,7 +213,7 @@ function setText(itemId) {
 }
 
 //does all the ui updating
-var t, dt;
+var t, dt, lt = 0;
 function gameloop(time) {
     //settling delta time
     if (!t) {
@@ -230,6 +223,12 @@ function gameloop(time) {
     dt = time - t;
     t = time;
     let s = dt / 1000; //delta time in seconds
+    lt += s;
+
+    if (lt >= 30 && _tofuUniverse.settings.autosave) {
+        saveProgress();
+        lt = 0;
+    }
 
     //calculate auto-generated tofu
     _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps;
@@ -247,16 +246,19 @@ function round(value, decimals) {
 }
 
 //AUTO SAVE FUNCTION
-//let save = true; //temp
-function save() {
-    //send data to server
+function saveProgress() {
+    //get item data
+    let owned = {};
+    $.each(_tofuUniverse.player.items, (key, item) => {
+        owned[key] = item.owned;
+    });
 
-    //clear log
-    _tofuUniverse.logger = {
-        "beginTCount": _tofuUniverse.player.tCount,
-        "cookieClickTimes": [],
-        "purchases": []
-    };
+    //send data to server
+    _tofuUniverse.conn.server.saveProgress({
+        "tCount": _tofuUniverse.player.tCount,
+        "items": owned,
+        "upgrades": _tofuUniverse.player.upgrades
+    });
 };
 
 //tracking variables for mouse cursor
@@ -284,12 +286,12 @@ window.onload = () => {
             "id": "shop-item-name-" + index,
             "class": "shop-item-name"
         });
-        name.append(item.name);
+        name.text(item.name);
         let description = $("<div>", {
             "id": "shop-item-description-" + index,
             "class": "shop-item-description"
         });
-        description.append(item.description);
+        description.text(item.description);
         let icon = $("<img>", {
             "src": "\\Content\\Images\\Items\\"
             + item.icon,
@@ -299,12 +301,12 @@ window.onload = () => {
             "class": "shop-item-cost",
             "id": "shop-item-cost-" + index
         });
-        cost.append(item.cost + ' Tofu')
+        cost.text(item.cost + ' Tofu')
         let owned = $("<span>", {
             "class": "shop-item-owned",
             "id": "item-owned-" + index
         });
-        owned.append(0);
+        owned.text(0);
 
         shopItem.append(icon).append(name).append(owned)
             .append(cost).append(description);
@@ -328,17 +330,17 @@ window.onload = () => {
             "id":"upgrade-description-cost-" + key,
             "class":"upgrade-description-cost"
         });
-        cost.append(upgrade.cost);
+        cost.text(upgrade.cost);
         let flair = $("<div>", {
             "id": "upgrade-description-flair-" + key,
             "class": "upgrade-description-flair"
         });
-        flair.append(upgrade.description);
+        flair.text(upgrade.description);
         let effectDescription = $("<div>", {
             "id": "upgrade-description-effect-" + key,
             "class":"upgrade-description-effect"
         });
-        effectDescription.append(upgrade.effectDescription);
+        effectDescription.text(upgrade.effectDescription);
 
         let icon = $("<img>", {
             "src": "\\Content\\Images\\Upgrades\\"
@@ -372,6 +374,9 @@ window.onload = () => {
                         $.each(save.upgrades, (key, upgradeId) => {
                             purchase("upgrade", upgradeId, true);
                         });
+                    }
+                    else {
+                        console.log("No save found!");
                     }
                 });
         });
@@ -427,3 +432,4 @@ function giveMeMoreTofuPlease(tofu) {
 function setting(property, value) {
     _tofuUniverse.settings[property] = value;
 }
+

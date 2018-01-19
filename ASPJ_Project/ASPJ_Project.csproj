@@ -569,6 +569,9 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="App_Data\Saves\2.tusav" />
+    <Content Include="App_Data\Saves\3.tusav" />
+    <Content Include="App_Data\Saves\4.tusav" />
     <None Include="App_Data\Saves\test.tusav" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -592,6 +595,7 @@
     <Content Include="Scripts\PremiumShop\util.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\TofuUniverse\big.min.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-shop.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe.js" />
     <Content Include="Web.config">
@@ -631,6 +635,7 @@
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />
     <Folder Include="Database\Models\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

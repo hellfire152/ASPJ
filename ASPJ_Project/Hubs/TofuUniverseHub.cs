@@ -16,13 +16,26 @@ namespace ASPJ_Project.TofuUniverse
 
         public Boolean SaveProgress(ProgressData save)
         {
+            string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
             string c = Crypto.CurrentInstance.Decrypt(
                 Context.RequestCookies["username"].Value);
-            Debug.WriteLine("SAVING FOR " + c +":\n" + save.ToString());
-            string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+
+            //get previous save data
+            string prevSaveText = System.IO.File.ReadAllText(
+                    dataRoot + "\\Saves\\" + c + ".tusav");
+            SaveFile prevSave = SaveFile.Parse(prevSaveText);
+            //verify progress
+            ProgressVerifier.VerifyProgress(prevSave, save);
+
+            //save + time on first line
+            string s = "" + (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds
+                + '\n' + save.ToString();
+            Debug.WriteLine("SAVING FOR " + c +":\n" + s);
+
+            //write to file
             System.IO.File.WriteAllText(
-                dataRoot + "\\Saves\\" + c + ".tusav", save.ToString());
+                dataRoot + "\\Saves\\" + c + ".tusav", s);
             return true;
         }
 
@@ -39,8 +52,11 @@ namespace ASPJ_Project.TofuUniverse
                 Debug.Write("GETTING SAVE FILE OF: " + c);
                 string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
                 Debug.WriteLine(dataRoot);
-                return System.IO.File.ReadAllText(
+                //get savefile
+                string s = System.IO.File.ReadAllText(
                     dataRoot + "\\Saves\\" + c + ".tusav");
+                //remove the time from save
+                return s.Split('\n')[1];
             }
         }
 

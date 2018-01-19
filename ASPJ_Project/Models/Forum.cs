@@ -82,4 +82,12 @@ namespace ASPJ_Project.Models
         public virtual List<Comment> comments { get; set; }
         //public virtual ForumUser ForumUser { get; set; }
     }
+    
+    public class Vote
+    {
+        [Key]
+        public int id { get; set;  }
+        public Thread thread { get; set; }
+        public String user { get; set; }
+    }
 }

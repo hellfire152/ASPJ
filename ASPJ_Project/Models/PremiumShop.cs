@@ -23,29 +23,35 @@ namespace ASPJ_Project.Models
         {
             public string username;
             public double beansAmount;
-            public string creditCardNo;
+        }
+
+        public struct BeanAndPrice
+        {
+            public string beansName;
+            public double beans;
+            public double price;
         }
 
         public struct Address
         {
-            public string city;
-            public string country_code;
-            public string line1;
-            public string line2;
-            public string postal_code;
-            public string state;
+            public string city { get; set; }
+            public string country_code { get; set; }
+            public string line1 { get; set; }
+            public string line2 { get; set; }
+            public string postal_code { get; set; }
+            public string state { get; set; }
         }
 
         public struct CreditCard
         {
-            public Address billing_address;
-            public string cvv2;
-            public int expire_month;
-            public int expire_year;
-            public string first_name;
-            public string last_name;
-            public string creditCardNo;
-            public string type;
+            public Address billing_address { get; set; }
+            public string cvv2 { get; set; }
+            public int expire_month { get; set; }
+            public int expire_year { get; set; }
+            public string first_name { get; set; }
+            public string last_name { get; set; }
+            public string creditCardNo { get; set; }
+            public string type { get; set; }
         }
 
         public struct Details

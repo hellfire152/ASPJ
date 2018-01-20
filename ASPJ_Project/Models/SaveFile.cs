@@ -20,19 +20,13 @@ namespace ASPJ_Project.Models
     
     public class SaveFile
     {
-        private enum ItemIds : int
-        {
-            Cursor = 1,
-            Farm = 2,
-            Test = 3
-        }
         public double TCount { get; }
-        public Dictionary<int, int> Items { get; }
+        public Dictionary<string, int> Items { get; }
         public int[] Upgrades { get; }
         public long Time { get; set; }
 
         public SaveFile(long time, double tCount, 
-            Dictionary<int, int> items, int[] upgrades)
+            Dictionary<string, int> items, int[] upgrades)
         {
             this.Time = time;
             this.TCount = tCount;
@@ -52,7 +46,8 @@ namespace ASPJ_Project.Models
             //check for invalid save
             if (t == 0 || save.Items == null
                 || save.Upgrades == null) return null;
-            return null;
+
+            return save;
         }
     }
 }

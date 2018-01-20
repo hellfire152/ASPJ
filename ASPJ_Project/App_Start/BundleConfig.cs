@@ -25,7 +25,8 @@ namespace ASPJ_Project
 
             bundles.Add(new ScriptBundle("~/game/logic").Include(
                         "~/Scripts/TofuUniverse/big.min.js",
-                        "~/Scripts/TofuUniverse/tofu-universe-shop.js",
+                        "~/Scripts/TofuUniverse/tofu-universe-items.js",
+                        "~/Scripts/TofuUniverse/tofu-universe-upgrades.js",
                         "~/Scripts/TofuUniverse/tofu-universe.js"));
 
             bundles.Add(new ScriptBundle("~/signalr").Include(

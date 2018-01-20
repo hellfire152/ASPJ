@@ -21,15 +21,17 @@ namespace ASPJ_Project.TofuUniverse
             string c = Crypto.CurrentInstance.Decrypt(
                 Context.RequestCookies["username"].Value);
 
+            //current time in UTC
+            long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
             //get previous save data
             string prevSaveText = System.IO.File.ReadAllText(
                     dataRoot + "\\Saves\\" + c + ".tusav");
             SaveFile prevSave = SaveFile.Parse(prevSaveText);
             //verify progress
-            ProgressVerifier.VerifyProgress(prevSave, save);
+            ProgressVerifier.VerifyProgress(prevSave, save, utcTime);
 
             //save + time on first line
-            string s = "" + (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds
+            string s = "" + utcTime
                 + '\n' + save.ToString();
             Debug.WriteLine("SAVING FOR " + c +":\n" + s);
 

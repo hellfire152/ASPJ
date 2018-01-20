@@ -8,6 +8,8 @@ using System.Web.Routing;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Threading;
+using Newtonsoft.Json;
+using ASPJ_Project.Models;
 
 namespace ASPJ_Project
 {
@@ -23,6 +25,12 @@ namespace ASPJ_Project
             //get keys used for encryption
             //Console.Write("Enter the COOKIE_KEY: ");
             //string cookieKey = Console.ReadLine();
+
+            //initialize upgrades from file
+            string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+            string rawUpgrades = System.IO.File.ReadAllText(dataRoot + "\\tofu-universe-upgrades.js");
+            Object u = JsonConvert.DeserializeObject(rawUpgrades);
+            Upgrade.Initialize(u);
 
             //initialize username to connection map
             Models.UserConnectionMap.CurrentInstance =

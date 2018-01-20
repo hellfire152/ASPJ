@@ -310,6 +310,8 @@
       <DependentUpon>201801011059304_AddForumContextcomments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Database.cs" />
+    <Compile Include="Models\Effect.cs" />
     <Compile Include="Models\Forum.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\Crypto.cs" />
@@ -317,14 +319,14 @@
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
     <Compile Include="Models\SaveFile.cs" />
-    <Compile Include="Models\Shop.cs" />
-    <Compile Include="Models\Player.cs" />
     <Compile Include="Models\TofuAuthorizeAttribute.cs" />
+    <Compile Include="Models\Upgrade.cs" />
     <Compile Include="Models\UserConnectionMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\tofu-universe-upgrades.js" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />
     <Content Include="bin\ASPJ_Project.dll" />
@@ -596,7 +598,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\TofuUniverse\big.min.js" />
-    <Content Include="Scripts\TofuUniverse\tofu-universe-shop.js" />
+    <Content Include="Scripts\TofuUniverse\tofu-universe-items.js" />
+    <Content Include="Scripts\TofuUniverse\tofu-universe-upgrades.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

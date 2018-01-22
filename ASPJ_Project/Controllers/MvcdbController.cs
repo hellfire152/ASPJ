@@ -21,7 +21,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult Index()
         {
             List<user> userList = new List<user>();
-            using(mvccruddbEntities dbModel = new mvccruddbEntities())
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
                 IList<string> censoredWords = new List<string>
                 {
@@ -51,18 +51,18 @@ namespace ASPJ_Project.Controllers
                 //result = censor.CensorText("Gosh darnit, my shoe laces are undone.");
                 userList = dbModel.users.ToList<user>();
                 string censoredUserList;
-                foreach(var item in userList)
+                foreach (var item in userList)
                 {
-                  censoredUserList = censor.CensorText(item.FirstName);
+                    censoredUserList = censor.CensorText(item.FirstName);
                 }
-                
+
             }
             return View(userList);
         }
 
         public static void Encrypt(string value)
         {
-            using(MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
             {
                 UTF8Encoding utf8 = new UTF8Encoding();
                 byte[] data = md5.ComputeHash(utf8.GetBytes(value));
@@ -127,7 +127,7 @@ namespace ASPJ_Project.Controllers
         [HttpPost]
         public ActionResult Edit(user userModel)
         {
-           using(mvccruddbEntities dbModel = new mvccruddbEntities())
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
                 dbModel.Entry(userModel).State = System.Data.Entity.EntityState.Modified;
                 dbModel.SaveChanges();
@@ -150,7 +150,7 @@ namespace ASPJ_Project.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-           using(mvccruddbEntities dbModel = new mvccruddbEntities())
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
                 user userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
                 dbModel.users.Remove(userModel);
@@ -162,7 +162,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult ChatTest()
         {
             List<user> userList = new List<user>();
-            using(mvccruddbEntities dbModel = new mvccruddbEntities())
+            using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
                 userList = dbModel.users.ToList<user>();
             }
@@ -174,12 +174,12 @@ namespace ASPJ_Project.Controllers
         {
             List<user> userList = new List<user>();
             var searchList = from c in dbModel.users select c;
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    //searchList = searchList.Where(c => c.FirstName == searchString);
-                    searchList = searchList.Where(c => c.FirstName.Contains(searchString));
-                }
-                //userList = dbModel.users.ToList<user>();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                //searchList = searchList.Where(c => c.FirstName == searchString);
+                searchList = searchList.Where(c => c.FirstName.Contains(searchString));
+            }
+            //userList = dbModel.users.ToList<user>();
 
             return View(searchList);
         }
@@ -197,6 +197,63 @@ namespace ASPJ_Project.Controllers
         public static string Decode(string encodedServername)
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(encodedServername));
+        }
+
+        private void ChatSendMessage()
+        {
+            MySql.Data.MySqlClient.MySqlConnection conn;
+
+            MySql.Data.MySqlClient.MySqlCommand cmd;
+
+            String queryString;
+
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ToString();
+
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+
+            conn.Open();
+
+            queryString = "";
+
+            queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES()";
+
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+
+            cmd.ExecuteReader();
+
+            conn.Close();
+        }
+    }
+
+    public class DatabaseStuff
+    {
+        MySql.Data.MySqlClient.MySqlConnection conn;
+        MySql.Data.MySqlClient.MySqlCommand cmd;
+        String queryString;
+
+        private void chatSendMessage()
+        {
+            MySql.Data.MySqlClient.MySqlConnection conn;
+
+            MySql.Data.MySqlClient.MySqlCommand cmd;
+
+            String queryString;
+
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ToString();
+
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+
+            conn.Open();
+
+            queryString = "";
+
+            queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES()";
+
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+
+            cmd.ExecuteReader();
+
+            conn.Close();
         }
     }
     public class Censor

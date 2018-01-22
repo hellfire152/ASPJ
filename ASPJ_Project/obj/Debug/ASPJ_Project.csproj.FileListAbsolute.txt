@@ -288,7 +288,6 @@ D:\ASPJ\ASPJ_Project\bin\Microsoft.AI.DependencyCollector.xml
 D:\ASPJ\ASPJ_Project\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\ASPJ\ASPJ_Project\bin\Microsoft.AI.WindowsServer.xml
 D:\ASPJ\ASPJ_Project\bin\Microsoft.AI.Web.xml
-D:\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
 D:\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
 D:\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
 D:\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
@@ -404,3 +403,4 @@ D:\ASPJ\ASPJ_Project\bin\MySql.Data.Entity.EF5.xml
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
 D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.SignalR.Client.dll
 D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.SignalR.Client.xml
+D:\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

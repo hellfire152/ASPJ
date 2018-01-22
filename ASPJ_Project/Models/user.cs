@@ -28,5 +28,6 @@ namespace ASPJ_Project.Models
         public string Password { get; set; }
         public Nullable<int> Count { get; set; }
         public bool AllowEmptyStrings { get; set; }
+        public string ProviderConnectionString { get; set; }
     }
 }

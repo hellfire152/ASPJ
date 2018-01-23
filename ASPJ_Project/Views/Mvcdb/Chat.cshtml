@@ -21,17 +21,22 @@
                         </div>
                     </div>
                     <div class="panel-collapse collapse" id="collapseOne">
-                        <div class="panel-body">
+                        <div class="panel-body" style="height:400px;">
+                            <ul class="nav nav-tabs" id="navPadding">
+                                <li class="active"><a data-toggle="tab" href="#chatTabActive">Home</a></li>
+                                <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                            </ul>
                             <div class="tab-content">
+                                <div id="chatTabActive" class="tab-pane fade in active">
                                     <ul class="chat" style="padding-top: 30px;">
                                         <li>
                                             @*<span class="chat-img pull-left">
-                                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                                            </span>*@
+                    <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                    </span>*@
                                             <div class="chat-body clearfix">
                                                 <div class="header">
                                                     <strong class="primary-font"><input type="hidden" id="displayname" /></strong> <small class="pull-right text-muted">
-                                                        <span class="glyphicon glyphicon-time"></span>12 mins ago
+                                                        @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
                                                     </small>
                                                     <div class="message-content">
                                                         <ul id="discussion"></ul>
@@ -40,19 +45,24 @@
                                             </div>
                                         </li>
                                     </ul>
+                                </div>
+                                <div id="menu1" class="tab-pane fade">
+                                    <h3>Menu 1</h3>
+                                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
+                            @*<div class="panel-footer">*@
+                                <div class="input-group" style="margin-top: 220px;position:sticky;">
+                                    <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..."/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-warning btn-sm" id="sendmessage" style="margin-right:30px;">
+                                            Send
+                                        </button>
+                                    </span>
+                                </div>
+                            @*</div>*@
                             </div>
                         </div>
-                        <div class="panel-footer">
-                            <div class="input-group">
-                                <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning btn-sm" id="sendmessage">
-                                        Send
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

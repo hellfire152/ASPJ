@@ -6,7 +6,7 @@
 
     .chat li {
         margin-bottom: 10px;
-        padding-bottom: 5px;
+        padding-bottom: 50px;
     }
 
         .chat li.left .chat-body {
@@ -30,7 +30,7 @@
 
 .panel-body {
     overflow-y: scroll;
-    height: 250px;
+    height: 300px;
 }
 
 ::-webkit-scrollbar-track {

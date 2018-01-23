@@ -25,7 +25,7 @@ namespace ASPJ_Project.Models
         public static Effect Parse(string effect)
         {
             //this regex is the reason I can't sleep at night
-            Regex iLoveRegexSoMuch = new Regex(@"(\d+)(?:(?:([\+\-\*\/=])((?:\d+(?:\.\d+)?)|\w+))|(?:\.([a-zA-Z]+)(?:([\+\-\*\/=])((?:\d+(?:\.\d+)?)|\w+))))");
+            Regex iLoveRegexSoMuch = new Regex(@"(\d+)\.([a-zA-Z]+)(?:([\+\-\*\/=])((?:\d+(?:\.\d+)?)|\w+))");
             Match betterThanTinder = iLoveRegexSoMuch.Match(effect);
 
             int i = 0;  string bid = null, bp = null, op = null; double opd = 0;

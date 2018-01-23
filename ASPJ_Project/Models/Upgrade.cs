@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -12,8 +13,8 @@ namespace ASPJ_Project.Models
         //holds all upgrade data
         public static Dictionary<int, Upgrade> upgradeData;
 
-        int Id;
-        Effect[] Effects;
+        public int Id;
+        public Effect[] Effects;
         public Upgrade(int id, params Effect[] effects)
         {
             this.Id = id;
@@ -21,28 +22,26 @@ namespace ASPJ_Project.Models
         }
 
         //initializes the upgrade list (contains all upgrade definitions)
-        public static void Initialize(dynamic upgradeJson)
+        public static void Initialize(Dictionary<int, dynamic> upgradeJson)
         {
             //init dictionary
             upgradeData = new Dictionary<int, Upgrade>();
 
-            //iterate over all upgrade ids
-            PropertyInfo[] properties = typeof(Upgrade).GetProperties();
-            foreach(PropertyInfo upgradeId in properties)
+            foreach(int upgradeId in upgradeJson.Keys)
             {
                 //get upgrade
-                dynamic u = upgradeJson[upgradeId.Name];
+                dynamic u = upgradeJson[upgradeId];
 
-                string[] effStrArr = u.effect.Split(",");
+                string[] effStrArr = ((string)u.effect).Split(",".ToCharArray());
                 Effect[] effArr = new Effect[effStrArr.Length];
                 for(int i = 0; i < effStrArr.Length; i++)
                 {
-                    effArr[i] = Effect.Parse(effStrArr[i]);
+                    effArr[i] = Effect.Parse(effStrArr[i].Trim());
                 }
-                int.TryParse(upgradeId.Name, out int id);
-                Upgrade upgrade = new Upgrade(id, effArr);
+                
+                Upgrade upgrade = new Upgrade(upgradeId, effArr);
 
-                upgradeData.Add(id, upgrade);
+                upgradeData.Add(upgradeId, upgrade);
             }
         }
     }

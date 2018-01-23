@@ -29,8 +29,7 @@ namespace ASPJ_Project
             //initialize upgrades from file
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             string rawUpgrades = System.IO.File.ReadAllText(dataRoot + "\\tofu-universe-upgrades.js");
-            Object u = JsonConvert.DeserializeObject(rawUpgrades);
-            Upgrade.Initialize(u);
+            Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawUpgrades));
 
             //initialize username to connection map
             Models.UserConnectionMap.CurrentInstance =

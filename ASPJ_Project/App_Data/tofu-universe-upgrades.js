@@ -3,7 +3,7 @@
         "name": "Quality clicks",
         "description": "Quality > Quantity",
         "effectDescription": "+1 tofu per click",
-        "effect": "0+1,1.tps+0.1",
+        "effect": "0.tps+1,1.tps+0.1",
         "cost": 100,
         "icon": "bettercursor.jpg"
     },

@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Text;
 using System.IO;
+using Censored;
 
 namespace ASPJ_Project.Controllers
 {
@@ -92,19 +93,7 @@ namespace ASPJ_Project.Controllers
         // POST: Mvcdb/Create
         [HttpPost]
         public ActionResult Create(user userModel)
-        {
-            //StringBuilder someComment = new StringBuilder();
-            //someComment.Append(HttpUtility.HtmlEncode(userModel.FirstName));
-
-            //someComment.Replace("&lt;b&gt;", "<b>");
-            //someComment.Replace("&lt;/b&gt;", "</b>");
-            //someComment.Replace("&lt;u&gt;", "<u>");
-            //someComment.Replace("&lt;/u&gt;", "</u>");
-
-            //userModel.FirstName = someComment.ToString();
-
-            //string strComment = HttpUtility.HtmlEncode(userModel.FirstName);
-            //userModel.FirstName = strComment;
+        {            
             using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
                 //AESCryptoStuff aes_obj = new AESCryptoStuff();
@@ -202,77 +191,189 @@ namespace ASPJ_Project.Controllers
             return Encoding.UTF8.GetString(Convert.FromBase64String(encodedServername));
         }
 
-        private void ChatSendMessage()
+    }
+
+    public class Censors
+    {
+        public string CrapCensor(string censorSomeWords)
         {
-            MySql.Data.MySqlClient.MySqlConnection conn;
+            var censoredWords = new List<string>
+            { 
+                "gosh",
+                "drat",
+                "darn*",
+                "fuck",
+                "anal",
+                "anus",
+                "arse",
+                "ass",
+                "ballsack",
+                "balls",
+                "bastard",
+                "bitch",
+                "biatch",
+                "bloody",
+                "blowjob",
+                "blow job",
+                "bollock",
+                "bollok",
+                "boner",
+                "boob",
+                "bugger",
+                "bum",
+                "butt",
+                "buttplug",
+                "clitoris",
+                "cock",
+                "coon",
+                "crap",
+                "cunt",
+                "damn",
+                "dick",
+                "dildo",
+                "dyke",
+                "fag",
+                "feck",
+                "fellate",
+                "fellatio",
+                "felching",
+                "fuck",
+                "f u c k",
+                "fudgepacker",
+                "fudge packer",
+                "flange",
+                "Goddamn",
+                "God damn",
+                "hell",
+                "homo",
+                "jerk",
+                "jizz",
+                "knobend",
+                "knob end",
+                "labia",
+                "lmfao",
+                "muff",
+                "nigger",
+                "nigga",
+                "omg",
+                "penis",
+                "piss",
+                "poop",
+                "prick",
+                "pube",
+                "pussy",
+                "queer",
+                "scrotum",
+                "sex",
+                "shit",
+                "s hit",
+                "sh1t",
+                "slut",
+                "smegma",
+                "spunk",
+                "tit",
+                "tits",
+                "tosser",
+                "turd",
+                "twat",
+                "vagina",
+                "wank",
+                "whore",
+                "wtf",
+                "ji bai",
+                "jibai",
+                "na bei",
+                "cb",
+                "ccb",
+                "kns",
+                "mf",
+                "motherfucker",
+                };
+            var censor = new Censor(censoredWords);
+            string result;
+            result = censor.CensorText(censorSomeWords);
+            return result;
+        }
+    }
 
-            MySql.Data.MySqlClient.MySqlCommand cmd;
+    //public class Censored
+    //{
+    //    public string CensorStuff(string plaintext)
+    //    {
+    //        string censoredWord;
+    //        List<string> censoredWordList = new List<string>();
+    //        censoredWordList.Add("Fuck");
+    //        censoredWord = plaintext.Replace(plaintext, "@$%^#!*&");
+    //        Console.Write(censoredWord);
 
-            String queryString;
+    //        return censoredWord;
+    //    }
+    //}
 
-            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ToString();
+    public class DatabaseStuff
+    {
+        MySql.Data.MySqlClient.MySqlConnection conn;
+        MySql.Data.MySqlClient.MySqlCommand cmd;
+        MySql.Data.MySqlClient.MySqlDataReader reader;
+        AESCryptoStuff aes_obj = new AESCryptoStuff();
+        string queryString;
 
+        //Insert message into the database
+        public void ChatSendMessage(string chatMessageInsert)
+        {
+            //MySql.Data.MySqlClient.MySqlConnection conn;
+            //MySql.Data.MySqlClient.MySqlCommand cmd;            
+            try
+            {
+                String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ConnectionString;
+                conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+                conn.Open();
+
+                /*
+                 command.Parameters.AddWithValue("@chatId", chatid);
+                 if(userid == chatinfo.firstUserID.ToString()){
+                    command.Parameters.AddWithValue("@senderUserID", chatinfo.firstuserID);
+                    }
+                    else{                                           
+                    }
+                  */
+                aes_obj.AesInitialize();
+                chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
+                queryString = "";
+                queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES(chatMessageInsert)";
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+                cmd.ExecuteNonQuery();
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                string errorMsg = "Error";
+                errorMsg += ex.Message;
+                throw new Exception(errorMsg);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void ChatGetMessage()
+        {
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntites"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-
             conn.Open();
-
+            AESCryptoStuff aes_obj = new AESCryptoStuff();
+            aes_obj.AesInitialize();
             queryString = "";
-
-            queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES()";
-
+            queryString = "SELECT chatMessage FROM dububase.chat";
+            foreach (var i in queryString)
+            {
+                queryString = aes_obj.AesDecrypt(i.ToString());
+            }
             cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
-
-            cmd.ExecuteReader();
-
+            reader = cmd.ExecuteReader();
             conn.Close();
         }
     }
-
-    public class Censored
-    {
-        public string CensorStuff(string plaintext)
-        {
-            string censoredWord;
-            List<string> censoredWordList = new List<string>();
-            censoredWordList.Add("Fuck");
-            censoredWord = plaintext.Replace(plaintext, "@$%^#!*&");
-            Console.Write(censoredWord);
-            
-            return censoredWord;
-        }
-    }
-
-    //public class DatabaseStuff
-    //{
-    //    MySql.Data.MySqlClient.MySqlConnection conn;
-    //    MySql.Data.MySqlClient.MySqlCommand cmd;
-    //    String queryString;
-
-    //    private void chatSendMessage()
-    //    {
-    //        MySql.Data.MySqlClient.MySqlConnection conn;
-
-    //        MySql.Data.MySqlClient.MySqlCommand cmd;
-
-    //        String queryString;
-
-    //        String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ToString();
-
-    //        conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-
-    //        conn.Open();
-
-    //        queryString = "";
-
-    //        queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES()";
-
-    //        cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
-
-    //        cmd.ExecuteReader();
-
-    //        conn.Close();
-    //    }
-    //}
 
     //class AesExample
     //{
@@ -437,62 +538,5 @@ namespace ASPJ_Project.Controllers
             return str;
         }
     }
-
-
-    //public class Censor
-    //{
-    //    public IList<string> CensoredWords { get; private set; }
-
-    //    public Censor(IEnumerable<string> censoredWords)
-    //    {
-    //        if (censoredWords == null)
-    //            throw new ArgumentNullException("censoredWords");
-
-    //        CensoredWords = new List<string>(censoredWords);
-    //    }
-
-    //    public string CensorText(string text)
-    //    {
-    //        if (text == null)
-    //            throw new ArgumentNullException("text");
-
-    //        string censoredText = text;
-
-    //        foreach (string censoredWord in CensoredWords)
-    //        {
-    //            string regularExpression = ToRegexPattern(censoredWord);
-
-    //            censoredText = Regex.Replace(censoredText, regularExpression, StarCensoredMatch,
-    //              RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-    //        }
-
-    //        return censoredText;
-    //    }
-
-    //    private static string StarCensoredMatch(Match m)
-    //    {
-    //        string word = m.Captures[0].Value;
-
-    //        return new string('*', word.Length);
-    //    }
-
-    //    private string ToRegexPattern(string wildcardSearch)
-    //    {
-    //        string regexPattern = Regex.Escape(wildcardSearch);
-
-    //        regexPattern = regexPattern.Replace(@"\*", ".*?");
-    //        regexPattern = regexPattern.Replace(@"\?", ".");
-
-    //        if (regexPattern.StartsWith(".*?"))
-    //        {
-    //            regexPattern = regexPattern.Substring(3);
-    //            regexPattern = @"(^\b)*?" + regexPattern;
-    //        }
-
-    //        regexPattern = @"\b" + regexPattern + @"\b";
-
-    //        return regexPattern;
-    //    }
-    //}
 
 }

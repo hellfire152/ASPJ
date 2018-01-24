@@ -228,6 +228,20 @@ namespace ASPJ_Project.Controllers
         }
     }
 
+    public class Censored
+    {
+        public string CensorStuff(string plaintext)
+        {
+            string censoredWord;
+            List<string> censoredWordList = new List<string>;
+            censoredWordList.Add("Fuck");
+            censoredWord = plaintext.Replace(plaintext, "@$%^#!*&");
+            Console.Write(censoredWord);
+            
+            return censoredWord;
+        }
+    }
+
     //public class DatabaseStuff
     //{
     //    MySql.Data.MySqlClient.MySqlConnection conn;
@@ -414,7 +428,7 @@ namespace ASPJ_Project.Controllers
             return str;
         }
 
-        public String Decrypt(String cipher_text)
+        public String AesDecrypt(String cipher_text)
         {
             ICryptoTransform transform = cryptProvider.CreateDecryptor();
             byte[] enc_bytes = Convert.FromBase64String(cipher_text);
@@ -423,6 +437,7 @@ namespace ASPJ_Project.Controllers
             return str;
         }
     }
+
 
     //public class Censor
     //{

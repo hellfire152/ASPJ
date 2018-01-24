@@ -13,9 +13,12 @@ namespace ASPJ_Project.Hubs
     {
         MySql.Data.MySqlClient.MySqlConnection conn;
         MySql.Data.MySqlClient.MySqlCommand cmd;
-        MySql.Data.MySqlClient.MySqlDataReader reader;
-        String queryString;
-        String name;
+        MySql.Data.MySqlClient.MySqlDataReader reader;       
+        AESCryptoStuff aes_obj = new AESCryptoStuff();
+        Censored censorWord = new Censored();
+        string wordCensored;
+        string queryString;
+        string name;
 
         //Insert message into the database
         private void ChatSendMessage(string chatMessageInsert)
@@ -36,8 +39,7 @@ namespace ASPJ_Project.Hubs
                     else{                                           
                     }
                   */
-
-                AESCryptoStuff aes_obj = new AESCryptoStuff();
+                aes_obj.AesInitialize();
                 aes_obj.AesEncrypt(chatMessageInsert);
                 queryString = "";
                 queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES(chatMessageInsert)";                
@@ -61,8 +63,14 @@ namespace ASPJ_Project.Hubs
             String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntites"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
             conn.Open();
+            AESCryptoStuff aes_obj = new AESCryptoStuff();
+            aes_obj.AesInitialize();
             queryString = "";
-            queryString = "SELECT * FROM dububase.chat WHERE chatMessage = '";
+            queryString = "SELECT chatMessage FROM dububase.chat";
+            foreach(var i in queryString)
+            {
+               queryString = aes_obj.AesDecrypt(i.ToString());
+            }
             cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
             reader = cmd.ExecuteReader();
             conn.Close();
@@ -86,9 +94,10 @@ namespace ASPJ_Project.Hubs
         //On click send button Signalr connection open insert into database
         public void Send(string name, string message)
         {
+            wordCensored = censorWord.CensorStuff(message);
             //ChatSendMessage(message);
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(name, message);
+            Clients.All.addNewMessageToPage(name, wordCensored);
         }
     }
 }

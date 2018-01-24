@@ -48,51 +48,18 @@ namespace SaveFileTest
             Assert.AreEqual("+", e.Operator);
             Assert.AreEqual(1, e.Operand);
         }
-        /*[TestMethod]
+        [TestMethod]
         public void UpgradeInitializesProperly()
         {
             string u = System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-upgrades.js");
-            Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(u));
-
-            Debug.Write(Upgrade.upgradeData);
-
+            Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(u));
             Upgrade u2 = Upgrade.upgradeData[100];
             Upgrade u3 = Upgrade.upgradeData[1000];
-            Effect e = Effect.Parse("0+1");
-            Assert.AreEqual(e.Benefactor, "0");
-            Assert.AreEqual(e.BenefactorProperty, "tps");
-            Assert.AreEqual(e.Operator, "+");
-            Assert.AreEqual(e.Operand, (double)1);
-            //Assert.AreEqual(Effect.Parse("1.tps+0.1"), u2.Effects[1]);
-            //Assert.AreEqual(Effect.Parse("0+1000"), u3.Effects[0]);
-        }*/
 
-        //initializes the upgrade list (contains all upgrade definitions)
-        [TestMethod]
-        public void Initialize()
-        {
-            //init dictionary
-            string upgradeRaw = System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-upgrades.js");
-            Dictionary<int, dynamic> upgradeJson = JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(upgradeRaw);
-            Dictionary<int, Upgrade> upgradeData = new Dictionary<int, Upgrade>();
-
-            foreach (int upgradeId in upgradeJson.Keys)
-            {
-                //get upgrade
-                dynamic u = upgradeJson[upgradeId];
-
-                string[] effStrArr = ((string)u.effect).Split(",".ToCharArray());
-                Effect[] effArr = new Effect[effStrArr.Length];
-                for (int i = 0; i < effStrArr.Length; i++)
-                {
-                    Debug.WriteLine(effStrArr[i]);
-                    effArr[i] = Effect.Parse(effStrArr[i].Trim());
-                }
-                Debug.Write(effArr);
-                Upgrade upgrade = new Upgrade(upgradeId, effArr);
-
-                upgradeData.Add(upgradeId, upgrade);
-            }
+            Assert.AreEqual("0", u2.Effects[0].Benefactor);
+            Assert.AreEqual("tps", u2.Effects[0].BenefactorProperty);
+            Assert.AreEqual("+", u2.Effects[0].Operator);
+            Assert.AreEqual((double)1, u2.Effects[0].Operand);
         }
 
         /*  [TestMethod] 

@@ -14,19 +14,28 @@ namespace ASPJ_Project.Models
             long timePassed = (currentUtcTime - save.Time) / 1000;
 
             //apply upgrades
+
             return true;
         }
     }
 
-    //class to hold item tps data during calculation
-    class ItemTps
+    class ItemData
     {
-        private object items = new
+        public Dictionary<int, Item> Data;
+        public ItemData()
         {
-            I1 = 0.1,
-            I2 = 10
-        };
-        private int Click = 1;
+            //initialize and clone static Items store
+            this.Data = new Dictionary<int, Item>();
+            foreach (Item item in Item.AllItems.Values)
+            {
+                this.Data.Add(item.Id,
+                    new Item(item.Id, item.Tps, item.Cost));
+            };
+        }
 
+        public void Purchase(int itemId, int alreadyPurchased, int noPurchased)
+        {
+            
+        }
     }
 }

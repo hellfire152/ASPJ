@@ -11,7 +11,7 @@ namespace ASPJ_Project.Models
     public class Upgrade
     {
         //holds all upgrade data
-        public static Dictionary<int, Upgrade> upgradeData;
+        public static Dictionary<int, Upgrade> upgradeData = new Dictionary<int, Upgrade>();
 
         public int Id;
         public Effect[] Effects;
@@ -24,9 +24,6 @@ namespace ASPJ_Project.Models
         //initializes the upgrade list (contains all upgrade definitions)
         public static void Initialize(Dictionary<int, dynamic> upgradeJson)
         {
-            //init dictionary
-            upgradeData = new Dictionary<int, Upgrade>();
-
             foreach(int upgradeId in upgradeJson.Keys)
             {
                 //get upgrade

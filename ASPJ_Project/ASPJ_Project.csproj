@@ -315,6 +315,7 @@
     <Compile Include="Models\Forum.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\Crypto.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\PremiumShop.cs" />
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
@@ -326,6 +327,7 @@
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\tofu-universe-items.js" />
     <Content Include="App_Data\tofu-universe-upgrades.js" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />

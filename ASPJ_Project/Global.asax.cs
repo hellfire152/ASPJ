@@ -28,8 +28,14 @@ namespace ASPJ_Project
 
             //initialize upgrades from file
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-            string rawUpgrades = System.IO.File.ReadAllText(dataRoot + "\\tofu-universe-upgrades.js");
+            string rawUpgrades = System.IO.File.ReadAllText(dataRoot + @"\tofu-universe-upgrades.js");
+            string rawItems = System.IO.File.ReadAllText(dataRoot + @"\tofu-universe-items.js");
+
             Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawUpgrades));
+            Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawItems));
+            
+            //transfer storage objects to .js files served to the client
+
 
             //initialize username to connection map
             Models.UserConnectionMap.CurrentInstance =

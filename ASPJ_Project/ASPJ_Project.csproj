@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -138,8 +142,14 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net, Version=11.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.11.10.0\lib\net45\Stripe.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -155,6 +165,7 @@
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -196,6 +207,7 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
@@ -208,6 +220,8 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -323,6 +337,7 @@
     <Compile Include="Models\TofuAuthorizeAttribute.cs" />
     <Compile Include="Models\Upgrade.cs" />
     <Compile Include="Models\UserConnectionMap.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
@@ -504,6 +519,28 @@
     <Content Include="Content\PremiumShop\images\pic04.jpg" />
     <Content Include="Content\PremiumShop\images\pic05.jpg" />
     <Content Include="Content\PremiumShop\images\pic06.jpg" />
+    <Content Include="Content\ShopStyle\assets\css\font-awesome.min.css" />
+    <Content Include="Content\ShopStyle\assets\css\ie8.css" />
+    <Content Include="Content\ShopStyle\assets\css\ie9.css" />
+    <Content Include="Content\ShopStyle\assets\css\images\intro.svg" />
+    <Content Include="Content\ShopStyle\assets\css\main.css" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\ShopStyle\assets\js\ie\html5shiv.js" />
+    <Content Include="Content\ShopStyle\assets\js\ie\respond.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.scrollex.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.scrolly.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\main.js" />
+    <Content Include="Content\ShopStyle\assets\js\skel.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\util.js" />
+    <Content Include="Content\ShopStyle\elements.html" />
+    <Content Include="Content\ShopStyle\images\pic01.jpg" />
+    <Content Include="Content\ShopStyle\images\pic02.jpg" />
+    <Content Include="Content\ShopStyle\images\pic03.jpg" />
+    <Content Include="Content\ShopStyle\images\pic04.jpg" />
+    <Content Include="Content\ShopStyle\images\pic05.jpg" />
+    <Content Include="Content\ShopStyle\images\pic06.jpg" />
+    <None Include="Content\ShopStyle\_Layout.cshtml" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -530,6 +567,39 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\ShopStyle\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\ShopStyle\assets\sass\base\_page.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\base\_typography.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_box.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_button.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_features.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_form.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_icon.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_image.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_list.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_section.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_split.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_spotlights.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_table.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_wrapper.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\ie8.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\ie9.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_footer.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_header.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_intro.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_sidebar.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_wrapper.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_functions.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_mixins.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_skel.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_vars.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\main.scss" />
+    <Content Include="Content\ShopStyle\images\Thumbs.db" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.ttf" />
@@ -612,7 +682,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -624,6 +696,10 @@
     <Content Include="Views\Forum\Home.cshtml" />
     <Content Include="Views\Forum\_ForumLayout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
+    <Content Include="Views\Shop\Shop.cshtml" />
+    <Content Include="Views\Shop\BeansPurchase.cshtml" />
+    <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
+    <Content Include="Views\Shop\CreditCardInfo.cshtml" />
     <Content Include="Views\Forum\CreateThread.cshtml" />
     <Content Include="Views\Forum\GetThread.cshtml" />
     <Content Include="Views\Forum\DeleteThread.cshtml" />
@@ -633,10 +709,11 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
-    <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Configuration\" />
     <Folder Include="Content\UploadedImages\" />
     <Folder Include="Database\Models\" />
     <Folder Include="Views\User\" />

@@ -19,11 +19,11 @@
 				<div class="inner">
 					<nav>
 						<ul>
-							<li><a href="#one">Hats</a></li>
-							<li><a href="#two">Outfits</a></li>
-							<li><a href="#three">Backgrounds</a></li>
+							<li><a href="/Shop/Shop">Hats</a></li>
+							<li><a href="/Shop/Shop">Outfits</a></li>
+							<li><a href="/Shop/Shop">Backgrounds</a></li>
                             <li><a>Beans: </a></li>
-                            <li><a href="#">Purchase Beans</a></li>
+                            <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
                             <li><a href="#">Shopping Cart</a></li>
 						</ul>
 					</nav>
@@ -32,22 +32,20 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
                 <!-- Hats -->
 					<section id="one" class="wrapper style3 fade-up">
 						<div class="inner">
-							<h2>@ViewData["beansAmount"] Beans</h2>
+							<h2>@ViewData["beansName"] (@ViewData["beansAmount"] Beans)</h2>
 							<p>$@ViewData["price"]</p>
 							<div class="features">
 								<section>
-                                    <form>
-									    <span class="icon major fa-money"></span>
-									    <h3>Credit Card: <input type ="text" name="creditCardNo"/></h3>
-                                    </form>
+                                    <p>@Html.ActionLink("Pay Direct With Credit Card", "CreditCardInfo", "Shop")</p>
+                               
+                                    <p>@Html.ActionLink("Pay with PayPal", "PaymentWithPaypal", "Shop")</p>
 								</section>
 							</div>
 							<ul class="actions">
-								<li><a href="#" class="button">Go Back</a></li>
+								<li><a href="/Shop/BeansPurchase" class="button">Go Back</a></li>
 							</ul>
 						</div>
 					</section>

@@ -60,3 +60,23 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompil
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\ApplicationInsights.config
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\ASPJ_Project.dll.config
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\ASPJ_Project.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\ASPJ_Project.pdb
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.AppContext.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.Collections.Immutable.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.Console.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.IO.Compression.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.IO.FileSystem.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.IO.FileSystem.Primitives.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.Security.Cryptography.Encoding.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.Security.Cryptography.Primitives.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\bin\System.Xml.ReaderWriter.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.InitialCreate.resources
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.AddForumContextcomments.resources
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.GenerateResource.Cache
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
+D:\School\Nanyang Polytechnic\Year 2 Sem 2\ASPJ\Project\ASPJ2\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

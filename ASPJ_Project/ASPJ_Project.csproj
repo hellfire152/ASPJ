@@ -310,6 +310,7 @@
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PremiumShopsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -324,6 +325,7 @@
       <DependentUpon>201801011059304_AddForumContextcomments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ASPJ_ProjectContext.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Effect.cs" />
     <Compile Include="Models\Forum.cs" />
@@ -352,6 +354,8 @@
     <Content Include="bin\EntityFramework.SqlServer.dll" />
     <Content Include="bin\EntityFramework.SqlServer.xml" />
     <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\log4net.xml" />
     <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
     <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
     <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
@@ -368,8 +372,13 @@
     <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
     <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
     <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Http.Features.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.EntityFrameworkCore.Design.dll" />
     <Content Include="bin\Microsoft.EntityFrameworkCore.dll" />
     <Content Include="bin\Microsoft.EntityFrameworkCore.Relational.Design.dll" />
     <Content Include="bin\Microsoft.EntityFrameworkCore.Relational.Design.xml" />
@@ -380,10 +389,12 @@
     <Content Include="bin\Microsoft.Extensions.Caching.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.Caching.Memory.dll" />
     <Content Include="bin\Microsoft.Extensions.Caching.Memory.xml" />
+    <Content Include="bin\Microsoft.Extensions.Configuration.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.xml" />
+    <Content Include="bin\Microsoft.Extensions.FileProviders.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.Logging.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.Logging.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.Logging.dll" />
@@ -414,6 +425,8 @@
     <Content Include="bin\PagedList.Mvc.dll" />
     <Content Include="bin\PagedList.Mvc.xml" />
     <Content Include="bin\PagedList.xml" />
+    <Content Include="bin\PayPal.dll" />
+    <Content Include="bin\PayPal.xml" />
     <Content Include="bin\Remotion.Linq.dll" />
     <Content Include="bin\Remotion.Linq.xml" />
     <Content Include="bin\roslyn\csc.exe" />
@@ -455,9 +468,11 @@
     <Content Include="bin\roslyn\System.Xml.XPath.XDocument.dll" />
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\Stripe.net.dll" />
     <Content Include="bin\System.AppContext.dll" />
     <Content Include="bin\System.Collections.Immutable.dll" />
     <Content Include="bin\System.Collections.Immutable.xml" />
+    <Content Include="bin\System.ComponentModel.Annotations.dll" />
     <Content Include="bin\System.Console.dll" />
     <Content Include="bin\System.Diagnostics.DiagnosticSource.dll" />
     <Content Include="bin\System.Diagnostics.DiagnosticSource.xml" />
@@ -477,6 +492,7 @@
     <Content Include="bin\System.Security.Cryptography.Encoding.dll" />
     <Content Include="bin\System.Security.Cryptography.Primitives.dll" />
     <Content Include="bin\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="bin\System.Text.Encodings.Web.dll" />
     <Content Include="bin\System.Web.Helpers.dll" />
     <Content Include="bin\System.Web.Helpers.xml" />
     <Content Include="bin\System.Web.Mvc.dll" />
@@ -599,6 +615,7 @@
     <Content Include="Content\ShopStyle\assets\sass\libs\_vars.scss" />
     <Content Include="Content\ShopStyle\assets\sass\main.scss" />
     <Content Include="Content\ShopStyle\images\Thumbs.db" />
+    <Content Include="my_app.log" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.eot" />
@@ -712,7 +729,6 @@
     <Content Include="Views\Shop\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Configuration\" />
     <Folder Include="Content\UploadedImages\" />
     <Folder Include="Database\Models\" />

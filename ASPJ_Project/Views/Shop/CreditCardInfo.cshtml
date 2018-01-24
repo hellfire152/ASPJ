@@ -1,4 +1,4 @@
-﻿@model ASPJ_Project.Models.PremiumShop.CreditCard
+﻿@model ASPJ_Project.Models.CreditCard
 
 @{
     ViewBag.Title = "CreditCardInfo";
@@ -42,27 +42,27 @@
                             <h4>@Session["beansName"] (@Session["beansAmount"] Beans)</h4>
 							<h4>$@Session["price"]</h4>
 							<div class="features">
-                                @using(Html.BeginForm("PaymentWithCreditCard", "Shop", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                                @using(Html.BeginForm("CreditCardInfo", "Shop", FormMethod.Post, new {enctype = "multipart/form-data"}))
                                 {
                                 <section>
                                     <span class="icon major fa-credit-card"></span>
                                     <h3>Credit Card Number</h3>
-                                    @Html.TextBoxFor(m => m.creditCardNo)
-                                    @Html.ValidationMessageFor(m => m.creditCardNo)
+                                    @Html.TextBoxFor(model => model.creditCardNo)
+                                    @Html.ValidationMessageFor(model => model.creditCardNo)
                                     <h3>CVV: </h3>
-                                    @Html.TextBoxFor(m => m.cvv2)
-                                    @Html.ValidationMessageFor(m => m.cvv2)
+                                    @Html.TextBoxFor(model => model.cvv2)
+                                    @Html.ValidationMessageFor(model => model.cvv2)
                                     <h3>Expiry Date: </h3>
-                                    <input type="number" name="expiry_month" min="1" max="12"/>
-                                    <input type="number" name="expiry_year" min="2016" max="2030"/>
+                                    @Html.TextBoxFor(model => model.expire_month, new { @type = "number" }) 
+                                    @Html.TextBoxFor(model => model.expire_year, new { @type = "number" }) 
                                     <h3>First Name: </h3>
-                                    @Html.TextBoxFor(m => m.first_name)
-                                    @Html.ValidationMessageFor(m => m.first_name)
+                                    @Html.TextBoxFor(model => model.first_name)
+                                    @Html.ValidationMessageFor(model => model.first_name)
                                     <h3>Last Name: </h3>
-                                    @Html.TextBoxFor(m => m.last_name)
-                                    @Html.ValidationMessageFor(m => m.last_name)
+                                    @Html.TextBoxFor(model => model.last_name)
+                                    @Html.ValidationMessageFor(model => model.last_name)
                                 </section>
-                                <br>
+                                <br /> <br />
                                 <section>
                                     <span class="icon major fa-globe"></span>
                                     <h3>Country: </h3>
@@ -318,13 +318,20 @@
 	                                    <option value="ZW">Zimbabwe</option>
                                     </select>
                                     <h3>City: </h3>
-                                    <input type="text" name="city" maxlength="20"/> 
+                                    @Html.TextBoxFor(model => model.billing_address.city)
+                                    @Html.ValidationMessageFor(model => model.billing_address.city)
+                                    <h3>State: </h3>
+                                    @Html.TextBoxFor(model => model.billing_address.state)
+                                    @Html.ValidationMessageFor(model => model.billing_address.state)
                                     <h3>Address Line 1: </h3>
-                                    <input type="text" name="address" maxlength="50"/> 
+                                    @Html.TextBoxFor(model => model.billing_address.line1)
+                                    @Html.ValidationMessageFor(model => model.billing_address.line1)
                                     <h3>Address Line 2: </h3>
-                                    <input type="text" name="address2" maxlength="50"/> 
+                                    @Html.TextBoxFor(model => model.billing_address.line2)
+                                    @Html.ValidationMessageFor(model => model.billing_address.line2)
                                     <h3>Postal Code: </h3>
-                                    <input type="text" name="postalCode" pattern=".{3,}" maxlength="10" title="3 characters minimum."/> 
+                                    @Html.TextBoxFor(model => model.billing_address.postal_code)
+                                    @Html.ValidationMessageFor(model => model.billing_address.postal_code)
                                     <p></p>
                                     <input type="submit" value="Submit Purchase" />
                                 </section>
@@ -348,7 +355,3 @@
 			</footer>
         </body>
     </html>
-@section Scripts
-{
-    @Scripts.Render("~/bundles/jqueryval")
-}

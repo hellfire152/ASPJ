@@ -233,7 +233,7 @@ namespace ASPJ_Project.Controllers
         public string CensorStuff(string plaintext)
         {
             string censoredWord;
-            List<string> censoredWordList = new List<string>;
+            List<string> censoredWordList = new List<string>();
             censoredWordList.Add("Fuck");
             censoredWord = plaintext.Replace(plaintext, "@$%^#!*&");
             Console.Write(censoredWord);

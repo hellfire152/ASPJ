@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Text;
 using System.IO;
 using Censored;
+using MySql.Data.MySqlClient;
 
 namespace ASPJ_Project.Controllers
 {
@@ -313,7 +314,7 @@ namespace ASPJ_Project.Controllers
     public class DatabaseStuff
     {
         MySql.Data.MySqlClient.MySqlConnection conn;
-        MySql.Data.MySqlClient.MySqlCommand cmd;
+        //MySql.Data.MySqlClient.MySqlCommand cmd;
         MySql.Data.MySqlClient.MySqlDataReader reader;
         AESCryptoStuff aes_obj = new AESCryptoStuff();
         string queryString;
@@ -325,9 +326,10 @@ namespace ASPJ_Project.Controllers
             //MySql.Data.MySqlClient.MySqlCommand cmd;            
             try
             {
-                String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ConnectionString;
+                String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;                
                 conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-                conn.Open();
+                conn.Open();                
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);
 
                 /*
                  command.Parameters.AddWithValue("@chatId", chatid);
@@ -339,9 +341,9 @@ namespace ASPJ_Project.Controllers
                   */
                 aes_obj.AesInitialize();
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
-                queryString = "";
-                queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES(chatMessageInsert)";
-                cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+                queryString = "INSERT INTO dububase.chat(chatMessage) VALUES(@sendmessage)";
+                cmd.CommandText = queryString;
+                cmd.Parameters.AddWithValue("@sendmessage", chatMessageInsert);
                 cmd.ExecuteNonQuery();
             }
             catch (System.Data.SqlClient.SqlException ex)
@@ -361,6 +363,7 @@ namespace ASPJ_Project.Controllers
             String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntites"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
             conn.Open();
+            MySqlCommand cmd = new MySqlCommand(queryString, conn);
             AESCryptoStuff aes_obj = new AESCryptoStuff();
             aes_obj.AesInitialize();
             queryString = "";

@@ -17,6 +17,8 @@ namespace ASPJ_Project.Hubs
         public void JoinAGroup(string group)
         {
             Groups.Add(Context.ConnectionId, group);
+            //Join group message
+            //Clients.Group(roomName).addChatMessage(Context.User.Identity.Name + " joined.");
         }
 
         public void RemoveFromAGroup(string group)
@@ -33,7 +35,7 @@ namespace ASPJ_Project.Hubs
         public void Send(string name, string message)
         {
             //Insert into db
-            //db.ChatSendMessage(message);
+            db.ChatSendMessage(message);
             //Censor Word
             Censors censorMessage = new Censors();
             string storeCensored = censorMessage.CrapCensor(message);

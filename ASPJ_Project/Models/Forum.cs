@@ -90,4 +90,10 @@ namespace ASPJ_Project.Models
         public Thread thread { get; set; }
         public String user { get; set; }
     }
+
+    public class FileScan
+    {
+        public bool secure { get; set; }
+        public string message { get; set; }
+    }
 }

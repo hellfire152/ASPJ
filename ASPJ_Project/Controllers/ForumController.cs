@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Collections.Generic;
 using ASPJ_Project.Models;
 using ASPJ_Project.Context;
 using System.IO;
 using System.Net;
 using ASPJ_Project.ViewModels;
+using nClam;
+using System.Threading.Tasks;
 
 namespace ASPJ_Project.Controllers
 {
@@ -69,9 +70,45 @@ namespace ASPJ_Project.Controllers
             viewModel.comments = comments.ToList();
             return View(viewModel);
         }
+        public async Task<FileScan> ScanImage(String FileLocation)
+        {
+            bool secure = false;
+            string message = "empty";
+            FileScan scan = new FileScan();
+            scan.secure = secure;
+            scan.message = message;
+            try
+            {
+                var clam = new ClamClient("localhost", 3310);
+                var scanResult = await clam.SendAndScanFileAsync(FileLocation).ConfigureAwait(false);
 
+                switch (scanResult.Result)
+                {
+                    case ClamScanResults.Clean:
+                        secure = true;
+                        message = "File is clean";
+                        break;
+                    case ClamScanResults.VirusDetected:
+                        secure = false;
+                        message = "Virus detected, found virus: " + scanResult.InfectedFiles.First().VirusName;
+                        break;
+                    case ClamScanResults.Error:
+                        secure = false;
+                        message = "Error has occured, error: " + scanResult.RawResult;
+                        break;
+                }
+                scan.secure = secure;
+                scan.message = message;
+            }
+            catch
+            {
+                return scan;
+            }
+            return scan;
+
+        }
         [HttpPost]
-        public ActionResult CreateThread(Thread thread)
+        public async Task<ActionResult> CreateThread(Thread thread)
         {
             try
             {
@@ -85,7 +122,26 @@ namespace ASPJ_Project.Controllers
                         bool isValidFile = false;
                         if (UploadedImage.ContentLength > 0)
                         {
-                            if (ext.ToLower() == ".gif" || ext.ToLower() == ".png" || ext.ToLower() == ".jpeg" || ext.ToLower() == ".jpg")
+                            //System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
+                            string format = string.Empty;
+                            //if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
+                            //    format = "TIFF";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                            //    format = "GIF";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                            //    format = "JPG";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                            //    format = "BMP";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
+                            //    format = "PNG";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
+                            //    format = "ICO";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                            //    format = "JPEG";
+                            //else
+                                format = "PNG";
+
+                            if (format.ToLower() == "gif" || format.ToLower() == "png" || format.ToLower() == "jpeg" || format.ToLower() == "jpg")
                             {
                                 isValidFile = true;
                             }
@@ -108,6 +164,13 @@ namespace ASPJ_Project.Controllers
                                     string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
                                 
                                     UploadedImage.SaveAs(FolderPath);
+
+                                    var fileScan = await ScanImage(FolderPath);
+                                    if(fileScan.secure == false)
+                                    {
+                                        ViewBag.Message = fileScan.message;
+                                        return View(thread);
+                                    }
                                     ViewBag.Message = "File uploaded successfully.";
                                     thread.imageName = ImageFileName;
 
@@ -125,6 +188,11 @@ namespace ASPJ_Project.Controllers
 
 
                 }
+                return View(thread);
+            }
+            catch (System.ArgumentException exp)
+            {
+                ViewBag.Message = "Invalid File. Please upload an image file ";
                 return View(thread);
             }
             catch
@@ -160,6 +228,11 @@ namespace ASPJ_Project.Controllers
                     thread = db.threads.Find(id);
                     if (thread == null)
                         return HttpNotFound();
+                    string folderpath = Path.Combine(Server.MapPath("~/content/uploadedimages"), thread.imageName);
+                    if (System.IO.File.Exists(folderpath))
+                    {
+                        System.IO.File.Delete(folderpath);
+                    }
                     db.threads.Remove(thread);
                     db.SaveChanges();
                     return RedirectToAction("Home");

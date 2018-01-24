@@ -60,11 +60,38 @@ namespace ASPJ_Project.Controllers
             Session["price"] = price;
             return View();
         }
-
         public ActionResult CreditCardInfo()
         {
-
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreditCardInfo(PremiumShop.CreditCard currentCard)
+        {
+            if (string.IsNullOrEmpty(currentCard.creditCardNo))
+            {
+                ModelState.AddModelError("creditCardNo", "Credit card number is required.");
+            }
+            if (string.IsNullOrEmpty(currentCard.cvv2))
+            {
+                ModelState.AddModelError("creditCardNo", "CVV is required.");
+            }
+            if (string.IsNullOrEmpty(currentCard.first_name))
+            {
+                ModelState.AddModelError("creditCardNo", "First Name is required.");
+            }
+            if (string.IsNullOrEmpty(currentCard.last_name))
+            {
+                ModelState.AddModelError("creditCardNo", "Last Name is required.");
+            }
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Shop", "Shop");
+            }
+            else
+            {
+                return View(currentCard);
+            }
         }
 
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
@@ -130,7 +157,8 @@ namespace ASPJ_Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult PaymentWithCreditCard()
+        [ValidateInput(false)]
+        public ActionResult PaymentWithCreditCard(PremiumShop.CreditCard currentCard)
         {
             //create and item for which you are taking payment
             //if you need to add more items in the list

@@ -14,6 +14,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 	<body>
+    @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+    {
+        if (ViewBag.Message != null)
+        {
+            <div class ="alert alert-success">
+                <strong> Success! </strong> @ViewBag.Message
+            </div>
+        }
+        else{
 		<!-- Sidebar -->
 			<section id="sidebar">
 				<div class="inner">
@@ -51,7 +60,13 @@
 					</section>
 
 			</div>
-
+        }
+        if(ViewBag.MEssage != null)
+        {
+            <div class="alert alert-danger">
+                <strong>Error!</strong>@ViewBag.MEssage
+            </div>
+        }
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">

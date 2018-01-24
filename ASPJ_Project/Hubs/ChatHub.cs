@@ -37,6 +37,8 @@ namespace ASPJ_Project.Hubs
                     }
                   */
 
+                AESCryptoStuff aes_obj = new AESCryptoStuff();
+                aes_obj.AesEncrypt(chatMessageInsert);
                 queryString = "";
                 queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES(chatMessageInsert)";                
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);

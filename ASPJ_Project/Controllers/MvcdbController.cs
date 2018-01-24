@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Text;
+using System.IO;
 
 namespace ASPJ_Project.Controllers
 {
@@ -39,7 +40,7 @@ namespace ASPJ_Project.Controllers
 
                 };
 
-                Censor censor = new Censor(censoredWords);
+                //Censor censor = new Censor(censoredWords);
                 //string result;
 
                 //result = censor.CensorText("I stubbed my toe. Gosh it hurts!");
@@ -50,11 +51,11 @@ namespace ASPJ_Project.Controllers
 
                 //result = censor.CensorText("Gosh darnit, my shoe laces are undone.");
                 userList = dbModel.users.ToList<user>();
-                string censoredUserList;
-                foreach (var item in userList)
-                {
-                    censoredUserList = censor.CensorText(item.FirstName);
-                }
+                //string censoredUserList;
+                //foreach (var item in userList)
+                //{
+                //    censoredUserList = censor.CensorText(item.FirstName);
+                //}
 
             }
             return View(userList);
@@ -106,6 +107,8 @@ namespace ASPJ_Project.Controllers
             //userModel.FirstName = strComment;
             using (mvccruddbEntities dbModel = new mvccruddbEntities())
             {
+                //AESCryptoStuff aes_obj = new AESCryptoStuff();
+                //userModel = aes_obj.AesEncrypt(userModel);
                 dbModel.users.Add(userModel);
                 dbModel.SaveChanges();
             }
@@ -225,91 +228,256 @@ namespace ASPJ_Project.Controllers
         }
     }
 
-    public class DatabaseStuff
+    //public class DatabaseStuff
+    //{
+    //    MySql.Data.MySqlClient.MySqlConnection conn;
+    //    MySql.Data.MySqlClient.MySqlCommand cmd;
+    //    String queryString;
+
+    //    private void chatSendMessage()
+    //    {
+    //        MySql.Data.MySqlClient.MySqlConnection conn;
+
+    //        MySql.Data.MySqlClient.MySqlCommand cmd;
+
+    //        String queryString;
+
+    //        String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ToString();
+
+    //        conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+
+    //        conn.Open();
+
+    //        queryString = "";
+
+    //        queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES()";
+
+    //        cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+
+    //        cmd.ExecuteReader();
+
+    //        conn.Close();
+    //    }
+    //}
+
+    //class AesExample
+    //{
+    //    public static void Main()
+    //    {
+    //        try
+    //        {
+
+    //            string original = "Here is some data to encrypt!";
+
+    //            // Create a new instance of the Aes
+    //            // class.  This generates a new key and initialization 
+    //            // vector (IV).
+    //            using (Aes myAes = Aes.Create())
+    //            {
+
+    //                // Encrypt the string to an array of bytes.
+    //                byte[] encrypted = EncryptStringToBytes_Aes(original,
+    //                myAes.Key, myAes.IV);
+
+    //                // Decrypt the bytes to a string.
+    //                string roundtrip = DecryptStringFromBytes_Aes(encrypted,
+    //                    myAes.Key, myAes.IV);
+
+    //                //Display the original data and the decrypted data.
+    //                Console.WriteLine("Original:   {0}", original);
+    //                Console.WriteLine("Round Trip: {0}", roundtrip);
+    //            }
+
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            Console.WriteLine("Error: {0}", e.Message);
+    //        }
+    //    }
+    //    static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
+
+    //    {
+    //        // Check arguments.
+    //        if (plainText == null || plainText.Length <= 0)
+    //            throw new ArgumentNullException("plainText");
+    //        if (Key == null || Key.Length <= 0)
+    //            throw new ArgumentNullException("Key");
+    //        if (IV == null || IV.Length <= 0)
+    //            throw new ArgumentNullException("IV");
+    //        byte[] encrypted;
+    //        // Create an Aes object
+    //        // with the specified key and IV.
+    //        using (Aes aesAlg = Aes.Create())
+    //        {
+    //            aesAlg.Key = Key;
+    //            aesAlg.IV = IV;
+
+    //            // Create a decrytor to perform the stream transform.
+    //            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+
+    //            // Create the streams used for encryption.
+    //            using (MemoryStream msEncrypt = new MemoryStream())
+    //            {
+    //                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+
+    //                {
+    //                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+
+    //                    {
+
+    //                        //Write all data to the stream.
+    //                        swEncrypt.Write(plainText);
+    //                    }
+    //                    encrypted = msEncrypt.ToArray();
+    //                }
+    //            }
+    //        }
+
+
+    //        // Return the encrypted bytes from the memory stream.
+    //        return encrypted;
+
+    //    }
+
+    //    static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
+
+    //    {
+    //        // Check arguments.
+    //        if (cipherText == null || cipherText.Length <= 0)
+    //            throw new ArgumentNullException("cipherText");
+    //        if (Key == null || Key.Length <= 0)
+    //            throw new ArgumentNullException("Key");
+    //        if (IV == null || IV.Length <= 0)
+    //            throw new ArgumentNullException("IV");
+
+    //        // Declare the string used to hold
+    //        // the decrypted text.
+    //        string plaintext = null;
+
+    //        // Create an Aes object
+    //        // with the specified key and IV.
+    //        using (Aes aesAlg = Aes.Create())
+    //        {
+    //            aesAlg.Key = Key;
+    //            aesAlg.IV = IV;
+
+    //            // Create a decrytor to perform the stream transform.
+    //            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+
+    //            // Create the streams used for decryption.
+    //            using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+    //            {
+    //                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+
+    //                {
+    //                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+
+    //                    {
+
+    //                        // Read the decrypted bytes from the decrypting 
+    //                        //stream
+    //                        //// and place them in a string.
+    //                        //plaintext = srDecrypt.ReadToEnd();
+    //                    }
+    //                }
+    //            }
+
+    //        }
+
+    //        return plaintext;
+
+    //    }
+    //}
+
+    public class AESCryptoStuff
     {
-        MySql.Data.MySqlClient.MySqlConnection conn;
-        MySql.Data.MySqlClient.MySqlCommand cmd;
-        String queryString;
-
-        private void chatSendMessage()
+        AesCryptoServiceProvider cryptProvider;
+        public void AesInitialize ()
         {
-            MySql.Data.MySqlClient.MySqlConnection conn;
+            cryptProvider = new AesCryptoServiceProvider();
 
-            MySql.Data.MySqlClient.MySqlCommand cmd;
+            cryptProvider.BlockSize = 128;
+            cryptProvider.KeySize = 256;
+            cryptProvider.GenerateIV();
+            cryptProvider.GenerateKey();
+            cryptProvider.Mode = CipherMode.CBC;
+            cryptProvider.Padding = PaddingMode.PKCS7;
+        }
 
-            String queryString;
+        public String AesEncrypt(String clear_text)
+        {
+            ICryptoTransform transform = cryptProvider.CreateEncryptor();
+            byte[] encrypted_bytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clear_text), 0, clear_text.Length);
+            string str = Convert.ToBase64String(encrypted_bytes);
+            return str;
+        }
 
-            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntities"].ToString();
-
-            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-
-            conn.Open();
-
-            queryString = "";
-
-            queryString = "INSERT INTO dububase.chat(chatMessage)" + "VALUES()";
-
-            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
-
-            cmd.ExecuteReader();
-
-            conn.Close();
+        public String Decrypt(String cipher_text)
+        {
+            ICryptoTransform transform = cryptProvider.CreateDecryptor();
+            byte[] enc_bytes = Convert.FromBase64String(cipher_text);
+            byte[] decrypted_bytes = transform.TransformFinalBlock(enc_bytes, 0, enc_bytes.Length);
+            string str = ASCIIEncoding.ASCII.GetString(decrypted_bytes);
+            return str;
         }
     }
-    public class Censor
-    {
-        public IList<string> CensoredWords { get; private set; }
 
-        public Censor(IEnumerable<string> censoredWords)
-        {
-            if (censoredWords == null)
-                throw new ArgumentNullException("censoredWords");
+    //public class Censor
+    //{
+    //    public IList<string> CensoredWords { get; private set; }
 
-            CensoredWords = new List<string>(censoredWords);
-        }
+    //    public Censor(IEnumerable<string> censoredWords)
+    //    {
+    //        if (censoredWords == null)
+    //            throw new ArgumentNullException("censoredWords");
 
-        public string CensorText(string text)
-        {
-            if (text == null)
-                throw new ArgumentNullException("text");
+    //        CensoredWords = new List<string>(censoredWords);
+    //    }
 
-            string censoredText = text;
+    //    public string CensorText(string text)
+    //    {
+    //        if (text == null)
+    //            throw new ArgumentNullException("text");
 
-            foreach (string censoredWord in CensoredWords)
-            {
-                string regularExpression = ToRegexPattern(censoredWord);
+    //        string censoredText = text;
 
-                censoredText = Regex.Replace(censoredText, regularExpression, StarCensoredMatch,
-                  RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-            }
+    //        foreach (string censoredWord in CensoredWords)
+    //        {
+    //            string regularExpression = ToRegexPattern(censoredWord);
 
-            return censoredText;
-        }
+    //            censoredText = Regex.Replace(censoredText, regularExpression, StarCensoredMatch,
+    //              RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+    //        }
 
-        private static string StarCensoredMatch(Match m)
-        {
-            string word = m.Captures[0].Value;
+    //        return censoredText;
+    //    }
 
-            return new string('*', word.Length);
-        }
+    //    private static string StarCensoredMatch(Match m)
+    //    {
+    //        string word = m.Captures[0].Value;
 
-        private string ToRegexPattern(string wildcardSearch)
-        {
-            string regexPattern = Regex.Escape(wildcardSearch);
+    //        return new string('*', word.Length);
+    //    }
 
-            regexPattern = regexPattern.Replace(@"\*", ".*?");
-            regexPattern = regexPattern.Replace(@"\?", ".");
+    //    private string ToRegexPattern(string wildcardSearch)
+    //    {
+    //        string regexPattern = Regex.Escape(wildcardSearch);
 
-            if (regexPattern.StartsWith(".*?"))
-            {
-                regexPattern = regexPattern.Substring(3);
-                regexPattern = @"(^\b)*?" + regexPattern;
-            }
+    //        regexPattern = regexPattern.Replace(@"\*", ".*?");
+    //        regexPattern = regexPattern.Replace(@"\?", ".");
 
-            regexPattern = @"\b" + regexPattern + @"\b";
+    //        if (regexPattern.StartsWith(".*?"))
+    //        {
+    //            regexPattern = regexPattern.Substring(3);
+    //            regexPattern = @"(^\b)*?" + regexPattern;
+    //        }
 
-            return regexPattern;
-        }
-    }
+    //        regexPattern = @"\b" + regexPattern + @"\b";
+
+    //        return regexPattern;
+    //    }
+    //}
 
 }

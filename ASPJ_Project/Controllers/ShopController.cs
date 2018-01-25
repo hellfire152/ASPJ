@@ -96,7 +96,7 @@ namespace ASPJ_Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreditCardInfo(Models.CreditCard currentCard)
+        public ActionResult CreditCardInfo(CreditCard currentCard)
         {
             if (string.IsNullOrEmpty(currentCard.creditCardNo))
             {

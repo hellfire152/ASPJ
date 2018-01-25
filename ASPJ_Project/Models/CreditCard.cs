@@ -61,30 +61,30 @@ namespace ASPJ_Project.Models
         public string last_name { get; set; }   
     }
 
-    //public class CreditCardNoAttribute : ValidationAttribute
-    //{
-    //    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-    //    {
-    //        if (value != null)
-    //        {
-    //            string creditCardNumber = Convert.ToString(value);
+    public class CreditCardNoAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value != null)
+            {
+                string creditCardNumber = Convert.ToString(value);
 
-    //            //Luhn algorithm
-    //            int sumOfDigits = creditCardNumber.Where((e) => e >= '0' && e <= '9')
-    //                            .Reverse()
-    //                            .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
-    //                            .Sum((e) => e / 10 + e % 10);
+                //Luhn algorithm
+                int sumOfDigits = creditCardNumber.Where((e) => e >= '0' && e <= '9')
+                                .Reverse()
+                                .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
+                                .Sum((e) => e / 10 + e % 10);
 
-    //            //// If the final sum is divisible by 10, then the credit card number
-    //            //   is valid. If it is not divisible by 10, the number is invalid.
-    //            if (sumOfDigits % 10 == 0)
-    //            {
-    //                return ValidationResult.Success;
-    //            }
-    //            else
-    //                return new ValidationResult("Invalid Credit Card Number entered.");
-    //        }
-    //        return new ValidationResult("Invalid Credit Card Number entered.");
-    //    }
-    //}        
+                //// If the final sum is divisible by 10, then the credit card number
+                //   is valid. If it is not divisible by 10, the number is invalid.
+                if (sumOfDigits % 10 == 0)
+                {
+                    return ValidationResult.Success;
+                }
+                else
+                    return new ValidationResult("Invalid Credit Card Number entered.");
+            }
+            return new ValidationResult("Invalid Credit Card Number entered.");
+        }
+    }
 }

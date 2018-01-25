@@ -45,7 +45,7 @@ namespace ASPJ_Project.Models
         public string cvv2 { get; set; }
 
         [Required(ErrorMessage = "Credit card expiry month is required.")]
-        [Range(1,12)]
+        [Range(1, 12)]
         public int expire_month { get; set; }
 
         [Required(ErrorMessage = "Credit card expiry year is required.")]
@@ -58,7 +58,9 @@ namespace ASPJ_Project.Models
 
         [Required(ErrorMessage = "Last name is required.")]
         [MaxLength(20, ErrorMessage = "First name has a maximum of 20 characters.")]
-        public string last_name { get; set; }   
+        public string last_name { get; set; }
+
+        public string type { get; set; }
     }
 
     public class CreditCardNoAttribute : ValidationAttribute

@@ -30,7 +30,7 @@ namespace ASPJ_Project.Models
 
         private static string GetAccessToken()
         {
-            // getting accesstocken from paypal                
+            // getting accesstoken from paypal                
             string accessToken = new OAuthTokenCredential
         (ClientId, ClientSecret, GetConfig()).GetAccessToken();
 

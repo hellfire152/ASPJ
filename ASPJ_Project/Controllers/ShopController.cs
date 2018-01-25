@@ -9,6 +9,7 @@ using System.Text;
 using System.Web.Util;
 using PayPal.Api;
 using log4net.Repository.Hierarchy;
+using System.Globalization;
 
 namespace ASPJ_Project.Controllers
 {
@@ -16,7 +17,32 @@ namespace ASPJ_Project.Controllers
     {
         private PayPal.Api.Payment payment;
         // GET: Shop
-        public ActionResult Shop()
+
+    public static class CultureHelper {
+
+            public static Dictionary<string, string> CountryList()
+            {
+                //Creating Dictionary
+                Dictionary<string, string> cultureList = new Dictionary<string, string>();
+
+                //getting the specific CultureInfo from CultureInfo class
+                CultureInfo[] getCultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+                foreach (CultureInfo getCulture in getCultureInfo)
+                {
+                    //creating the object of RegionInfo class
+                    RegionInfo getRegionInfo = new RegionInfo(getCulture.LCID);
+                    //adding each country Name into the Dictionary
+                    if (!(cultureList.ContainsKey(getRegionInfo.Name)))
+                    {
+                        cultureList.Add(getRegionInfo.Name, getRegionInfo.EnglishName);
+                    }
+                }
+                //returning country list
+                return cultureList;
+            }
+        }
+    public ActionResult Shop()
         {
             var shopItems = new List<PremiumShop.PremiumItem>
             {
@@ -60,11 +86,42 @@ namespace ASPJ_Project.Controllers
             Session["price"] = price;
             return View();
         }
-
         public ActionResult CreditCardInfo()
         {
+            var list = new SelectList(CultureHelper.CountryList(), "Key", "Value");
+            var sortList = list.OrderBy(p => p.Text).ToList();
+            ViewBag.Countries = sortList;
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreditCardInfo(CreditCard currentCard)
+        {
+            if (string.IsNullOrEmpty(currentCard.creditCardNo))
+            {
+                ModelState.AddModelError("creditCardNo", "Credit card number is required.");
+            }
+            if (string.IsNullOrEmpty(currentCard.cvv2))
+            {
+                ModelState.AddModelError("creditCardNo", "CVV is required.");
+            }
+            if (string.IsNullOrEmpty(currentCard.first_name))
+            {
+                ModelState.AddModelError("creditCardNo", "First Name is required.");
+            }
+            if (string.IsNullOrEmpty(currentCard.last_name))
+            {
+                ModelState.AddModelError("creditCardNo", "Last Name is required.");
+            }
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Shop", "Shop");
+            }
+            else
+            {
+                return View(currentCard);
+            }
         }
 
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
@@ -130,7 +187,8 @@ namespace ASPJ_Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult PaymentWithCreditCard()
+        [ValidateInput(false)]
+        public ActionResult PaymentWithCreditCard(PremiumShop.CreditCard currentCard)
         {
             //create and item for which you are taking payment
             //if you need to add more items in the list
@@ -160,7 +218,7 @@ namespace ASPJ_Project.Controllers
 
             //Now Create an object of credit card and add above details to it
             //Please replace your credit card details over here which you got from paypal
-            CreditCard crdtCard = new CreditCard();
+            PayPal.Api.CreditCard crdtCard = new PayPal.Api.CreditCard();
             crdtCard.billing_address = billingAddress;
             crdtCard.cvv2 = "874";  //card cvv2 number
             crdtCard.expire_month = 1; //card expire date
@@ -356,40 +414,5 @@ namespace ASPJ_Project.Controllers
             return this.payment.Execute(apiContext, paymentExecution);
         }
 
-
-
-        //Credit Card Checker
-        public static bool checkCard(string creditCardNumber)
-        {
-            //// check whether input string is null or empty
-            if (string.IsNullOrEmpty(creditCardNumber))
-            {
-                return false;
-            }
-            //Luhn algorithm
-            int sumOfDigits = creditCardNumber.Where((e) => e >= '0' && e <= '9')
-                            .Reverse()
-                            .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
-                            .Sum((e) => e / 10 + e % 10);
-
-            //// If the final sum is divisible by 10, then the credit card number
-            //   is valid. If it is not divisible by 10, the number is invalid.
-            return sumOfDigits % 10 == 0;
-
-        }
-
-        //Check if EXPIRED
-        public static bool isValid(string dateString)
-        {
-            DateTime dateValue;
-
-            if (DateTime.TryParse(dateString, out dateValue))
-                if (dateValue < DateTime.Now)
-                    return false;
-                else
-                    return true;
-            else
-                return false;
-        }
     }
 }

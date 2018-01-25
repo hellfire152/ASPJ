@@ -8,12 +8,16 @@
             input {
                 color: #000000
             }
+            p {
+                font-size: 20px;
+            }
         </style>
 		<title></title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 	<body>
+
 		<!-- Sidebar -->
 			<section id="sidebar">
 				<div class="inner">
@@ -39,8 +43,11 @@
 							<p>$@ViewData["price"]</p>
 							<div class="features">
 								<section>
+                                     <span class="icon major fa-credit-card"></span>
                                     <p>@Html.ActionLink("Pay Direct With Credit Card", "CreditCardInfo", "Shop")</p>
-                               
+                               </section>
+                                <section>
+                                     <span class="icon major fa-paypal"></span>
                                     <p>@Html.ActionLink("Pay with PayPal", "PaymentWithPaypal", "Shop")</p>
 								</section>
 							</div>

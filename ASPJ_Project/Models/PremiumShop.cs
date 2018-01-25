@@ -43,32 +43,6 @@ namespace ASPJ_Project.Models
             public string state { get; set; }
         }
 
-        public struct CreditCard
-        {
-            public Address billing_address { get; set; }
-
-            [Required(ErrorMessage = "Credit Card Number is required.")]
-            [StringLength(16, ErrorMessage = "Credit card must be 16 digits long.")]
-            public string creditCardNo { get; set; }
-
-            [Required(ErrorMessage = "CVV is required.")]
-            [StringLength(3, ErrorMessage = "CVV must only be 3 digits long.", MinimumLength =3)]
-            public string cvv2 { get; set; }
-
-            public int expire_month { get; set; }
-            public int expire_year { get; set; }
-
-            [Required(ErrorMessage = "First name is required.")]
-            [StringLength(20)]
-            public string first_name { get; set; }
-
-            [Required(ErrorMessage = "Last name is required.")]
-            [StringLength(20)]
-            public string last_name { get; set; }
-
-            public string type { get; set; }
-        }
-
         public struct Details
         {
             public string subtotal;

@@ -326,6 +326,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASPJ_ProjectContext.cs" />
+    <Compile Include="Models\KeyGenerator.cs" />
     <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Effect.cs" />

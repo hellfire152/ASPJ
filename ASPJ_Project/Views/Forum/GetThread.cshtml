@@ -4,6 +4,11 @@
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
 }
 
+<style>
+    form {
+        display: inline-block !important;
+    }
+</style>
     <div class="container" style="margin-top:10px;">
         <div class="media">
             <div class="media-left">
@@ -17,6 +22,11 @@
                     {
                         @Html.AntiForgeryToken();
                         <input type="submit" value="upvote" class="btn btn-default" />
+                    }
+                    @using (Html.BeginForm("Downvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        <input type="submit" value="downvote" class="btn btn-default" />
                     }
                 </h4>
                 <p>@Model.thread.content</p>
@@ -39,17 +49,6 @@
                     </div>
                 </div>
             }
-                <!-- Nested media object -->
-                <div class="media">
-                    <div class="media-left">
-                        <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">Alex Ang <small><i>Posted on February 19, 2016</i></small></h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
-                    </div>
-                </div>
                 @foreach (var comment in Model.comments)
                 {
                     <!-- Nested media object -->

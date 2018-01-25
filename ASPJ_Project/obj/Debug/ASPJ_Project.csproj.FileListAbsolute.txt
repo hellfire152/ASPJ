@@ -11,8 +11,6 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.IO.FileSystem.Primitives.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Security.Cryptography.Encoding.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Security.Cryptography.Primitives.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Xml.ReaderWriter.dll
-C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\EntityFramework.xml
-C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\EntityFramework.SqlServer.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.InitialCreate.resources
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.AddForumContextcomments.resources
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.GenerateResource.Cache
@@ -56,8 +54,6 @@ D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.IO.FileSystem.Primitives.dll
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Security.Cryptography.Encoding.dll
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Security.Cryptography.Primitives.dll
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Xml.ReaderWriter.dll
-C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\log4net.xml
-C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\PayPal.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.InitialCreate.resources
 D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.AddForumContextcomments.resources
 D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.GenerateResource.Cache

@@ -19,12 +19,13 @@ namespace ASPJ_Project.Models
         }
     }
 
-    class ItemData
+    public class ItemData
     {
         public Dictionary<int, Item> Data;
         public ItemData()
         {
             //initialize and clone static Items store
+            if (Item.AllItems.Keys.Count <= 0) throw new Exception("Item object not initialized!");
             this.Data = new Dictionary<int, Item>();
             foreach (Item item in Item.AllItems.Values)
             {
@@ -33,9 +34,22 @@ namespace ASPJ_Project.Models
             };
         }
 
-        public void Purchase(int itemId, int alreadyPurchased, int noPurchased)
+        //calculates the tCount needed to make the purchase
+        public double Purchase(int itemId, int alreadyPurchased, int currentlyOwned)
         {
+            Item i = Data[itemId];
+            double baseCost = i.Cost;
             
+            double cost = System.Math.Round(baseCost * Math.Pow(1.15, alreadyPurchased));
+
+            int bought = currentlyOwned - alreadyPurchased; double totalCost = 0;
+            for(int j = 0; j < bought; j++)
+            {
+                totalCost += cost;
+                cost = System.Math.Round(baseCost * Math.Pow(1.15, ++alreadyPurchased));
+            }
+
+            return totalCost;
         }
     }
 }

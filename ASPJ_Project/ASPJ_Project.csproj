@@ -326,6 +326,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASPJ_ProjectContext.cs" />
+    <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Effect.cs" />
     <Compile Include="Models\Forum.cs" />
@@ -727,6 +728,11 @@
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
+    <Content Include="Views\PremiumShops\Create.cshtml" />
+    <Content Include="Views\PremiumShops\Delete.cshtml" />
+    <Content Include="Views\PremiumShops\Details.cshtml" />
+    <Content Include="Views\PremiumShops\Edit.cshtml" />
+    <Content Include="Views\PremiumShops\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />

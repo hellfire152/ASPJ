@@ -62,6 +62,18 @@ namespace SaveFileTest
             Assert.AreEqual((double)1, u2.Effects[0].Operand);
         }
 
+        [TestMethod]
+        public void ItemDataPurchaseCalculationIsAccurate()
+        {
+            string itemRaw = System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-items.js");
+            Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(itemRaw));
+            ItemData i = new ItemData();
+
+            double costCalculated = i.Purchase(1, 17, 20);
+            Debug.WriteLine(costCalculated);
+            Assert.AreEqual((double)374, costCalculated);
+        }
+
         /*  [TestMethod] 
         public void DatabaseInsert()
         {

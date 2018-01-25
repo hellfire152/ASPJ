@@ -25,18 +25,6 @@ C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\ASPJ_Project.pdb
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\ASPJ_Project.dll.config
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Microsoft.Owin.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\System.Web.Optimization.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\System.Web.Mvc.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\MySql.Data.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\EntityFramework.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\System.Web.Razor.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\System.Web.WebPages.Razor.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\System.Web.WebPages.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Microsoft.Owin.Security.xml
-C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\obj\Debug\UnitTests.csproj.CoreCompileInputs.cache
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\obj\Debug\SaveFileTest.dll
@@ -73,3 +61,5 @@ D:\ASPJ\ASPJ_Project\SaveFileTest\obj\Debug\UnitTests.csprojResolveAssemblyRefer
 D:\ASPJ\ASPJ_Project\SaveFileTest\obj\Debug\UnitTests.csproj.CoreCompileInputs.cache
 D:\ASPJ\ASPJ_Project\SaveFileTest\obj\Debug\SaveFileTest.dll
 D:\ASPJ\ASPJ_Project\SaveFileTest\obj\Debug\SaveFileTest.pdb
+C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\PayPal.dll
+C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\nClam.dll

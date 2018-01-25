@@ -169,9 +169,9 @@ function purchase(purchaseType, purchaseId, fromSave) {
                 applyEffects(purchaseId);
 
                 //update owned display
-                let o = ++p.items[purchaseId].owned;
+                p.items[purchaseId].owned++:
                 setText(purchaseId);
-                $("#item-owned-" + purchaseId).text(o);
+                $("#item-owned-" + purchaseId).text(p.items[purchaseId].owned);
                 break;
             } else {
                 console.log("Not enough Tofu!");

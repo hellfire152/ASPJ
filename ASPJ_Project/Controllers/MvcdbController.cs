@@ -179,6 +179,8 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult Chat()
         {
+            //DatabaseStuff db = new DatabaseStuff();
+            //db.ChatGetMessage();
             return View();
         }
 
@@ -191,6 +193,16 @@ namespace ASPJ_Project.Controllers
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(encodedServername));
         }
+
+        //protected void Page_Load(object sender, EventArgs e)
+        //{
+        //    if( Request.QueryString["chatId"] != null)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine('Loading some chat');
+        //        chatId = Request.QueryString["chatId"];
+
+        //    }
+        //}
 
     }
 
@@ -360,20 +372,24 @@ namespace ASPJ_Project.Controllers
 
         public void ChatGetMessage()
         {
-            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["mvccruddbEntites"].ConnectionString;
+            string chatInfo;
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
             conn.Open();
             MySqlCommand cmd = new MySqlCommand(queryString, conn);
-            AESCryptoStuff aes_obj = new AESCryptoStuff();
-            aes_obj.AesInitialize();
-            queryString = "";
-            queryString = "SELECT chatMessage FROM dububase.chat";
-            foreach (var i in queryString)
-            {
-                queryString = aes_obj.AesDecrypt(i.ToString());
-            }
+            //AESCryptoStuff aes_obj = new AESCryptoStuff();
+            //aes_obj.AesInitialize();
+            //queryString = "";
+            queryString = "SELECT * FROM dububase.chat";
+            cmd.CommandText = queryString;
             cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+            //cmd.Parameters.AddWithValue("@chatid", chatid);
             reader = cmd.ExecuteReader();
+            while (reader.HasRows && reader.Read())
+            {
+                chatInfo = reader.GetString(reader.GetOrdinal("chatMessage"));
+            }
+            reader.Close();
             conn.Close();
         }
     }

@@ -337,6 +337,7 @@
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\Startup.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
+    <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\MvcDbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

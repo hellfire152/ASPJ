@@ -22,7 +22,7 @@ namespace ASPJ_Project.Controllers
                 Value = Crypto.CurrentInstance.Encrypt(
                     TestUsernames[TestCounter])
             };
-            usernameCookie.Value = "test";
+            //usernameCookie.Value = "test";
             if (++TestCounter > 3) TestCounter = 0;
 
             Response.SetCookie(usernameCookie);

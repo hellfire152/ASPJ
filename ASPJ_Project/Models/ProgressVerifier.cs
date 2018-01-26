@@ -15,6 +15,8 @@ namespace ASPJ_Project.Models
 
             //apply upgrades
 
+            //
+
             return true;
         }
     }
@@ -32,6 +34,18 @@ namespace ASPJ_Project.Models
                 this.Data.Add(item.Id,
                     new Item(item.Id, item.Tps, item.Cost));
             };
+        }
+
+        //calculates tCount needed to make all item purchases
+        public double PurchaseAll(SaveFile save, Dictionary<int, int> nowOwned)
+        {
+            double totalCost = 0;
+            foreach(int itemId in Data.Keys)
+            {
+                totalCost += Purchase(itemId, save.Items[""+itemId], nowOwned[itemId]);
+            }
+
+            return totalCost;
         }
 
         //calculates the tCount needed to make the purchase

@@ -37,11 +37,20 @@ namespace ASPJ_Project.Models
         //takes in the raw save string and returns a SaveFile object
         public static SaveFile Parse(string saveString)
         {
-            //get time
-            string[] timeSplit = saveString.Split('\n');
-            long.TryParse(timeSplit[0], out long t);
-            SaveFile save = JsonConvert.DeserializeObject<SaveFile>(timeSplit[1]);
-            save.Time = t;
+            SaveFile save; long t;
+            if(saveString[0] != '{')
+            {
+                //get time
+                string[] timeSplit = saveString.Split('\n');
+                long.TryParse(timeSplit[0], out t);
+                save = JsonConvert.DeserializeObject<SaveFile>(timeSplit[1]);
+                save.Time = t;
+            } else //no time available
+            {
+                save = JsonConvert.DeserializeObject<SaveFile>(saveString);
+                t = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                save.Time = t;
+            }
 
             //check for invalid save
             if (t == 0 || save.Items == null

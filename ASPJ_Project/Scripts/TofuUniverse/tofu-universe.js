@@ -169,7 +169,7 @@ function purchase(purchaseType, purchaseId, fromSave) {
                 applyEffects(purchaseId);
 
                 //update owned display
-                p.items[purchaseId].owned++:
+                p.items[purchaseId].owned++;
                 setText(purchaseId);
                 $("#item-owned-" + purchaseId).text(p.items[purchaseId].owned);
                 break;

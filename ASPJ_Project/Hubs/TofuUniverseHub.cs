@@ -28,7 +28,7 @@ namespace ASPJ_Project.TofuUniverse
                     dataRoot + "\\Saves\\" + c + ".tusav");
             SaveFile prevSave = SaveFile.Parse(prevSaveText);
             //verify progress
-            ProgressVerifier.VerifyProgress(prevSave, save, utcTime);
+            //ProgressVerifier.VerifyProgress(prevSave, save, utcTime);
 
             //save + time on first line
             string s = "" + utcTime
@@ -58,7 +58,8 @@ namespace ASPJ_Project.TofuUniverse
                 string s = System.IO.File.ReadAllText(
                     dataRoot + "\\Saves\\" + c + ".tusav");
                 //remove the time from save
-                return s.Split('\n')[1];
+                if (s[0] == '{') return s;
+                else return s.Split('\n')[1];
             }
         }
 

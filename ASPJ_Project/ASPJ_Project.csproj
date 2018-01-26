@@ -766,7 +766,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

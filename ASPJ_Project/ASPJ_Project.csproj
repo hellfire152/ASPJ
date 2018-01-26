@@ -626,6 +626,7 @@
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
+    <Content Include="Views\Forum\GetThread2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

@@ -12,3 +12,7 @@ ASPJ_Project/bin/ASPJ_Project\.pdb
 ASPJ_Project/obj/Debug/ASPJ_Project\.dll
 
 *.pdb
+
+*.pdb
+
+*.cache

@@ -50,6 +50,27 @@ namespace ASPJ_Project.Controllers
         }
 
         [HttpGet]
+        public ActionResult GetThread2(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Home");
+            }
+            //ThreadId = RouteData.Values["ThreadId"].ToString();
+            //ForumHome threaddata = new ForumHome();
+            Thread thread = db.threads.Find(id);
+            if (thread == null)
+                return HttpNotFound();
+            CommentViewModel viewModel = new CommentViewModel();
+            var comments = from c in db.comments
+                           join t in db.threads on c.threadId equals t.id
+                           where t.id == id
+                           select c;
+            viewModel.thread = thread;
+            viewModel.comments = comments.ToList();
+            return View(viewModel);
+        }
+        [HttpGet]
         public ActionResult GetThread(int? id)
         {
             if (id == null)
@@ -122,24 +143,24 @@ namespace ASPJ_Project.Controllers
                         bool isValidFile = false;
                         if (UploadedImage.ContentLength > 0)
                         {
-                            //System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
+                            System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
                             string format = string.Empty;
-                            //if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
-                            //    format = "TIFF";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
-                            //    format = "GIF";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                            //    format = "JPG";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
-                            //    format = "BMP";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
-                            //    format = "PNG";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
-                            //    format = "ICO";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                            //    format = "JPEG";
-                            //else
+                            if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
+                                format = "TIFF";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                                format = "GIF";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                                format = "JPG";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                                format = "BMP";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
                                 format = "PNG";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
+                                format = "ICO";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                                format = "JPEG";
+                            else
+                                throw new ArgumentException();
 
                             if (format.ToLower() == "gif" || format.ToLower() == "png" || format.ToLower() == "jpeg" || format.ToLower() == "jpg")
                             {
@@ -228,10 +249,13 @@ namespace ASPJ_Project.Controllers
                     thread = db.threads.Find(id);
                     if (thread == null)
                         return HttpNotFound();
-                    string folderpath = Path.Combine(Server.MapPath("~/content/uploadedimages"), thread.imageName);
-                    if (System.IO.File.Exists(folderpath))
+                    if (thread.imageName != null)
                     {
-                        System.IO.File.Delete(folderpath);
+                        string folderpath = Path.Combine(Server.MapPath("~/content/uploadedimages"), thread.imageName);
+                        if (System.IO.File.Exists(folderpath))
+                        {
+                            System.IO.File.Delete(folderpath);
+                        }
                     }
                     db.threads.Remove(thread);
                     db.SaveChanges();
@@ -359,7 +383,7 @@ namespace ASPJ_Project.Controllers
                     return HttpNotFound();
                 thread.votes = thread.votes - 1;
                 db.SaveChanges();
-                return RedirectToAction("GetThread", new { id = id });
+                return GetThread(id);
             }
             catch
             {

@@ -552,3 +552,4 @@ C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResol
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
+D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

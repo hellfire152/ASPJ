@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Reflection;
+using MySql.Data.MySqlClient;
 
 namespace SaveFileTest
 {
@@ -83,5 +84,54 @@ namespace SaveFileTest
             bool t = d.Insert("INSERT INTO accounts (name) VALUES('hellfire153');");
             Assert.AreEqual(true, t);
         }*/
+
+        [TestMethod]
+        public void DatabaseRetrieve()
+        {
+            //you DO NOT need this line if using in the mainproject,
+            //Database is initialized in Global.asax 
+            Database.Initialize(@"server=localhost;UID=admin;PWD=adminASPJ;database=dububase;");
+
+            //ONE database object is created for the WebServer,
+            //as a static object Database.CurrentInstance
+            //you may still use new Database(connString) if you like, but there's not much point
+            Database d = Database.CurrentInstance;
+
+            //list to store all results
+            List<string> allAccounts = new List<string>();
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    //table I'm reading from
+                    string query = "SELECT * FROM accounts";
+                    MySqlCommand c = new MySqlCommand(query, d.conn);
+
+                    //using the 'using' syntax auto-closes the reader
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read()) //while the reader has data...
+                        {
+                            //add the result in the 'name' column to the list
+                            allAccounts.Add(r["name"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+
+            //to test if the list has all the correct data...
+            Assert.AreEqual("hellfire153", allAccounts[0]);
+            Assert.AreEqual("hellfire154", allAccounts[1]);
+            Assert.AreEqual("hellfire155", allAccounts[2]);
+        }
     }
 }

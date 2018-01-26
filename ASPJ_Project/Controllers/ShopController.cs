@@ -11,6 +11,7 @@ using PayPal.Api;
 using log4net.Repository.Hierarchy;
 using System.Globalization;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace ASPJ_Project.Controllers
 {
@@ -132,11 +133,11 @@ namespace ASPJ_Project.Controllers
                 price = Convert.ToString(Session["beansAmount"]);
 
                 PayPal.Api.Item item = new PayPal.Api.Item();
-                item.name = beansName + " (" + beansAmount + ")";
+                item.name = beansName + " (" + beansAmount + ") Beans";
                 item.currency = "SGD";
                 item.price = price;
                 item.quantity = "1";
-                item.sku = "sku";
+                item.sku = KeyGenerator.GetUniqueKey(20);
 
                 //Now make a List of Item and add the above item to it
                 //you can create as many items as you want and add to this list
@@ -148,7 +149,7 @@ namespace ASPJ_Project.Controllers
                 //Address for the payment
                 Address billingAddress = new Address();
                 billingAddress.city = currentCard.billing_address.city;
-                billingAddress.country_code = currentCard.billing_address.country_code;
+                billingAddress.country_code = "SG";
                 billingAddress.line1 = currentCard.billing_address.line1;
                 billingAddress.line2 = currentCard.billing_address.line2;
                 billingAddress.postal_code = currentCard.billing_address.postal_code;
@@ -165,7 +166,15 @@ namespace ASPJ_Project.Controllers
                 crdtCard.first_name = currentCard.first_name;
                 crdtCard.last_name = currentCard.last_name;
                 crdtCard.number = currentCard.creditCardNo; //enter your credit card number here
-                crdtCard.type = currentCard.type; //credit card type here paypal allows 4 types
+                if (Regex.IsMatch(currentCard.creditCardNo, "^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"))
+                {
+                    crdtCard.type = "mastercard";
+                }
+
+                if (Regex.IsMatch(currentCard.creditCardNo, "^4[0-9]{12}(?:[0-9]{3})?$"))
+                {
+                    crdtCard.type = "visa";
+                }
 
                 // Specify details of your payment amount.
                 Details details = new Details();
@@ -185,7 +194,7 @@ namespace ASPJ_Project.Controllers
 
 
                 tran.amount = amnt;
-                tran.description = "Description about the payment amount.";
+                tran.description = "Purchase of " + beansAmount + " beans. Beans will be added after successful purchase.";
                 tran.item_list = itemList;
                 tran.invoice_number = KeyGenerator.GetUniqueKey(20);
 
@@ -271,11 +280,11 @@ namespace ASPJ_Project.Controllers
             beansAmount = Convert.ToString(Session["beansAmount"]);
             itemList.items.Add(new PayPal.Api.Item()
             {
-                name = beansName + " (" + beansAmount + ")",
+                name = beansName + " (" + beansAmount + " Beans)",
                 currency = "SGD",
                 price =  price,
                 quantity = "1",
-                sku = "sku"
+                sku = KeyGenerator.GetUniqueKey(20)
             });
 
             var payer = new Payer() { payment_method = "paypal" };
@@ -307,7 +316,7 @@ namespace ASPJ_Project.Controllers
 
             transactionList.Add(new Transaction()
             {
-                description = "Transaction description.",
+                description = "Purchase of " + beansAmount + " beans. Beans will be added after successful purchase.",
                 invoice_number = KeyGenerator.GetUniqueKey(20),
                 amount = amount,
                 item_list = itemList
@@ -326,6 +335,8 @@ namespace ASPJ_Project.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateInput(false)]
         public ActionResult PaymentWithPaypal(Models.CreditCard currentCard)
         {
             //getting the apiContext as earlier
@@ -404,21 +415,22 @@ namespace ASPJ_Project.Controllers
             return View("SuccessView");
         }
 
-        public Boolean CheckBeans(PremiumShop.User user) //check if beans amount is more than the amount of beans the item is when they are purchasing
+        public Boolean CheckBeans(PremiumShop.User user, PremiumShop.PremiumItem premiumItem) //check if beans amount is more than the amount of beans the item is when they are purchasing
         {
-            int userBeans;
-            int itemPrice;
+            double userBeans = user.beansAmount;
+            double itemPrice = premiumItem.beansPrice;
             Boolean success = false;
-            //if (userBeans < itemPrice)
-            //{
-            //    success = false;
-            //}
-            //else if (userBeans > itemPrice)
-            //{
-            //    success = true;
-            //}
-            //else
-            //    success = false;
+
+            if (userBeans < itemPrice)
+            {
+                success = false;
+            }
+            else if (userBeans > itemPrice)
+            {
+                success = true;
+            }
+            else
+                success = false;
 
             return success;
         }

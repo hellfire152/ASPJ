@@ -19,10 +19,10 @@ namespace ASPJ_Project.Controllers
             //set test username
             HttpCookie usernameCookie = new HttpCookie("username")
             {
-                //single test value
                 Value = Crypto.CurrentInstance.Encrypt(
-                    "test")
+                    TestUsernames[TestCounter])
             };
+            usernameCookie.Value = "test";
             if (++TestCounter > 3) TestCounter = 0;
 
             Response.SetCookie(usernameCookie);

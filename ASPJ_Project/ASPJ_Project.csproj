@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -138,8 +142,14 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net, Version=11.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.11.10.0\lib\net45\Stripe.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -155,6 +165,7 @@
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -196,6 +207,7 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
@@ -208,6 +220,8 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -296,6 +310,7 @@
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PremiumShopsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -310,21 +325,27 @@
       <DependentUpon>201801011059304_AddForumContextcomments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ASPJ_ProjectContext.cs" />
+    <Compile Include="Models\Database.cs" />
+    <Compile Include="Models\Effect.cs" />
     <Compile Include="Models\Forum.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\Crypto.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\PremiumShop.cs" />
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
     <Compile Include="Models\SaveFile.cs" />
-    <Compile Include="Models\Shop.cs" />
-    <Compile Include="Models\Player.cs" />
     <Compile Include="Models\TofuAuthorizeAttribute.cs" />
+    <Compile Include="Models\Upgrade.cs" />
     <Compile Include="Models\UserConnectionMap.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\tofu-universe-items.js" />
+    <Content Include="App_Data\tofu-universe-upgrades.js" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />
     <Content Include="bin\ASPJ_Project.dll" />
@@ -333,6 +354,8 @@
     <Content Include="bin\EntityFramework.SqlServer.dll" />
     <Content Include="bin\EntityFramework.SqlServer.xml" />
     <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\log4net.xml" />
     <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
     <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
     <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
@@ -349,8 +372,13 @@
     <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
     <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
     <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Http.Features.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.EntityFrameworkCore.Design.dll" />
     <Content Include="bin\Microsoft.EntityFrameworkCore.dll" />
     <Content Include="bin\Microsoft.EntityFrameworkCore.Relational.Design.dll" />
     <Content Include="bin\Microsoft.EntityFrameworkCore.Relational.Design.xml" />
@@ -361,10 +389,12 @@
     <Content Include="bin\Microsoft.Extensions.Caching.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.Caching.Memory.dll" />
     <Content Include="bin\Microsoft.Extensions.Caching.Memory.xml" />
+    <Content Include="bin\Microsoft.Extensions.Configuration.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.xml" />
+    <Content Include="bin\Microsoft.Extensions.FileProviders.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.Logging.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.Logging.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.Logging.dll" />
@@ -395,6 +425,8 @@
     <Content Include="bin\PagedList.Mvc.dll" />
     <Content Include="bin\PagedList.Mvc.xml" />
     <Content Include="bin\PagedList.xml" />
+    <Content Include="bin\PayPal.dll" />
+    <Content Include="bin\PayPal.xml" />
     <Content Include="bin\Remotion.Linq.dll" />
     <Content Include="bin\Remotion.Linq.xml" />
     <Content Include="bin\roslyn\csc.exe" />
@@ -436,9 +468,11 @@
     <Content Include="bin\roslyn\System.Xml.XPath.XDocument.dll" />
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\Stripe.net.dll" />
     <Content Include="bin\System.AppContext.dll" />
     <Content Include="bin\System.Collections.Immutable.dll" />
     <Content Include="bin\System.Collections.Immutable.xml" />
+    <Content Include="bin\System.ComponentModel.Annotations.dll" />
     <Content Include="bin\System.Console.dll" />
     <Content Include="bin\System.Diagnostics.DiagnosticSource.dll" />
     <Content Include="bin\System.Diagnostics.DiagnosticSource.xml" />
@@ -458,6 +492,7 @@
     <Content Include="bin\System.Security.Cryptography.Encoding.dll" />
     <Content Include="bin\System.Security.Cryptography.Primitives.dll" />
     <Content Include="bin\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="bin\System.Text.Encodings.Web.dll" />
     <Content Include="bin\System.Web.Helpers.dll" />
     <Content Include="bin\System.Web.Helpers.xml" />
     <Content Include="bin\System.Web.Mvc.dll" />
@@ -500,6 +535,28 @@
     <Content Include="Content\PremiumShop\images\pic04.jpg" />
     <Content Include="Content\PremiumShop\images\pic05.jpg" />
     <Content Include="Content\PremiumShop\images\pic06.jpg" />
+    <Content Include="Content\ShopStyle\assets\css\font-awesome.min.css" />
+    <Content Include="Content\ShopStyle\assets\css\ie8.css" />
+    <Content Include="Content\ShopStyle\assets\css\ie9.css" />
+    <Content Include="Content\ShopStyle\assets\css\images\intro.svg" />
+    <Content Include="Content\ShopStyle\assets\css\main.css" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\ShopStyle\assets\js\ie\html5shiv.js" />
+    <Content Include="Content\ShopStyle\assets\js\ie\respond.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.scrollex.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\jquery.scrolly.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\main.js" />
+    <Content Include="Content\ShopStyle\assets\js\skel.min.js" />
+    <Content Include="Content\ShopStyle\assets\js\util.js" />
+    <Content Include="Content\ShopStyle\elements.html" />
+    <Content Include="Content\ShopStyle\images\pic01.jpg" />
+    <Content Include="Content\ShopStyle\images\pic02.jpg" />
+    <Content Include="Content\ShopStyle\images\pic03.jpg" />
+    <Content Include="Content\ShopStyle\images\pic04.jpg" />
+    <Content Include="Content\ShopStyle\images\pic05.jpg" />
+    <Content Include="Content\ShopStyle\images\pic06.jpg" />
+    <None Include="Content\ShopStyle\_Layout.cshtml" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -526,6 +583,40 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\ShopStyle\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\ShopStyle\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\ShopStyle\assets\sass\base\_page.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\base\_typography.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_box.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_button.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_features.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_form.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_icon.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_image.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_list.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_section.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_split.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_spotlights.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_table.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\components\_wrapper.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\ie8.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\ie9.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_footer.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_header.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_intro.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_sidebar.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\layout\_wrapper.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_functions.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_mixins.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_skel.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\libs\_vars.scss" />
+    <Content Include="Content\ShopStyle\assets\sass\main.scss" />
+    <Content Include="Content\ShopStyle\images\Thumbs.db" />
+    <Content Include="my_app.log" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.ttf" />
@@ -569,6 +660,9 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="App_Data\Saves\2.tusav" />
+    <Content Include="App_Data\Saves\3.tusav" />
+    <Content Include="App_Data\Saves\4.tusav" />
     <None Include="App_Data\Saves\test.tusav" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -592,7 +686,9 @@
     <Content Include="Scripts\PremiumShop\util.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TofuUniverse\tofu-universe-shop.js" />
+    <Content Include="Scripts\TofuUniverse\big.min.js" />
+    <Content Include="Scripts\TofuUniverse\tofu-universe-items.js" />
+    <Content Include="Scripts\TofuUniverse\tofu-universe-upgrades.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -603,7 +699,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -615,6 +713,10 @@
     <Content Include="Views\Forum\Home.cshtml" />
     <Content Include="Views\Forum\_ForumLayout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
+    <Content Include="Views\Shop\Shop.cshtml" />
+    <Content Include="Views\Shop\BeansPurchase.cshtml" />
+    <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
+    <Content Include="Views\Shop\CreditCardInfo.cshtml" />
     <Content Include="Views\Forum\CreateThread.cshtml" />
     <Content Include="Views\Forum\GetThread.cshtml" />
     <Content Include="Views\Forum\DeleteThread.cshtml" />
@@ -624,13 +726,14 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
-    <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
     <Content Include="Views\Forum\GetThread2.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Configuration\" />
     <Folder Include="Content\UploadedImages\" />
     <Folder Include="Database\Models\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

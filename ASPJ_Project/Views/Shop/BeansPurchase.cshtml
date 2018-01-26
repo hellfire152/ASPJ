@@ -5,7 +5,9 @@
 <html>
 	<head>
         <style>
-
+            p{
+                font-size: 20px;
+            }
         </style>
 		<title></title>
 		<meta charset="utf-8" />
@@ -17,11 +19,11 @@
 				<div class="inner">
 					<nav>
 						<ul>
-							<li><a href="#one">Hats</a></li>
-							<li><a href="#two">Outfits</a></li>
-							<li><a href="#three">Backgrounds</a></li>
+							<li><a href="/Shop/Shop#one">Hats</a></li>
+							<li><a href="/Shop/Shop#two">Outfits</a></li>
+							<li><a href="/Shop/Shop#three">Backgrounds</a></li>
                             <li><a>Beans: </a></li> <!-- Place Amount of Beans Here -->
-                            <li><a href="#">Purchase Beans</a></li>
+                            <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
                             <li><a href="#">Shopping Cart</a></li>
 						</ul>
 					</nav>
@@ -34,48 +36,60 @@
                 <!-- Hats -->
 					<section id="one" class="wrapper style3 fade-up">
 						<div class="inner">
-							<h2>Beans</h2>
+							<h1>Beans Purchase</h1>
 							<p>Need some beans? Purchase some here.</p>
 							<div class="features">
 								<section>
-									<span class="icon major fa-money"></span>
-									<h3>Cup of Beans</h3>
-                                    <p>$2.99</p>
-									<p>@Html.ActionLink("60", "PurchaseConfirmation", "Shop")</p>
+                                    <a href="/Shop/PurchaseConfirmation?username=jhn905&beansAmount=60&price=2%2E99&beansName=Cup%20Of%20Beans">
+									    <span class="icon major fa-coffee"></span>
+									    <h2>Cup of Beans</h2>
+                                        <p>$2.99</p>
+									    <p>60 Beans</p>
+                                    </a>
 								</section>
                                 <section>
-									<span class="icon major fa-money"></span>
-									<h3>Bucket of Beans</h3>
-                                    <p>$5.99</p>
-									<p>150</p>
+                                    <a href="/Shop/PurchaseConfirmation?username=jhn905&beansAmount=150&price=5%2E99&beansName=Basket%20Of%20Beans"">
+									    <span class="icon major fa-shopping-basket"></span>
+									    <h2>Basket of Beans</h2>
+                                        <p>$5.99</p>
+									    <p>150 Beans</p>
+                                    </a>
 								</section>
                                 <section>
-									<span class="icon major fa-money"></span>
-									<h3>Bag of Beans</h3>
-                                    <p>$12.99</p>
-									<p>400</p>
+                                    <a href="/Shop/PurchaseConfirmation?username=jhn905&beansAmount=400&price=12%2E99&beansName=Bag%20Of%20Beans"">
+									    <span class="icon major fa-shopping-bag"></span>
+									    <h2>Bag of Beans</h2>
+                                        <p>$12.99</p>
+									    <p>400 Beans</p>
+                                    </a>
 								</section>
                                 <section>
-									<span class="icon major fa-money"></span>
-									<h3>Sack of Beans</h3>
-                                    <p>$23.99</p>
-									<p>950</p>
+                                    <a href="/Shop/PurchaseConfirmation?username=jhn905&beansAmount=1100&price=23%2E99&beansName=Box%20Of%20Beans"">
+									    <span class="icon major fa-archive"></span>
+									    <h2>Box of Beans</h2>
+                                        <p>$23.99</p>
+									    <p>1100 Beans</p>
+                                    </a>
 								</section>
                                 <section>
-									<span class="icon major fa-money"></span>
-									<h3>Box of Beans</h3>
-                                    <p>$52.99</p>
-									<p>2400</p>
+                                    <a href="/Shop/PurchaseConfirmation?username=jhn905&beansAmount=3200&price=52%2E99&beansName=Truck%20Of%20Beans"">
+									    <span class="icon major fa-truck"></span>
+									    <h2>Truck of Beans</h2>
+                                        <p>$52.99</p>
+									    <p>3200 Beans</p>
+                                    </a>
 								</section>
                                 <section>
-									<span class="icon major fa-money"></span>
-									<h3>Barrel of Beans</h3>
-                                    <p>$75.99</p>
-									<p>6500</p>
+                                    <a href="/Shop/PurchaseConfirmation?username=jhn905&beansAmount=7000&price=75%2E99&beansName=Ship%20Of%20Beans"">
+									    <span class="icon major fa-ship"></span>
+									    <h2>Ship of Beans</h2>
+                                        <p>$75.99</p>
+									    <p>7000 Beans</p>
+                                    </a>
 								</section>
 							</div>
 							<ul class="actions">
-								<li><a href="#" class="button">Go Back</a></li>
+								<li><a href="/Shop/Shop" class="button">Go Back</a></li>
 							</ul>
 						</div>
 					</section>

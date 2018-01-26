@@ -7,8 +7,24 @@ namespace ASPJ_Project.Models
 {
     public class ProgressData
     {
-        public double beginTCount;
-        public Int64[] cookieClickTimes;
-        public Dictionary<int, Int64> purchases;
+        public double TCount;
+        public Dictionary<int, int> Items;
+        public int[] Upgrades;
+
+
+        public override string ToString()
+        {
+            string s = "{\"tCount\":" + TCount + ",\"items\":{";
+            string[] itemKVPairs = new string[Items.Count - 1];
+            int j = 0;
+            foreach(KeyValuePair<int, int> i in Items)
+            {
+                if (i.Key != 0)
+                    itemKVPairs[j++] = "\"" + i.Key + "\":" + i.Value;
+            }
+            s = s + String.Join(",", itemKVPairs) + "},\"upgrades\":[";
+            s = s + String.Join(",", Upgrades) + "]}";
+            return s;
+        }
     }
 }

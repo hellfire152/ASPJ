@@ -1,0 +1,16 @@
+﻿body{
+    padding: 200px;
+}
+
+
+.card-primary{
+    margin-left:-18px;
+    margin-top:-2px;
+    margin-right: 14px;
+}
+.table {
+    border: 1px solid grey;
+    margin-left: -17px;
+    margin-top: -2px;
+    margin-right: -17px;
+}

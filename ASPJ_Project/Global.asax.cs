@@ -42,7 +42,9 @@ namespace ASPJ_Project
                 new Models.UserConnectionMap();
             Models.Crypto.CurrentInstance = new Models.Crypto("cookiekey");
         }
+
     }
+
 
     public class DubuBaseConnect 
     {

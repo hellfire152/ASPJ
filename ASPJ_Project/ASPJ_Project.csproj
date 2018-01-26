@@ -338,27 +338,9 @@
     <Compile Include="Hubs\Startup.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\ChatModel.cs" />
-    <Compile Include="Models\MvcDbModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MvcDbModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MvcDbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MvcDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MvcDbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MvcDbModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\SaveFileParser.cs" />
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\user.cs">
-      <DependentUpon>MvcDbModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -384,28 +366,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\MvcDbModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MvcDbModel.edmx</DependentUpon>
-      <LastGenOutput>MvcDbModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\MvcDbModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MvcDbModel.edmx</DependentUpon>
-      <LastGenOutput>MvcDbModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Other\Censored_Words.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="Models\MvcDbModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MvcDbModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\MvcDbModel.edmx.diagram">
-      <DependentUpon>MvcDbModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

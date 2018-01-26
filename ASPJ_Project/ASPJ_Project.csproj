@@ -405,16 +405,9 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
     <Content Include="Views\Friends\Friends.cshtml" />
-    <Content Include="Views\Mvcdb\Index.cshtml" />
-    <Content Include="Views\Mvcdb\Create.cshtml" />
-    <Content Include="Views\Mvcdb\Details.cshtml" />
-    <Content Include="Views\Mvcdb\Edit.cshtml" />
-    <Content Include="Views\Mvcdb\Delete.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Home\TestPage.cshtml" />
     <Content Include="Views\Mvcdb\Chat.cshtml" />
-    <Content Include="Views\Mvcdb\ChatTest.cshtml" />
-    <Content Include="Views\Mvcdb\FriendList.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
   </ItemGroup>
   <ItemGroup>

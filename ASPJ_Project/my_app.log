@@ -1054,3 +1054,451 @@ PayPal.ConnectionException: The operation has timed out (HTTP request timeout wa
 2018-01-26 00:10:12,441
       [7] ERROR PayPal.PayPalException [(null)] Connection Exception: The operation has timed out (HTTP request timeout was set to 30000ms)
 PayPal.ConnectionException: The operation has timed out (HTTP request timeout was set to 30000ms)
+2018-01-26 14:28:22,986
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:28:23,004
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:28:23,005
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:28:23,005
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:6e9ce881-4120-4aa1-9b3c-05b7802f46dd
+2018-01-26 14:28:23,106
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:28:24,557
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:28:24,558
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32400}
+2018-01-26 14:28:24,682
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:28:24,683
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:28:24,683
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:28:24,683
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:c00bc221-f042-4c35-8c89-4ca49308b384
+2018-01-26 14:28:24,687
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"23.99","details":{"subtotal":"23.99","shipping":"0","tax":"0"}},"description":"Transaction description.","invoice_number":"hUBRpbmKrosKMYKUf8fu","item_list":{"items":[{"sku":"sku","name":"Box Of Beans (1100)","quantity":"1","price":"23.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=71250","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=71250"}}
+2018-01-26 14:28:25,873
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:28:25,873
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-348603637L216351JLJVMVCY","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"23.99","currency":"SGD","details":{"subtotal":"23.99","tax":"0.00","shipping":"0.00"}},"description":"Transaction description.","invoice_number":"hUBRpbmKrosKMYKUf8fu","item_list":{"items":[{"name":"Box Of Beans (1100)","sku":"sku","price":"23.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:28:27Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-348603637L216351JLJVMVCY","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-2H8937288C432724J","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-348603637L216351JLJVMVCY/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:29:42,070
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:29:42,071
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:29:42,071
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:29:42,071
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:06f73ec9-7c19-47c3-b92e-45659e3b47f9
+2018-01-26 14:29:42,075
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:29:42,848
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:29:42,848
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32321}
+2018-01-26 14:29:42,848
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:29:42,849
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:29:42,849
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:29:42,849
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:0e0cf6e1-cb55-4cfb-914a-132df3fd3b05
+2018-01-26 14:29:42,853
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"75.99","details":{"subtotal":"75.99","shipping":"0","tax":"0"}},"description":"Transaction description.","invoice_number":"gHNCbh37T5socH6F0cTq","item_list":{"items":[{"sku":"sku","name":"Ship Of Beans (7000)","quantity":"1","price":"75.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=21095","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=21095"}}
+2018-01-26 14:29:44,155
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:29:44,155
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-2MN98670US7052059LJVMVWI","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"description":"Transaction description.","invoice_number":"gHNCbh37T5socH6F0cTq","item_list":{"items":[{"name":"Ship Of Beans (7000)","sku":"sku","price":"75.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:29:45Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-2MN98670US7052059LJVMVWI","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-00K63187U9981480C","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-2MN98670US7052059LJVMVWI/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:30:49,659
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:30:49,660
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:30:49,660
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:30:49,660
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:af042f2e-56fa-4f37-9ce7-b9f6ebc1cb8d
+2018-01-26 14:30:49,704
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:30:50,429
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:30:50,429
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32254}
+2018-01-26 14:30:50,436
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:30:50,436
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:30:50,436
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:30:50,436
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:ba1345d7-185f-4d4c-b52c-b425f344b41f
+2018-01-26 14:30:50,439
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"payer_id":"KF36S9SGUDG96"}
+2018-01-26 14:30:51,992
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:30:51,992
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-2MN98670US7052059LJVMVWI","intent":"sale","state":"approved","cart":"00K63187U9981480C","payer":{"payment_method":"paypal","status":"VERIFIED","payer_info":{"email":"johnfoohw-buyer@gmail.com","first_name":"test","last_name":"buyer","payer_id":"KF36S9SGUDG96","shipping_address":{"recipient_name":"test buyer","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"},"country_code":"SG"}},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"payee":{"merchant_id":"NDN3K48E8X6W4","email":"johnfoohw-facilitator@gmail.com"},"description":"Transaction description.","invoice_number":"gHNCbh37T5socH6F0cTq","item_list":{"items":[{"name":"Ship Of Beans (7000)","sku":"sku","price":"75.99","currency":"SGD","quantity":1}],"shipping_address":{"recipient_name":"buyer test","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"}},"related_resources":[{"sale":{"id":"1TL51632X8012541M","state":"completed","amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99"}},"payment_mode":"INSTANT_TRANSFER","protection_eligibility":"ELIGIBLE","protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE","transaction_fee":{"value":"3.08","currency":"SGD"},"parent_payment":"PAY-2MN98670US7052059LJVMVWI","create_time":"2018-01-26T06:30:52Z","update_time":"2018-01-26T06:30:52Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/1TL51632X8012541M","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/1TL51632X8012541M/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-2MN98670US7052059LJVMVWI","rel":"parent_payment","method":"GET"}]}}]}],"create_time":"2018-01-26T06:30:53Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-2MN98670US7052059LJVMVWI","rel":"self","method":"GET"}]}
+2018-01-26 14:31:27,230
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:31:27,230
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:31:27,230
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:31:27,230
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:53e51d0a-ba0c-4876-89c6-e994ade70385
+2018-01-26 14:31:27,232
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:31:27,980
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:31:27,981
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32216}
+2018-01-26 14:31:27,981
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:31:27,982
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:31:27,982
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:31:27,982
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:980f47a9-34c8-4949-8bdd-402fb66a7433
+2018-01-26 14:31:27,984
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"75.99","details":{"subtotal":"75.99","shipping":"0","tax":"0"}},"description":"Transaction description.","invoice_number":"83VKaWzp2DQta2LegSlR","item_list":{"items":[{"sku":"sku","name":"Ship Of Beans (7000)","quantity":"1","price":"75.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=848","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=848"}}
+2018-01-26 14:31:29,178
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:31:29,178
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-4KU92449285152615LJVMWQQ","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"description":"Transaction description.","invoice_number":"83VKaWzp2DQta2LegSlR","item_list":{"items":[{"name":"Ship Of Beans (7000)","sku":"sku","price":"75.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:31:30Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4KU92449285152615LJVMWQQ","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-7TR17648XV4950845","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4KU92449285152615LJVMWQQ/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:31:50,786
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:31:50,787
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:31:50,787
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:31:50,787
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:c33b1360-379e-49df-8b52-9c9c86ac44f0
+2018-01-26 14:31:50,813
+      [12] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:31:51,579
+      [12] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:31:51,579
+      [12] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32192}
+2018-01-26 14:31:51,579
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:31:51,579
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:31:51,580
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:31:51,580
+      [12] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:ff82178c-6532-4d0a-86fa-f365e60050fb
+2018-01-26 14:31:51,583
+      [12] DEBUG PayPal.Api.HttpConnection [(null)] {"payer_id":"KF36S9SGUDG96"}
+2018-01-26 14:31:53,199
+      [12] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:31:53,200
+      [12] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-4KU92449285152615LJVMWQQ","intent":"sale","state":"approved","cart":"7TR17648XV4950845","payer":{"payment_method":"paypal","status":"VERIFIED","payer_info":{"email":"johnfoohw-buyer@gmail.com","first_name":"test","last_name":"buyer","payer_id":"KF36S9SGUDG96","shipping_address":{"recipient_name":"test buyer","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"},"country_code":"SG"}},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"payee":{"merchant_id":"NDN3K48E8X6W4","email":"johnfoohw-facilitator@gmail.com"},"description":"Transaction description.","invoice_number":"83VKaWzp2DQta2LegSlR","item_list":{"items":[{"name":"Ship Of Beans (7000)","sku":"sku","price":"75.99","currency":"SGD","quantity":1}],"shipping_address":{"recipient_name":"buyer test","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"}},"related_resources":[{"sale":{"id":"69T20083J4865604E","state":"completed","amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99"}},"payment_mode":"INSTANT_TRANSFER","protection_eligibility":"ELIGIBLE","protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE","transaction_fee":{"value":"3.08","currency":"SGD"},"parent_payment":"PAY-4KU92449285152615LJVMWQQ","create_time":"2018-01-26T06:31:54Z","update_time":"2018-01-26T06:31:54Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/69T20083J4865604E","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/69T20083J4865604E/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4KU92449285152615LJVMWQQ","rel":"parent_payment","method":"GET"}]}}]}],"create_time":"2018-01-26T06:31:54Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4KU92449285152615LJVMWQQ","rel":"self","method":"GET"}]}
+2018-01-26 14:32:04,289
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:32:04,290
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:32:04,290
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:32:04,290
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:9678417c-69cc-4af0-9970-f41b91af3e51
+2018-01-26 14:32:04,293
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:32:05,053
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:32:05,053
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32179}
+2018-01-26 14:32:05,054
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:32:05,054
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:32:05,054
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:32:05,054
+      [9] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:59961945-2de1-4943-bee9-400ac659ad3d
+2018-01-26 14:32:05,056
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"75.99","details":{"subtotal":"75.99","shipping":"0","tax":"0"}},"description":"Transaction description.","invoice_number":"zj1R7DsyP4DQaI5vgu5I","item_list":{"items":[{"sku":"sku","name":"Ship Of Beans (7000)","quantity":"1","price":"75.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=65790","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=65790"}}
+2018-01-26 14:32:06,046
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:32:06,047
+      [9] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-5NT586130P693180BLJVMWZY","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"description":"Transaction description.","invoice_number":"zj1R7DsyP4DQaI5vgu5I","item_list":{"items":[{"name":"Ship Of Beans (7000)","sku":"sku","price":"75.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:32:07Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-5NT586130P693180BLJVMWZY","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-2YW95734514286527","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-5NT586130P693180BLJVMWZY/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:34:58,475
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:34:58,490
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:34:58,490
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:34:58,490
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:634229c3-d4e4-40a2-bba7-bebbe3ae6ee6
+2018-01-26 14:34:58,578
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:34:59,581
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:34:59,581
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32004}
+2018-01-26 14:34:59,696
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:34:59,697
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:34:59,697
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:34:59,697
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:d9ae0fc5-c2ae-443c-8515-493b4c392aac
+2018-01-26 14:34:59,701
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"12.99","details":{"subtotal":"12.99","shipping":"0","tax":"0"}},"description":"Purchase of 400","invoice_number":"ma0vCqbJr1lfpxgMBKZn","item_list":{"items":[{"sku":"GEQC3z8w5rNoQiqD8ife","name":"Bag Of Beans (400)","quantity":"1","price":"12.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=42922","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=42922"}}
+2018-01-26 14:35:00,788
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:35:00,788
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-8MD04659VG1485040LJVMYFQ","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"12.99","currency":"SGD","details":{"subtotal":"12.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 400","invoice_number":"ma0vCqbJr1lfpxgMBKZn","item_list":{"items":[{"name":"Bag Of Beans (400)","sku":"GEQC3z8w5rNoQiqD8ife","price":"12.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:35:01Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-8MD04659VG1485040LJVMYFQ","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-50L024292H867854E","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-8MD04659VG1485040LJVMYFQ/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:36:34,167
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:36:34,188
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:36:34,188
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:36:34,188
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:e38c74ad-a312-4c24-a8df-ef30cdd41a58
+2018-01-26 14:36:34,271
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:36:35,463
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:36:35,463
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31909}
+2018-01-26 14:36:35,570
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:36:35,570
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:36:35,570
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:36:35,570
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:dfc2fc3b-b54c-4258-993d-dc2d13fc5f11
+2018-01-26 14:36:35,580
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"52.99","details":{"subtotal":"52.99","shipping":"0","tax":"0"}},"description":"Purchase of 3200 beans","invoice_number":"ChtOHFnDKdUglEVvzdlm","item_list":{"items":[{"sku":"9VeXBXfS5EbP5vfy9I4u","name":"Truck Of Beans (3200)","quantity":"1","price":"52.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=95621","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=95621"}}
+2018-01-26 14:36:36,680
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:36:36,680
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-8F650342DN173705TLJVMY5Q","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"52.99","currency":"SGD","details":{"subtotal":"52.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 3200 beans","invoice_number":"ChtOHFnDKdUglEVvzdlm","item_list":{"items":[{"name":"Truck Of Beans (3200)","sku":"9VeXBXfS5EbP5vfy9I4u","price":"52.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:36:37Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-8F650342DN173705TLJVMY5Q","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-65P41005N8474623P","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-8F650342DN173705TLJVMY5Q/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:38:20,285
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:38:20,302
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:38:20,302
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:38:20,302
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:6786c1a1-f546-446c-830c-1ed7658c9a2e
+2018-01-26 14:38:20,379
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:38:21,581
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:38:21,581
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31802}
+2018-01-26 14:38:21,696
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:38:21,697
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:38:21,697
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:38:21,697
+      [6] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:3757ae40-c63d-4936-9661-62bf7ac4cd30
+2018-01-26 14:38:21,700
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"5.99","details":{"subtotal":"5.99","shipping":"0","tax":"0"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"OCxO9uGFFlwc60ShLJfd","item_list":{"items":[{"sku":"fghreJpxlFo8NXu0JPuk","name":"Basket Of Beans (150)","quantity":"1","price":"5.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=34268","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=34268"}}
+2018-01-26 14:38:22,652
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:38:22,653
+      [6] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-5A530766VP8389418LJVMZYA","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"5.99","currency":"SGD","details":{"subtotal":"5.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"OCxO9uGFFlwc60ShLJfd","item_list":{"items":[{"name":"Basket Of Beans (150)","sku":"fghreJpxlFo8NXu0JPuk","price":"5.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:38:23Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-5A530766VP8389418LJVMZYA","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0M2206377C428474E","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-5A530766VP8389418LJVMZYA/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:39:31,189
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:39:31,204
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:39:31,204
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:39:31,205
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:87c5548f-cb81-402a-8494-07b313c9d434
+2018-01-26 14:39:31,281
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:39:32,395
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:39:32,396
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31732}
+2018-01-26 14:39:32,509
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:39:32,509
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:39:32,510
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:39:32,510
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:178ecba8-42e3-4f43-a6ec-01eeeaa74981
+2018-01-26 14:39:32,513
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"75.99","details":{"subtotal":"75.99","shipping":"0","tax":"0"}},"description":"Purchase of 7000 beans. Beans will be added after successful purchase.","invoice_number":"YS2USXOWRgFIUJlDCSR1","item_list":{"items":[{"sku":"v7gBZlLHbADjTe2ch3t4","name":"Ship Of Beans (7000 Beans)","quantity":"1","price":"75.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=32403","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=32403"}}
+2018-01-26 14:39:33,600
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:39:33,600
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-27680511J0152282NLJVM2JQ","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 7000 beans. Beans will be added after successful purchase.","invoice_number":"YS2USXOWRgFIUJlDCSR1","item_list":{"items":[{"name":"Ship Of Beans (7000 Beans)","sku":"v7gBZlLHbADjTe2ch3t4","price":"75.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:39:34Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-27680511J0152282NLJVM2JQ","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-3BX78320F7037501W","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-27680511J0152282NLJVM2JQ/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:40:33,052
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:40:33,052
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:40:33,052
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:40:33,052
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:8e4dc5a3-68f0-4250-89f1-55415f97beef
+2018-01-26 14:40:33,058
+      [14] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:40:33,872
+      [14] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:40:33,873
+      [14] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31670}
+2018-01-26 14:40:33,874
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:40:33,874
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:40:33,874
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:40:33,874
+      [14] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:d0e9b703-cdc8-4fe6-9d62-916f5587b33b
+2018-01-26 14:40:33,877
+      [14] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"5.99","details":{"subtotal":"5.99","shipping":"0","tax":"0"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"WoMoZB4py6dX6NDu7alX","item_list":{"items":[{"sku":"vkeWtYgMl7Nh02tWloc0","name":"Basket Of Beans (150 Beans)","quantity":"1","price":"5.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=28567","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=28567"}}
+2018-01-26 14:40:34,858
+      [14] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:40:34,858
+      [14] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-4W949231VJ111703HLJVM2ZA","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"5.99","currency":"SGD","details":{"subtotal":"5.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"WoMoZB4py6dX6NDu7alX","item_list":{"items":[{"name":"Basket Of Beans (150 Beans)","sku":"vkeWtYgMl7Nh02tWloc0","price":"5.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:40:36Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4W949231VJ111703HLJVM2ZA","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-9BC995835X5971300","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4W949231VJ111703HLJVM2ZA/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:40:35,058
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:40:35,058
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:40:35,058
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:40:35,058
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:55e0a9db-95f1-40d2-932e-4974ae8833a8
+2018-01-26 14:40:35,063
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:40:35,729
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:40:35,730
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31668}
+2018-01-26 14:40:35,731
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:40:35,731
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:40:35,732
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:40:35,732
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:ae8c3eae-df63-4016-9226-b8bb7efe3b39
+2018-01-26 14:40:35,734
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"5.99","details":{"subtotal":"5.99","shipping":"0","tax":"0"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"IoZp5GhAyL7zYxMvn859","item_list":{"items":[{"sku":"kg3b3ehhTHaaB9ZhbmEg","name":"Basket Of Beans (150 Beans)","quantity":"1","price":"5.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=47433","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=47433"}}
+2018-01-26 14:40:36,795
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:40:36,795
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-0MJ95435R30566144LJVM2ZQ","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"5.99","currency":"SGD","details":{"subtotal":"5.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"IoZp5GhAyL7zYxMvn859","item_list":{"items":[{"name":"Basket Of Beans (150 Beans)","sku":"kg3b3ehhTHaaB9ZhbmEg","price":"5.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:40:37Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-0MJ95435R30566144LJVM2ZQ","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-7KY59005AY205184G","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-0MJ95435R30566144LJVM2ZQ/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:41:14,780
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:41:14,782
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:41:14,782
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:41:14,782
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:f24df3f4-5718-4a98-bcf8-793c7373042a
+2018-01-26 14:41:14,785
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:41:15,545
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:41:15,545
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31629}
+2018-01-26 14:41:15,546
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:41:15,546
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:41:15,546
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:41:15,546
+      [8] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:879bbf82-c4b9-4fad-8db4-487c30f4f390
+2018-01-26 14:41:15,548
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"5.99","details":{"subtotal":"5.99","shipping":"0","tax":"0"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"2q9PtNXLxtWGsj7aYK24","item_list":{"items":[{"sku":"8Hhf9WPONKqb8KLKZBTX","name":"Basket Of Beans (150 Beans)","quantity":"1","price":"5.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=79336","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=79336"}}
+2018-01-26 14:41:16,693
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:41:16,693
+      [8] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-4AP83621DX428873YLJVM3DQ","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"5.99","currency":"SGD","details":{"subtotal":"5.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 150 beans. Beans will be added after successful purchase.","invoice_number":"2q9PtNXLxtWGsj7aYK24","item_list":{"items":[{"name":"Basket Of Beans (150 Beans)","sku":"8Hhf9WPONKqb8KLKZBTX","price":"5.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:41:17Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4AP83621DX428873YLJVM3DQ","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-4PV1384547379650E","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-4AP83621DX428873YLJVM3DQ/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:44:26,890
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:44:26,893
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:44:26,893
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:44:26,893
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:b6f29755-befc-4a9f-bc21-c73ac8e69649
+2018-01-26 14:44:26,913
+      [17] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:44:27,729
+      [17] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:44:27,730
+      [17] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31436}
+2018-01-26 14:44:27,731
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:44:27,732
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:44:27,732
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:44:27,732
+      [17] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:b8d2acff-85cd-44d7-958a-af386fe1f0fe
+2018-01-26 14:44:27,734
+      [17] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"23.99","details":{"subtotal":"23.99","shipping":"0","tax":"0"}},"description":"Purchase of 1100 beans. Beans will be added after successful purchase.","invoice_number":"UGXSRgd2Ek9NGYCY4JnO","item_list":{"items":[{"sku":"YHHXleRR4xcEls3NevQj","name":"Box Of Beans (1100 Beans)","quantity":"1","price":"23.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=14722","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=14722"}}
+2018-01-26 14:44:28,984
+      [17] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:44:28,984
+      [17] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-18V07991AL6555205LJVM4TQ","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"23.99","currency":"SGD","details":{"subtotal":"23.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 1100 beans. Beans will be added after successful purchase.","invoice_number":"UGXSRgd2Ek9NGYCY4JnO","item_list":{"items":[{"name":"Box Of Beans (1100 Beans)","sku":"YHHXleRR4xcEls3NevQj","price":"23.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:44:30Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-18V07991AL6555205LJVM4TQ","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-3Y777164464180945","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-18V07991AL6555205LJVM4TQ/execute","rel":"execute","method":"POST"}]}
+2018-01-26 14:48:58,439
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:48:58,439
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:48:58,439
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:48:58,439
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:cf6364be-ca53-41a0-b251-cd204e909caa
+2018-01-26 14:48:58,451
+      [25] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:48:59,192
+      [25] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:48:59,193
+      [25] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31165}
+2018-01-26 14:48:59,197
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:48:59,198
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:48:59,198
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:48:59,199
+      [25] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:96ad48d9-04b7-4a5d-b4c0-8883fa1b429d
+2018-01-26 14:48:59,204
+      [25] DEBUG PayPal.Api.HttpConnection [(null)] {"payer_id":"KF36S9SGUDG96"}
+2018-01-26 14:49:00,740
+      [25] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:49:00,740
+      [25] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-18V07991AL6555205LJVM4TQ","intent":"sale","state":"approved","cart":"3Y777164464180945","payer":{"payment_method":"paypal","status":"VERIFIED","payer_info":{"email":"johnfoohw-buyer@gmail.com","first_name":"test","last_name":"buyer","payer_id":"KF36S9SGUDG96","shipping_address":{"recipient_name":"test buyer","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"},"country_code":"SG"}},"transactions":[{"amount":{"total":"23.99","currency":"SGD","details":{"subtotal":"23.99","tax":"0.00","shipping":"0.00"}},"payee":{"merchant_id":"NDN3K48E8X6W4","email":"johnfoohw-facilitator@gmail.com"},"description":"Purchase of 1100 beans. Beans will be added after successful purchase.","invoice_number":"UGXSRgd2Ek9NGYCY4JnO","item_list":{"items":[{"name":"Box Of Beans (1100 Beans)","sku":"YHHXleRR4xcEls3NevQj","price":"23.99","currency":"SGD","quantity":1}],"shipping_address":{"recipient_name":"buyer test","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"}},"related_resources":[{"sale":{"id":"5SY83308BR110011N","state":"completed","amount":{"total":"23.99","currency":"SGD","details":{"subtotal":"23.99"}},"payment_mode":"INSTANT_TRANSFER","protection_eligibility":"ELIGIBLE","protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE","transaction_fee":{"value":"1.32","currency":"SGD"},"parent_payment":"PAY-18V07991AL6555205LJVM4TQ","create_time":"2018-01-26T06:49:01Z","update_time":"2018-01-26T06:49:01Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/5SY83308BR110011N","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/5SY83308BR110011N/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-18V07991AL6555205LJVM4TQ","rel":"parent_payment","method":"GET"}]}}]}],"create_time":"2018-01-26T06:49:02Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-18V07991AL6555205LJVM4TQ","rel":"self","method":"GET"}]}
+2018-01-26 14:50:14,278
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-26 14:50:14,279
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:50:14,279
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-26 14:50:14,279
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:a54f3524-62fc-4bea-860f-77c565a8c14b
+2018-01-26 14:50:14,281
+      [28] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-26 14:50:15,020
+      [28] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:50:15,020
+      [28] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-26T06:28:25ZbOksi-SG0GpFOyrZcfJo90re6PB1BWrDuScHlIadido","access_token":"A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31089}
+2018-01-26 14:50:15,021
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-26 14:50:15,021
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 10.0.16299.0)
+2018-01-26 14:50:15,022
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAGWTze3hZXboPSnVkkhPXV39cAxIPKchsqAxv0sDV-JKreXbbNs7rHsfD-Oq0UgEMBDRFDGSaWfggvy6tZtvBWuiyy9Ew
+2018-01-26 14:50:15,022
+      [28] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:a26cece6-70e0-4b0c-939b-6b4968ed5754
+2018-01-26 14:50:15,025
+      [28] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"23.99","details":{"subtotal":"23.99","shipping":"0","tax":"0"}},"description":"Purchase of 1100 beans. Beans will be added after successful purchase.","invoice_number":"3E6FjZEoypDMAUqnQDjx","item_list":{"items":[{"sku":"PKItfv3RXqIDXoEbtcL5","name":"Box Of Beans (1100 Beans)","quantity":"1","price":"23.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=53276","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=53276"}}
+2018-01-26 14:50:16,077
+      [28] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-26 14:50:16,077
+      [28] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-3RY30947BA8488031LJVM7KI","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"23.99","currency":"SGD","details":{"subtotal":"23.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 1100 beans. Beans will be added after successful purchase.","invoice_number":"3E6FjZEoypDMAUqnQDjx","item_list":{"items":[{"name":"Box Of Beans (1100 Beans)","sku":"PKItfv3RXqIDXoEbtcL5","price":"23.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:50:17Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-3RY30947BA8488031LJVM7KI","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-1X9448688K3401129","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-3RY30947BA8488031LJVM7KI/execute","rel":"execute","method":"POST"}]}

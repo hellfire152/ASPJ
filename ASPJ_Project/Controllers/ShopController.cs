@@ -271,11 +271,11 @@ namespace ASPJ_Project.Controllers
             beansAmount = Convert.ToString(Session["beansAmount"]);
             itemList.items.Add(new PayPal.Api.Item()
             {
-                name = beansName + " (" + beansAmount + ")",
+                name = beansName + " (" + beansAmount + " Beans)",
                 currency = "SGD",
                 price =  price,
                 quantity = "1",
-                sku = "sku"
+                sku = KeyGenerator.GetUniqueKey(20)
             });
 
             var payer = new Payer() { payment_method = "paypal" };
@@ -307,7 +307,7 @@ namespace ASPJ_Project.Controllers
 
             transactionList.Add(new Transaction()
             {
-                description = "Transaction description.",
+                description = "Purchase of " + beansAmount + " beans. Beans will be added after successful purchase.",
                 invoice_number = KeyGenerator.GetUniqueKey(20),
                 amount = amount,
                 item_list = itemList

@@ -15,6 +15,7 @@ namespace ASPJ_Project.Models
         {
             public string itemName;
             public string itemType;
+            public string itemID;
             //public Image itemImage;
             public string itemDescription;
             public double beansPrice;
@@ -61,6 +62,14 @@ namespace ASPJ_Project.Models
             public string description;
             public List<Item> itemList;
             public string invoiceNo;
+        }
+
+        public struct ItemTransaction
+        {
+            public Amount amnt;
+            public PremiumItem itemBought;
+            public string description;
+            public string transactionNo;
         }
 
         public struct FundingInstrument

@@ -57,3 +57,4 @@ D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Xml.ReaderWriter.dll
 D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.InitialCreate.resources
 D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.Migrations.AddForumContextcomments.resources
 D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.GenerateResource.Cache
+D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

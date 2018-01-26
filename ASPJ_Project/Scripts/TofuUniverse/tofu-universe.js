@@ -29,7 +29,8 @@ _tofuUniverse.player = {
     "click": 1, //tofu earned per click
     "items": {}, //initially a clone of the ITEMS object
     "upgrades": [], //upgrades owned
-    "upgradeEffects": {} //list of effects of said upgrades
+    "upgradeEffects": {}, //list of effects of said upgrades
+    "tofuClicks": 0
 };
 
 //settings object
@@ -257,8 +258,18 @@ function saveProgress() {
     _tofuUniverse.conn.server.saveProgress({
         "tCount": _tofuUniverse.player.tCount,
         "items": owned,
-        "upgrades": _tofuUniverse.player.upgrades
+        "upgrades": _tofuUniverse.player.upgrades,
+        "tofuClicks": _tofuUniverse.player.tofuClicks
+    }).done((success) => {
+        if (success) {
+            console.log("File saved!");
+        } else {
+            console.log("Have you been cheating?");
+        }
     });
+
+    //reset tofuClicks counter
+    _tofuUniverse.player.tofuClicks = 0;
 };
 
 //tracking variables for mouse cursor
@@ -383,6 +394,7 @@ window.onload = () => {
 
     //set tofu onclick
     $("#tofu").click(() => {
+        _tofuUniverse.player.tofuClicks++;
         _tofuUniverse.player.tCount += _tofuUniverse.player.items[0].tps;
 
         if (_tofuUniverse.settings.showEarnings) {

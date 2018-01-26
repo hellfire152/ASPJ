@@ -10,7 +10,7 @@ namespace ASPJ_Project.Models
         public double TCount;
         public Dictionary<int, int> Items;
         public int[] Upgrades;
-
+        public int tofuClicks;
 
         public override string ToString()
         {

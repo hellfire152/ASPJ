@@ -14,7 +14,7 @@ namespace ASPJ_Project.TofuUniverse
     {
         //public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
 
-        public Boolean SaveProgress(ProgressData save)
+        public Boolean SaveProgress(ProgressData progress)
         {
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
@@ -27,12 +27,17 @@ namespace ASPJ_Project.TofuUniverse
             string prevSaveText = System.IO.File.ReadAllText(
                     dataRoot + "\\Saves\\" + c + ".tusav");
             SaveFile prevSave = SaveFile.Parse(prevSaveText);
+
             //verify progress
-            //ProgressVerifier.VerifyProgress(prevSave, save, utcTime);
+            if (!ProgressVerifier.VerifyProgress(prevSave, progress, utcTime))
+            {
+                //if caught cheating
+                return false;
+            }
 
             //save + time on first line
             string s = "" + utcTime
-                + '\n' + save.ToString();
+                + '\n' + progress.ToString();
             Debug.WriteLine("SAVING FOR " + c +":\n" + s);
 
             //write to file

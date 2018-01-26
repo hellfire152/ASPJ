@@ -13,17 +13,123 @@ namespace ASPJ_Project.Models
             //calculate time passed in seconds
             long timePassed = (currentUtcTime - save.Time) / 1000;
 
+            //check tofu click numbers
+            double tofuClicksPerSecond = progress.tofuClicks / timePassed;
+            if (tofuClicksPerSecond > 20 || (tofuClicksPerSecond > 10 && timePassed > 60))
+                return false;
+
+            //getting base Item stats
+            ItemData itemData = new ItemData();
+
+            //get all upgrades
+            Upgrade[] upgradeArr = new Upgrade[progress.Upgrades.Length];
+            for(int i = 0; i < progress.Upgrades.Length; i++)
+            {
+                upgradeArr[i] = Upgrade.upgradeData[progress.Upgrades[i]];
+            }
+
             //apply upgrades
+            List<Effect> allEffects = GetAllEffects(upgradeArr);
+            SortEffects(allEffects);
+            ApplyEffects(allEffects, itemData);
 
-            //
+            //calculate cost
+            double totalCost = 0;
+            //of all upgrades
+            foreach (Upgrade u in upgradeArr) totalCost += u.cost;
+            //of all items
+            totalCost += itemData.PurchaseAll(save, progress.Items);
 
+            //calculate tps
+            double totalTps = 0;
+            foreach(Item i in itemData.Data.Values)
+            {
+                totalTps += i.Tps * progress.Items[i.Id];
+            }
+
+            //calculate tofu earned
+            double tofuEarned = 0;
+            //via auto-generation
+            tofuEarned += totalTps * timePassed;
+            //via tofu clicks
+            tofuEarned += progress.tofuClicks * itemData.tofuClickEarnings;
+
+            //see if final tofu amount checks out
+            if (save.TCount + tofuEarned - totalCost < progress.TCount)
+                return false;
             return true;
         }
+
+        private static List<Effect> GetAllEffects(Upgrade[] upgrades)
+        {
+            List<Effect> allEffects = new List<Effect>();
+            foreach(Upgrade u in upgrades)
+            {
+                foreach(Effect e in u.Effects)
+                {
+                    allEffects.Add(e);
+                }
+            }
+            return allEffects;
+        }
+
+        private static void SortEffects(List<Effect> allEffects)
+        {
+            allEffects.Sort(delegate (Effect x, Effect y)
+            {
+                return OperatorRank[x.Operator[0]] - OperatorRank[y.Operator[0]];
+            });
+        }
+
+        private static void ApplyEffects(List<Effect> allEffects,
+           ItemData itemData)
+        {
+            foreach(Effect e in allEffects)
+            {
+                Item i = itemData.Data[int.Parse(e.Benefactor)];
+                if (e.BenefactorProperty != "tps") continue; //we only care about tps effects
+                bool click = e.Benefactor == "0";
+                switch(e.Operator)
+                {
+                    case "*":
+                        if (click) itemData.tofuClickEarnings *= e.Operand;
+                        else i.Tps *= e.Operand;
+                        break;
+                    case "+":
+                        if (click) itemData.tofuClickEarnings += e.Operand;
+                        else i.Tps += e.Operand;
+                        break;
+                    case "-":
+                        if (click) itemData.tofuClickEarnings -= e.Operand;
+                        else i.Tps -= e.Operand;
+                        break;
+                    case "/":
+                        if (click) itemData.tofuClickEarnings /= e.Operand;
+                        else i.Tps /= e.Operand;
+                        break;
+                    case "=":
+                        if (click) itemData.tofuClickEarnings = e.Operand;
+                        else i.Tps = e.Operand;
+                        break;
+                    default:
+                        throw new Exception("Operator not recognized!");
+                }
+            }
+        }
+
+        private static Dictionary<char, int> OperatorRank = new Dictionary<char, int>{
+            { '+', 0 },
+            { '-', 1 },
+            { '*', 2 },
+            { '/', 3 },
+            { '=', 4 }
+        };
     }
 
     public class ItemData
     {
         public Dictionary<int, Item> Data;
+        public double tofuClickEarnings;
         public ItemData()
         {
             //initialize and clone static Items store
@@ -34,6 +140,7 @@ namespace ASPJ_Project.Models
                 this.Data.Add(item.Id,
                     new Item(item.Id, item.Tps, item.Cost));
             };
+            this.tofuClickEarnings = 1;
         }
 
         //calculates tCount needed to make all item purchases

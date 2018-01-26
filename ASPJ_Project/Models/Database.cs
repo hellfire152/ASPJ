@@ -9,12 +9,41 @@ namespace ASPJ_Project.Models
 {
     public class Database
     {
-        private MySqlConnection conn;
-
-        public void Initialize()
+        public static Database CurrentInstance;
+        
+        public MySqlConnection conn;
+        public static void Initialize(string connString)
         {
-            string connectionString = "SERVER=localhost;DATABASE=dububase;UID=root;PASSWORD='';";
-            conn = new MySqlConnection(connectionString);
+            CurrentInstance = new Database(connString);
+        }
+
+        public Database(string connString)
+        {
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+        }
+
+        public bool Insert(string query)
+        {
+            if(this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return true;
+            }
+            return false;
+        }
+
+        public bool Delete(string query)
+        {
+            if(this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return true;
+            }
+            return false;
         }
 
         public bool OpenConnection()
@@ -43,30 +72,6 @@ namespace ASPJ_Project.Models
                 Debug.WriteLine(e.StackTrace);
                 return false;
             }
-        }
-
-        public bool Insert(string query)
-        {
-            if(this.OpenConnection())
-            {
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.ExecuteNonQuery();
-                this.CloseConnection();
-                return true;
-            }
-            return false;
-        }
-
-        public bool Delete(string query)
-        {
-            if(this.OpenConnection())
-            {
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.ExecuteNonQuery();
-                this.CloseConnection();
-                return true;
-            }
-            return false;
         }
     }
 }

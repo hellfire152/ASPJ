@@ -339,10 +339,8 @@
     <Compile Include="Context\ForumContext.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
-    <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PremiumShopsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\MvcdbController.cs" />
     <Compile Include="Global.asax.cs">
@@ -359,7 +357,6 @@
       <DependentUpon>201801011059304_AddForumContextcomments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ASPJ_ProjectContext.cs" />
     <Compile Include="Models\KeyGenerator.cs" />
     <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Database.cs" />
@@ -372,14 +369,10 @@
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
     <Compile Include="Models\SaveFile.cs" />
-    <Compile Include="Models\TofuAuthorizeAttribute.cs" />
     <Compile Include="Models\Upgrade.cs" />
     <Compile Include="Models\UserConnectionMap.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ChatModel.cs" />
-    <Compile Include="Models\SaveFileParser.cs" />
-    <Compile Include="Models\Shop.cs" />
-    <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
@@ -597,17 +590,6 @@
     <Content Include="Content\ShopStyle\images\pic05.jpg" />
     <Content Include="Content\ShopStyle\images\pic06.jpg" />
     <None Include="Content\ShopStyle\_Layout.cshtml" />
-    <Content Include="docs\MySqlCommand.xml" />
-    <Content Include="docs\MySqlCommandBuilder.xml" />
-    <Content Include="docs\MySqlConnection.xml" />
-    <Content Include="docs\MySqlConnectionStringBuilder.xml" />
-    <Content Include="docs\MySqlDataAdapter.xml" />
-    <Content Include="docs\MySqlDataReader.xml" />
-    <Content Include="docs\MySqlException.xml" />
-    <Content Include="docs\MySqlHelper.xml" />
-    <Content Include="docs\MySqlParameter.xml" />
-    <Content Include="docs\MySqlParameterCollection.xml" />
-    <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="CSS\Chat.css" />
     <Content Include="CSS\ChatMvcDb.css" />
     <Content Include="CSS\Friends.css" />
@@ -775,11 +757,6 @@
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
-    <Content Include="Views\PremiumShops\Create.cshtml" />
-    <Content Include="Views\PremiumShops\Delete.cshtml" />
-    <Content Include="Views\PremiumShops\Details.cshtml" />
-    <Content Include="Views\PremiumShops\Edit.cshtml" />
-    <Content Include="Views\PremiumShops\Index.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
     <Content Include="Views\Friends\Friends.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
@@ -788,11 +765,8 @@
     <Content Include="Views\Shared\_Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Configuration\" />
     <Folder Include="Content\UploadedImages\" />
-    <Folder Include="Database\Models\" />
     <Folder Include="Views\User\" />
-    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

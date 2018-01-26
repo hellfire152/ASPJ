@@ -31,6 +31,8 @@ namespace ASPJ_Project
             string rawUpgrades = System.IO.File.ReadAllText(dataRoot + @"\tofu-universe-upgrades.js");
             string rawItems = System.IO.File.ReadAllText(dataRoot + @"\tofu-universe-items.js");
 
+            //initialize all of our custom classes
+            Database.Initialize(System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString());
             Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawUpgrades));
             Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawItems));
             
@@ -43,33 +45,6 @@ namespace ASPJ_Project
             Models.Crypto.CurrentInstance = new Models.Crypto("cookiekey");
         }
 
-    }
-
-
-    public class DubuBaseConnect 
-    {
-        MySql.Data.MySqlClient.MySqlConnection conn;
-        MySql.Data.MySqlClient.MySqlCommand cmd;
-        String queryStr;
-
-        private void DubuInit()
-        {
-            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
-
-            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-            conn.Open();
-            Console.Write("Connection Success");
-            queryStr = " ";
-
-            /*queryStr = "INSERT INTO dububase.accounts (userName, password, email, phoneNumber)" + 
-                "VALUES"(firstname.Text + lastname.Text + "," + phoneNumber.Text)";*/
-
-            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
-
-            cmd.ExecuteReader();
-
-            conn.Close();
-        }
     }
 }
 

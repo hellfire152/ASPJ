@@ -1,2 +1,14 @@
 
 ASPJ_Project/Content/UploadedImages/flash.png
+
+\.vs/ASPJ_Project/v15/\.suo
+
+\.vs/ASPJ_Project/v15/Server/sqlite3/storage\.ide
+
+ASPJ_Project/bin/ASPJ_Project\.dll
+
+ASPJ_Project/bin/ASPJ_Project\.pdb
+
+ASPJ_Project/obj/Debug/ASPJ_Project\.dll
+
+*.pdb

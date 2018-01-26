@@ -729,11 +729,7 @@
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
-    <Content Include="Views\PremiumShops\Create.cshtml" />
-    <Content Include="Views\PremiumShops\Delete.cshtml" />
-    <Content Include="Views\PremiumShops\Details.cshtml" />
-    <Content Include="Views\PremiumShops\Edit.cshtml" />
-    <Content Include="Views\PremiumShops\Index.cshtml" />
+    <Content Include="Views\Forum\GetThread2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />

@@ -65,3 +65,6 @@ C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\PayPal.dll
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\nClam.dll
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Censored.dll
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Censored.xml
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\nClam.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Censored.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Censored.xml

@@ -6,6 +6,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using ASPJ_Project.Models;
 using System.Diagnostics;
+using System.IO;
 
 namespace ASPJ_Project.TofuUniverse
 {   
@@ -24,9 +25,18 @@ namespace ASPJ_Project.TofuUniverse
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
             //get previous save data
-            string prevSaveText = System.IO.File.ReadAllText(
-                    dataRoot + "\\Saves\\" + c + ".tusav");
-            SaveFile prevSave = SaveFile.Parse(prevSaveText);
+            SaveFile prevSave;
+            try
+            {
+                string prevSaveText = System.IO.File.ReadAllText(
+                        dataRoot + "\\Saves\\" + c + ".tusav");
+                prevSave = SaveFile.Parse(prevSaveText);
+            } catch (FileNotFoundException e) //no existing save 
+            {
+                long defaultTime = utcTime - 100000; //100 seconds leeway
+                prevSave = new SaveFile(defaultTime, 0,
+                    new Dictionary<string, int>(), new int[] { });
+            }
 
             //verify progress
             if (!ProgressVerifier.VerifyProgress(prevSave, progress, utcTime))

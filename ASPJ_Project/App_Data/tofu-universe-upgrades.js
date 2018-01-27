@@ -11,7 +11,7 @@
         "name": "Test",
         "description": "TESTING",
         "effectDescription": "+1000 tofu per click",
-        "effect": "0+1000",
+        "effect": "1.tps*1.2",
         "cost": 1,
         "icon": "test2.jpg"
     },

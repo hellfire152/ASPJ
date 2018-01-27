@@ -60,7 +60,7 @@ namespace ASPJ_Project.Models
             return true;
         }
 
-        private static List<Effect> GetAllEffects(Upgrade[] upgrades)
+        public static List<Effect> GetAllEffects(Upgrade[] upgrades)
         {
             List<Effect> allEffects = new List<Effect>();
             foreach(Upgrade u in upgrades)
@@ -73,7 +73,7 @@ namespace ASPJ_Project.Models
             return allEffects;
         }
 
-        private static void SortEffects(List<Effect> allEffects)
+        public static void SortEffects(List<Effect> allEffects)
         {
             allEffects.Sort(delegate (Effect x, Effect y)
             {
@@ -81,7 +81,7 @@ namespace ASPJ_Project.Models
             });
         }
 
-        private static void ApplyEffects(List<Effect> allEffects,
+        public static void ApplyEffects(List<Effect> allEffects,
            ItemData itemData)
         {
             foreach(Effect e in allEffects)
@@ -117,7 +117,7 @@ namespace ASPJ_Project.Models
             }
         }
 
-        private static Dictionary<char, int> OperatorRank = new Dictionary<char, int>{
+        public static Dictionary<char, int> OperatorRank = new Dictionary<char, int>{
             { '+', 0 },
             { '-', 1 },
             { '*', 2 },
@@ -149,7 +149,9 @@ namespace ASPJ_Project.Models
             double totalCost = 0;
             foreach(int itemId in Data.Keys)
             {
-                totalCost += Purchase(itemId, save.Items[""+itemId], nowOwned[itemId]);
+                nowOwned.TryGetValue(itemId, out int iOwned);
+                if(iOwned != 0)
+                    totalCost += Purchase(itemId, save.Items[""+itemId], nowOwned[itemId]);
             }
 
             return totalCost;

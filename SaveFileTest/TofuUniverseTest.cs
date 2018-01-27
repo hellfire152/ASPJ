@@ -75,16 +75,61 @@ namespace SaveFileTest
             Assert.AreEqual((double)374, costCalculated);
         }
 
-        /*  [TestMethod] 
-        public void DatabaseInsert()
+        [TestMethod]
+        public void GetAllEffectsOfUpgradeArrayWorks()
         {
-            Database d = new Database();
-            d.Initialize();
+            Dictionary<int, Upgrade> u = Upgrade.upgradeData;
+            Upgrade[] uArr = {u[100], u[1000], u[1001] };
+            List<Effect> effList = ProgressVerifier.GetAllEffects(uArr);
 
-            bool t = d.Insert("INSERT INTO accounts (name) VALUES('hellfire153');");
-            Assert.AreEqual(true, t);
-        }*/
+            Assert.AreEqual("0", effList[0].Benefactor);
+            Assert.AreEqual("tps", effList[0].BenefactorProperty);
+            Assert.AreEqual("1", effList[1].Benefactor);
+            Assert.AreEqual(0.1, effList[1].Operand);
+            Assert.AreEqual("1", effList[2].Benefactor);
+            Assert.AreEqual("tps", effList[2].BenefactorProperty);
+            Assert.AreEqual("*", effList[2].Operator);
+            Assert.AreEqual(1.2, effList[2].Operand);
+        }
 
+        public static List<Effect> effList;
+
+        [TestMethod]
+        public void SortEffectsWorks()
+        {
+            effList = new List<Effect>();
+            Effect e0 = Effect.Parse(@"1.tps*1.2");
+            Effect e1 = Effect.Parse(@"1.tps+0.1");
+            Effect e2 = Effect.Parse(@"0.tps+1");
+            effList.Add(e0);
+            effList.Add(e1);
+            effList.Add(e2);
+
+            ProgressVerifier.SortEffects(effList);
+            Assert.AreEqual(e0, effList[2]);
+            Assert.AreEqual(e1, effList[0]);
+            Assert.AreEqual(e2, effList[1]);
+        }
+
+        [TestMethod]
+        public void ApplyEffectsWorks()
+        {
+            ItemData i = new ItemData();
+            ProgressVerifier.ApplyEffects(effList, i);
+
+            Assert.AreEqual(0.24, i.Data[1].Tps);
+            Assert.AreEqual(2, i.tofuClickEarnings);
+        }
+
+        public void ProgressVerifierWorks()
+        {
+            //initlize the various parts
+            Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-items.js")));
+            Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-upgrades.js")));
+            
+        }
+
+        /*
         [TestMethod]
         public void DatabaseRetrieve()
         {
@@ -133,5 +178,6 @@ namespace SaveFileTest
             Assert.AreEqual("hellfire154", allAccounts[1]);
             Assert.AreEqual("hellfire155", allAccounts[2]);
         }
+        */
     }
 }

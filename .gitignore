@@ -4,3 +4,5 @@ ASPJ_Project/Content/UploadedImages/flash.png
 *.pdb
 
 *.cache
+
+ASPJ_Project/obj/

@@ -40,6 +40,7 @@
                                                         @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
                                                     </small>
                                                     <div class="message-content">
+                                                        <ul id="chatHistory"></ul>
                                                         <ul id="discussion"></ul>
                                                     </div>
                                                 </div>
@@ -50,12 +51,7 @@
                                 <div id="menu1" class="tab-pane fade">
                                     <h3>Menu 1</h3>
                                     <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                    @*@foreach (var item in Model)
-                                     {
-                                        <p>
-                                        @Html.DisplayFor(modelItem => item.ChatMessage)
-                                        </p>
-                                        }*@
+                                        @ViewBag.chatList
                                 </div>
                             </div>
                             @*<div class="panel-footer">*@

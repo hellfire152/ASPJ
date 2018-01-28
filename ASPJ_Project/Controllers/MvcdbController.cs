@@ -13,6 +13,8 @@ using System.Text;
 using System.IO;
 using Censored;
 using MySql.Data.MySqlClient;
+using static ASPJ_Project.Models.ChatModel;
+using System.Collections;
 
 namespace ASPJ_Project.Controllers
 {
@@ -176,11 +178,10 @@ namespace ASPJ_Project.Controllers
 
         //    return View(searchList);
         //}
-
         public ActionResult Chat()
         {
-            //DatabaseStuff db = new DatabaseStuff();
-            //db.ChatGetMessage();
+            DatabaseStuff db = new DatabaseStuff();
+            ViewBag.chatList = db.ChatGetMessage();
             return View();
         }
 
@@ -370,27 +371,53 @@ namespace ASPJ_Project.Controllers
             }
         }
 
-        public void ChatGetMessage()
+        public string ChatGetMessage()
         {
-            string chatInfo;
+            //string chatInfo;
             String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(queryString, conn);
-            //AESCryptoStuff aes_obj = new AESCryptoStuff();
-            //aes_obj.AesInitialize();
-            //queryString = "";
-            queryString = "SELECT * FROM dububase.chat";
-            cmd.CommandText = queryString;
-            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
-            //cmd.Parameters.AddWithValue("@chatid", chatid);
-            reader = cmd.ExecuteReader();
-            while (reader.HasRows && reader.Read())
+            try
             {
-                chatInfo = reader.GetString(reader.GetOrdinal("chatMessage"));
+                string store="";
+                ArrayList storeArray = new ArrayList();
+                List<string> chatList = new List<string>();
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                //AESCryptoStuff aes_obj = new AESCryptoStuff();
+                //aes_obj.AesInitialize();
+                //queryString = "";
+                queryString = "SELECT * FROM dububase.chat";
+                cmd.CommandText = queryString;
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+                //cmd.Parameters.AddWithValue("@chatid", chatid);
+                reader = cmd.ExecuteReader();
+                while (reader.HasRows && reader.Read())
+                {
+                    //ChatMsg allChat = new ChatMsg
+                    //{
+                    //    ChatMessage = (reader["chatMessage"].ToString())
+                    //};
+                    
+                        chatList.Add(reader["chatMessage"].ToString());
+                }
+                foreach(var i in chatList)
+                {
+                    store += i + Environment.NewLine;
+                    Console.WriteLine(store);
+                }
+                return store;
             }
-            reader.Close();
-            conn.Close();
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                string errorMsg = "Error";
+                errorMsg += ex.Message;
+                throw new Exception(errorMsg);
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }           
         }
     }
 

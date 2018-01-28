@@ -1502,3 +1502,59 @@ PayPal.ConnectionException: The operation has timed out (HTTP request timeout wa
       [28] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
 2018-01-26 14:50:16,077
       [28] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-3RY30947BA8488031LJVM7KI","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"23.99","currency":"SGD","details":{"subtotal":"23.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 1100 beans. Beans will be added after successful purchase.","invoice_number":"3E6FjZEoypDMAUqnQDjx","item_list":{"items":[{"name":"Box Of Beans (1100 Beans)","sku":"PKItfv3RXqIDXoEbtcL5","price":"23.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-26T06:50:17Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-3RY30947BA8488031LJVM7KI","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-1X9448688K3401129","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-3RY30947BA8488031LJVM7KI/execute","rel":"execute","method":"POST"}]}
+2018-01-28 16:58:52,808
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-28 16:58:52,833
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 6.2.9200.0)
+2018-01-28 16:58:52,833
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-28 16:58:52,833
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:e6fc6bb7-ba2d-45b5-925b-19c0267d461e
+2018-01-28 16:58:53,274
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-28 16:58:54,591
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-28 16:58:54,591
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-28T08:58:54ZZlz8IxaAG7ZZqWixPvdRRNIrbVs5SzFqARwrpSl3gjE","access_token":"A21AAFp5fHOqknnzOLc5U5JmkOWOQkBcBTozyKQh_kBtvj13qcKELpxSmOVqbi0C8UXvc7AXLavU8NgKNKjDfKng0Gqiai2fg","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32400}
+2018-01-28 16:58:54,665
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-28 16:58:54,665
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 6.2.9200.0)
+2018-01-28 16:58:54,666
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAFp5fHOqknnzOLc5U5JmkOWOQkBcBTozyKQh_kBtvj13qcKELpxSmOVqbi0C8UXvc7AXLavU8NgKNKjDfKng0Gqiai2fg
+2018-01-28 16:58:54,666
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:58e6f864-ec60-497f-af7a-32f45b6f48ae
+2018-01-28 16:58:54,873
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] {"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"SGD","total":"75.99","details":{"subtotal":"75.99","shipping":"0","tax":"0"}},"description":"Purchase of 7000 beans. Beans will be added after successful purchase.","invoice_number":"4HEe6ck6UMn7RqVVDqoq","item_list":{"items":[{"sku":"ywI3oZ6Sz4qslSOf5V0d","name":"Ship Of Beans (7000 Beans)","quantity":"1","price":"75.99","currency":"SGD"}]}}],"redirect_urls":{"return_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=90176","cancel_url":"http://localhost:55183/Shop/PaymentWithPayPal?guid=90176"}}
+2018-01-28 16:58:55,865
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-28 16:58:55,865
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-6GR74476SE5147538LJWZBTY","intent":"sale","state":"created","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"description":"Purchase of 7000 beans. Beans will be added after successful purchase.","invoice_number":"4HEe6ck6UMn7RqVVDqoq","item_list":{"items":[{"name":"Ship Of Beans (7000 Beans)","sku":"ywI3oZ6Sz4qslSOf5V0d","price":"75.99","currency":"SGD","quantity":1}]},"related_resources":[]}],"create_time":"2018-01-28T08:58:55Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-6GR74476SE5147538LJWZBTY","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0MG708844N6962522","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-6GR74476SE5147538LJWZBTY/execute","rel":"execute","method":"POST"}]}
+2018-01-28 16:59:21,508
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/x-www-form-urlencoded
+2018-01-28 16:59:21,508
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 6.2.9200.0)
+2018-01-28 16:59:21,509
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Basic QVZNamlaNlMwZVFwSVl1eWRWY3ZZWERlbFRxbHAxbDhWUXI3WW9SVXZ4dkU4TTBWR3ZNTjdobFQ0TXRjdS1kdUNoLXZQYWcxWVE4UFJFYkg6RUZkTkM0dFhjblpvQWw1b1hNNFVyMG40MTkxeDJwcnVfT0o1Ql9menhadGhmRVRYWXhhYk5rR0cyeDJJWnVWT0hpblRGSV9qcGhuZ202Z04=
+2018-01-28 16:59:21,509
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:7462cd85-7649-43cf-a388-1078b55c8bb6
+2018-01-28 16:59:21,710
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] grant_type=client_credentials
+2018-01-28 16:59:22,359
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-28 16:59:22,359
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] {"scope":"https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/disputes/read-buyer https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/disputes/update-seller https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2018-01-28T08:58:54ZZlz8IxaAG7ZZqWixPvdRRNIrbVs5SzFqARwrpSl3gjE","access_token":"A21AAFp5fHOqknnzOLc5U5JmkOWOQkBcBTozyKQh_kBtvj13qcKELpxSmOVqbi0C8UXvc7AXLavU8NgKNKjDfKng0Gqiai2fg","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32372}
+2018-01-28 16:59:22,371
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Content-Type:application/json
+2018-01-28 16:59:22,371
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] User-Agent:PayPalSDK/PayPal-NET-SDK 1.9.1 (lang=DOTNET;v=4.5.1;clr=4.0.30319.42000;bit=64;os=Microsoft Windows NT 6.2.9200.0)
+2018-01-28 16:59:22,372
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] Authorization:Bearer A21AAFp5fHOqknnzOLc5U5JmkOWOQkBcBTozyKQh_kBtvj13qcKELpxSmOVqbi0C8UXvc7AXLavU8NgKNKjDfKng0Gqiai2fg
+2018-01-28 16:59:22,372
+      [5] DEBUG PayPal.Api.PayPalResource [(null)] PayPal-Request-Id:561e80c0-53c0-43d9-b69d-6c20398e3437
+2018-01-28 16:59:22,574
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] {"payer_id":"KF36S9SGUDG96"}
+2018-01-28 16:59:24,155
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] Service response: 
+2018-01-28 16:59:24,155
+      [5] DEBUG PayPal.Api.HttpConnection [(null)] {"id":"PAY-6GR74476SE5147538LJWZBTY","intent":"sale","state":"approved","cart":"0MG708844N6962522","payer":{"payment_method":"paypal","status":"VERIFIED","payer_info":{"email":"johnfoohw-buyer@gmail.com","first_name":"test","last_name":"buyer","payer_id":"KF36S9SGUDG96","shipping_address":{"recipient_name":"test buyer","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"},"country_code":"SG"}},"transactions":[{"amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99","tax":"0.00","shipping":"0.00"}},"payee":{"merchant_id":"NDN3K48E8X6W4","email":"johnfoohw-facilitator@gmail.com"},"description":"Purchase of 7000 beans. Beans will be added after successful purchase.","invoice_number":"4HEe6ck6UMn7RqVVDqoq","item_list":{"items":[{"name":"Ship Of Beans (7000 Beans)","sku":"ywI3oZ6Sz4qslSOf5V0d","price":"75.99","currency":"SGD","quantity":1}],"shipping_address":{"recipient_name":"buyer test","line1":"123 Thomson Rd.","city":"Singapore","state":"","postal_code":"308123","country_code":"SG"}},"related_resources":[{"sale":{"id":"59D98331CS6955538","state":"completed","amount":{"total":"75.99","currency":"SGD","details":{"subtotal":"75.99"}},"payment_mode":"INSTANT_TRANSFER","protection_eligibility":"ELIGIBLE","protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE","transaction_fee":{"value":"3.08","currency":"SGD"},"parent_payment":"PAY-6GR74476SE5147538LJWZBTY","create_time":"2018-01-28T08:59:23Z","update_time":"2018-01-28T08:59:23Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/59D98331CS6955538","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/59D98331CS6955538/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-6GR74476SE5147538LJWZBTY","rel":"parent_payment","method":"GET"}]}}]}],"create_time":"2018-01-28T08:59:24Z","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-6GR74476SE5147538LJWZBTY","rel":"self","method":"GET"}]}

@@ -365,6 +365,7 @@
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\Crypto.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\PremiumItem.cs" />
     <Compile Include="Models\PremiumShop.cs" />
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
@@ -783,6 +784,8 @@
     <Content Include="Views\Mvcdb\Chat.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Forum\GetThread2.cshtml" />
+    <Content Include="Views\Shop\FailureView.cshtml" />
+    <Content Include="Views\Shop\SuccessView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

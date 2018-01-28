@@ -4,201 +4,12 @@
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
 }
 
-<style>
-        @@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+@Styles.Render("~/css/thread.css")
 
-        body {
-            background-color: rgb(229, 229, 229);
-            padding-top: 60px;
-            padding-bottom: 30px;
-        }
-        
-        .panel-google-plus {
-            position: relative;
-            border-radius: 0px;
-            border: 1px solid rgb(216, 216, 216);
-            font-family: 'Roboto', sans-serif;
-        }
-
-            .panel-google-plus > .dropdown {
-                position: absolute;
-                top: 5px;
-                right: 15px;
-            }
-
-                .panel-google-plus > .dropdown > span > span {
-                    font-size: 10px;
-                }
-
-                .panel-google-plus > .dropdown > .dropdown-menu {
-                    left: initial;
-                    right: 0px;
-                    border-radius: 2px;
-                }
-
-            .panel-google-plus > .panel-google-plus-tags {
-                position: absolute;
-                top: 35px;
-                right: -3px;
-            }
-
-                .panel-google-plus > .panel-google-plus-tags > ul {
-                    list-style: none;
-                    padding: 0px;
-                    margin: 0px;
-                }
-
-                    .panel-google-plus > .panel-google-plus-tags > ul:hover {
-                        box-shadow: 0px 0px 3px rgb(0, 0, 0);
-                        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);
-                    }
-
-                    .panel-google-plus > .panel-google-plus-tags > ul > li {
-                        display: block;
-                        right: 0px;
-                        width: 0px;
-                        padding: 5px 0px 5px 0px;
-                        background-color: rgb(245, 245, 245);
-                        font-size: 12px;
-                        overflow: hidden;
-                    }
-
-                        .panel-google-plus > .panel-google-plus-tags > ul > li::after {
-                            content: "";
-                            position: absolute;
-                            top: 0px;
-                            right: 0px;
-                            height: 100%;
-                            border-right: 3px solid rgb(66, 127, 237);
-                        }
-
-                        .panel-google-plus > .panel-google-plus-tags > ul:hover > li,
-                        .panel-google-plus > .panel-google-plus-tags > ul > li:first-child {
-                            padding: 5px 15px 5px 10px;
-                            width: auto;
-                            cursor: pointer;
-                            margin-left: auto;
-                        }
-
-                    .panel-google-plus > .panel-google-plus-tags > ul:hover > li {
-                        background-color: rgb(255, 255, 255);
-                    }
-
-                    .panel-google-plus > .panel-google-plus-tags > ul > li:hover {
-                        background-color: rgb(66, 127, 237);
-                        color: rgb(255, 255, 255);
-                    }
-
-            .panel-google-plus > .panel-heading,
-            .panel-google-plus > .panel-footer {
-                background-color: rgb(255, 255, 255);
-                border-width: 0px;
-            }
-
-            .panel-google-plus > .panel-heading {
-                margin-top: 20px;
-                padding-bottom: 5px;
-            }
-
-                .panel-google-plus > .panel-heading > img {
-                    margin-right: 15px;
-                }
-
-                .panel-google-plus > .panel-heading > h3 {
-                    margin: 0px;
-                    font-size: 14px;
-                    font-weight: 700;
-                }
-
-                .panel-google-plus > .panel-heading > h5 {
-                    color: rgb(153, 153, 153);
-                    font-size: 12px;
-                    font-weight: 400;
-                }
-
-            .panel-google-plus > .panel-body {
-                padding-top: 5px;
-                font-size: 13px;
-            }
-
-                .panel-google-plus > .panel-body > .panel-google-plus-image {
-                    display: block;
-                    text-align: center;
-                    background-color: rgb(245, 245, 245);
-                    border: 1px solid rgb(217, 217, 217);
-                }
-
-               .panel-google-plus > .panel-body > .panel-google-plus-image > img {
-                        max-width: 100%;
-                    }
-
-            .panel-google-plus > .panel-footer {
-                font-size: 14px;
-                font-weight: 700;
-                min-height: 54px;
-            }
-
-                .panel-google-plus > .panel-footer > form > .btn {
-                    float: left;
-                    margin-right: 8px;
-                }
-
-
-            .panel-google-plus > .panel-google-plus-comment {
-                padding: 10px 20px 15px;
-                border-top: 1px solid rgb(229, 229, 229);
-                background-color: rgb(245, 245, 245);
-            }
-
-            .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea {
-                float: right;
-                width: calc(100% - 56px);
-            }
-
-                .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > form > textarea {
-                    width: calc(100% - 130px);
-                    max-width: none !important;
-                    background-color: rgb(255, 255, 255);
-                    border: 1px solid rgb(217, 217, 217);
-                    box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 0px 0px;
-                }
-
-                .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > form > .btn {
-                    float: right;
-                }
-
-        textarea {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        @@media (min-width: 992px) {
-            .panel-google-plus > .panel-google-plus-comment > form > .panel-google-plus-textarea > .btn {
-                width: auto;
-            }
-        }
-
-
-        .panel-google-plus .btn {
-            border-radius: 3px;
-        }
-
-        .panel-google-plus .btn-default {
-            border: 1px solid rgb(217, 217, 217);
-            box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 0px 0px;
-        }
-
-            .panel-google-plus .btn-default:hover,
-            .panel-google-plus .btn-default:focus,
-            .panel-google-plus .btn-default:active {
-                background-color: rgb(255, 255, 255);
-                border-color: rgb(0, 0, 0);
-            }
-</style>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="[ col-xs-12 col-sm-12 ]">
+        <div class="[ col-xs-12 col-sm-8 ]">
             <div class="[ panel panel-default ] panel-google-plus">
                 <div class="dropdown">
                     <span class="dropdown-toggle" type="button" data-toggle="dropdown">
@@ -225,13 +36,23 @@
                         @using (Html.BeginForm("Upvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken();
-                            <button type="submit" class="[ btn btn-default ]">+@Model.thread.votes</button>
+                            <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-up"></span></button>
                         }
                         @using (Html.BeginForm("Downvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken();
-                            <button type="submit" class="[ btn btn-default ]">-1</button>
+                            <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-down"></span></button>
                         }
+                </div>
+                <div class="panel-footer">
+                    @if (Model.thread.votes >= 0)
+                    {
+                        <p>@Model.thread.votes <span class="fa fa-thumbs-up"></span></p>
+                    }
+                    else
+                    {
+                        <p>@Model.thread.votes <span class="fa fa-thumbs-down"></span></p>
+                    }
                 </div>
                 <div class="panel-google-plus-comment">
                     <img class="img-circle" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="User Image" />
@@ -245,12 +66,19 @@
                         }
                     </div>
                 </div>
-                <div class="panel-google-plus-comment">
-                    <img class="img-circle" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="User Image" />
-                    <div>
-
+                @foreach (var comment in Model.comments)
+                {
+                 <div class="[ panel panel-default ] panel-google-plus">
+                    <div class="panel-heading">
+                        <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
+                        <h3>@comment.username</h3>
+                        <h5><span>Posted</span> on <span>@comment.date</span> </h5>
                     </div>
-                </div>
+                    <div class="panel-body">
+                        <p>@comment.content</p>
+                    </div>
+                   </div>
+                }
             </div>
         </div>
     </div>

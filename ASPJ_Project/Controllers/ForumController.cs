@@ -91,7 +91,7 @@ namespace ASPJ_Project.Controllers
             viewModel.comments = comments.ToList();
             return View(viewModel);
         }
-        public async Task<FileScan> ScanImage(String FileLocation)
+        public async Task<FileScan> ScanImage(Stream File)
         {
             bool secure = false;
             string message = "empty";
@@ -101,7 +101,7 @@ namespace ASPJ_Project.Controllers
             try
             {
                 var clam = new ClamClient("localhost", 3310);
-                var scanResult = await clam.SendAndScanFileAsync(FileLocation).ConfigureAwait(false);
+                var scanResult = await clam.SendAndScanFileAsync(File).ConfigureAwait(false);
 
                 switch (scanResult.Result)
                 {
@@ -129,6 +129,7 @@ namespace ASPJ_Project.Controllers
 
         }
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreateThread(Thread thread)
         {
             try
@@ -143,26 +144,27 @@ namespace ASPJ_Project.Controllers
                         bool isValidFile = false;
                         if (UploadedImage.ContentLength > 0)
                         {
-                            System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
+                            //System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
                             string format = string.Empty;
-                            if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
-                                format = "TIFF";
-                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
-                                format = "GIF";
-                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                                format = "JPG";
-                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
-                                format = "BMP";
-                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
-                                format = "PNG";
-                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
-                                format = "ICO";
-                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                                format = "JPEG";
-                            else
-                                throw new ArgumentException();
-
-                            if (format.ToLower() == "gif" || format.ToLower() == "png" || format.ToLower() == "jpeg" || format.ToLower() == "jpg")
+                            //if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
+                            //    format = "TIFF";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                            //    format = "GIF";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                            //    format = "JPG";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                            //    format = "BMP";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
+                            //    format = "PNG";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
+                            //    format = "ICO";
+                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                            //    format = "JPEG";
+                            //elseS
+                            //    throw new ArgumentException();
+                            format = "JPEG";
+                            String[] formatTypes = { "tiff", "gif", "jpg", "bmp", "png", "ico", "jpeg" };
+                            if (formatTypes.Contains(format.ToLower()))
                             {
                                 isValidFile = true;
                             }
@@ -183,15 +185,16 @@ namespace ASPJ_Project.Controllers
                                 {
                                     string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
                                     string FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
-                                
-                                    UploadedImage.SaveAs(FolderPath);
+                                    var fileScan = await ScanImage(thread.image.InputStream);
+                                    //UploadedImage.SaveAs(FolderPath);
 
-                                    var fileScan = await ScanImage(FolderPath);
+                                    //var fileScan = await ScanImage(FolderPath);
                                     if(fileScan.secure == false)
                                     {
                                         ViewBag.Message = fileScan.message;
                                         return View(thread);
                                     }
+                                    UploadedImage.SaveAs(FolderPath);
                                     ViewBag.Message = "File uploaded successfully.";
                                     thread.imageName = ImageFileName;
 
@@ -279,7 +282,7 @@ namespace ASPJ_Project.Controllers
         {
             return View(db.comments.ToList());
         }
-        [ValidateInput(false)]
+  
         [HttpPost, ActionName("GetThread")]
         [ValidateAntiForgeryToken]
         public ActionResult Comment(int? id, Comment comment)
@@ -383,7 +386,7 @@ namespace ASPJ_Project.Controllers
                     return HttpNotFound();
                 thread.votes = thread.votes - 1;
                 db.SaveChanges();
-                return GetThread(id);
+                return RedirectToAction("GetThread", new { id = id });
             }
             catch
             {

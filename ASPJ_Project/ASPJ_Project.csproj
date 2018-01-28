@@ -515,6 +515,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\Items\farm.png" />
     <Content Include="Content\Images\Items\cursor.png" />
     <Content Include="Content\Images\Items\test1.jpg" />
@@ -559,6 +561,7 @@
     <Content Include="Content\ShopStyle\images\pic05.jpg" />
     <Content Include="Content\ShopStyle\images\pic06.jpg" />
     <None Include="Content\ShopStyle\_Layout.cshtml" />
+    <Content Include="css\Thread.css" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -571,6 +574,7 @@
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -618,6 +622,11 @@
     <Content Include="Content\ShopStyle\assets\sass\main.scss" />
     <Content Include="Content\ShopStyle\images\Thumbs.db" />
     <Content Include="my_app.log" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.eot" />

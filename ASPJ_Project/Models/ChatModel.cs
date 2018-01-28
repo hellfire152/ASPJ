@@ -9,8 +9,14 @@ namespace ASPJ_Project.Models
 {
     public class ChatModel
     {
-        public int ChatId { get; set; }
-        public string ChatMessage { get; set; }
+
+        public struct ChatMsg
+        {
+            public int ChatId;
+            public string ChatMessage;
+            public object ViewBag { get; }
+        }
+        
 
         //public ChatModel(string chatMessage)
         //{

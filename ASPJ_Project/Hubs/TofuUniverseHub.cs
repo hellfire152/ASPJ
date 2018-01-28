@@ -6,6 +6,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using ASPJ_Project.Models;
 using System.Diagnostics;
+using System.IO;
 
 namespace ASPJ_Project.TofuUniverse
 {   
@@ -14,7 +15,7 @@ namespace ASPJ_Project.TofuUniverse
     {
         //public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
 
-        public Boolean SaveProgress(ProgressData save)
+        public Boolean SaveProgress(ProgressData progress)
         {
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
@@ -24,15 +25,31 @@ namespace ASPJ_Project.TofuUniverse
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
             //get previous save data
-            string prevSaveText = System.IO.File.ReadAllText(
-                    dataRoot + "\\Saves\\" + c + ".tusav");
-            SaveFile prevSave = SaveFile.Parse(prevSaveText);
+            SaveFile prevSave;
+            try
+            {
+                string prevSaveText = System.IO.File.ReadAllText(
+                        dataRoot + "\\Saves\\" + c + ".tusav");
+                prevSave = SaveFile.Parse(prevSaveText);
+            } catch (FileNotFoundException e) //no existing save 
+            {
+                long defaultTime = utcTime - 100000; //100 seconds leeway
+                prevSave = new SaveFile(defaultTime, 0,
+                    new Dictionary<int, int>(), new int[] { });
+            }
+
+            bool noCheats = ProgressVerifier.VerifyProgress(prevSave, progress, utcTime);
+            Debug.WriteLine("IS CHEATING: " + !noCheats);
             //verify progress
-            //ProgressVerifier.VerifyProgress(prevSave, save, utcTime);
+            if (!noCheats)
+            {
+                //if caught cheating
+                return false;
+            }
 
             //save + time on first line
             string s = "" + utcTime
-                + '\n' + save.ToString();
+                + '\n' + progress.ToString();
             Debug.WriteLine("SAVING FOR " + c +":\n" + s);
 
             //write to file
@@ -57,9 +74,26 @@ namespace ASPJ_Project.TofuUniverse
                 //get savefile
                 string s = System.IO.File.ReadAllText(
                     dataRoot + "\\Saves\\" + c + ".tusav");
-                //remove the time from save
-                if (s[0] == '{') return s;
-                else return s.Split('\n')[1];
+
+                //remove time from save
+                string[] saveParts = s.Split('\n');
+
+                //get current time
+                long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+                //send save to player
+                if (s[0] == '{') //convert old format to new format
+                {
+                    System.IO.File.WriteAllText(
+                dataRoot + "\\Saves\\" + c + ".tusav", "" + utcTime + "\n" + s.Replace("\n", ""));
+                    return s;
+                }
+                else
+                {
+                    System.IO.File.WriteAllText(
+                dataRoot + "\\Saves\\" + c + ".tusav", ""+utcTime+"\n"+saveParts[1]);
+                    return saveParts[1];
+                }
             }
         }
 

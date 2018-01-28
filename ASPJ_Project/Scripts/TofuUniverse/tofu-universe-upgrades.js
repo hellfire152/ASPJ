@@ -1,11 +1,9 @@
-﻿//upgrade data
-_tofuUniverse.UPGRADES =
-{
+_tofuUniverse.UPGRADES = {
     100: {
         "name": "Quality clicks",
         "description": "Quality > Quantity",
         "effectDescription": "+1 tofu per click",
-        "effect": "0+1,1.tps+0.1",
+        "effect": "0.tps+1,1.tps+0.1",
         "cost": 100,
         "icon": "bettercursor.jpg"
     },
@@ -13,7 +11,7 @@ _tofuUniverse.UPGRADES =
         "name": "Test",
         "description": "TESTING",
         "effectDescription": "+1000 tofu per click",
-        "effect": "0+1000",
+        "effect": "1.tps*1.2",
         "cost": 1,
         "icon": "test2.jpg"
     },
@@ -25,4 +23,4 @@ _tofuUniverse.UPGRADES =
         "cost": 100,
         "icon": "test2.jpg"
     }
-};
+}

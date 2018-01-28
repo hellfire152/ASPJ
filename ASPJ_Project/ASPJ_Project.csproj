@@ -365,6 +365,7 @@
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\Crypto.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\PremiumItem.cs" />
     <Compile Include="Models\PremiumShop.cs" />
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
@@ -546,6 +547,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\Items\farm.png" />
     <Content Include="Content\Images\Items\cursor.png" />
     <Content Include="Content\Images\Items\test1.jpg" />
@@ -590,12 +593,25 @@
     <Content Include="Content\ShopStyle\images\pic05.jpg" />
     <Content Include="Content\ShopStyle\images\pic06.jpg" />
     <None Include="Content\ShopStyle\_Layout.cshtml" />
+    <Content Include="css\Thread.css" />
+    <Content Include="docs\MySqlCommand.xml" />
+    <Content Include="docs\MySqlCommandBuilder.xml" />
+    <Content Include="docs\MySqlConnection.xml" />
+    <Content Include="docs\MySqlConnectionStringBuilder.xml" />
+    <Content Include="docs\MySqlDataAdapter.xml" />
+    <Content Include="docs\MySqlDataReader.xml" />
+    <Content Include="docs\MySqlException.xml" />
+    <Content Include="docs\MySqlHelper.xml" />
+    <Content Include="docs\MySqlParameter.xml" />
+    <Content Include="docs\MySqlParameterCollection.xml" />
+    <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="CSS\Chat.css" />
     <Content Include="CSS\ChatMvcDb.css" />
     <Content Include="CSS\Friends.css" />
     <Content Include="CSS\StyleSheet1.css" />
     <Content Include="CSS\TestPage.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -646,6 +662,11 @@
     <Content Include="Content\ShopStyle\assets\sass\main.scss" />
     <Content Include="Content\ShopStyle\images\Thumbs.db" />
     <Content Include="my_app.log" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
     <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.eot" />
@@ -763,6 +784,8 @@
     <Content Include="Views\Mvcdb\Chat.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Forum\GetThread2.cshtml" />
+    <Content Include="Views\Shop\FailureView.cshtml" />
+    <Content Include="Views\Shop\SuccessView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

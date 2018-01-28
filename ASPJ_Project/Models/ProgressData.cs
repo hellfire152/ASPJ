@@ -10,8 +10,10 @@ namespace ASPJ_Project.Models
         public double TCount;
         public Dictionary<int, int> Items;
         public int[] Upgrades;
+        public int tofuClicks;
+        public List<Tuple<long, string, int>> purchases;
 
-
+        //returns a string suitable for writing to a save file
         public override string ToString()
         {
             string s = "{\"tCount\":" + TCount + ",\"items\":{";

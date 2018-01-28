@@ -1,12 +1,7 @@
-﻿//Object that contains ALL Tofu Universe variables and data
-let _tofuUniverse = {};
-
-//item data
-_tofuUniverse.ITEMS =
-{
-    0: {    //RESERVED ID: Click
+let _tofuUniverse = {}; _tofuUniverse.ITEMS = {
+    0: {
         "name": "click",
-        "tps": 1 //tofu per click
+        "tps": 1
     },
     1: {
         "name": "Cursor",
@@ -29,4 +24,4 @@ _tofuUniverse.ITEMS =
         "description": "TESTING",
         "icon": "test1.jpg"
     }
-};
+}

@@ -29,7 +29,10 @@ _tofuUniverse.player = {
     "click": 1, //tofu earned per click
     "items": {}, //initially a clone of the ITEMS object
     "upgrades": [], //upgrades owned
-    "upgradeEffects": {} //list of effects of said upgrades
+    "upgradeEffects": {}, //list of effects of said upgrades
+    //tracking information
+    "tofuClicks": 0,
+    "purchases" : []
 };
 
 //settings object
@@ -157,6 +160,11 @@ function regexMatch(regex, string) {
 function purchase(purchaseType, purchaseId, fromSave) {
     //update player data if successful
     let p = _tofuUniverse.player;
+    //log regular purchases
+    if (!fromSave) {
+        let p = _tofuUniverse.player;
+        p["purchases"].push([Date.now(), purchaseType, purchaseId]);
+    }
     switch (purchaseType) {
         case "item":
             //check cost
@@ -245,7 +253,7 @@ function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
-//AUTO SAVE FUNCTION
+//sends progress data to the server
 function saveProgress() {
     //get item data
     let owned = {};
@@ -257,8 +265,21 @@ function saveProgress() {
     _tofuUniverse.conn.server.saveProgress({
         "tCount": _tofuUniverse.player.tCount,
         "items": owned,
-        "upgrades": _tofuUniverse.player.upgrades
+        "upgrades": _tofuUniverse.player.upgrades,
+        "tofuClicks": _tofuUniverse.player.tofuClicks,
+        "purchases": _tofuUniverse.player.purchases
+    }).done((success) => {
+        console.log(success);
+        if (success) {
+            console.log("File saved!");
+        } else {
+            console.log("Have you been cheating?");
+        }
     });
+
+    //reset tracking variables
+    _tofuUniverse.player.tofuClicks = 0;
+    _tofuUniverse.player.purchases = [];
 };
 
 //tracking variables for mouse cursor
@@ -383,6 +404,7 @@ window.onload = () => {
 
     //set tofu onclick
     $("#tofu").click(() => {
+        _tofuUniverse.player.tofuClicks++;
         _tofuUniverse.player.tCount += _tofuUniverse.player.items[0].tps;
 
         if (_tofuUniverse.settings.showEarnings) {

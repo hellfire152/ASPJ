@@ -20,12 +20,12 @@ namespace ASPJ_Project.Models
     
     public class SaveFile
     {
-        public double TCount { get; }
+        public decimal TCount { get; }
         public Dictionary<int, int> Items { get; }
         public int[] Upgrades { get; }
         public long Time { get; set; }
 
-        public SaveFile(long time, double tCount, 
+        public SaveFile(long time, decimal tCount, 
             Dictionary<int, int> items, int[] upgrades)
         {
             this.Time = time;

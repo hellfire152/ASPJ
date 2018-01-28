@@ -34,9 +34,9 @@ namespace ASPJ_Project.Models
             ApplyEffects(allEffects, itemData);
 
             //tps before any purchases
-            double currentTps = RecalculateTps(itemData, save.Items);
+            decimal currentTps = RecalculateTps(itemData, save.Items);
             long lowerTimeBound = save.Time;
-            double tofuCount = save.TCount;
+            decimal tofuCount = save.TCount;
             //calculates actual tofuCount + click leeway
             //also does cost checking, and adjusts tps for every purchase
             foreach(Tuple<long, string, int> purchase in progress.purchases)
@@ -84,9 +84,9 @@ namespace ASPJ_Project.Models
             return true;
         }
 
-        public static double CalculateTofuGenerated(long timeDiff, double currentTps, ItemData i)
+        public static decimal CalculateTofuGenerated(long timeDiff, decimal currentTps, ItemData i)
         {
-            double tofuGenerated = 0;
+            decimal tofuGenerated = 0;
             Debug.WriteLine("SECONDS PASSED: " + timeDiff);
             //calculate tofu owned at moment of purchase
             //auto-generated tofu
@@ -98,9 +98,9 @@ namespace ASPJ_Project.Models
             return tofuGenerated;
         }
 
-        public static double RecalculateTps(ItemData items, Dictionary<int, int> nowOwned)
+        public static decimal RecalculateTps(ItemData items, Dictionary<int, int> nowOwned)
         {
-            double totalTps = 0;
+            decimal totalTps = 0;
             foreach (Item i in items.Data.Values)
             {
                 if (i.Id == 0) continue; //manually skip id 0 (reserved)
@@ -185,7 +185,7 @@ namespace ASPJ_Project.Models
     public class ItemData
     {
         public Dictionary<int, Item> Data;
-        public double tofuClickEarnings;
+        public decimal tofuClickEarnings;
         public ItemData()
         {
             //initialize and clone static Items store
@@ -200,9 +200,9 @@ namespace ASPJ_Project.Models
         }
 
         //calculates tCount needed to make all item purchases
-        public double PurchaseAll(SaveFile save, Dictionary<int, int> nowOwned)
+        public decimal PurchaseAll(SaveFile save, Dictionary<int, int> nowOwned)
         {
-            double totalCost = 0;
+            decimal totalCost = 0;
             foreach(int itemId in Data.Keys)
             {
                 nowOwned.TryGetValue(itemId, out int iOwned);
@@ -214,20 +214,20 @@ namespace ASPJ_Project.Models
         }
 
         //calculates the tCount needed to make the purchase
-        public double Purchase(int itemId, int alreadyPurchased, int currentlyOwned)
+        public decimal Purchase(int itemId, int alreadyPurchased, int currentlyOwned)
         {
             Item i = Data[itemId];
-            double baseCost = i.Cost;
+            decimal baseCost = i.Cost;
             
-            double cost = System.Math.Round(baseCost * Math.Pow(1.15, alreadyPurchased));
+            decimal cost = System.Math.Round(baseCost * Convert.ToDecimal(Math.Pow(1.15, alreadyPurchased)));
 
-            int bought = currentlyOwned - alreadyPurchased; double totalCost = 0;
+            int bought = currentlyOwned - alreadyPurchased; decimal totalCost = 0;
             if (bought <= 0) return 0;
             
             for(int j = 0; j < bought; j++)
             {
                 totalCost += cost;
-                cost = System.Math.Round(baseCost * Math.Pow(1.15, ++alreadyPurchased));
+                cost = System.Math.Round(baseCost * Convert.ToDecimal(Math.Pow(1.15, ++alreadyPurchased)));
             }
 
             return totalCost;

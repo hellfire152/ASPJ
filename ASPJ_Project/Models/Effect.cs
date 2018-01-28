@@ -10,10 +10,10 @@ namespace ASPJ_Project.Models
     {
         public string Benefactor { get; }
         public string Operator { get; }
-        public double Operand { get; }
+        public decimal Operand { get; }
         public string BenefactorProperty { get; } //currently don't see a use for this
 
-        Effect(string benefactor, string benefactorProperty, string op, double operand)
+        Effect(string benefactor, string benefactorProperty, string op, decimal operand)
         {
             this.BenefactorProperty = benefactorProperty;
             this.Benefactor = benefactor;
@@ -28,7 +28,7 @@ namespace ASPJ_Project.Models
             Regex iLoveRegexSoMuch = new Regex(@"(\d+)\.([a-zA-Z]+)(?:([\+\-\*\/=])((?:\d+(?:\.\d+)?)|\w+))");
             Match betterThanTinder = iLoveRegexSoMuch.Match(effect);
 
-            int i = 0;  string bid = null, bp = null, op = null; double opd = 0;
+            int i = 0;  string bid = null, bp = null, op = null; decimal opd = 0;
             GroupCollection m = betterThanTinder.Groups;
             for(int j = 1; j < m.Count; j++)
             {
@@ -46,7 +46,7 @@ namespace ASPJ_Project.Models
                             op = m[j].Value;
                             break;
                         case 3:
-                            Double.TryParse(m[j].Value, out opd);
+                            decimal.TryParse(m[j].Value, out opd);
                             break;
                     }
                     i++;

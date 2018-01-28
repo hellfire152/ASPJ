@@ -18,15 +18,15 @@ namespace ASPJ_Project.Models
                 var i = itemJson[itemId];
                 if (i.cost == null) i.cost = 0;
                 AllItems.Add(itemId,
-                    new Item(itemId, (double)i.tps, (double)i.cost));
+                    new Item(itemId, (decimal)i.tps, (decimal)i.cost));
             }
         }
 
-        public double Tps { get; set; }
-        public double Cost { get; set; }
+        public decimal Tps { get; set; }
+        public decimal Cost { get; set; }
         public int Id { get; }
 
-        public Item(int id, double tps, double cost)
+        public Item(int id, decimal tps, decimal cost)
         {
             this.Id = id;
             this.Tps = tps;

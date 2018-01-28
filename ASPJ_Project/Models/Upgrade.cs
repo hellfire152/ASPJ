@@ -15,8 +15,8 @@ namespace ASPJ_Project.Models
 
         public int Id;
         public Effect[] Effects;
-        public double cost;
-        public Upgrade(int id, double cost, params Effect[] effects)
+        public decimal cost;
+        public Upgrade(int id, decimal cost, params Effect[] effects)
         {
             this.Id = id;
             this.Effects = effects;
@@ -37,7 +37,7 @@ namespace ASPJ_Project.Models
                     effArr[i] = Effect.Parse(effStrArr[i].Trim());
                 }
                 
-                Upgrade upgrade = new Upgrade(upgradeId, (double)u.cost, effArr);
+                Upgrade upgrade = new Upgrade(upgradeId, (decimal)u.cost, effArr);
 
                 upgradeData.Add(upgradeId, upgrade);
             }

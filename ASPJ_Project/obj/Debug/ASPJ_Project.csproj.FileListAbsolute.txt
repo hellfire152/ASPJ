@@ -549,7 +549,6 @@ C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResol
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
 C:\Users\Arekotacez\Desktop\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
-D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.Win32.Primitives.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\netstandard.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Collections.Concurrent.dll
@@ -739,3 +738,4 @@ D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Web.Http.WebHost.dll
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Censored.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Web.Http.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.Web.Http.WebHost.xml
+D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

@@ -49,8 +49,8 @@ namespace ASPJ_Project.Controllers
         {
             Database d = Database.CurrentInstance;
 
-            List<PremiumShop.PremiumItem> HatItems = new List<PremiumShop.PremiumItem>();
-            List<PremiumShop.PremiumItem> OutfitItems = new List<PremiumShop.PremiumItem>();
+            List<PremiumItem> HatItems = new List<PremiumItem>();
+            List<PremiumItem> OutfitItems = new List<PremiumItem>();
 
             List<string> itemIDs = new List<string>();
             List<string> itemNames = new List<string>();
@@ -71,19 +71,19 @@ namespace ASPJ_Project.Controllers
                         {
                             if (r["itemType"].ToString().Equals("Hat"))
                             {
-                                PremiumShop.PremiumItem HatItem = new PremiumShop.PremiumItem
+                                PremiumItem HatItem = new PremiumItem
                                 {
                                     itemID = (r["itemID"].ToString()),
                                     itemName = (r["itemName"].ToString()),
                                     itemDescription = (r["itemDescription"].ToString()),
                                     beansPrice = (double.Parse(r["beansPrice"].ToString()))
                                 };
-
                                 HatItems.Add(HatItem);
+                                ViewBag.HatItemData = HatItems;
                             }
                             else if (r["itemType"].ToString().Equals("Outfit"))
                             {
-                                PremiumShop.PremiumItem OutfitItem = new PremiumShop.PremiumItem
+                                PremiumItem OutfitItem = new PremiumItem
                                 {
                                     itemID = (r["itemID"].ToString()),
                                     itemName = (r["itemName"].ToString()),
@@ -92,6 +92,7 @@ namespace ASPJ_Project.Controllers
                                 };
 
                                 OutfitItems.Add(OutfitItem);
+                                ViewBag.OutfitItemData = OutfitItems;
                             }
                         }
                     }
@@ -397,8 +398,6 @@ namespace ASPJ_Project.Controllers
             return this.payment.Create(apiContext);
         }
 
-
-        [HttpPost]
         [ValidateInput(false)]
         public ActionResult PaymentWithPaypal(Models.CreditCard currentCard)
         {
@@ -478,7 +477,7 @@ namespace ASPJ_Project.Controllers
             return View("SuccessView");
         }
 
-        public Boolean CheckBeans(PremiumShop.User user, PremiumShop.PremiumItem premiumItem) //check if beans amount is more than the amount of beans the item is when they are purchasing
+        public Boolean CheckBeans(PremiumShop.User user, PremiumItem premiumItem) //check if beans amount is more than the amount of beans the item is when they are purchasing
         {
             double userBeans = user.beansAmount;
             double itemPrice = premiumItem.beansPrice;

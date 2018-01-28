@@ -11,16 +11,6 @@ namespace ASPJ_Project.Models
     public class PremiumShop
     {
 
-        public struct PremiumItem
-        {
-            public string itemName;
-            public string itemType;
-            public string itemID;
-            //public string itemImage;
-            public string itemDescription;
-            public double beansPrice;
-        }
-
         public struct User //Dummy User
         {
             public string username;

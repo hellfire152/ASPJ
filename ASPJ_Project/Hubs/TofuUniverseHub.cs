@@ -35,11 +35,13 @@ namespace ASPJ_Project.TofuUniverse
             {
                 long defaultTime = utcTime - 100000; //100 seconds leeway
                 prevSave = new SaveFile(defaultTime, 0,
-                    new Dictionary<string, int>(), new int[] { });
+                    new Dictionary<int, int>(), new int[] { });
             }
 
+            bool noCheats = ProgressVerifier.VerifyProgress(prevSave, progress, utcTime);
+            Debug.WriteLine("IS CHEATING: " + !noCheats);
             //verify progress
-            if (!ProgressVerifier.VerifyProgress(prevSave, progress, utcTime))
+            if (!noCheats)
             {
                 //if caught cheating
                 return false;
@@ -72,9 +74,26 @@ namespace ASPJ_Project.TofuUniverse
                 //get savefile
                 string s = System.IO.File.ReadAllText(
                     dataRoot + "\\Saves\\" + c + ".tusav");
-                //remove the time from save
-                if (s[0] == '{') return s;
-                else return s.Split('\n')[1];
+
+                //remove time from save
+                string[] saveParts = s.Split('\n');
+
+                //get current time
+                long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+                //send save to player
+                if (s[0] == '{') //convert old format to new format
+                {
+                    System.IO.File.WriteAllText(
+                dataRoot + "\\Saves\\" + c + ".tusav", "" + utcTime + "\n" + s.Replace("\n", ""));
+                    return s;
+                }
+                else
+                {
+                    System.IO.File.WriteAllText(
+                dataRoot + "\\Saves\\" + c + ".tusav", ""+utcTime+"\n"+saveParts[1]);
+                    return saveParts[1];
+                }
             }
         }
 

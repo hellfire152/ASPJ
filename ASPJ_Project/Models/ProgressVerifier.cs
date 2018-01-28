@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +8,7 @@ namespace ASPJ_Project.Models
 {
     public class ProgressVerifier
     {
+        public static int ClickLeeway = 10;
         public static Boolean VerifyProgress(
             SaveFile save, ProgressData progress, long currentUtcTime)
         {
@@ -18,46 +20,93 @@ namespace ASPJ_Project.Models
             if (tofuClicksPerSecond > 20 || (tofuClicksPerSecond > 10 && timePassed > 60))
                 return false;
 
-            //getting base Item stats
-            ItemData itemData = new ItemData();
-
-            //get all upgrades
-            Upgrade[] upgradeArr = new Upgrade[progress.Upgrades.Length];
+            //get all upgrades of save
+            Upgrade[] upgradeArr = new Upgrade[save.Upgrades.Length];
             for(int i = 0; i < progress.Upgrades.Length; i++)
             {
                 upgradeArr[i] = Upgrade.upgradeData[progress.Upgrades[i]];
             }
 
-            //apply upgrades
+            //apply upgrades of save
+            ItemData itemData = new ItemData();
             List<Effect> allEffects = GetAllEffects(upgradeArr);
             SortEffects(allEffects);
             ApplyEffects(allEffects, itemData);
 
-            //calculate cost
-            double totalCost = 0;
-            //of all upgrades
-            foreach (Upgrade u in upgradeArr) totalCost += u.cost;
-            //of all items
-            totalCost += itemData.PurchaseAll(save, progress.Items);
-
-            //calculate tps
-            double totalTps = 0;
-            foreach(Item i in itemData.Data.Values)
+            //tps before any purchases
+            double currentTps = RecalculateTps(itemData, save.Items);
+            long lowerTimeBound = save.Time;
+            double tofuCount = save.TCount;
+            //calculates actual tofuCount + click leeway
+            //also does cost checking, and adjusts tps for every purchase
+            foreach(Tuple<long, string, int> purchase in progress.purchases)
             {
-                totalTps += i.Tps * progress.Items[i.Id];
+                Boolean isItem = purchase.Item2 == "item";
+                //time difference in seconds
+                long timeDiff = (purchase.Item1 - lowerTimeBound) / 1000;
+                //generate tofu
+                tofuCount += CalculateTofuGenerated(timeDiff, currentTps, itemData);
+
+                //pay cost
+                if (isItem) tofuCount -= itemData.Data[purchase.Item3].Cost;
+                else tofuCount -= Upgrade.upgradeData[purchase.Item3].cost;
+                Debug.WriteLine("TCOUNT AFTER PAYING COST: " + tofuCount);
+                if (tofuCount < 0) return false; //cannot afford purchase
+
+                //calculate resulting tps
+                if (isItem)
+                {
+                    save.Items[purchase.Item3]++;
+                } else
+                {
+                    allEffects.AddRange(
+                        GetEffects(Upgrade.upgradeData[purchase.Item3]));
+                    itemData = new ItemData();
+                    SortEffects(allEffects);
+                    ApplyEffects(allEffects, itemData);
+                }
+                currentTps = RecalculateTps(itemData, save.Items);
+
+                lowerTimeBound = purchase.Item1;
             }
+            //after final purchase to time of save
+            long finalTimeDiff = (currentUtcTime - lowerTimeBound) / 1000;
+            tofuCount += CalculateTofuGenerated(finalTimeDiff, currentTps, itemData);
 
-            //calculate tofu earned
-            double tofuEarned = 0;
-            //via auto-generation
-            tofuEarned += totalTps * timePassed;
-            //via tofu clicks
-            tofuEarned += progress.tofuClicks * itemData.tofuClickEarnings;
-
-            //see if final tofu amount checks out
-            if (save.TCount + tofuEarned - totalCost < progress.TCount)
+            //returns false if client tCount is more than expected
+            Debug.WriteLine("-----------------------------------------");
+            Debug.WriteLine("EXPECTED: <" + tofuCount + "\nACTUAL: " + progress.TCount);
+            if (progress.TCount > tofuCount)
+            {
+                Debug.WriteLine("FINAL TCOUNT INVALID");
                 return false;
+            }
             return true;
+        }
+
+        public static double CalculateTofuGenerated(long timeDiff, double currentTps, ItemData i)
+        {
+            double tofuGenerated = 0;
+            Debug.WriteLine("SECONDS PASSED: " + timeDiff);
+            //calculate tofu owned at moment of purchase
+            //auto-generated tofu
+            tofuGenerated += timeDiff * currentTps;
+            Debug.WriteLine("NO. OF TOFU AUTO-GENERATED: " + tofuGenerated);
+            //tofu clicks
+            tofuGenerated += timeDiff * ClickLeeway * i.tofuClickEarnings;
+            Debug.WriteLine("AFTER CLICK LEEWAY: " + tofuGenerated);
+            return tofuGenerated;
+        }
+
+        public static double RecalculateTps(ItemData items, Dictionary<int, int> nowOwned)
+        {
+            double totalTps = 0;
+            foreach (Item i in items.Data.Values)
+            {
+                if (i.Id == 0) continue; //manually skip id 0 (reserved)
+                totalTps += i.Tps * nowOwned[i.Id];
+            }
+            return totalTps;
         }
 
         public static List<Effect> GetAllEffects(Upgrade[] upgrades)
@@ -65,12 +114,19 @@ namespace ASPJ_Project.Models
             List<Effect> allEffects = new List<Effect>();
             foreach(Upgrade u in upgrades)
             {
-                foreach(Effect e in u.Effects)
-                {
-                    allEffects.Add(e);
-                }
+                allEffects.AddRange(GetEffects(u));
             }
             return allEffects;
+        }
+
+        public static List<Effect> GetEffects(Upgrade upgrade)
+        {
+            List<Effect> effects = new List<Effect>();
+            foreach(Effect e in upgrade.Effects)
+            {
+                effects.Add(e);
+            }
+            return effects;
         }
 
         public static void SortEffects(List<Effect> allEffects)
@@ -151,7 +207,7 @@ namespace ASPJ_Project.Models
             {
                 nowOwned.TryGetValue(itemId, out int iOwned);
                 if(iOwned != 0)
-                    totalCost += Purchase(itemId, save.Items[""+itemId], nowOwned[itemId]);
+                    totalCost += Purchase(itemId, save.Items[itemId], nowOwned[itemId]);
             }
 
             return totalCost;
@@ -166,6 +222,8 @@ namespace ASPJ_Project.Models
             double cost = System.Math.Round(baseCost * Math.Pow(1.15, alreadyPurchased));
 
             int bought = currentlyOwned - alreadyPurchased; double totalCost = 0;
+            if (bought <= 0) return 0;
+            
             for(int j = 0; j < bought; j++)
             {
                 totalCost += cost;

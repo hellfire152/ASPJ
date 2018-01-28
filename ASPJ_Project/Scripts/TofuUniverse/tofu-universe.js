@@ -30,7 +30,9 @@ _tofuUniverse.player = {
     "items": {}, //initially a clone of the ITEMS object
     "upgrades": [], //upgrades owned
     "upgradeEffects": {}, //list of effects of said upgrades
-    "tofuClicks": 0
+    //tracking information
+    "tofuClicks": 0,
+    "purchases" : []
 };
 
 //settings object
@@ -158,6 +160,11 @@ function regexMatch(regex, string) {
 function purchase(purchaseType, purchaseId, fromSave) {
     //update player data if successful
     let p = _tofuUniverse.player;
+    //log regular purchases
+    if (!fromSave) {
+        let p = _tofuUniverse.player;
+        p["purchases"].push([Date.now(), purchaseType, purchaseId]);
+    }
     switch (purchaseType) {
         case "item":
             //check cost
@@ -246,7 +253,7 @@ function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
-//AUTO SAVE FUNCTION
+//sends progress data to the server
 function saveProgress() {
     //get item data
     let owned = {};
@@ -259,8 +266,10 @@ function saveProgress() {
         "tCount": _tofuUniverse.player.tCount,
         "items": owned,
         "upgrades": _tofuUniverse.player.upgrades,
-        "tofuClicks": _tofuUniverse.player.tofuClicks
+        "tofuClicks": _tofuUniverse.player.tofuClicks,
+        "purchases": _tofuUniverse.player.purchases
     }).done((success) => {
+        console.log(success);
         if (success) {
             console.log("File saved!");
         } else {
@@ -268,8 +277,9 @@ function saveProgress() {
         }
     });
 
-    //reset tofuClicks counter
+    //reset tracking variables
     _tofuUniverse.player.tofuClicks = 0;
+    _tofuUniverse.player.purchases = [];
 };
 
 //tracking variables for mouse cursor

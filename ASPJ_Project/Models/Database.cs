@@ -12,6 +12,7 @@ namespace ASPJ_Project.Models
         public static Database CurrentInstance;
         
         public MySqlConnection conn;
+
         public static void Initialize(string connString)
         {
             CurrentInstance = new Database(connString);

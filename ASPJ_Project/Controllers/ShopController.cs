@@ -12,6 +12,7 @@ using log4net.Repository.Hierarchy;
 using System.Globalization;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
 
 namespace ASPJ_Project.Controllers
 {
@@ -46,11 +47,65 @@ namespace ASPJ_Project.Controllers
         }
     public ActionResult Shop()
         {
-            var shopItems = new List<PremiumShop.PremiumItem>
+            Database d = Database.CurrentInstance;
+
+            List<PremiumShop.PremiumItem> HatItems = new List<PremiumShop.PremiumItem>();
+            List<PremiumShop.PremiumItem> OutfitItems = new List<PremiumShop.PremiumItem>();
+
+            List<string> itemIDs = new List<string>();
+            List<string> itemNames = new List<string>();
+            List<string> itemDescriptions = new List<string>();
+            List<double> beansPrices = new List<double>();
+            List<string> itemImages = new List<string>();
+
+            try
             {
-                new PremiumShop.PremiumItem{ itemName= "Fedora Hat", itemType= "Hat", itemDescription= "Mi'lady.", beansPrice= 100},
-                new PremiumShop.PremiumItem{ itemName= "Karate Headband", itemType= "Hat", itemDescription= "Hiya!", beansPrice= 75}
-            };
+                if (d.OpenConnection())
+                {
+                    string hatQuery = "SELECT * FROM premiumitem";
+                    MySqlCommand c = new MySqlCommand(hatQuery, d.conn);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            if (r["itemType"].ToString().Equals("Hat"))
+                            {
+                                PremiumShop.PremiumItem HatItem = new PremiumShop.PremiumItem
+                                {
+                                    itemID = (r["itemID"].ToString()),
+                                    itemName = (r["itemName"].ToString()),
+                                    itemDescription = (r["itemDescription"].ToString()),
+                                    beansPrice = (double.Parse(r["beansPrice"].ToString()))
+                                };
+
+                                HatItems.Add(HatItem);
+                            }
+                            else if (r["itemType"].ToString().Equals("Outfit"))
+                            {
+                                PremiumShop.PremiumItem OutfitItem = new PremiumShop.PremiumItem
+                                {
+                                    itemID = (r["itemID"].ToString()),
+                                    itemName = (r["itemName"].ToString()),
+                                    itemDescription = (r["itemDescription"].ToString()),
+                                    beansPrice = (double.Parse(r["beansPrice"].ToString()))
+                                };
+
+                                OutfitItems.Add(OutfitItem);
+                            }
+                        }
+                    }
+                }            
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
 
             var currentUser = new PremiumShop.User { username = "jhn905", beansAmount = 400 };
 
@@ -147,25 +202,29 @@ namespace ASPJ_Project.Controllers
                 itemList.items = itms;
 
                 //Address for the payment
-                Address billingAddress = new Address();
-                billingAddress.city = currentCard.billing_address.city;
-                billingAddress.country_code = "SG";
-                billingAddress.line1 = currentCard.billing_address.line1;
-                billingAddress.line2 = currentCard.billing_address.line2;
-                billingAddress.postal_code = currentCard.billing_address.postal_code;
-                billingAddress.state = currentCard.billing_address.state;
+                Address billingAddress = new Address
+                {
+                    city = currentCard.billing_address.city,
+                    country_code = "SG",
+                    line1 = currentCard.billing_address.line1,
+                    line2 = currentCard.billing_address.line2,
+                    postal_code = currentCard.billing_address.postal_code,
+                    state = currentCard.billing_address.state
+                };
 
 
                 //Now Create an object of credit card and add above details to it
                 //Please replace your credit card details over here which you got from paypal
-                PayPal.Api.CreditCard crdtCard = new PayPal.Api.CreditCard();
-                crdtCard.billing_address = billingAddress;
-                crdtCard.cvv2 = currentCard.cvv2;  //card cvv2 number
-                crdtCard.expire_month = currentCard.expire_month; //card expire date
-                crdtCard.expire_year = currentCard.expire_year; //card expire year
-                crdtCard.first_name = currentCard.first_name;
-                crdtCard.last_name = currentCard.last_name;
-                crdtCard.number = currentCard.creditCardNo; //enter your credit card number here
+                PayPal.Api.CreditCard crdtCard = new PayPal.Api.CreditCard
+                {
+                    billing_address = billingAddress,
+                    cvv2 = currentCard.cvv2,  //card cvv2 number
+                    expire_month = currentCard.expire_month, //card expire date
+                    expire_year = currentCard.expire_year, //card expire year
+                    first_name = currentCard.first_name,
+                    last_name = currentCard.last_name,
+                    number = currentCard.creditCardNo //enter your credit card number here
+                };
                 if (Regex.IsMatch(currentCard.creditCardNo, "^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"))
                 {
                     crdtCard.type = "mastercard";
@@ -216,15 +275,19 @@ namespace ASPJ_Project.Controllers
                 fundingInstrumentList.Add(fundInstrument);
 
                 // Now create Payer object and assign the fundinginstrument list to the object
-                Payer payr = new Payer();
-                payr.funding_instruments = fundingInstrumentList;
-                payr.payment_method = "credit_card";
+                Payer payr = new Payer
+                {
+                    funding_instruments = fundingInstrumentList,
+                    payment_method = "credit_card"
+                };
 
                 // finally create the payment object and assign the payer object & transaction list to it
-                Payment pymnt = new Payment();
-                pymnt.intent = "sale";
-                pymnt.payer = payr;
-                pymnt.transactions = transactions;
+                Payment pymnt = new Payment
+                {
+                    intent = "sale",
+                    payer = payr,
+                    transactions = transactions
+                };
 
                 try
                 {

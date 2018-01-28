@@ -144,25 +144,25 @@ namespace ASPJ_Project.Controllers
                         bool isValidFile = false;
                         if (UploadedImage.ContentLength > 0)
                         {
-                            //System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
+                            System.Drawing.Image image = System.Drawing.Image.FromStream(thread.image.InputStream);
                             string format = string.Empty;
-                            //if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
-                            //    format = "TIFF";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
-                            //    format = "GIF";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                            //    format = "JPG";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
-                            //    format = "BMP";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
-                            //    format = "PNG";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
-                            //    format = "ICO";
-                            //else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
-                            //    format = "JPEG";
-                            //elseS
-                            //    throw new ArgumentException();
-                            format = "JPEG";
+                            if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Tiff.Guid)
+                                format = "TIFF";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid)
+                                format = "GIF";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                                format = "JPG";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Bmp.Guid)
+                                format = "BMP";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Png.Guid)
+                                format = "PNG";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Icon.Guid)
+                                format = "ICO";
+                            else if (image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                                format = "JPEG";
+                            else
+                                throw new ArgumentException();
+                            //String format = "JPEG";
                             String[] formatTypes = { "tiff", "gif", "jpg", "bmp", "png", "ico", "jpeg" };
                             if (formatTypes.Contains(format.ToLower()))
                             {

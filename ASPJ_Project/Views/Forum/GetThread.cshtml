@@ -4,60 +4,77 @@
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
 }
 
-<style>
-    form {
-        display: inline-block !important;
-    }
-</style>
-    <div class="container" style="margin-top:10px;">
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">
-                    @Model.thread.username <small><i>Posted on @Model.thread.date</i></small>
-                    @Html.ActionLink("Delete", "DeleteThread", new { id = Model.thread.id }, new { @class = "btn btn-default" })
-                    @using (Html.BeginForm("Upvote", "Forum", new { id = Model.thread.id}, FormMethod.Post))
+@Styles.Render("~/css/thread.css")
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="[ col-xs-12 col-sm-12 ]">
+            <div class="[ panel panel-default ] panel-google-plus">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="[ glyphicon glyphicon-chevron-down ]"></span>
+                    </span>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Report Thread</a></li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Thread</a></li>
+                    </ul>
+                </div>
+                <div class="panel-heading">
+                    <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg"/>
+                    <h3>@Model.thread.title</h3>
+                    <h5><span>Posted by @Model.thread.username</span> on <span>@Model.thread.date</span> </h5>
+                </div>
+                <div class="panel-body">
+                    <p>@Model.thread.content</p>
+                    @if(Model.thread.image != null) {
+                        <img src="~/Content/UploadedImages/@Model.thread.imageName" />
+                    }
+                </div>
+                <div class="panel-footer">
+                    @using (Html.BeginForm("Upvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                     {
                         @Html.AntiForgeryToken();
-                        <input type="submit" value="upvote" class="btn btn-default" />
+                        <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-up"></span></button>
                     }
                     @using (Html.BeginForm("Downvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                     {
                         @Html.AntiForgeryToken();
-                        <input type="submit" value="downvote" class="btn btn-default" />
+                        <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-down"></span></button>
                     }
-                </h4>
-                <p>@Model.thread.content</p>
-                <img src="~/Content/UploadedImages/@Model.thread.imageName"/>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                <div class="media">
-                    <div class="media-left">
-                        <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
-                    </div>
-                    <div class="media-body">
-                        @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control" }, cols = 50, rows = 8 })
-                        @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-3 col-md-10">
-                            <input type="submit" value="Post" class="btn btn-default" />
-                        </div>
+                </div>
+                <div class="panel-footer">
+                    @if (Model.thread.votes >= 0)
+                    {
+                        <p>@Model.thread.votes <span class="fa fa-thumbs-up"></span></p>
+                    }
+                    else
+                    {
+                        <p>@Model.thread.votes <span class="fa fa-thumbs-down"></span></p>
+                    }
+                </div>
+                <div class="panel-google-plus-comment">
+                    <img class="img-circle" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="User Image" />
+                    <div class="panel-google-plus-textarea">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control" }, cols = 4, rows = 2 })
+                            @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
+                            <button type="submit" class="[ btn btn-success ]">Post comment</button>
+                        }
                     </div>
                 </div>
-            }
                 @foreach (var comment in Model.comments)
                 {
-                    <!-- Nested media object -->
-                    <div class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="42" width="42">
+                    <div class="[ panel-default ] panel-google-plus">
+                        <div class="panel-heading">
+                            <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
+                            <h3>@comment.username</h3>
+                            <h5><span>Posted</span> on <span>@comment.date</span> </h5>
                         </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">@comment.username <small><i>Posted on @comment.date</i></small></h4>
+                        <div class="panel-body">
                             <p>@comment.content</p>
                         </div>
                     </div>
@@ -65,6 +82,5 @@
             </div>
         </div>
     </div>
-<p>
-    @Html.ActionLink("Back to List", "Home")
-</p>
+</div>
+

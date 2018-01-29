@@ -44,32 +44,6 @@ namespace ASPJ_Project.Controllers
         {
             return View();
         }
-        public ActionResult Home2()
-        {
-            return View(db.threads.ToList());
-        }
-
-        [HttpGet]
-        public ActionResult GetThread2(int? id)
-        {
-            if (id == null)
-            {
-                return RedirectToAction("Home");
-            }
-            //ThreadId = RouteData.Values["ThreadId"].ToString();
-            //ForumHome threaddata = new ForumHome();
-            Thread thread = db.threads.Find(id);
-            if (thread == null)
-                return HttpNotFound();
-            CommentViewModel viewModel = new CommentViewModel();
-            var comments = from c in db.comments
-                           join t in db.threads on c.threadId equals t.id
-                           where t.id == id
-                           select c;
-            viewModel.thread = thread;
-            viewModel.comments = comments.ToList();
-            return View(viewModel);
-        }
         [HttpGet]
         public ActionResult GetThread(int? id)
         {
@@ -77,8 +51,6 @@ namespace ASPJ_Project.Controllers
             {
                 return RedirectToAction("Home");
             }
-            //ThreadId = RouteData.Values["ThreadId"].ToString();
-            //ForumHome threaddata = new ForumHome();
             Thread thread = db.threads.Find(id);
             if (thread == null)
                 return HttpNotFound();

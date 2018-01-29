@@ -8,7 +8,6 @@ namespace ASPJ_Project.Models
 {
     public class ProgressVerifier
     {
-        public static int ClickLeeway = 10;
         public static Boolean VerifyProgress(
             SaveFile save, ProgressData progress, long currentUtcTime)
         {
@@ -42,10 +41,9 @@ namespace ASPJ_Project.Models
             foreach(Tuple<long, string, int> purchase in progress.purchases)
             {
                 Boolean isItem = purchase.Item2 == "item";
-                //time difference in seconds
-                long timeDiff = (purchase.Item1 - lowerTimeBound) / 1000;
                 //generate tofu
-                tofuCount += CalculateTofuGenerated(timeDiff, currentTps, itemData);
+                tofuCount += CalculateTofuGenerated(
+                    lowerTimeBound, purchase.Item1, currentTps, itemData);
 
                 //pay cost
                 if (isItem) tofuCount -= itemData.Data[purchase.Item3].Cost;
@@ -71,7 +69,8 @@ namespace ASPJ_Project.Models
             }
             //after final purchase to time of save
             long finalTimeDiff = (currentUtcTime - lowerTimeBound) / 1000;
-            tofuCount += CalculateTofuGenerated(finalTimeDiff, currentTps, itemData);
+            tofuCount += CalculateTofuGenerated(
+                lowerTimeBound, currentUtcTime, currentTps, itemData);
 
             //returns false if client tCount is more than expected
             Debug.WriteLine("-----------------------------------------");
@@ -84,16 +83,19 @@ namespace ASPJ_Project.Models
             return true;
         }
 
-        public static decimal CalculateTofuGenerated(long timeDiff, decimal currentTps, ItemData i)
+        public static decimal CalculateTofuGenerated(
+            long startTime, long endTime, decimal currentTps, ItemData i)
         {
             decimal tofuGenerated = 0;
+            long timeDiff = (endTime - startTime) / 1000;
             Debug.WriteLine("SECONDS PASSED: " + timeDiff);
             //calculate tofu owned at moment of purchase
             //auto-generated tofu
             tofuGenerated += timeDiff * currentTps;
             Debug.WriteLine("NO. OF TOFU AUTO-GENERATED: " + tofuGenerated);
             //tofu clicks
-            tofuGenerated += timeDiff * ClickLeeway * i.tofuClickEarnings;
+            tofuGenerated += CalculateClickLeeway(
+                startTime, endTime, i.tofuClickEarnings);
             Debug.WriteLine("AFTER CLICK LEEWAY: " + tofuGenerated);
             return tofuGenerated;
         }
@@ -107,6 +109,14 @@ namespace ASPJ_Project.Models
                 totalTps += i.Tps * nowOwned[i.Id];
             }
             return totalTps;
+        }
+
+        public static decimal CalculateClickLeeway(long startTime, long endTime, decimal tofuPerClick)
+        {
+            double tn = (510 * Math.Log(startTime + 40)) + (2 * startTime);
+            double tnplus1 = (510 * Math.Log(endTime + 40)) + (2 * endTime);
+            decimal integralResult = Convert.ToDecimal(tnplus1 - tn);
+            return tofuPerClick * integralResult;
         }
 
         public static List<Effect> GetAllEffects(Upgrade[] upgrades)

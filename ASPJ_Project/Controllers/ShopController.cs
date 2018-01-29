@@ -114,7 +114,10 @@ namespace ASPJ_Project.Controllers
             //methods related to purchasing the item with beans
             //add item ID to user's database to display that they have the item
         }
-
+        public void TransactionLog()
+        {
+            //transaction logging maybe?
+        }
         public ActionResult BeansPurchase()
         {
             return View();

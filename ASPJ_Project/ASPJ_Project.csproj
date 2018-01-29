@@ -357,6 +357,7 @@
       <DependentUpon>201801011059304_AddForumContextcomments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BCrypt.cs" />
     <Compile Include="Models\KeyGenerator.cs" />
     <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Database.cs" />

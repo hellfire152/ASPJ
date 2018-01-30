@@ -62,7 +62,7 @@ namespace ASPJ_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword()
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
 
             var response = Request["g-recaptcha-response"];

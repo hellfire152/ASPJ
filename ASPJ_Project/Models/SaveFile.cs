@@ -32,6 +32,16 @@ namespace ASPJ_Project.Models
             this.TCount = tCount;
             this.Items = items;
             this.Upgrades = upgrades;
+
+            //set item number to zero if savefile does not have a record for that item
+            //this is meant for backwards-compatibility when I add new items
+            foreach(int itemId in Item.AllItems.Keys)
+            {
+                if(!items.ContainsKey(itemId))
+                {
+                    items.Add(itemId, 0);
+                }
+            }
         }
 
         //takes in the raw save string and returns a SaveFile object

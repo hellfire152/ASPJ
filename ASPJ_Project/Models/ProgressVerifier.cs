@@ -21,9 +21,12 @@ namespace ASPJ_Project.Models
 
             //get all upgrades of save
             Upgrade[] upgradeArr = new Upgrade[save.Upgrades.Length];
-            for(int i = 0; i < progress.Upgrades.Length; i++)
+            if(upgradeArr.Length != 0)
             {
-                upgradeArr[i] = Upgrade.upgradeData[progress.Upgrades[i]];
+                for(int i = 0; i < save.Upgrades.Length; i++)
+                {
+                    upgradeArr[i] = Upgrade.upgradeData[save.Upgrades[i]];
+                }
             }
 
             //apply upgrades of save

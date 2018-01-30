@@ -18,10 +18,31 @@ let _tofuUniverse = {}; _tofuUniverse.ITEMS = {
         "icon": "farm.png"
     },
     3: {
-        "name": "test",
-        "cost": 1,
+        "name": "Mine",
+        "cost": 2000,
+        "tps": 20,
+        "description": "Mine for more tofu!",
+        "icon": "mine.jpg"
+    },
+    4: {
+        "name": "Generator",
+        "cost": 10000,
+        "tps" : 80,
+        "description": "Generate more tofu!",
+        "icon": "generator.jpg"
+    },
+    5: {
+        "name": "Spaceship",
+        "cost": 80000,
+        "tps": 200,
+        "description" : "Traval the Galaxy for more tofu!",
+        "icon": "spaceship.png"
+    },
+    6: {
+        "name": "Wormhole",
+        "cost": 500000,
         "tps": 1000,
-        "description": "TESTING",
-        "icon": "test1.jpg"
+        "description" : "Travel the universe for more tofu!",
+        "icon": "wormhole.jpg"
     }
 }

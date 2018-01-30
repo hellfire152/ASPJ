@@ -23,7 +23,7 @@ namespace ASPJ_Project.Controllers
                     TestUsernames[TestCounter])
             };
             //comment out this line to cycle between 1,2,3,4
-            usernameCookie.Value = "test";
+            usernameCookie.Value = "test2";
             if (++TestCounter > 3) TestCounter = 0;
 
             Response.SetCookie(usernameCookie);

@@ -7,6 +7,7 @@
             <ul class="nav nav-tabs" id="shop-nav">
                 <li class="active"><a href="#1" data-toggle="tab">Items</a></li>
                 <li><a href="#2" data-toggle="tab">Upgrades</a></li>
+                <li><a href="#3" data-toggle="tab">Options</a></li>
             </ul>
             <div class="tab-content ">
                 <div class="tab-pane active" id="1">
@@ -14,6 +15,16 @@
                 </div>
                 <div class="tab-pane" id="2">
                     <div class="shop-display" id="shop-upgrades"></div>
+                </div>
+                <div class="tab-pane" id="3">
+                    <div class="shop-display" id="options">
+                        <button onclick="saveProgress();" class="btn-default">Save Progress</button>
+                        <div>
+                            <span style="display:inline;margin-left:10px;">Autosave: </span>
+                            <input id="autosave-toggle" class="tgl tgl-skewed" type="checkbox" onclick="toggleAutosave();"/>
+                            <label for="autosave-toggle" data-tg-off="OFF" data-tg-on="ON" class="tgl-btn"></label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,5 +35,12 @@
         <div id="tps-container"><span id="tps">0</span> Tofu / second</div>
         <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
     </div>
-    <div id="temp" style="position:absolute"></div>
+    <div id="notifications"></div>
+    <!--Cheat alert-->
+    <div class="cd-popup" role="alert">
+        <div class="cd-popup-container">
+            <p>You are suspected of cheating. Your data is not saved, and will not be saved for this session.</p>
+            <a href="#0" class="cd-popup-close img-replace">Close</a>
+        </div> <!-- cd-popup-container -->
+    </div> <!-- cd-popup -->
 </div>

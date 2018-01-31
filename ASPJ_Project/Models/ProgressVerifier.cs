@@ -37,7 +37,7 @@ namespace ASPJ_Project.Models
 
             //tps before any purchases
             decimal currentTps = RecalculateTps(itemData, save.Items);
-            long lowerTimeBound = save.Time;
+            long lowerTimeBound = save.Time; long initialTime = save.Time;
             decimal tofuCount = save.TCount;
             //calculates actual tofuCount + click leeway
             //also does cost checking, and adjusts tps for every purchase
@@ -46,7 +46,7 @@ namespace ASPJ_Project.Models
                 Boolean isItem = purchase.Item2 == "item";
                 //generate tofu
                 tofuCount += CalculateTofuGenerated(
-                    lowerTimeBound, purchase.Item1, currentTps, itemData);
+                    initialTime, lowerTimeBound, purchase.Item1, currentTps, itemData);
 
                 //pay cost
                 if (isItem) tofuCount -= itemData.Data[purchase.Item3].Cost;
@@ -73,7 +73,7 @@ namespace ASPJ_Project.Models
             //after final purchase to time of save
             long finalTimeDiff = (currentUtcTime - lowerTimeBound) / 1000;
             tofuCount += CalculateTofuGenerated(
-                lowerTimeBound, currentUtcTime, currentTps, itemData);
+                initialTime, lowerTimeBound, currentUtcTime, currentTps, itemData);
 
             //returns false if client tCount is more than expected
             Debug.WriteLine("-----------------------------------------");
@@ -87,7 +87,7 @@ namespace ASPJ_Project.Models
         }
 
         public static decimal CalculateTofuGenerated(
-            long startTime, long endTime, decimal currentTps, ItemData i)
+            long initialTime, long startTime, long endTime, decimal currentTps, ItemData i)
         {
             decimal tofuGenerated = 0;
             long timeDiff = (endTime - startTime) / 1000;
@@ -97,8 +97,10 @@ namespace ASPJ_Project.Models
             tofuGenerated += timeDiff * currentTps;
             Debug.WriteLine("NO. OF TOFU AUTO-GENERATED: " + tofuGenerated);
             //tofu clicks
+            long lowerBound = (startTime - initialTime) / 1000;
+            long upperBound = (endTime - initialTime) / 1000;
             tofuGenerated += CalculateClickLeeway(
-                startTime, endTime, i.tofuClickEarnings);
+                lowerBound, upperBound, i.tofuClickEarnings);
             Debug.WriteLine("AFTER CLICK LEEWAY: " + tofuGenerated);
             return tofuGenerated;
         }

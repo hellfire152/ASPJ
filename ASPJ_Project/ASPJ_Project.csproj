@@ -19,7 +19,7 @@
     <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44370</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -548,6 +548,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ExtraUI.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\Items\farm.png" />
@@ -732,10 +733,10 @@
     <Content Include="Scripts\PremiumShop\util.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TofuUniverse\big.min.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-items.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-upgrades.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe.js" />
+    <Content Include="Scripts\TofuUniverse\UIScripts.js" />
     <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -824,7 +825,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55183</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55183/</IISUrl>
+          <IISUrl>https://localhost:44370/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

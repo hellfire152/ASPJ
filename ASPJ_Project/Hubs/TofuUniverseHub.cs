@@ -7,6 +7,7 @@ using Microsoft.AspNet.SignalR;
 using ASPJ_Project.Models;
 using System.Diagnostics;
 using System.IO;
+using MySql.Data.MySqlClient;
 
 namespace ASPJ_Project.TofuUniverse
 {   
@@ -44,6 +45,17 @@ namespace ASPJ_Project.TofuUniverse
             if (!noCheats)
             {
                 //if caught cheating
+                //insert cheat record into database
+                Database d = Database.CurrentInstance;
+                if(d.OpenConnection())
+                {
+                    string query = @"INSERT INTO cheatlog (username, time) VALUES (@username, @time)";
+                    MySqlCommand m = new MySqlCommand(query, d.conn);
+                    m.Parameters.AddWithValue("@username", c);
+                    m.Parameters.AddWithValue("@time", utcTime);
+                    m.ExecuteNonQuery();
+                    d.CloseConnection();
+                }
                 return false;
             }
 

@@ -185,16 +185,6 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
-        public static string Encode(string serverName)
-        {
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
-        }
-
-        public static string Decode(string encodedServername)
-        {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(encodedServername));
-        }
-
         //protected void Page_Load(object sender, EventArgs e)
         //{
         //    if( Request.QueryString["chatId"] != null)
@@ -205,6 +195,19 @@ namespace ASPJ_Project.Controllers
         //    }
         //}
 
+    }
+
+    public class EncodeDecode
+    {
+        public string EncodeStuff(string plaintext)
+        {
+            return HttpUtility.HtmlEncode(plaintext);
+        }
+
+        public string DecodeStuff(string encodedtext)
+        {
+            return HttpUtility.HtmlDecode(encodedtext);
+        }
     }
 
     public class Censors
@@ -302,6 +305,7 @@ namespace ASPJ_Project.Controllers
                 "kns",
                 "mf",
                 "motherfucker",
+                "stupid",
                 };
             var censor = new Censor(censoredWords);
             string result;
@@ -310,17 +314,30 @@ namespace ASPJ_Project.Controllers
         }
     }
 
-    //public class Censored
+    //public class Censoring
     //{
     //    public string CensorStuff(string plaintext)
     //    {
+    //        char censoredChar=' ';
+    //        string storeWord;
     //        string censoredWord;
     //        List<string> censoredWordList = new List<string>();
     //        censoredWordList.Add("Fuck");
-    //        censoredWord = plaintext.Replace(plaintext, "@$%^#!*&");
-    //        Console.Write(censoredWord);
-
-    //        return censoredWord;
+    //        censoredWordList.Add("ballsack");
+            
+    //        foreach (char i in plaintext)
+    //        {
+    //            foreach (string w in censoredWordList)
+    //            {
+    //                storeWord = w;
+    //                if (plaintext.Contains(storeWord))
+    //                {
+    //                    censoredChar += i;
+    //                }
+    //            }
+    //        }
+    //        return censoredChar.ToString();
+    //        //Console.Write(censoredWord);
     //    }
     //}
 
@@ -330,6 +347,7 @@ namespace ASPJ_Project.Controllers
         //MySql.Data.MySqlClient.MySqlCommand cmd;
         MySql.Data.MySqlClient.MySqlDataReader reader;
         AESCryptoStuff aes_obj = new AESCryptoStuff();
+        EncodeDecode encInit = new EncodeDecode();
         string queryString;
 
         //Insert message into the database
@@ -353,7 +371,9 @@ namespace ASPJ_Project.Controllers
                     }
                   */
                 aes_obj.AesInitialize();
+                chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
+                //chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
                 queryString = "INSERT INTO dububase.chat(chatMessage) VALUES(@sendmessage)";
                 cmd.CommandText = queryString;
                 cmd.Parameters.AddWithValue("@sendmessage", chatMessageInsert);
@@ -371,20 +391,22 @@ namespace ASPJ_Project.Controllers
             }
         }
 
-        public string ChatGetMessage()
+        public List<string> ChatGetMessage()
         {
             //string chatInfo;
             String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
             try
             {
-                string store="";
+                //string store="";
+                //string decryptedMsg;
                 ArrayList storeArray = new ArrayList();
                 List<string> chatList = new List<string>();
+                List<string> decodedList = new List<string>();
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(queryString, conn);
-                //AESCryptoStuff aes_obj = new AESCryptoStuff();
-                //aes_obj.AesInitialize();
+                AESCryptoStuff aes_obj = new AESCryptoStuff();
+                aes_obj.AesInitialize();                
                 //queryString = "";
                 queryString = "SELECT * FROM dububase.chat";
                 cmd.CommandText = queryString;
@@ -397,15 +419,15 @@ namespace ASPJ_Project.Controllers
                     //{
                     //    ChatMessage = (reader["chatMessage"].ToString())
                     //};
-                    
-                        chatList.Add(reader["chatMessage"].ToString());
+
+                    chatList.Add(aes_obj.AesDecrypt(reader["chatMessage"].ToString()));
+                    //chatList.Add(encInit.DecodeStuff(reader["chatMessage"].ToString()));
                 }
-                foreach(var i in chatList)
+                foreach (string i in chatList)
                 {
-                    store += i + Environment.NewLine;
-                    Console.WriteLine(store);
+                    decodedList.Add(encInit.DecodeStuff(i));
                 }
-                return store;
+                return decodedList;
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
@@ -555,14 +577,16 @@ namespace ASPJ_Project.Controllers
     public class AESCryptoStuff
     {
         AesCryptoServiceProvider cryptProvider;
+        private const string cryptoIV = @"G%h*Kd(3F/#35J0F";
+        private const string cryptoKey = @"BEFBBU7497%*ghfcUH?GHV/K6%Fgh#)3";
         public void AesInitialize ()
         {
             cryptProvider = new AesCryptoServiceProvider();
 
             cryptProvider.BlockSize = 128;
             cryptProvider.KeySize = 256;
-            cryptProvider.GenerateIV();
-            cryptProvider.GenerateKey();
+            cryptProvider.IV = Encoding.UTF8.GetBytes(cryptoIV);
+            cryptProvider.Key = Encoding.UTF8.GetBytes(cryptoKey);
             cryptProvider.Mode = CipherMode.CBC;
             cryptProvider.Padding = PaddingMode.PKCS7;
         }

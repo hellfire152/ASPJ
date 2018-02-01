@@ -1,6 +1,7 @@
 ﻿@*@model ASPJ_Project.Models.ChatModel*@
 @{
     ViewBag.Title = "Chat";
+    var chatData = ViewBag.chatList;
 }
 <head>
     <title>Chat Mvc Db</title>
@@ -40,7 +41,17 @@
                                                         @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
                                                     </small>
                                                     <div class="message-content">
-                                                        <ul id="chatHistory"></ul>
+                                                        @*<ul id="chatHistory">@ViewBag.chatList</ul>*@
+                                                        <div>
+                                                            @for(int i=0;i < chatData.Count; i++)
+                                                            {
+                                                                <section>
+                                                                    <ul style="list-style-type:none;">
+                                                                        <li><strong>Name: </strong>@chatData[i]</li>
+                                                                    </ul>                                                                   
+                                                                </section>
+                                                            }
+                                                        </div>
                                                         <ul id="discussion"></ul>
                                                     </div>
                                                 </div>
@@ -86,8 +97,8 @@
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
-                $('#discussion').append('<li><strong>' + htmlEncode(name)
-                    + '</strong>: ' + htmlEncode(message) + '</li>');
+                $('#discussion').append('<li><strong>' + name
+                    + '</strong>: ' + message + '</li>');
             };
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));

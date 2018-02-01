@@ -593,6 +593,7 @@
     <Content Include="Content\Images\woodback.jpg" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\ShopStyle\assets\js\jquery-ui.js" />
     <Content Include="css\Forum.css" />
     <Content Include="Content\ShopStyle\assets\css\font-awesome.min.css" />
     <Content Include="Content\ShopStyle\assets\css\ie8.css" />
@@ -616,6 +617,7 @@
     <Content Include="Content\ShopStyle\images\pic05.jpg" />
     <Content Include="Content\ShopStyle\images\pic06.jpg" />
     <None Include="Content\ShopStyle\_Layout.cshtml" />
+    <Content Include="css\jquery-ui.css" />
     <Content Include="css\Thread.css" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
@@ -714,6 +716,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -777,6 +780,7 @@
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Shop\FailureView.cshtml" />
     <Content Include="Views\Shop\SuccessView.cshtml" />
+    <Content Include="Views\Shop\PurchasePopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

@@ -18,6 +18,24 @@
 		<title></title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script type ="text/javascript">
+            function showPopup() {
+                $("#divPopupContent").dialog({
+                    height: 400,
+                    width: 400,
+                    modal: true,
+                    buttons: {
+                        "Purchase": function () {
+                            $(this).dialog("close");
+                            alert("You purchased the item!")
+                        },
+                        "Cancel": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            }
+        </script>
 	</head>
 	<body>
 		<!-- Sidebar -->
@@ -33,6 +51,7 @@
 					</nav>
 				</div>
 			</section>
+
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -60,6 +79,11 @@
 									<span class="icon major fa-graduation-cap"></span>
 									<h3>@HatData[i].itemName</h3>
 									<p>@HatData[i].itemDescription</p>
+                                    <p>@HatData[i].beansPrice Beans</p>
+                                    <input type = "button" onclick="showPopup()" value="Purchase" />
+                                     <div id="divPopupContent" style="display:none;">
+                                         Would you like to purchase this item?
+                                     </div>
 								</section>
                             }
 							</div>
@@ -78,6 +102,8 @@
 									    <span class="icon major fa-black-tie"></span>
 									    <h3>@OutfitData[i].itemName</h3>
 									    <p>@OutfitData[i].itemDescription</p>
+                                        <p>@OutfitData[i].beansPrice Beans</p>
+                                        <input type = "button" onclick="showPopup()" value="Purchase" />
 								    </section>
                                 }
 							</div>

@@ -20,18 +20,28 @@ namespace ASPJ_Project.Models
     
     public class SaveFile
     {
-        public double TCount { get; }
+        public decimal TCount { get; }
         public Dictionary<int, int> Items { get; }
         public int[] Upgrades { get; }
         public long Time { get; set; }
 
-        public SaveFile(long time, double tCount, 
+        public SaveFile(long time, decimal tCount, 
             Dictionary<int, int> items, int[] upgrades)
         {
             this.Time = time;
             this.TCount = tCount;
             this.Items = items;
             this.Upgrades = upgrades;
+
+            //set item number to zero if savefile does not have a record for that item
+            //this is meant for backwards-compatibility when I add new items
+            foreach(int itemId in Item.AllItems.Keys)
+            {
+                if(!items.ContainsKey(itemId))
+                {
+                    items.Add(itemId, 0);
+                }
+            }
         }
 
         //takes in the raw save string and returns a SaveFile object

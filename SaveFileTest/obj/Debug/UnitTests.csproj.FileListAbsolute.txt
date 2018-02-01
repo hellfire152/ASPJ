@@ -68,3 +68,4 @@ C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\Censored.xml
 D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\nClam.dll
 D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Censored.dll
 D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Censored.xml
+C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\SaveFileTest.dll.config

@@ -11,6 +11,16 @@ namespace ASPJ_Project.Models
     public class PremiumShop
     {
 
+        public struct PremiumItem
+        {
+            public string itemName;
+            public string itemType;
+            public int itemID;
+            //public Image itemImage;
+            public string itemDescription;
+            public int beansPrice;
+        }
+
         public struct User //Dummy User
         {
             public string username;
@@ -56,10 +66,12 @@ namespace ASPJ_Project.Models
 
         public struct ItemTransaction
         {
-            public Amount amnt;
             public PremiumItem itemBought;
             public string description;
             public string transactionNo;
+            public int priceOfItem;
+            public int userBeansBefore;
+            public int userBeansAfter;
         }
 
         public struct FundingInstrument

@@ -7,7 +7,7 @@ namespace ASPJ_Project.Models
 {
     public class ProgressData
     {
-        public double TCount;
+        public decimal TCount;
         public Dictionary<int, int> Items;
         public int[] Upgrades;
         public int tofuClicks;

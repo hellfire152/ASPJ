@@ -45,18 +45,13 @@ namespace ASPJ_Project.Controllers
                 return cultureList;
             }
         }
+
     public ActionResult Shop()
         {
             Database d = Database.CurrentInstance;
 
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
-
-            List<string> itemIDs = new List<string>();
-            List<string> itemNames = new List<string>();
-            List<string> itemDescriptions = new List<string>();
-            List<double> beansPrices = new List<double>();
-            List<string> itemImages = new List<string>();
 
             try
             {
@@ -80,6 +75,7 @@ namespace ASPJ_Project.Controllers
                                 };
                                 HatItems.Add(HatItem);
                                 ViewBag.HatItemData = HatItems;
+                                Debug.WriteLine(HatItems[0]);
                             }
                             else if (r["itemType"].ToString().Equals("Outfit"))
                             {
@@ -118,7 +114,10 @@ namespace ASPJ_Project.Controllers
             //methods related to purchasing the item with beans
             //add item ID to user's database to display that they have the item
         }
-
+        public void TransactionLog()
+        {
+            //transaction logging maybe?
+        }
         public ActionResult BeansPurchase()
         {
             return View();
@@ -142,6 +141,7 @@ namespace ASPJ_Project.Controllers
             Session["beansName"] = beansName;
             Session["beansAmount"] = beansAmount;
             Session["price"] = price;
+
             return View();
         }
         public ActionResult CreditCardInfo()
@@ -157,6 +157,13 @@ namespace ASPJ_Project.Controllers
         [ValidateInput(false)]
         public ActionResult CreditCardInfo(Models.CreditCard currentCard)
         {
+
+            Session["ShopSessionID1"] = KeyGenerator.GetUniqueKey(20);
+
+            string sessionID1 = Session["ShopSessionID1"].ToString();
+
+            Session["ShopSessionID2"] = BCrypt.HashSession(sessionID1, BCrypt.GenerateSalt());
+
             if (string.IsNullOrEmpty(currentCard.creditCardNo))
             {
                 ModelState.AddModelError("creditCardNo", "Credit card number is required.");
@@ -404,6 +411,13 @@ namespace ASPJ_Project.Controllers
             //getting the apiContext as earlier
             APIContext apiContext = Configuration.GetAPIContext();
 
+            //generating sessionID
+            Session["ShopSessionID1"] = KeyGenerator.GetUniqueKey(20);
+
+            string sessionID1 = Session["ShopSessionID1"].ToString();
+
+            Session["ShopSessionID2"] = BCrypt.HashSession(sessionID1, BCrypt.GenerateSalt());
+
             try
             {
                 string payerId = Request.Params["PayerID"];
@@ -474,7 +488,40 @@ namespace ASPJ_Project.Controllers
                 return View("FailureView");
             }
 
-            return View("SuccessView");
+            return RedirectToAction("SuccessView");
+        }
+
+        public ActionResult SuccessView()
+        {
+            if (Session["ShopSessionID1"] == null || Session["ShopSessionID2"] == null)
+            {
+                return RedirectToAction("FailureView");
+            }
+            else
+            {
+                string sessionID1 = Session["ShopSessionID1"].ToString();
+                string sessionID2 = Session["ShopSessionID2"].ToString();
+
+                bool doSessionsMatch = BCrypt.CheckSession(sessionID1, sessionID2);
+                if (doSessionsMatch == true)
+                {
+                    //Add Beans to UserAccount
+                    Session["ShopSessionID1"] = null;
+                    Session["ShopSessionID2"] = null;
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("FailureView");
+                }
+            }
+        }
+
+        public ActionResult FailureView()
+        {
+            Session["ShopSessionID1"] = null;
+            Session["ShopSessionID2"] = null;
+            return View();
         }
 
         public Boolean CheckBeans(PremiumShop.User user, PremiumItem premiumItem) //check if beans amount is more than the amount of beans the item is when they are purchasing

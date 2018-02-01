@@ -17,8 +17,8 @@ namespace SaveFileTest
         {
             string saveString = "1516351188332\n{ \"tCount\":3481800.6594187,\"items\":{ \"1\":17,\"2\":3,\"3\":0},\"upgrades\":[100,1000]}";
             SaveFile s = SaveFile.Parse(saveString);
-            s.Items.TryGetValue("1", out int t);
-            s.Items.TryGetValue("2", out int y);
+            s.Items.TryGetValue(1, out int t);
+            s.Items.TryGetValue(2, out int y);
             Assert.AreEqual(t, 17);
             Assert.AreEqual(y, 3);
             Assert.AreEqual(s.TCount, 3481800.6594187);
@@ -70,9 +70,9 @@ namespace SaveFileTest
             Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(itemRaw));
             ItemData i = new ItemData();
 
-            double costCalculated = i.Purchase(1, 17, 20);
+            decimal costCalculated = i.Purchase(1, 17, 20);
             Debug.WriteLine(costCalculated);
-            Assert.AreEqual((double)374, costCalculated);
+            Assert.AreEqual((decimal)374, costCalculated);
         }
 
         [TestMethod]
@@ -127,6 +127,19 @@ namespace SaveFileTest
             Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-items.js")));
             Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(System.IO.File.ReadAllText(@"C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\App_Data\tofu-universe-upgrades.js")));
             
+        }
+
+        [TestMethod]
+        public void DictionaryTesting()
+        {
+            Dictionary<int, int> t = new Dictionary<int, int>()
+            {
+                {1, 4},
+                {2, 3},
+                {3,6 },
+                {4,10 }
+            };
+            Assert.AreEqual(0, t[5]);
         }
 
         /*

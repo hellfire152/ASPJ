@@ -33,10 +33,6 @@ namespace ASPJ_Project
                         "~/Scripts/jquery.signalR-2.2.2.js"
                 ));
 
-            //Shop stuff
-            bundles.Add(new ScriptBundle("~/Shop/js").IncludeDirectory(
-                        "~/Scripts/PremiumShop", "*.js"));
-
             bundles.Add(new StyleBundle("~/Shop/css").Include(
                         "~/Content/PremiumShop/assets/css/main.css"));
 

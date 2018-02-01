@@ -1,5 +1,12 @@
 ﻿//This file contains the main game code of Tofu Universe
-
+//tofu icon used pretty much everywhere
+function tofuIcon() {
+    return $("<img>", {
+        "src": "\\Content\\Images\\tofu.png",
+        "width": "15px",
+        "height": "15px"
+    });
+}
 //extending jquery for my disableSelection function
 jQuery.fn.extend({
     disableSelection: function () {
@@ -141,7 +148,7 @@ function recalculateTotalTps() {
         tps += item.tps * item.owned;
     });
 
-    $("#tps").text(round(tps, 1));
+    $("#tps").text(formatTofuCount(tps));
     _tofuUniverse.player.tps = tps;
 }
 
@@ -215,7 +222,8 @@ function setText(itemId) {
     let i = _tofuUniverse.player.items[itemId];
     i.cost = Math.round(i.baseCost * Math.pow(1.15, i.owned));
     //update display
-    $("#shop-item-cost-" + itemId).text(round(i.cost, 0) + " Tofu");
+    $("#shop-item-cost-" + itemId).text(formatTofuCount(i.cost));
+    $("#shop-item-cost-" + itemId).append(tofuIcon());
     $("#shop-item-name-" + itemId).text(i.name);
     $("#shop-item-description" + itemId).text(i.description);
 }
@@ -242,10 +250,48 @@ function gameloop(time) {
     _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps;
 
     //updating tofu count
-    $("#tofu-count").text(round(_tofuUniverse.player.tCount, 0));
+    $("#tofu-count").text(formatTofuCount(_tofuUniverse.player.tCount));
 
     //continue game loop
     requestAnimationFrame(gameloop);
+}
+
+//takes in ugly long numbers and writes them in terms of the highest fitting 'illion'
+function formatTofuCount(tCount) {
+    tCount = round(tCount, 0);
+    let tString = "" + tCount;
+    let significantsCount = tString.length % 3;
+    if (tString.length <= 3) {
+        return tString;
+    } else if (tString.length <= 6) {
+        let sigs = tString.substr(0, significantsCount);
+        return sigs + ',' + tString.substr(significantsCount);
+    } else {
+        let sig = tString.substr(0, significantsCount + 2) + ' ';
+        switch (Math.floor(tString.length / 3)) {
+            case 2: {
+                sig += "million"
+                break;
+            }
+            case 3: {
+                sig += "billion";
+                break;
+            }
+            case 4: {
+                sig += "trillion";
+                break;
+            }
+            case 5: {
+                sig += "quadrillion";
+                break;
+            }
+            default: {
+                sig = "Just collapse into a singularity already..."
+                break;
+            }
+        }
+        return sig;
+    }
 }
 
 //function to help me with rounding decimals

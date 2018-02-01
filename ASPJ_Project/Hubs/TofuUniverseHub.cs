@@ -71,28 +71,34 @@ namespace ASPJ_Project.TofuUniverse
                 Debug.Write("GETTING SAVE FILE OF: " + c);
                 string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
                 Debug.WriteLine(dataRoot);
-                //get savefile
-                string s = System.IO.File.ReadAllText(
-                    dataRoot + "\\Saves\\" + c + ".tusav");
-
-                //remove time from save
-                string[] saveParts = s.Split('\n');
-
-                //get current time
-                long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
-
-                //send save to player
-                if (s[0] == '{') //convert old format to new format
+                string saveFileLocation = dataRoot + "\\Saves\\" + c + ".tusav";
+                if (File.Exists(saveFileLocation))
                 {
-                    System.IO.File.WriteAllText(
-                dataRoot + "\\Saves\\" + c + ".tusav", "" + utcTime + "\n" + s.Replace("\n", ""));
-                    return s;
-                }
-                else
+                    //get savefile
+                    string s = System.IO.File.ReadAllText(saveFileLocation);
+
+                    //remove time from save
+                    string[] saveParts = s.Split('\n');
+
+                    //get current time
+                    long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+                    //send save to player
+                    if (s[0] == '{') //convert old format to new format
+                    {
+                        System.IO.File.WriteAllText(
+                    dataRoot + "\\Saves\\" + c + ".tusav", "" + utcTime + "\n" + s.Replace("\n", ""));
+                        return s;
+                    }
+                    else
+                    {
+                        System.IO.File.WriteAllText(
+                    dataRoot + "\\Saves\\" + c + ".tusav", "" + utcTime + "\n" + saveParts[1]);
+                        return saveParts[1];
+                    }
+                } else
                 {
-                    System.IO.File.WriteAllText(
-                dataRoot + "\\Saves\\" + c + ".tusav", ""+utcTime+"\n"+saveParts[1]);
-                    return saveParts[1];
+                    return null;
                 }
             }
         }

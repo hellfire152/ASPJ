@@ -35,17 +35,22 @@ namespace ASPJ_Project.TofuUniverse
 
             //check database if it's too soon
             Database d = Database.CurrentInstance; long[] times = new long[3];
+            //PRQ stands for Parameterized Reader Query, it returns a DataTable with all the rows
             DataTable dt = d.PRQ("SELECT * FROM savetime WHERE userID = @1", c);
             if (dt == null) return -2; //if database not up
             if(dt.Rows.Count > 0)
             {
+                //if you want to loop
+                //foreach(DataRow dr in dt.Rows)
                 DataRow dr = dt.Rows[0];
+                //Field method returns the value of the column specified in the type in the angle brackets
                 times[0] = dr.Field<long>("time1");
                 times[1] = dr.Field<long>("time2");
                 times[2] = dr.Field<long>("time3");
             }
             else
             {
+                //PNQ stands for Parameterized Non Query, it returns nothing
                 d.PNQ("INSERT INTO savetime (userID, time1, time2, time3) VALUES (@1, @2, @3, @4)",
                     c, 0, 0, utcTime);
                 times = new long[] { 0, 0, utcTime};

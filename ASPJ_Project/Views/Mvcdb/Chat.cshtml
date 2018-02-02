@@ -43,11 +43,12 @@
                                                     <div class="message-content">
                                                         @*<ul id="chatHistory">@ViewBag.chatList</ul>*@
                                                         <div>
-                                                            @for(int i=0;i < chatData.Count; i++)
+                                                            @*@for(int i=0;i < chatData.Count; i++)*@
+                                                            @foreach(var i in chatData)
                                                             {
                                                                 <section>
                                                                     <ul style="list-style-type:none;">
-                                                                        <li><strong>Name: </strong>@chatData[i]</li>
+                                                                        <li><strong>Name: </strong>@*@chatData[i]*@ @i</li>
                                                                     </ul>                                                                   
                                                                 </section>
                                                             }

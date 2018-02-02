@@ -1,4 +1,4 @@
-﻿@*@{
+﻿@{
     ViewBag.Title = "Shop";
     Layout = "~/Content/ShopStyle/_Layout.cshtml";
 }
@@ -11,30 +11,21 @@
 <html>
 	<head>
         <style>
-            .features{
-                overflow-y: scroll;
+            h3{
+                font-size: 22px;
+            }
+            .description{
+                font-size: 18px;
+            }
+            .beansPrice{
+                font-size: 20px;
             }
         </style>
 		<title></title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script type ="text/javascript">
-            function showPopup() {
-                $("#divPopupContent").dialog({
-                    height: 400,
-                    width: 400,
-                    modal: true,
-                    buttons: {
-                        "Purchase": function () {
-                            $(this).dialog("close");
-                            alert("You purchased the item!")
-                        },
-                        "Cancel": function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-            }
+        <script>
+
         </script>
 	</head>
 	<body>
@@ -78,12 +69,9 @@
 								<section>
 									<span class="icon major fa-graduation-cap"></span>
 									<h3>@HatData[i].itemName</h3>
-									<p>@HatData[i].itemDescription</p>
-                                    <p>@HatData[i].beansPrice Beans</p>
-                                    <input type = "button" onclick="showPopup()" value="Purchase" />
-                                     <div id="divPopupContent" style="display:none;">
-                                         Would you like to purchase this item?
-                                     </div>
+									<p class="description">@HatData[i].itemDescription</p>
+                                    <p class="beansPrice">@HatData[i].beansPrice Beans</p>
+                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
 								</section>
                             }
 							</div>
@@ -101,15 +89,12 @@
 								    <section>
 									    <span class="icon major fa-black-tie"></span>
 									    <h3>@OutfitData[i].itemName</h3>
-									    <p>@OutfitData[i].itemDescription</p>
-                                        <p>@OutfitData[i].beansPrice Beans</p>
-                                        <input type = "button" onclick="showPopup()" value="Purchase" />
+									    <p class="description">@OutfitData[i].itemDescription</p>
+                                        <p class="beansPrice">@OutfitData[i].beansPrice Beans</p>
+                                        @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
 								    </section>
                                 }
 							</div>
-							<ul class="actions">
-								<li><a href="#" class="button">Learn more</a></li>
-							</ul>
 						</div>
 					</section>
 
@@ -124,4 +109,4 @@
 				</div>
 			</footer>
         </body>
-    </html>*@
+    </html>

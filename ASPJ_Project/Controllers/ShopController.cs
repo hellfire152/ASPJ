@@ -50,22 +50,29 @@ namespace ASPJ_Project.Controllers
 
     public ActionResult Shop()
         {
+            //Initialize Database Instance
             Database d = Database.CurrentInstance;
 
+            //Initialize UserID
+            int userID = 48; //Convert.ToInt32(Session["userID".ToString());
+
+            //Create list for storing HatItems, OutfitItems, UserItems to pass to shop via ViewBag
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
+            List<PremiumItem> UserItems = new List<PremiumItem>();
 
             try
             {
                 if (d.OpenConnection())
                 {
-                    string hatQuery = "SELECT * FROM premiumitem";
-                    MySqlCommand c = new MySqlCommand(hatQuery, d.conn);
+                    string itemQuery = "SELECT * FROM premiumitem";
+                    MySqlCommand c = new MySqlCommand(itemQuery, d.conn);
 
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
+                            //If ItemType is Hat pass it into HatItems List
                             if (r["itemType"].ToString().Equals("Hat"))
                             {
                                 PremiumItem HatItem = new PremiumItem
@@ -78,6 +85,8 @@ namespace ASPJ_Project.Controllers
                                 HatItems.Add(HatItem);
                                 ViewBag.HatItemData = HatItems;
                             }
+
+                            //If ItemType is Outfit pass it into OutfitItems List
                             else if (r["itemType"].ToString().Equals("Outfit"))
                             {
                                 PremiumItem OutfitItem = new PremiumItem
@@ -94,6 +103,24 @@ namespace ASPJ_Project.Controllers
                         }
                         r.Close();
                     }
+
+                    MySqlCommand c2 = new MySqlCommand("SELECT * FROM inventory WHERE userID = @userID", d.conn);
+                    c2.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r2 = c2.ExecuteReader())
+                    {
+                        while (r2.Read())
+                        {
+                            PremiumItem UserItem = new PremiumItem
+                            {
+                                itemID = (r2["itemID"].ToString()),
+                            };
+                            Debug.WriteLine("hello");
+                            UserItems.Add(UserItem);
+                        }
+                        r2.Close();
+                    }
+                    ViewBag.UserItemsData = UserItems;
                 }            
             }
 

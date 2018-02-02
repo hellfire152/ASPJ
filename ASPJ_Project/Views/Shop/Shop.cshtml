@@ -7,6 +7,7 @@
 @{
     var HatData = ViewBag.HatItemData;
     var OutfitData = ViewBag.OutfitItemData;
+    var UserItemData = ViewBag.UserItemsData;
 }
 <html>
 	<head>
@@ -72,8 +73,24 @@
 									<h3>@HatData[i].itemName</h3>
 									<p class="description">@HatData[i].itemDescription</p>
                                     <p class="beansPrice">@HatData[i].beansPrice Beans</p>
-                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								</section>
+                                    @for(int j = 0; j < UserItemData.Count; j++)
+                                    {
+                                        var alreadyPurchased = false;
+                                        if (UserItemData[j].itemID == HatData[i].itemID)
+                                        {
+                                            alreadyPurchased = true;
+                                            break;
+                                        }
+                                    }
+                                    if alreadyPurchased = false
+                                    {
+                                        @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								    }
+                                    else
+                                    {
+                                        <a href="#">Already Purchased</a>
+                                    }
+                                </section>
                             }
 							</div>
 						</div>

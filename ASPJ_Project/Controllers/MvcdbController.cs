@@ -210,6 +210,7 @@ namespace ASPJ_Project.Controllers
         }
     }
 
+
     public class Censors
     {
         public string CrapCensor(string censorSomeWords)

@@ -347,7 +347,7 @@ namespace ASPJ_Project.Controllers
         MySql.Data.MySqlClient.MySqlConnection conn;
         //MySql.Data.MySqlClient.MySqlCommand cmd;
         MySql.Data.MySqlClient.MySqlDataReader reader;
-        AESCryptoStuff aes_obj = new AESCryptoStuff();
+        AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
         EncodeDecode encInit = new EncodeDecode();
         string queryString;
 
@@ -358,10 +358,8 @@ namespace ASPJ_Project.Controllers
             //MySql.Data.MySqlClient.MySqlCommand cmd;            
             try
             {
-                String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;                
-                conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-                conn.Open();                
-                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                Models.Database d = Models.Database.CurrentInstance;                
+                MySqlCommand cmd = new MySqlCommand(queryString, d.conn);
 
                 /*
                  command.Parameters.AddWithValue("@chatId", chatid);
@@ -371,7 +369,6 @@ namespace ASPJ_Project.Controllers
                     else{                                           
                     }
                   */
-                aes_obj.AesInitialize();
                 chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
                 //chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
@@ -406,9 +403,8 @@ namespace ASPJ_Project.Controllers
                 List<string> decodedList = new List<string>();
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(queryString, conn);
-                AESCryptoStuff aes_obj = new AESCryptoStuff();
-                aes_obj.AesInitialize();                
-                //queryString = "";
+                AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;              
+
                 queryString = "SELECT * FROM dububase.chat";
                 cmd.CommandText = queryString;
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
@@ -574,40 +570,4 @@ namespace ASPJ_Project.Controllers
 
     //    }
     //}
-
-    public class AESCryptoStuff
-    {
-        AesCryptoServiceProvider cryptProvider;
-        private const string cryptoIV = @"G%h*Kd(3F/#35J0F";
-        private const string cryptoKey = @"BEFBBU7497%*ghfcUH?GHV/K6%Fgh#)3";
-        public void AesInitialize ()
-        {
-            cryptProvider = new AesCryptoServiceProvider();
-
-            cryptProvider.BlockSize = 128;
-            cryptProvider.KeySize = 256;
-            cryptProvider.IV = Encoding.UTF8.GetBytes(cryptoIV);
-            cryptProvider.Key = Encoding.UTF8.GetBytes(cryptoKey);
-            cryptProvider.Mode = CipherMode.CBC;
-            cryptProvider.Padding = PaddingMode.PKCS7;
-        }
-
-        public String AesEncrypt(String clear_text)
-        {
-            ICryptoTransform transform = cryptProvider.CreateEncryptor();
-            byte[] encrypted_bytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clear_text), 0, clear_text.Length);
-            string str = Convert.ToBase64String(encrypted_bytes);
-            return str;
-        }
-
-        public String AesDecrypt(String cipher_text)
-        {
-            ICryptoTransform transform = cryptProvider.CreateDecryptor();
-            byte[] enc_bytes = Convert.FromBase64String(cipher_text);
-            byte[] decrypted_bytes = transform.TransformFinalBlock(enc_bytes, 0, enc_bytes.Length);
-            string str = ASCIIEncoding.ASCII.GetString(decrypted_bytes);
-            return str;
-        }
-    }
-
 }

@@ -8,23 +8,67 @@ using ASPJ_Project.Models;
 using System.Diagnostics;
 using System.IO;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace ASPJ_Project.TofuUniverse
 {   
     //[TofuAuthorize]
     public class TofuUniverseHub : Hub
     {
-        //public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
-
-        public Boolean SaveProgress(ProgressData progress)
+        public int SaveProgress(ProgressData progress)
         {
+            //if connection is already invalidated
+            if (ValidityMap.CurrentInstance.Contains(Context.ConnectionId) && 
+                !ValidityMap.CurrentInstance[Context.ConnectionId])
+            {
+                Debug.WriteLine("INVALID CONNECTION");
+                return -1;
+            }
+
+
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
-            string c = Crypto.CurrentInstance.Decrypt(
-                Context.RequestCookies["username"].Value);
+            string c = Context.RequestCookies["username"].Value;
 
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+            //check database if it's too soon
+            Database d = Database.CurrentInstance; long[] times = new long[3];
+            //PRQ stands for Parameterized Reader Query, it returns a DataTable with all the rows
+            //First argument is the query, every argument after that is the parameters
+            //The @ parameters MUST START FROM 1 COUNTS UP FROM THERE
+            //you can have any number of @ parameters and corresponding method arguments for the values
+            DataTable dt = d.PRQ("SELECT * FROM savetime WHERE userID = @1", c);
+            if (dt == null) return -2; //if database not up
+            if(dt.Rows.Count > 0)
+            {
+                //if you want to loop
+                //foreach(DataRow dr in dt.Rows)
+                DataRow dr = dt.Rows[0];
+                //Field method returns the value of the column specified in the type in the angle brackets
+                times[0] = dr.Field<long>("time1");
+                times[1] = dr.Field<long>("time2");
+                times[2] = dr.Field<long>("time3");
+            }
+            else
+            {
+                //PNQ stands for Parameterized Non Query, it returns nothing
+                d.PNQ("INSERT INTO savetime (userID, time1, time2, time3) VALUES (@1, @2, @3, @4)",
+                    c, 0, 0, utcTime);
+                times = new long[] { 0, 0, utcTime};
+            }
+            if (utcTime - times[0] < 60000) //4th save in a minute
+            {
+                return 0;
+            } else
+            {
+                times[0] = utcTime;
+                Array.Sort(times);
+                d.PNQ("UPDATE savetime SET time1 = @1, time2 = @2, time3 = @3 WHERE userID = @4",
+                    c, times[0], times[1], times[2]);
+            }
+
             //get previous save data
             SaveFile prevSave;
             try
@@ -46,17 +90,9 @@ namespace ASPJ_Project.TofuUniverse
             {
                 //if caught cheating
                 //insert cheat record into database
-                Database d = Database.CurrentInstance;
-                if(d.OpenConnection())
-                {
-                    string query = @"INSERT INTO cheatlog (username, time) VALUES (@username, @time)";
-                    MySqlCommand m = new MySqlCommand(query, d.conn);
-                    m.Parameters.AddWithValue("@username", c);
-                    m.Parameters.AddWithValue("@time", utcTime);
-                    m.ExecuteNonQuery();
-                    d.CloseConnection();
-                }
-                return false;
+                d.PNQ("INSERT INTO cheatlog (username, time) VALUES (@1, @2)", c, utcTime);
+                ValidityMap.CurrentInstance[Context.ConnectionId] = false;
+                return -1;
             }
 
             //save + time on first line
@@ -67,17 +103,19 @@ namespace ASPJ_Project.TofuUniverse
             //write to file
             System.IO.File.WriteAllText(
                 dataRoot + "\\Saves\\" + c + ".tusav", s);
-            return true;
+
+            return 1;
         }
 
+        //gets a save file and sends it to the client
         public string RequestSave()
         {
+
             //read cookie
-            string c = Crypto.CurrentInstance.Decrypt(
-               Context.RequestCookies["username"].Value);
+            string c = Context.RequestCookies["username"].Value;
             if (c == null || c == "guest")
             {
-                return null;
+                return "invalid:No username attached";
             } else
             {
                 Debug.Write("GETTING SAVE FILE OF: " + c);
@@ -115,39 +153,16 @@ namespace ASPJ_Project.TofuUniverse
             }
         }
 
-        //test for set username
-        public string RequestUsername()
-        {
-            // return Crypto.CurrentInstance.Decrypt(
-            //   Context.RequestCookies["username"].Value);
-            string c = (string)HttpContext.Current.Session["username"];
-            return c ?? "test";
-        }
-
         //Test if signalR is working
         public Task Ping(string message)
         {
             return Clients.Client(Context.ConnectionId).Pong("FROM SERVER: " + message);
         }
 
-        /*public override Task OnConnected()
-        {
-            //get username from cookie
-            var username = Crypto.CurrentInstance.Decrypt(
-                Context.RequestCookies["username"].Value);
-            if(!(username == null || username == "guest")) //logged in user
-            {
-                //map connection
-                UserConnectionMap.CurrentInstance.Add(username, Context.ConnectionId);
-            }
-
-            return base.OnConnected();
-        }
-
         public override Task OnDisconnected(bool stopCalled)
         {
-            UserConnectionMap.CurrentInstance.Remove(Context.ConnectionId);
+            ValidityMap.CurrentInstance.Remove(Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
-        }*/
+        }
     }
 }

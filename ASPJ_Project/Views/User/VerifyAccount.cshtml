@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Verify Account";
+}
+
+<h2>Verify Account</h2>
+
+@*@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> Your account has been activated succesfully. Click here to @Html.ActionLink("Login","Login","User")
+
+    </div>
+}
+else{
+    <div class="alert alert-danger">
+        <strong>Error!</strong> @ViewBag.Message
+    </div>
+}*@
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Verify Account" class="btn btn-default" />
+
+          
+        </div>
+    </div>
+
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+    </script>
+
+}

@@ -44,5 +44,12 @@
         "tps": 1000,
         "description" : "Travel the universe for more tofu!",
         "icon": "wormhole.jpg"
+    },
+    10: {
+        "name": "<script>alert('itemName');</script>",
+        "cost": 1000000000,
+        "tps": 1,
+        "description": "<script>alert('itemDescription');</script>",
+        "icon":"<script>alert('itemIcon');</script>"
     }
 }

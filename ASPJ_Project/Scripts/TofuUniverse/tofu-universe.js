@@ -189,7 +189,7 @@ function purchase(purchaseType, purchaseId, fromSave) {
                 $("#item-owned-" + purchaseId).text(p.items[purchaseId].owned);
                 break;
             } else {
-                console.log("Not enough Tofu!");
+                showNotification("Not enough Tofu!", "Go and earn more tofu!");
                 break;
             }
         case "upgrade":
@@ -205,10 +205,8 @@ function purchase(purchaseType, purchaseId, fromSave) {
                     $("#shop-upgrade-" + purchaseId).remove();
                 }
             } else {
-                console.log("Not enough tofu (upgrade)!");
+                showNotification("Not enough Tofu!", "Go and earn more tofu!");
             }
-            break;
-        case "beanUpgrade":
             break;
     }
     recalculateTotalTps();
@@ -257,32 +255,33 @@ function gameloop(time) {
 }
 
 //takes in ugly long numbers and writes them in terms of the highest fitting 'illion'
-function formatTofuCount(tCount) {
+function formatTofuCount(tCount, short) {
     tCount = round(tCount, 0);
     let tString = "" + tCount;
     let significantsCount = tString.length % 3;
     if (tString.length <= 3) {
         return tString;
     } else if (tString.length <= 6) {
+        if (significantsCount == 0) significantsCount = 3;
         let sigs = tString.substr(0, significantsCount);
         return sigs + ',' + tString.substr(significantsCount);
     } else {
         let sig = tString.substr(0, significantsCount + 2) + ' ';
         switch (Math.floor(tString.length / 3)) {
             case 2: {
-                sig += "million"
+                sig += (short == true) ? "m" : "million";
                 break;
             }
             case 3: {
-                sig += "billion";
+                sig += (short == true) ? "b" : "billion";
                 break;
             }
             case 4: {
-                sig += "trillion";
+                sig += (short == true) ? "t" : "trillion";
                 break;
             }
             case 5: {
-                sig += "quadrillion";
+                sig += (short == true) ? "q" : "quadrillion";
                 break;
             }
             default: {
@@ -317,9 +316,9 @@ function saveProgress() {
     }).done((success) => {
         console.log(success);
         if (success) {
-            console.log("File saved!");
+            showNotification("Save success!", "");
         } else {
-            console.log("Have you been cheating?");
+            showAlert();
         }
     });
 
@@ -368,7 +367,8 @@ window.onload = () => {
             "class": "shop-item-cost",
             "id": "shop-item-cost-" + index
         });
-        cost.text(item.cost + ' Tofu')
+        cost.text(formatTofuCount(item.cost));
+        cost.append(tofuIcon());
         let owned = $("<span>", {
             "class": "shop-item-owned",
             "id": "item-owned-" + index
@@ -397,7 +397,8 @@ window.onload = () => {
             "id":"upgrade-description-cost-" + key,
             "class":"upgrade-description-cost"
         });
-        cost.text(upgrade.cost);
+        cost.text(formatTofuCount(upgrade.cost));
+        cost.append(tofuIcon());
         let flair = $("<div>", {
             "id": "upgrade-description-flair-" + key,
             "class": "upgrade-description-flair"
@@ -486,7 +487,22 @@ window.onload = () => {
     $("#tofu").disableSelection();
     $("#tofu-count-container").disableSelection();
     $("#tps-container").disableSelection();
-    
+
+    /*---Cheat Alert code---*/
+    //close popup
+    $('.cd-popup').on('click', function (event) {
+        if ($(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup')) {
+            event.preventDefault();
+            $(this).removeClass('is-visible');
+        }
+    });
+    //close popup when clicking the esc keyboard button
+    $(document).keyup(function (event) {
+        if (event.which == '27') {
+            $('.cd-popup').removeClass('is-visible');
+        }
+    });
+
     //start game loop
     window.requestAnimationFrame(gameloop);
 };

@@ -19,7 +19,7 @@
     <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44370</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -548,6 +548,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ExtraUI.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\Items\farm.png" />
@@ -593,6 +594,7 @@
     <Content Include="Content\Images\woodback.jpg" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\ShopStyle\assets\js\jquery-ui.js" />
     <Content Include="css\Forum.css" />
     <Content Include="Content\ShopStyle\assets\css\font-awesome.min.css" />
     <Content Include="Content\ShopStyle\assets\css\ie8.css" />
@@ -616,6 +618,7 @@
     <Content Include="Content\ShopStyle\images\pic05.jpg" />
     <Content Include="Content\ShopStyle\images\pic06.jpg" />
     <None Include="Content\ShopStyle\_Layout.cshtml" />
+    <Content Include="css\jquery-ui.css" />
     <Content Include="css\Thread.css" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
@@ -714,6 +717,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -729,10 +733,10 @@
     <Content Include="Scripts\PremiumShop\util.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TofuUniverse\big.min.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-items.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-upgrades.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe.js" />
+    <Content Include="Scripts\TofuUniverse\UIScripts.js" />
     <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -777,6 +781,7 @@
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Shop\FailureView.cshtml" />
     <Content Include="Views\Shop\SuccessView.cshtml" />
+    <Content Include="Views\Shop\PurchasePopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />
@@ -820,7 +825,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55183</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55183/</IISUrl>
+          <IISUrl>https://localhost:44370/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

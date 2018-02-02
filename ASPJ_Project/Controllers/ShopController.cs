@@ -21,7 +21,13 @@ namespace ASPJ_Project.Controllers
         private PayPal.Api.Payment payment;
         // GET: Shop
 
-    public static class CultureHelper {
+
+        [HttpGet]
+        public PartialViewResult PurchasePopup()
+        {
+            return PartialView();
+        }
+        public static class CultureHelper {
 
             public static Dictionary<string, string> CountryList()
             {

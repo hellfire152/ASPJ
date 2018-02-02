@@ -27,7 +27,8 @@ namespace ASPJ_Project
                         "~/Scripts/TofuUniverse/big.min.js",
                         "~/Scripts/TofuUniverse/tofu-universe-items.js",
                         "~/Scripts/TofuUniverse/tofu-universe-upgrades.js",
-                        "~/Scripts/TofuUniverse/tofu-universe.js"));
+                        "~/Scripts/TofuUniverse/tofu-universe.js",
+                        "~/Scripts/TofuUniverse/UIScripts.js"));
 
             bundles.Add(new ScriptBundle("~/signalr").Include(
                         "~/Scripts/jquery.signalR-2.2.2.js"
@@ -42,7 +43,8 @@ namespace ASPJ_Project
 
             bundles.Add(new StyleBundle("~/game/css").Include(
                         "~/Content/Main.css",
-                        "~/Content/bootstrap.css"));
+                        "~/Content/bootstrap.css",
+                        "~/Content/ExtraUI.css"));
         }
     }
 }

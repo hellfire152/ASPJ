@@ -27,7 +27,8 @@ namespace ASPJ_Project.TofuUniverse
 
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
-            string c = Context.RequestCookies["username"].Value;
+            string c = Crypto.CurrentInstance.Decrypt(
+                Context.RequestCookies["username"].Value);
 
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
@@ -129,7 +130,8 @@ namespace ASPJ_Project.TofuUniverse
         {
 
             //read cookie
-            string c = Context.RequestCookies["username"].Value;
+            string c = Crypto.CurrentInstance.Decrypt(
+               Context.RequestCookies["username"].Value);
             if (c == null || c == "guest")
             {
                 return "invalid:No username attached";

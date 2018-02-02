@@ -239,12 +239,12 @@
         "cost": 100000000000000,
         "icon": "ftl5.png"
     },
-    15: {
-        "name": "<script>alert('upgradeName');</script>",
-        "description": "<script>alert('upgradeDescription');</script>",
-        "effectDescription": "<script>alert('upgradeEffectDescription');</script>",
-        "effect": "0.tps+2,1.tps+0.3",
-        "cost": 100,
+    1000: {
+        "name": "Test",
+        "description": "TESTING",
+        "effectDescription": "+1000 tofu per click",
+        "effect": "1.tps*1.2",
+        "cost": 1,
         "icon": "test2.jpg"
-    }
+    },
 }

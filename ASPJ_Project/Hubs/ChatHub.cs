@@ -13,7 +13,6 @@ namespace ASPJ_Project.Hubs
     {
         //Initialize db object
         DatabaseStuff db = new DatabaseStuff();
-        EncodeDecode encInit = new EncodeDecode();
 
         public void JoinAGroup(string group)
         {

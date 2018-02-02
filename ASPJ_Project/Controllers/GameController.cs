@@ -1,11 +1,9 @@
 ﻿using ASPJ_Project.Models;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace ASPJ_Project.Controllers
 {
@@ -21,7 +19,8 @@ namespace ASPJ_Project.Controllers
             //set test username
             HttpCookie usernameCookie = new HttpCookie("username")
             {
-                Value = TestUsernames[TestCounter]
+                Value = Crypto.CurrentInstance.Encrypt(
+                    TestUsernames[TestCounter])
             };
             //comment out this line to cycle between 1,2,3,4
             usernameCookie.Value = "test2";

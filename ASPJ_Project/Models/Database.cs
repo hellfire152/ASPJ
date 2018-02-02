@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+using System.Data;
 
 namespace ASPJ_Project.Models
 {
@@ -21,6 +22,41 @@ namespace ASPJ_Project.Models
         public Database(string connString)
         {
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+        }
+
+        public DataTable PRQ(string query, params dynamic[] parameters)
+        {
+            if(OpenConnection())
+            {
+                MySqlCommand m = new MySqlCommand(query, conn);
+                for(int i = 0; i < parameters.Length; i++)
+                {
+                    m.Parameters.AddWithValue("@" + (i + 1), parameters[i]);
+                }
+                MySqlDataReader r = m.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(r);
+ 
+                CloseConnection();
+                r.Close();
+
+                return dt;
+            }
+            return null;
+        }
+
+        public void PNQ(string query, params dynamic[] parameters)
+        {
+            if(OpenConnection())
+            {
+                MySqlCommand m = new MySqlCommand(query, conn);
+                for(int i = 0; i < parameters.Length; i++)
+                {
+                    m.Parameters.AddWithValue("@" + (i + 1), parameters[i]);
+                }
+                m.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
 
         public bool Insert(string query)

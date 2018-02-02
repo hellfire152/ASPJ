@@ -36,6 +36,7 @@ namespace ASPJ_Project
             Upgrade.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawUpgrades));
             Item.Initialize(JsonConvert.DeserializeObject<Dictionary<int, dynamic>>(rawItems));
             AESCryptoStuff.Initialize(iv, key);
+            ValidityMap.Initialize();
 
             //transfer storage objects to .js files served to the client
             string scriptsRoot = Server.MapPath("~") + @"\Scripts\TofuUniverse\";

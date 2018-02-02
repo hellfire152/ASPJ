@@ -40,6 +40,11 @@ namespace ASPJ_Project.Models
             return false;
         }
 
+        public bool Contains(string index)
+        {
+            return data.ContainsKey(index);
+        }
+
         public bool this[string index]
         {
             get

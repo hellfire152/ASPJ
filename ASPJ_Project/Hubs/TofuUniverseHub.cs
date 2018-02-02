@@ -18,7 +18,8 @@ namespace ASPJ_Project.TofuUniverse
         public int SaveProgress(ProgressData progress)
         {
             //if connection is already invalidated
-            if (ValidityMap.CurrentInstance[Context.ConnectionId] == false)
+            if (ValidityMap.CurrentInstance.Contains(Context.ConnectionId) && 
+                !ValidityMap.CurrentInstance[Context.ConnectionId])
             {
                 Debug.WriteLine("INVALID CONNECTION");
                 return -1;
@@ -34,49 +35,31 @@ namespace ASPJ_Project.TofuUniverse
 
             //check database if it's too soon
             Database d = Database.CurrentInstance; long[] times = new long[3];
-            if (d.OpenConnection())
+            DataTable dt = d.PRQ("SELECT * FROM savetime WHERE userID = @1", c);
+            if (dt == null) return -2; //if database not up
+            if(dt.Rows.Count > 0)
             {
-                string query = "SELECT * FROM savetime WHERE userID=@id";
-                MySqlCommand m = new MySqlCommand(query, d.conn);
-                m.Parameters.AddWithValue("@id", c);
-
-                bool hasEntry = false;
-                using (MySqlDataReader r = m.ExecuteReader())
-                {
-                    hasEntry = true;
-                    r.Read();
-                    times[0] = r.GetInt64("time1");
-                    times[1] = r.GetInt64("time2");
-                    times[2] = r.GetInt64("time3");
-                }
-                if(!hasEntry)
-                {
-                    query = "INSERT INTO savetime (userID, time1, time2, time3) VALUES (@u, @t1, @t2, @t3)";
-                    MySqlCommand m2 = new MySqlCommand(query, d.conn);
-                    m.Parameters.AddWithValue("@u", c);
-                    m.Parameters.AddWithValue("@t1", 0);
-                    m.Parameters.AddWithValue("@t2", 0);
-                    m.Parameters.AddWithValue("@t3", utcTime);
-                    m.ExecuteNonQuery();
-                    times = new long[] { 0, 0, utcTime};
-                }
-                if (utcTime - times[0] < 60000) //4th save in a minute
-                {
-                    return 0;
-                } else
-                {
-                    times[0] = utcTime;
-                    Array.Sort(times);
-                    query = "UPDATE savetimes SET time1 = @t1, time2 = @t2, time3 = @t3 WHERE userID = @u";
-                    MySqlCommand m3 = new MySqlCommand(query, d.conn);
-                    m3.Parameters.AddWithValue("@u", c);
-                    m3.Parameters.AddWithValue("@t1", times[0]);
-                    m3.Parameters.AddWithValue("@t2", times[1]);
-                    m3.Parameters.AddWithValue("@t3", times[2]);
-                }
-                d.CloseConnection();
+                DataRow dr = dt.Rows[0];
+                times[0] = dr.Field<long>("time1");
+                times[1] = dr.Field<long>("time2");
+                times[2] = dr.Field<long>("time3");
             }
-            else return -2;
+            else
+            {
+                d.PNQ("INSERT INTO savetime (userID, time1, time2, time3) VALUES (@1, @2, @3, @4)",
+                    c, 0, 0, utcTime);
+                times = new long[] { 0, 0, utcTime};
+            }
+            if (utcTime - times[0] < 60000) //4th save in a minute
+            {
+                return 0;
+            } else
+            {
+                times[0] = utcTime;
+                Array.Sort(times);
+                d.PNQ("UPDATE savetime SET time1 = @1, time2 = @2, time3 = @3 WHERE userID = @4",
+                    c, times[0], times[1], times[2]);
+            }
 
             //get previous save data
             SaveFile prevSave;
@@ -99,15 +82,7 @@ namespace ASPJ_Project.TofuUniverse
             {
                 //if caught cheating
                 //insert cheat record into database
-                if(d.OpenConnection())
-                {
-                    string query = @"INSERT INTO cheatlog (username, time) VALUES (@username, @time)";
-                    MySqlCommand m = new MySqlCommand(query, d.conn);
-                    m.Parameters.AddWithValue("@username", c);
-                    m.Parameters.AddWithValue("@time", utcTime);
-                    m.ExecuteNonQuery();
-                    d.CloseConnection();
-                }
+                d.PNQ("INSERT INTO cheatlog (username, time) VALUES (@1, @2)", c, utcTime);
                 ValidityMap.CurrentInstance[Context.ConnectionId] = false;
                 return -1;
             }

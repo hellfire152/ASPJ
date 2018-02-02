@@ -829,6 +829,7 @@
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Shop\FailureView.cshtml" />
     <Content Include="Views\Shop\SuccessView.cshtml" />
+    <Content Include="Views\Shop\Inventory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

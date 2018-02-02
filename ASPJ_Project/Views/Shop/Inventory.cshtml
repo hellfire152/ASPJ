@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Shop";
+    ViewBag.Title = "Inventory";
     Layout = "~/Content/ShopStyle/_Layout.cshtml";
 }
 @using ASPJ_Project.Models
@@ -36,7 +36,6 @@
 						<ul>
 							<li><a href="#one">Hats</a></li>
 							<li><a href="#two">Outfits</a></li>
-                            <li><a href="/Shop/Inventory">Inventory</a></li>
                             <li><a>Beans: </a> </li>
                             <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
 						</ul>
@@ -51,10 +50,11 @@
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
-							<h1>Premium Shop</h1>
+							<h1>Inventory </h1>
 							<p>Customize your own Tofu.</p>
 							<ul class="actions">
-								<li><a href="/Game/Index" class="button scrolly">Play Now</a></li>
+								<li><a href="/Game/Index" class="button scrolly">Play</a></li>
+                                <li><a href="/Shop/Shop" class="button scrolly">Shop</a></li>
 							</ul>
 						</div>
 					</section>
@@ -65,14 +65,23 @@
 							<h2>Hats</h2>
 							<p>Something to put on its soft squishy head.</p>
 							<div class="features">
-                            @for(int i = 0; i < HatData.Count; i++)
-                            { 
-								<section>
-									<span class="icon major fa-graduation-cap"></span>
-									<h3>@HatData[i].itemName</h3>
-									<p class="description">@HatData[i].itemDescription</p>
-                                    <p class="beansPrice">@HatData[i].beansPrice Beans</p>
-                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                            @if (HatData.Count > 0)
+                            {
+                                for(int i = 0; i < HatData.Count; i++)
+                                { 
+								    <section>
+									    <span class="icon major fa-graduation-cap"></span>
+									    <h3>@HatData[i].itemName</h3>
+									    <p class="description">@HatData[i].itemDescription</p>
+                                        @Html.ActionLink("Equip", "ItemEquip", null, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								    </section>
+                                }
+                            }
+                            else
+                            {
+                                <section>
+									    <h3>Hmmm.. there seems to be nothing here. Why not purchase an item?</h3>
+									    <a href="/Shop/Shop" class="button scrolly">Shop</a>
 								</section>
                             }
 							</div>
@@ -85,13 +94,23 @@
 							<h2>Outfits</h2>
 							<p>Make your tofu look even more adorable.</p>
 							<div class="features">
-                               @for(int i = 0; i < OutfitData.Count; i++)
+                               @if
+                               {
+                                   for(int i = 0; i < OutfitData.Count; i++)
+                                    {
+								        <section>
+									        <span class="icon major fa-black-tie"></span>
+									        <h3>@OutfitData[i].itemName</h3>
+									        <p class="description">@OutfitData[i].itemDescription</p>
+                                            @Html.ActionLink("Equip", "ItemEquip", null, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								        </section>
+                                    }
+                                }
+                                else
                                 {
-								    <section>
-									    <span class="icon major fa-black-tie"></span>
-									    <h3>@OutfitData[i].itemName</h3>
-									    <p class="description">@OutfitData[i].itemDescription</p>
-                                        @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                    <section>
+									        <h3>Hmmm.. there seems to be nothing here. Why not purchase an item?</h3>
+									        <a href="/Shop/Shop" class="button scrolly">Shop</a>
 								    </section>
                                 }
 							</div>

@@ -109,12 +109,83 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
+        public ActionResult Inventory()
+        {
+            Database d = Database.CurrentInstance;
 
-        public ActionResult ItemPurchase(string beansPrice, string premiumItemName)
+            List<int> itemIDs = new List<int>();
+            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            List<PremiumItem> HatItems = new List<PremiumItem>();
+            List<PremiumItem> OutfitItems = new List<PremiumItem>();
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string inventoryQuery = "SELECT * FROM inventory where userID = @userID";
+                    MySqlCommand c = new MySqlCommand(inventoryQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            itemIDs.Add(Convert.ToInt32(r["itemID"]));
+                        }
+                        r.Close();
+                    }
+
+                    for (int i = 0; i < itemIDs.Count(); i++)
+                    {
+                        MySqlCommand c2 = new MySqlCommand("select * from premiumitem where itemID = @itemID", d.conn);
+                        c2.Parameters.AddWithValue("@itemID", itemIDs[i]);
+                        MySqlDataReader reader = c2.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            if (reader["itemType"].ToString() == "Hat")
+                            {
+                                PremiumItem HatItem = new PremiumItem
+                                {
+                                    itemName = (reader["itemName"].ToString()),
+                                    itemDescription = (reader["itemDescription"].ToString()),
+                                };
+                                HatItems.Add(HatItem);
+                            }
+
+                            if (reader["itemType"].ToString() == "Outfit")
+                            {
+                                PremiumItem OutfitItem = new PremiumItem
+                                {
+                                    itemName = (reader["itemName"].ToString()),
+                                    itemDescription = (reader["itemDescription"].ToString()),
+                                };
+                                OutfitItems.Add(OutfitItem);
+                            }
+                        }
+                    }
+                    ViewBag.OutfitItemData = OutfitItems;
+                    ViewBag.HatItemData = HatItems;
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+            return View();
+        }
+
+        public ActionResult ItemPurchase(string beansPrice, string premiumItemName, string premiumItemID)
         {
 
             Database d = Database.CurrentInstance;
-            int userID = Convert.ToInt32(Session["UserID"]);
+            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int itemID = Convert.ToInt32(premiumItemID);
 
             try
             {
@@ -154,6 +225,12 @@ namespace ASPJ_Project.Controllers
                         c3.Parameters.AddWithValue("@beansAfter", beansAfter);
                         c3.Parameters.AddWithValue("@userID", userID);
                         c3.ExecuteNonQuery();
+
+                        string addInventoryQuery = "INSERT INTO inventory VALUES (@userID, @itemID)";
+                        MySqlCommand c4 = new MySqlCommand(addInventoryQuery, d.conn);
+                        c4.Parameters.AddWithValue("@userID", userID);
+                        c4.Parameters.AddWithValue("@itemID", itemID);
+                        c4.ExecuteNonQuery();
                     }
                 }
             }

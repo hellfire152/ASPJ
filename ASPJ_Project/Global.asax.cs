@@ -8,9 +8,6 @@ using System.Web.Routing;
 using Newtonsoft.Json;
 using ASPJ_Project.Models;
 using System.IO;
-using System.Web.Configuration;
-using System.Diagnostics;
-
 namespace ASPJ_Project
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -22,14 +19,10 @@ namespace ASPJ_Project
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //getting all the data required for initialization
+            //initialize upgrades from file
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             string rawUpgrades = File.ReadAllText(dataRoot + @"\tofu-universe-upgrades.js");
             string rawItems = File.ReadAllText(dataRoot + @"\tofu-universe-items.js");
-            string iv = WebConfigurationManager.AppSettings["iv"];
-            string key = WebConfigurationManager.AppSettings["key"];
-            Debug.WriteLine("DATABASE IV: " + iv);
-            Debug.WriteLine("DATABASE KEY: " +key);
 
             //initialize all of our custom classes
             Database.Initialize(System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString());
@@ -44,6 +37,11 @@ namespace ASPJ_Project
             string upgradesFile = "_tofuUniverse.UPGRADES = " + rawUpgrades;
             File.WriteAllText(scriptsRoot + "tofu-universe-items.js", itemsFile);
             File.WriteAllText(scriptsRoot + "tofu-universe-upgrades.js", upgradesFile);
+
+            //initialize username to connection map
+            Models.UserConnectionMap.CurrentInstance =
+                new Models.UserConnectionMap();
+            Models.Crypto.CurrentInstance = new Models.Crypto("cookiekey");
 
         }
 

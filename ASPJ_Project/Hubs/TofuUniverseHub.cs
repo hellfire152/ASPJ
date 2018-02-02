@@ -36,6 +36,9 @@ namespace ASPJ_Project.TofuUniverse
             //check database if it's too soon
             Database d = Database.CurrentInstance; long[] times = new long[3];
             //PRQ stands for Parameterized Reader Query, it returns a DataTable with all the rows
+            //First argument is the query, every argument after that is the parameters
+            //The @ parameters MUST START FROM 1 COUNTS UP FROM THERE
+            //you can have any number of @ parameters and corresponding method arguments for the values
             DataTable dt = d.PRQ("SELECT * FROM savetime WHERE userID = @1", c);
             if (dt == null) return -2; //if database not up
             if(dt.Rows.Count > 0)

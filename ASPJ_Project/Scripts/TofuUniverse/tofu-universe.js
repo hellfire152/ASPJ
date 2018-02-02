@@ -313,12 +313,24 @@ function saveProgress() {
         "upgrades": _tofuUniverse.player.upgrades,
         "tofuClicks": _tofuUniverse.player.tofuClicks,
         "purchases": _tofuUniverse.player.purchases
-    }).done((success) => {
-        console.log(success);
-        if (success) {
-            showNotification("Save success!", "");
-        } else {
-            showAlert();
+    }).done((resultId) => {
+        console.log(resultId);
+        switch (resultId) {
+            case 1:
+                showNotification("Save success!", "");
+                break;
+            case 0:
+                showNotification("You're saving too often!", "Only 3 saves / min allowed");
+                break;
+            case -1:
+                showAlert();
+                break;
+            case -2:
+                showNotification("Database is down", "");
+                break;
+            default:
+                console.log("Result ID not recognized!");
+                break;
         }
     });
 
@@ -330,12 +342,6 @@ function saveProgress() {
 //tracking variables for mouse cursor
 var mouseX, mouseY;
 window.onload = () => {
-    //always track position of the mouse in tofu area
-    $("#tofu-area").mousemove((e) => {
-        mouseX = e.pageX;
-        mouseY = e.pageY;
-    });
-
     //dynamically generate all the item and upgrade displays
     //item shop
     $.each(_tofuUniverse.ITEMS, (index, item) => {
@@ -450,35 +456,36 @@ window.onload = () => {
         });
 
     //set tofu onclick
-    $("#tofu").click(() => {
+    $("#tofu").click((e) => {
         _tofuUniverse.player.tofuClicks++;
         _tofuUniverse.player.tCount += _tofuUniverse.player.items[0].tps;
 
         if (_tofuUniverse.settings.showEarnings) {
             //the +<tofu earned> thing
-            let earning = $("<span>", {
-                "class": "click-earn"
-            });
-            earning.css("style", "position:absolute;left:"+mouseX +"px;top:" +mouseY +"px");
-            earning.text(_tofuUniverse.player.items[0].tps);
-            $("#temp").append(earning);
+            let earning = $("<span>");
+            earning.addClass("click-earn");
+            earning.disableSelection();
+            earning.css({
+                "position": "fixed",
+                "left": e.clientX,
+                "top": e.clientY,
+                "font-size": "1.5em",
+                "-ms-transform": "scale(1.5)",
+                "-webkit-transform": "scale(1.5)",
+                "transform": "scale(1.5)"
+            })
+            earning.text('+' + _tofuUniverse.player.items[0].tps);
+            earning.append(tofuIcon());
+            $("#click-earnings").append(earning);
             
             //animate the tofu
-            earning.css("opacity", 1);
-            earning.t = setInterval(() => {
-                if (earning.css("opacity") === 0) {
-                    earning.remove();
-                    clearInterval(earning.t);
-                }
-
-                //set opacity
-                earning.css("opacity", parseInt(earning.css("opacity") - 0.05));
-
-                //float up
-                earning.css("top", parseInt(mouseY) + 'px');
-            }, 50);
+            earning.animate({
+                top: "-=100",
+                opacity: 0
+            }, 3000, () => {
+                earning.remove();
+            });
         }
-       
     });
 
     //disabling selection so stuff isn't highlighted constantly
@@ -487,6 +494,7 @@ window.onload = () => {
     $("#tofu").disableSelection();
     $("#tofu-count-container").disableSelection();
     $("#tps-container").disableSelection();
+    $("#tofu-area").disableSelection();
 
     /*---Cheat Alert code---*/
     //close popup

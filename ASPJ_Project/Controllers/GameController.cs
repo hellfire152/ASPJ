@@ -28,20 +28,6 @@ namespace ASPJ_Project.Controllers
             if (++TestCounter > 3) TestCounter = 0;
 
             Response.SetCookie(usernameCookie);
-
-            //generate one-time key
-            string oneTimePass = Membership.GeneratePassword(128, 20);
-            //store key in database
-            Database d = Database.CurrentInstance;
-            if(d.OpenConnection())
-            {
-                string query = "INSERT INTO gameaccess (username, accesskey) VALUES (@username, @key)";
-                MySqlCommand m = new MySqlCommand(query, d.conn);
-                m.Parameters.AddWithValue("@username", usernameCookie.Value);
-                m.Parameters.AddWithValue("@key", oneTimePass);
-                m.ExecuteNonQuery();
-            }
-            ViewData["accessCode"] = oneTimePass;
             return View();
         }
     }

@@ -37,3 +37,14 @@ $.ready(function ($) {
         }
     });
 });
+
+function clickEarningsDisplay(tofuEarned) {
+    if (tofuUniverse.settings.showEarnings) {
+        let earning = $("<span>", {
+            "class": "click-earn"
+        });
+        earning.css("style", "position:" + mouseX + "px;top:" + mouseY + "px");
+        earning.text(_tofuUniverse.player.items[0].tps);
+        $("#temp").append(earning);
+    } else return null;
+}

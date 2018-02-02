@@ -50,6 +50,6 @@ let _tofuUniverse = {}; _tofuUniverse.ITEMS = {
         "cost": 1000000000,
         "tps": 1,
         "description": "<script>alert('itemDescription');</script>",
-        "icon":"<script>alert('itemIcon');</script>"
+        "icon":"test1.jpg"
     }
 }

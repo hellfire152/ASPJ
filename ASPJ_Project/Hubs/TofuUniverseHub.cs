@@ -8,22 +8,76 @@ using ASPJ_Project.Models;
 using System.Diagnostics;
 using System.IO;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace ASPJ_Project.TofuUniverse
 {   
     //[TofuAuthorize]
     public class TofuUniverseHub : Hub
     {
-        public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
-
-        public Boolean SaveProgress(ProgressData progress)
+        public int SaveProgress(ProgressData progress)
         {
+            //if connection is already invalidated
+            if (ValidityMap.CurrentInstance[Context.ConnectionId] == false)
+            {
+                Debug.WriteLine("INVALID CONNECTION");
+                return -1;
+            }
+
+
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
             string c = Context.RequestCookies["username"].Value;
 
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+            //check database if it's too soon
+            Database d = Database.CurrentInstance; long[] times = new long[3];
+            if (d.OpenConnection())
+            {
+                string query = "SELECT * FROM savetime WHERE userID=@id";
+                MySqlCommand m = new MySqlCommand(query, d.conn);
+                m.Parameters.AddWithValue("@id", c);
+
+                bool hasEntry = false;
+                using (MySqlDataReader r = m.ExecuteReader())
+                {
+                    hasEntry = true;
+                    r.Read();
+                    times[0] = r.GetInt64("time1");
+                    times[1] = r.GetInt64("time2");
+                    times[2] = r.GetInt64("time3");
+                }
+                if(!hasEntry)
+                {
+                    query = "INSERT INTO savetime (userID, time1, time2, time3) VALUES (@u, @t1, @t2, @t3)";
+                    MySqlCommand m2 = new MySqlCommand(query, d.conn);
+                    m.Parameters.AddWithValue("@u", c);
+                    m.Parameters.AddWithValue("@t1", 0);
+                    m.Parameters.AddWithValue("@t2", 0);
+                    m.Parameters.AddWithValue("@t3", utcTime);
+                    m.ExecuteNonQuery();
+                    times = new long[] { 0, 0, utcTime};
+                }
+                if (utcTime - times[0] < 60000) //4th save in a minute
+                {
+                    return 0;
+                } else
+                {
+                    times[0] = utcTime;
+                    Array.Sort(times);
+                    query = "UPDATE savetimes SET time1 = @t1, time2 = @t2, time3 = @t3 WHERE userID = @u";
+                    MySqlCommand m3 = new MySqlCommand(query, d.conn);
+                    m3.Parameters.AddWithValue("@u", c);
+                    m3.Parameters.AddWithValue("@t1", times[0]);
+                    m3.Parameters.AddWithValue("@t2", times[1]);
+                    m3.Parameters.AddWithValue("@t3", times[2]);
+                }
+                d.CloseConnection();
+            }
+            else return -2;
+
             //get previous save data
             SaveFile prevSave;
             try
@@ -45,7 +99,6 @@ namespace ASPJ_Project.TofuUniverse
             {
                 //if caught cheating
                 //insert cheat record into database
-                Database d = Database.CurrentInstance;
                 if(d.OpenConnection())
                 {
                     string query = @"INSERT INTO cheatlog (username, time) VALUES (@username, @time)";
@@ -55,7 +108,8 @@ namespace ASPJ_Project.TofuUniverse
                     m.ExecuteNonQuery();
                     d.CloseConnection();
                 }
-                return false;
+                ValidityMap.CurrentInstance[Context.ConnectionId] = false;
+                return -1;
             }
 
             //save + time on first line
@@ -66,16 +120,19 @@ namespace ASPJ_Project.TofuUniverse
             //write to file
             System.IO.File.WriteAllText(
                 dataRoot + "\\Saves\\" + c + ".tusav", s);
-            return true;
+
+            return 1;
         }
 
+        //gets a save file and sends it to the client
         public string RequestSave()
         {
+
             //read cookie
             string c = Context.RequestCookies["username"].Value;
             if (c == null || c == "guest")
             {
-                return null;
+                return "invalid:No username attached";
             } else
             {
                 Debug.Write("GETTING SAVE FILE OF: " + c);
@@ -113,37 +170,16 @@ namespace ASPJ_Project.TofuUniverse
             }
         }
 
-        //test for set username
-        public string RequestUsername()
-        {
-            // return Crypto.CurrentInstance.Decrypt(
-            //   Context.RequestCookies["username"].Value);
-            string c = (string)HttpContext.Current.Session["username"];
-            return c ?? "test";
-        }
-
         //Test if signalR is working
         public Task Ping(string message)
         {
             return Clients.Client(Context.ConnectionId).Pong("FROM SERVER: " + message);
         }
 
-        /*public override Task OnConnected()
-        {
-            //get username from cookie
-            var username = Crypto.CurrentInstance.Decrypt(
-                Context.RequestCookies["username"].Value);
-            if(!(username == null || username == "guest")) //logged in user
-            {
-            }
-
-            return base.OnConnected();
-        }
-
         public override Task OnDisconnected(bool stopCalled)
         {
-            ValidityMap
+            ValidityMap.CurrentInstance.Remove(Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
-        }*/
+        }
     }
 }

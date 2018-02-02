@@ -80,6 +80,7 @@ namespace ASPJ_Project.Models
             Debug.WriteLine("EXPECTED: <" + tofuCount + "\nACTUAL: " + progress.TCount);
             if (progress.TCount > tofuCount)
             {
+                //if caught cheating
                 Debug.WriteLine("FINAL TCOUNT INVALID");
                 return false;
             }

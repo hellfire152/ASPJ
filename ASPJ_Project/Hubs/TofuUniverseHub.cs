@@ -14,14 +14,13 @@ namespace ASPJ_Project.TofuUniverse
     //[TofuAuthorize]
     public class TofuUniverseHub : Hub
     {
-        //public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
+        public static Dictionary<string, Boolean> Validity = new Dictionary<string, bool>();
 
         public Boolean SaveProgress(ProgressData progress)
         {
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
-            string c = Crypto.CurrentInstance.Decrypt(
-                Context.RequestCookies["username"].Value);
+            string c = Context.RequestCookies["username"].Value;
 
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
@@ -73,8 +72,7 @@ namespace ASPJ_Project.TofuUniverse
         public string RequestSave()
         {
             //read cookie
-            string c = Crypto.CurrentInstance.Decrypt(
-               Context.RequestCookies["username"].Value);
+            string c = Context.RequestCookies["username"].Value;
             if (c == null || c == "guest")
             {
                 return null;
@@ -137,8 +135,6 @@ namespace ASPJ_Project.TofuUniverse
                 Context.RequestCookies["username"].Value);
             if(!(username == null || username == "guest")) //logged in user
             {
-                //map connection
-                UserConnectionMap.CurrentInstance.Add(username, Context.ConnectionId);
             }
 
             return base.OnConnected();
@@ -146,7 +142,7 @@ namespace ASPJ_Project.TofuUniverse
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            UserConnectionMap.CurrentInstance.Remove(Context.ConnectionId);
+            ValidityMap
             return base.OnDisconnected(stopCalled);
         }*/
     }

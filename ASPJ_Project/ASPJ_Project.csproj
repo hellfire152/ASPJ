@@ -357,6 +357,7 @@
       <DependentUpon>201801011059304_AddForumContextcomments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AESCryptoStuff.cs" />
     <Compile Include="Models\BCrypt.cs" />
     <Compile Include="Models\KeyGenerator.cs" />
     <Compile Include="Models\CreditCard.cs" />
@@ -364,7 +365,6 @@
     <Compile Include="Models\Effect.cs" />
     <Compile Include="Models\Forum.cs" />
     <Compile Include="Hubs\TofuUniverseHub.cs" />
-    <Compile Include="Models\Crypto.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\PremiumItem.cs" />
     <Compile Include="Models\PremiumShop.cs" />
@@ -372,9 +372,9 @@
     <Compile Include="Models\ProgressVerifier.cs" />
     <Compile Include="Models\SaveFile.cs" />
     <Compile Include="Models\Upgrade.cs" />
-    <Compile Include="Models\UserConnectionMap.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ChatModel.cs" />
+    <Compile Include="Models\ValidityMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
@@ -423,7 +423,6 @@
     <Content Include="bin\Microsoft.Extensions.Caching.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.Caching.Abstractions.xml" />
     <Content Include="bin\Microsoft.Extensions.Caching.Memory.dll" />
-    <Content Include="bin\Microsoft.Extensions.Caching.Memory.xml" />
     <Content Include="bin\Microsoft.Extensions.Configuration.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
     <Content Include="bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml" />
@@ -442,7 +441,6 @@
     <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
     <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
     <Content Include="bin\Microsoft.Owin.Security.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.xml" />
     <Content Include="bin\Microsoft.Owin.xml" />
     <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
     <Content Include="bin\Microsoft.Win32.Primitives.dll" />
@@ -452,7 +450,10 @@
     <Content Include="bin\MySql.Data.EntityFrameworkCore.dll" />
     <Content Include="bin\MySql.Data.EntityFrameworkCore.xml" />
     <Content Include="bin\MySql.Data.xml" />
+    <Content Include="bin\MySql.Web.dll" />
+    <Content Include="bin\MySqlConnector.dll" />
     <Content Include="bin\nClam.dll" />
+    <Content Include="bin\netstandard.dll" />
     <Content Include="bin\Newtonsoft.Json.dll" />
     <Content Include="bin\Newtonsoft.Json.xml" />
     <Content Include="bin\Owin.dll" />
@@ -505,8 +506,13 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="bin\Stripe.net.dll" />
     <Content Include="bin\System.AppContext.dll" />
+    <Content Include="bin\System.Buffers.dll" />
+    <Content Include="bin\System.Collections.Concurrent.dll" />
+    <Content Include="bin\System.Collections.dll" />
     <Content Include="bin\System.Collections.Immutable.dll" />
     <Content Include="bin\System.Collections.Immutable.xml" />
+    <Content Include="bin\System.Collections.NonGeneric.dll" />
+    <Content Include="bin\System.Collections.Specialized.dll" />
     <Content Include="bin\System.ComponentModel.Annotations.dll" />
     <Content Include="bin\System.Console.dll" />
     <Content Include="bin\System.Diagnostics.DiagnosticSource.dll" />
@@ -693,6 +699,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
     <Content Include="bin\ApplicationInsights.config" />
@@ -785,6 +792,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />
+    <Folder Include="Views\Captcha\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

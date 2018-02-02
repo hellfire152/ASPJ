@@ -116,7 +116,6 @@ namespace ASPJ_Project.Controllers
                             {
                                 itemID = (r2["itemID"].ToString()),
                             };
-                            Debug.WriteLine("hello");
                             UserItems.Add(UserItem);
                         }
                         r2.Close();

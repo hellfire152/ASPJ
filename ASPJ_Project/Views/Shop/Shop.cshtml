@@ -8,6 +8,7 @@
     var HatData = ViewBag.HatItemData;
     var OutfitData = ViewBag.OutfitItemData;
     var UserItemData = ViewBag.UserItemsData;
+    var alreadyPurchased = 0;
 }
 <html>
 	<head>
@@ -68,28 +69,71 @@
 							<div class="features">
                             @for(int i = 0; i < HatData.Count; i++)
                             { 
+                                alreadyPurchased = 0;
 								<section>
 									<span class="icon major fa-graduation-cap"></span>
 									<h3>@HatData[i].itemName</h3>
 									<p class="description">@HatData[i].itemDescription</p>
                                     <p class="beansPrice">@HatData[i].beansPrice Beans</p>
-                                    @for(int j = 0; j < UserItemData.Count; j++)
+                                    @if (UserItemData.Count > 0)
                                     {
-                                        var alreadyPurchased = false;
-                                        if (UserItemData[j].itemID == HatData[i].itemID)
+                                        if (UserItemData.Count <= HatData.Count)
                                         {
-                                            alreadyPurchased = true;
-                                            break;
+                                            for(int j = 0; j < HatData.Count; j++)
+                                            {
+                                                if (UserItemData[j].itemID == HatData[i].itemID)
+                                                {
+                                                    alreadyPurchased = 1;
+                                                    break;
+                                                }
+                                                if (j+1 == UserItemData.Count)
+                                                {
+                                                    break;
+                                                }
+                                            }
+
+                                            if (alreadyPurchased == 0)
+                                            {
+                                                @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								            }
+
+                                            else
+                                            {
+                                                <button>Already Purchased</button>
+                                            }
+                                        }
+                                    
+
+                                        if (UserItemData.Count > HatData.Count)
+                                        {
+                                            for(int j = 0; j < UserItemData.Count; j++)
+                                            {
+                                                if (UserItemData[j].itemID == HatData[i].itemID)
+                                                {
+                                                    alreadyPurchased = 1;
+                                                    break;
+                                                }
+                                                if (j+1 == UserItemData.Count)
+                                                {
+                                                    break;
+                                                }
+                                            }
+
+                                            if (alreadyPurchased == 0)
+                                            {
+                                                @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								            }
+
+                                            else
+                                            {
+                                                <button>Already Purchased</button>
+                                            }
                                         }
                                     }
-                                    if alreadyPurchased = false
+                                    else
                                     {
                                         @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
 								    }
-                                    else
-                                    {
-                                        <a href="#">Already Purchased</a>
-                                    }
                                 </section>
                             }
 							</div>
@@ -104,12 +148,72 @@
 							<div class="features">
                                @for(int i = 0; i < OutfitData.Count; i++)
                                 {
+                                    alreadyPurchased = 0;
 								    <section>
 									    <span class="icon major fa-black-tie"></span>
 									    <h3>@OutfitData[i].itemName</h3>
 									    <p class="description">@OutfitData[i].itemDescription</p>
-                                        @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								    </section>
+                                        <p class="beansPrice">@OutfitData[i].beansPrice Beans</p>
+                                        @if (UserItemData.Count > 0)
+                                        {
+                                            if (UserItemData.Count <= OutfitData.Count)
+                                            {
+                                                for(int j = 0; j < OutfitData.Count; j++)
+                                                {
+                                                    if (UserItemData[j].itemID == OutfitData[i].itemID)
+                                                    {
+                                                        alreadyPurchased = 1;
+                                                        break;
+                                                    }
+                                                    if (j+1 == UserItemData.Count)
+                                                    {
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (alreadyPurchased == 0)
+                                                {
+                                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								                }
+
+                                                else
+                                                {
+                                                    <button>Already Purchased</button>
+                                                }
+                                            }
+
+                                            if (UserItemData.Count > OutfitData.Count)
+                                            {
+                                                for(int j = 0; j < UserItemData.Count; j++)
+                                                {
+                                                    if (UserItemData[j].itemID == OutfitData[i].itemID)
+                                                    {
+                                                        alreadyPurchased = 1;
+                                                        break;
+                                                    }
+                                                    if (j+1 == UserItemData.Count)
+                                                    {
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (alreadyPurchased == 0)
+                                                {
+                                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+								                }
+
+                                                else
+                                                {
+                                                    <button>Already Purchased</button>
+                                                }
+                                            }
+                                        }
+
+                                        else
+                                        {
+                                            @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                        }
+                                    </section>
                                 }
 							</div>
 						</div>

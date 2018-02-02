@@ -6,6 +6,12 @@
 <head>
     <title>Chat Mvc Db</title>
     @Styles.Render("~/CSS/ChatMvcDb.css")
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.js">
+    </script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.js">
+    </script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js">
+    </script>
 </head>
 <body>
     <h2>Chat</h2>
@@ -48,7 +54,7 @@
                                                             {
                                                                 <section>
                                                                     <ul style="list-style-type:none;">
-                                                                        <li><strong>Name: </strong>@*@chatData[i]*@ @i</li>
+                                                                        <li><strong>Name: </strong>@i</li>
                                                                     </ul>                                                                   
                                                                 </section>
                                                             }
@@ -63,12 +69,11 @@
                                 <div id="menu1" class="tab-pane fade">
                                     <h3>Menu 1</h3>
                                     <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                        @ViewBag.chatList
                                 </div>
                             </div>
                             @*<div class="panel-footer">*@
                             <div class="input-group" style="margin-top: 220px;position:sticky;">
-                                <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..."/>                                
                                 <span class="input-group-btn">
                                     <button class="btn btn-warning btn-sm" id="sendmessage" style="margin-right:30px;">
                                         Send
@@ -98,8 +103,8 @@
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
-                $('#discussion').append('<li><strong>' + name
-                    + '</strong>: ' + message + '</li>');
+                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
             };
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));

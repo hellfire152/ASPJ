@@ -23,7 +23,8 @@ namespace ASPJ_Project.Controllers
         private PayPal.Api.Payment payment;
         // GET: Shop
 
-        public static class CultureHelper {
+        public static class CultureHelper
+        {
 
             public static Dictionary<string, string> CountryList()
             {
@@ -48,7 +49,7 @@ namespace ASPJ_Project.Controllers
             }
         }
 
-    public ActionResult Shop()
+        public ActionResult Shop()
         {
             //Initialize Database Instance
             Database d = Database.CurrentInstance;
@@ -121,7 +122,7 @@ namespace ASPJ_Project.Controllers
                         r2.Close();
                     }
                     ViewBag.UserItemsData = UserItems;
-                }            
+                }
             }
 
             catch (MySqlException e)
@@ -223,74 +224,7 @@ namespace ASPJ_Project.Controllers
                     c.Parameters.AddWithValue("@userID", userID);
                     int beansBefore = 0;
                     int beansAfter = 0;
-                    
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            if (Convert.ToInt32(r["userID"]) == userID)
-                            {
-                                beansBefore = Convert.ToInt32(r["beansAmount"].ToString());
-                                beansAfter = beansBefore - Convert.ToInt32(beansPrice);
-                            }
-                        }
-                        r.Close();
 
-                        string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
-                        MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
-                        c2.Parameters.AddWithValue("@beansAfter", beansAfter);
-                        c2.Parameters.AddWithValue("@userID", userID);
-                        c2.ExecuteNonQuery();
-
-                        string addItemTransQuery = "INSERT INTO itemtransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID)";
-                        string transDesc = "Purchase of " + premiumItemName + " for " + beansPrice + " beans.";
-                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
-                        c3.Parameters.AddWithValue("@transactionNo", KeyGenerator.GetUniqueKey(20));
-                        c3.Parameters.AddWithValue("@transactionDesc", transDesc);
-                        c3.Parameters.AddWithValue("@price", beansPrice);
-                        c3.Parameters.AddWithValue("@beansBefore", beansBefore);
-                        c3.Parameters.AddWithValue("@beansAfter", beansAfter);
-                        c3.Parameters.AddWithValue("@userID", userID);
-                        c3.ExecuteNonQuery();
-
-                        string addInventoryQuery = "INSERT INTO inventory VALUES (@userID, @itemID)";
-                        MySqlCommand c4 = new MySqlCommand(addInventoryQuery, d.conn);
-                        c4.Parameters.AddWithValue("@userID", userID);
-                        c4.Parameters.AddWithValue("@itemID", itemID);
-                        c4.ExecuteNonQuery();
-                    }
-                }
-            }
-
-            catch (MySqlException e)
-            {
-                Debug.WriteLine(e);
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-
-            return RedirectToAction("Shop");
-
-        }
-        public void TransactionLog()
-        {
-
-            Database d = Database.CurrentInstance;
-            int userID = 48; //Convert.ToInt32(Session["UserID"]);
-            int itemID = Convert.ToInt32(premiumItemID);
-
-            try
-            {
-                if (d.OpenConnection())
-                {
-                    string userQuery = "SELECT * FROM users WHERE userID = @userID";
-                    MySqlCommand c = new MySqlCommand(userQuery, d.conn);
-                    c.Parameters.AddWithValue("@userID", userID);
-                    int beansBefore = 0;
-                    int beansAfter = 0;
-                    
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
@@ -349,7 +283,7 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult PurchaseConfirmation(string username, int beansAmount, double price, string beansName)
         {
-            
+
             ViewData["username"] = username;
             ViewData["beansName"] = beansName;
             ViewData["beansAmount"] = beansAmount;
@@ -580,7 +514,7 @@ namespace ASPJ_Project.Controllers
             {
                 name = beansName + " (" + beansAmount + " Beans)",
                 currency = "SGD",
-                price =  price,
+                price = price,
                 quantity = "1",
                 sku = KeyGenerator.GetUniqueKey(20)
             });
@@ -758,7 +692,7 @@ namespace ASPJ_Project.Controllers
                         Debug.WriteLine(beansBefore + " " + beansAfter);
 
                         string addItemTransQuery = "INSERT INTO beantransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID)";
-                        string transDesc = "Purchase of " + beansName + " (" + beansAmount +" Beans) for $" + price;
+                        string transDesc = "Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
                         MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
 
                         c3.Parameters.AddWithValue("@transactionNo", KeyGenerator.GetUniqueKey(20));
@@ -767,7 +701,7 @@ namespace ASPJ_Project.Controllers
                         c3.Parameters.AddWithValue("@beansBefore", beansBefore);
                         c3.Parameters.AddWithValue("@beansAfter", beansAfter);
                         c3.Parameters.AddWithValue("@userID", userID);
-                        
+
                         c3.ExecuteNonQuery();
                     }
                 }

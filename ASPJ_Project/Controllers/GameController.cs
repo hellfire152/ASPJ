@@ -19,8 +19,7 @@ namespace ASPJ_Project.Controllers
             //set test username
             HttpCookie usernameCookie = new HttpCookie("username")
             {
-                Value = Crypto.CurrentInstance.Encrypt(
-                    TestUsernames[TestCounter])
+                Value = TestUsernames[TestCounter]
             };
             //comment out this line to cycle between 1,2,3,4
             usernameCookie.Value = "1";

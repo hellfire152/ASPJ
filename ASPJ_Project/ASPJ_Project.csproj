@@ -833,6 +833,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />
+    <Folder Include="Models\Extended\" />
+    <Folder Include="Views\Captcha\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

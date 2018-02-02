@@ -58,6 +58,10 @@ namespace ASPJ_Project.Models
                 Debug.WriteLine("MySql Connection Error!");
                 Debug.WriteLine(e.StackTrace);
                 return false;
+            } catch (InvalidOperationException e) //connection already open
+            {
+                conn.Close();
+                return OpenConnection();
             }
         }
 

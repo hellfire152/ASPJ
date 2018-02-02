@@ -115,10 +115,143 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
-        public void ItemPurchase()
+        public ActionResult Inventory()
         {
-            //methods related to purchasing the item with beans
-            //add item ID to user's database to display that they have the item
+            Database d = Database.CurrentInstance;
+
+            List<int> itemIDs = new List<int>();
+            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            List<PremiumItem> HatItems = new List<PremiumItem>();
+            List<PremiumItem> OutfitItems = new List<PremiumItem>();
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string inventoryQuery = "SELECT * FROM inventory where userID = @userID";
+                    MySqlCommand c = new MySqlCommand(inventoryQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            itemIDs.Add(Convert.ToInt32(r["itemID"]));
+                        }
+                        r.Close();
+                    }
+
+                    for (int i = 0; i < itemIDs.Count(); i++)
+                    {
+                        MySqlCommand c2 = new MySqlCommand("select * from premiumitem where itemID = @itemID", d.conn);
+                        c2.Parameters.AddWithValue("@itemID", itemIDs[i]);
+                        MySqlDataReader reader = c2.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            if (reader["itemType"].ToString() == "Hat")
+                            {
+                                PremiumItem HatItem = new PremiumItem
+                                {
+                                    itemName = (reader["itemName"].ToString()),
+                                    itemDescription = (reader["itemDescription"].ToString()),
+                                };
+                                HatItems.Add(HatItem);
+                            }
+
+                            if (reader["itemType"].ToString() == "Outfit")
+                            {
+                                PremiumItem OutfitItem = new PremiumItem
+                                {
+                                    itemName = (reader["itemName"].ToString()),
+                                    itemDescription = (reader["itemDescription"].ToString()),
+                                };
+                                OutfitItems.Add(OutfitItem);
+                            }
+                        }
+                    }
+                    ViewBag.OutfitItemData = OutfitItems;
+                    ViewBag.HatItemData = HatItems;
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+            return View();
+        }
+
+        public ActionResult ItemPurchase(string beansPrice, string premiumItemName, string premiumItemID)
+        {
+
+            Database d = Database.CurrentInstance;
+            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int itemID = Convert.ToInt32(premiumItemID);
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string userQuery = "SELECT * FROM users WHERE userID = @userID";
+                    MySqlCommand c = new MySqlCommand(userQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+                    int beansBefore = 0;
+                    int beansAfter = 0;
+                    
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            if (Convert.ToInt32(r["userID"]) == userID)
+                            {
+                                beansBefore = Convert.ToInt32(r["beansAmount"].ToString());
+                                beansAfter = beansBefore - Convert.ToInt32(beansPrice);
+                            }
+                        }
+                        r.Close();
+
+                        string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
+                        MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                        c2.Parameters.AddWithValue("@beansAfter", beansAfter);
+                        c2.Parameters.AddWithValue("@userID", userID);
+                        c2.ExecuteNonQuery();
+
+                        string addItemTransQuery = "INSERT INTO itemtransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID)";
+                        string transDesc = "Purchase of " + premiumItemName + " for " + beansPrice + " beans.";
+                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+                        c3.Parameters.AddWithValue("@transactionNo", KeyGenerator.GetUniqueKey(20));
+                        c3.Parameters.AddWithValue("@transactionDesc", transDesc);
+                        c3.Parameters.AddWithValue("@price", beansPrice);
+                        c3.Parameters.AddWithValue("@beansBefore", beansBefore);
+                        c3.Parameters.AddWithValue("@beansAfter", beansAfter);
+                        c3.Parameters.AddWithValue("@userID", userID);
+                        c3.ExecuteNonQuery();
+
+                        string addInventoryQuery = "INSERT INTO inventory VALUES (@userID, @itemID)";
+                        MySqlCommand c4 = new MySqlCommand(addInventoryQuery, d.conn);
+                        c4.Parameters.AddWithValue("@userID", userID);
+                        c4.Parameters.AddWithValue("@itemID", itemID);
+                        c4.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+            return RedirectToAction("Shop");
+
         }
         public void TransactionLog()
         {

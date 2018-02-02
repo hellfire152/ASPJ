@@ -789,6 +789,7 @@
     <Content Include="Views\Shop\FailureView.cshtml" />
     <Content Include="Views\Shop\SuccessView.cshtml" />
     <Content Include="Views\Shop\PurchasePopup.cshtml" />
+    <Content Include="Views\Shop\Inventory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

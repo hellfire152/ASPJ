@@ -197,7 +197,7 @@ namespace ASPJ_Project.Controllers
 
             catch (MySqlException e)
             {
-                Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e);
             }
             finally
             {

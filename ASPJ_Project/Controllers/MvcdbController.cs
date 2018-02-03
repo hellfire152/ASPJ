@@ -13,7 +13,6 @@ using System.Text;
 using System.IO;
 using Censored;
 using MySql.Data.MySqlClient;
-using static ASPJ_Project.Models.ChatModel;
 using System.Collections;
 
 namespace ASPJ_Project.Controllers
@@ -401,6 +400,7 @@ namespace ASPJ_Project.Controllers
                 ArrayList storeArray = new ArrayList();
                 List<string> chatList = new List<string>();
                 List<string> decodedList = new List<string>();
+
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(queryString, conn);
                 AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;              

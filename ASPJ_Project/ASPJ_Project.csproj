@@ -863,9 +863,9 @@
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Shop\FailureView.cshtml" />
     <Content Include="Views\Shop\SuccessView.cshtml" />
-    <Content Include="Views\Shop\PurchasePopup.cshtml" />
     <Content Include="Views\Shop\Inventory.cshtml" />
     <Content Include="Views\SMS\SendOTP.cshtml" />
+    <Content Include="Views\Shared\Oops.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

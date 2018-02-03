@@ -8,9 +8,14 @@ using ASPJ_Project.Models;
 namespace ASPJ_Project.Models
 {
     [MetadataType(typeof(UserMetadata))]
-    public partial class user
+    public class user
     {
-     
+        public int userID { get; set; }
+        public string userName { get; set; }
+        public string password { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string email { get; set; }
         public string confirmPassword { get; set; }
         public string captcha { get; set; }
         public string phoneNumber { get; set; }

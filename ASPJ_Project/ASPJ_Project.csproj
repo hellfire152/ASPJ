@@ -373,7 +373,6 @@
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\MvcdbController.cs" />
@@ -846,9 +845,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Game\_Layout.cshtml" />
     <Content Include="Views\Game\_ViewStart.cshtml" />
     <Content Include="Views\Forum\Home.cshtml" />
@@ -868,8 +864,6 @@
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
-    <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Home\TestPage.cshtml" />
     <Content Include="Views\Mvcdb\Chat.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Shop\FailureView.cshtml" />
@@ -885,6 +879,7 @@
     <Content Include="Views\Shop\Inventory.cshtml" />
     <Content Include="Views\SMS\SendOTP.cshtml" />
     <Content Include="Views\User\VerifiedAccount.cshtml" />
+    <Content Include="Views\User\Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

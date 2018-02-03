@@ -225,7 +225,7 @@ namespace ASPJ_Project.Controllers
             MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
             AESCryptoStuff aes_obj = new AESCryptoStuff();
             //EncodeDecode encInit = new EncodeDecode();
-
+            Debug.WriteLine("this is model.banPeriod"+model.BanPeriod);
             try
             {
                 string queryString = "";
@@ -247,15 +247,15 @@ namespace ASPJ_Project.Controllers
                 #endregion
 
                 //ban period calculate date
-                queryString = "UPDATE dububase.users SET isBan = 'true', banTill=@date Where username=@username;";
-                cmd.CommandText = queryString;
-                DateTime mehgofu = DateTime.Now.AddDays(model.BanPeriod);
-                cmd.Parameters.AddWithValue("@date", mehgofu);
-                cmd.Parameters.AddWithValue("@username", model.Username);
-                cmd.ExecuteNonQuery();
+                //queryString = "UPDATE dububase.users SET isBan = 'true', banTill=@date Where username=@username;";
+                //cmd.CommandText = queryString;
+                //DateTime mehgofu = DateTime.Now.AddDays(model.BanPeriod);
+                //cmd.Parameters.AddWithValue("@date", mehgofu);
+                //cmd.Parameters.AddWithValue("@username", model.Username);
+                //cmd.ExecuteNonQuery();
 
                 //add ban table into sql
-                queryString = "INSERT INTO dububase.bans(username, banReason,banPeriod) VALUES(@username, @banReason,@banPeriod); ";
+                queryString = "INSERT INTO dububase.banhistory(username, banReason,banPeriod) VALUES(@username, @banReason,@banPeriod); ";
                 cmd.CommandText = queryString;
                 cmd.Parameters.AddWithValue("@username", model.Username);
                 cmd.Parameters.AddWithValue("@banReason", model.BanReason);

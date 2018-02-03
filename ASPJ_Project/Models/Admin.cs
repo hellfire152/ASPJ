@@ -16,27 +16,39 @@ namespace ASPJ_Project.Models
     {
         public string Username { get; set; }
         public string BanReason { get; set; }
-        public int BanPeriod { get; set; }
-    }
+        public string BanPeriod { get; set; }
 
+        public class BannedPeriod
+        {
+            public int Id { get; set; }
+            public String BanPeriod { get; set; }
+            public int IntPeriod { get; set; }
+        }
 
-    public enum BannedReason
-    {
-        Cheating,
-        Spamming,
-        SuspiciousTransaction,
-        BadForumBehaviour
-    }
+        public IEnumerable<BannedPeriod> BanPeriodOptions =
+             new List<BannedPeriod>
+             {
+                new BannedPeriod {Id = 0, BanPeriod = "1 Week", IntPeriod = 7 },
+                new BannedPeriod {Id = 1, BanPeriod = "2 Weeks", IntPeriod = 14},
+                new BannedPeriod {Id = 2, BanPeriod = "1 Month", IntPeriod = 30},
+                new BannedPeriod {Id = 3, BanPeriod = "3 Month", IntPeriod = 90},
+                new BannedPeriod {Id = 4, BanPeriod = "1 Year", IntPeriod = 365}
 
-    public enum Period
-    {
-       OneWeek = 7,
-        TwoWeeks = 14,
-         Month = 30,
-         ThreeMonth = 90,
-         OneYear = 365
-
-
+             };
+        public class BannedReason
+        {
+            public int Id { get; set; }
+            public string Reason { get; set; }
+        }
+        public IEnumerable<BannedReason> BanReasonOptions =
+             new List<BannedReason>
+             {
+                 new BannedReason{ Id = 0, Reason ="Cheating" },
+                 new BannedReason{ Id = 1, Reason ="Suspicious Transaction" },
+                 new BannedReason{ Id = 2, Reason ="Bad Forum Behaviour" },
+                 new BannedReason{ Id = 3, Reason ="Spamming" },
+                 new BannedReason{ Id = 4, Reason ="For lulz" },
+             };
     }
 
     public class BanSearchModel

@@ -31,15 +31,16 @@
         @Html.LabelFor(m => m.BanPeriod, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.BanPeriod,
-                                new SelectList(Enum.GetValues(typeof(Period))),
-                                "Period",new { @class="form-control"})
+                                new SelectList(Model.BanPeriodOptions),
+                                "Id","BanPeriod","IntPeriod", new { @class="form-control"})
         </div>
     </div>
 
     <div class="form-group">
         @Html.LabelFor(m=> m.BanReason, new { @class = "col-md-2 control-label"})
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.BanPeriod,new SelectList(Enum.GetValues(typeof(BannedReason))),"Reason", new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.BanReason,
+                                    new SelectList(Model.BanReasonOptions),"Id","Reason", new { @class = "form-control" })
         </div>
     </div>
         /*<div class="g-recaptcha" data-sitekey="6LenbkIUAAAAAGKcQ5G-vwsOFO5Vea-Smo7Wb8U-"></div>*/

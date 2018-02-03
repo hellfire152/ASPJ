@@ -189,6 +189,7 @@ namespace ASPJ_Project.Controllers
                                 OutfitItems.Add(OutfitItem);
                             }
                         }
+                        reader.Close();
                     }
                     ViewBag.OutfitItemData = OutfitItems;
                     ViewBag.HatItemData = HatItems;

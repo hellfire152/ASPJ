@@ -752,10 +752,6 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFram
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.xml
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 887c34768ecfb1e7ee919d7be38397ac6d3e136b
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.Relational.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.Relational.Design.xml
@@ -775,8 +771,6 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Collections.Immutable.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Diagnostics.DiagnosticSource.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Interactive.Async.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Runtime.CompilerServices.Unsafe.xml
-=======
->>>>>>> 66330749146d3a1e0c14d8ad8c34e82d0813e70e
 C:\Users\User\Desktop\aspjmaster\ASPJ\ASPJ_Project\bin\ApplicationInsights.config
 C:\Users\User\Desktop\aspjmaster\ASPJ\ASPJ_Project\bin\ASPJ_Project.dll.config
 C:\Users\User\Desktop\aspjmaster\ASPJ\ASPJ_Project\bin\ASPJ_Project.dll
@@ -959,3 +953,5 @@ D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
 D:\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
 D:\ASPJ\ASPJ_Project\bin\Twilio.xml
+D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\MySql.Web.xml
+D:\ASPJ\ASPJ_Project\ASPJ_Project\obj\Debug\ASPJ_Project.csprojResolveAssemblyReference.cache

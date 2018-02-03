@@ -5,8 +5,10 @@
 @using ASPJ_Project.Models
 @model ASPJ_Project.Models.PremiumItem
 @{
-    var HatData = ViewBag.HatItemData;
-    var OutfitData = ViewBag.OutfitItemData;
+    var HatData = ViewBag.OwnedHatItemData;
+    var OutfitData = ViewBag.OwnedOutfitItemData;
+    var EquippedData = ViewBag.EquipmentData;
+    var alreadyEquipped = 0;
 }
 <html>
 	<head>
@@ -66,24 +68,49 @@
 							<h2>Hats</h2>
 							<p>Something to put on its soft squishy head.</p>
 							<div class="features">
-                            @if (HatData.Count > 0)
+                            @if (EquippedData.equippedHat != null)
                             {
-                                for(int i = 0; i < HatData.Count; i++)
-                                { 
-								    <section>
-									    <span class="icon major fa-graduation-cap"></span>
-									    <h3>@HatData[i].itemName</h3>
-									    <p class="description">@HatData[i].itemDescription</p>
-                                        @Html.ActionLink("Equip", "ItemEquip", null, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                if (HatData.Count > 0)
+                                {
+                                    for(int i = 0; i < HatData.Count; i++)
+                                    { 
+								        <section>
+									        <span class="icon major fa-graduation-cap"></span>
+									        <h3>@HatData[i].itemName</h3>
+									        <p class="description">@HatData[i].itemDescription</p>
+                                            @if (EquippedData.equippedHat == Convert.ToInt32(@HatData[i].itemID))
+                                            {
+                                            <button>Already Equipped</button>
+                                            }
+                                            else
+                                            {
+                                            @Html.ActionLink("Equip", "EquipItem", new { equipitemID = @HatData[i].itemID, equipitemType = "Hat" }, new { onclick = "return confirm('Are you sure you want to equip this item?');", @class="button"})
+								            }
+                                        </section>
+                                    }
+                                }
+                                else
+                                {
+                                    <section>
+									        <h3>Hmmm.. there seems to be nothing here. Why not purchase an item?</h3>
+									        <a href="/Shop/Shop" class="button scrolly">Shop</a>
 								    </section>
                                 }
                             }
-                            else
+                            else 
                             {
-                                <section>
-									    <h3>Hmmm.. there seems to be nothing here. Why not purchase an item?</h3>
-									    <a href="/Shop/Shop" class="button scrolly">Shop</a>
-								</section>
+                                if (HatData.Count > 0)
+                                {
+                                    for(int i = 0; i < HatData.Count; i++)
+                                    { 
+								        <section>
+									        <span class="icon major fa-graduation-cap"></span>
+									        <h3>@HatData[i].itemName</h3>
+									        <p class="description">@HatData[i].itemDescription</p>
+                                            @Html.ActionLink("Equip", "EquipItem", new { equipitemID = @HatData[i].itemID, equipitemType = "Hat" }, new { onclick = "return confirm('Are you sure you want to equip this item?');", @class="button"})
+                                        </section>
+                                    }
+                                }
                             }
 							</div>
 						</div>
@@ -95,7 +122,9 @@
 							<h2>Outfits</h2>
 							<p>Make your tofu look even more adorable.</p>
 							<div class="features">
-                               @if (OutfitData.Count > 0)
+                            @if (EquippedData.equippedOutfit != null)
+                            {
+                               if (OutfitData.Count > 0)
                                {
                                    for(int i = 0; i < OutfitData.Count; i++)
                                     {
@@ -103,8 +132,15 @@
 									        <span class="icon major fa-black-tie"></span>
 									        <h3>@OutfitData[i].itemName</h3>
 									        <p class="description">@OutfitData[i].itemDescription</p>
-                                            @Html.ActionLink("Equip", "ItemEquip", null, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								        </section>
+                                            @if (EquippedData.equippedOutfit == Convert.ToInt32(@OutfitData[i].itemID))
+                                            {
+                                            <button>Already Equipped</button>
+                                            }
+                                            else
+                                            {
+                                            @Html.ActionLink("Equip", "EquipItem", new { equipitemID = @OutfitData[i].itemID, equipitemType = "Outfit" }, new { onclick = "return confirm('Are you sure you want to equip this item?');", @class="button"})
+								            }
+                                        </section>
                                     }
                                 }
                                 else
@@ -114,6 +150,23 @@
 									        <a href="/Shop/Shop" class="button scrolly">Shop</a>
 								    </section>
                                 }
+                            }
+
+                            else 
+                            {
+                                if (OutfitData.Count > 0)
+                                {
+                                    for(int i = 0; i < OutfitData.Count; i++)
+                                    { 
+								        <section>
+									        <span class="icon major fa-graduation-cap"></span>
+									        <h3>@OutfitData[i].itemName</h3>
+									        <p class="description">@OutfitData[i].itemDescription</p>
+                                            @Html.ActionLink("Equip", "EquipItem", new { equipitemID = @OutfitData[i].itemID, equipitemType = "Outfit" }, new { onclick = "return confirm('Are you sure you want to equip this item?');", @class="button"})
+                                        </section>
+                                    }
+                                }
+                            }
 							</div>
 						</div>
 					</section>

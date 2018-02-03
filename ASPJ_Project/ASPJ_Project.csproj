@@ -414,6 +414,7 @@
     <Compile Include="Models\Upgrade.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ChatModel.cs" />
+    <Compile Include="Models\EquippedItem.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\ValidityMap.cs" />
@@ -600,6 +601,10 @@
     <Content Include="Content\Images\Items\spaceship.png" />
     <Content Include="Content\Images\Items\test1.jpg" />
     <Content Include="Content\Images\Items\wormhole.jpg" />
+    <Content Include="Content\Images\ShopItems\ImageFedora.png" />
+    <Content Include="Content\Images\ShopItems\ImageKarate.png" />
+    <Content Include="Content\Images\ShopItems\ImageMartialArts.jpg" />
+    <Content Include="Content\Images\ShopItems\ImageSuit.png" />
     <Content Include="Content\Images\tofu-clipart-cute-2.png" />
     <Content Include="Content\Images\tofu.png" />
     <Content Include="Content\Images\Upgrades\better2cursor.png" />

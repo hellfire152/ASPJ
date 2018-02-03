@@ -752,6 +752,7 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFram
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.xml
+<<<<<<< HEAD
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.Relational.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.Relational.Design.xml
@@ -771,6 +772,8 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Collections.Immutable.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Diagnostics.DiagnosticSource.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Interactive.Async.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Runtime.CompilerServices.Unsafe.xml
+=======
+>>>>>>> 66330749146d3a1e0c14d8ad8c34e82d0813e70e
 C:\Users\User\Desktop\aspjmaster\ASPJ\ASPJ_Project\bin\ApplicationInsights.config
 C:\Users\User\Desktop\aspjmaster\ASPJ\ASPJ_Project\bin\ASPJ_Project.dll.config
 C:\Users\User\Desktop\aspjmaster\ASPJ\ASPJ_Project\bin\ASPJ_Project.dll
@@ -938,3 +941,18 @@ D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFramework.
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
 D:\ASPJ\ASPJ_Project\ASPJ_Project\bin\Twilio.xml
+D:\ASPJ\ASPJ_Project\bin\CaptchaMvc.dll
+D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.Core.dll
+D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Logging.dll
+D:\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.dll
+D:\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.dll
+D:\ASPJ\ASPJ_Project\bin\Twilio.AspNet.Common.dll
+D:\ASPJ\ASPJ_Project\bin\Twilio.AspNet.Mvc.dll
+D:\ASPJ\ASPJ_Project\bin\Twilio.dll
+D:\ASPJ\ASPJ_Project\bin\CaptchaMvc.xml
+D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.Core.xml
+D:\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
+D:\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
+D:\ASPJ\ASPJ_Project\bin\Twilio.xml

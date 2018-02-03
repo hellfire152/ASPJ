@@ -24,10 +24,34 @@ namespace ASPJ_Project.Controllers
             };
             Response.SetCookie(usernameCookie);
 
+            #region Equip Items
+            Database d = Database.CurrentInstance;
+            string query =
+                @"SELECT e.userID, h.ItemImage AS hatImage, o.itemImage AS outfitImage
+                  FROM equippeditems AS e
+                  LEFT OUTER JOIN premiumitem AS h
+                  ON e.equippedHat = h.itemID
+                  LEFT OUTER JOIN premiumitem AS o
+                  ON e.equippedOutfit = o.itemID
+                  WHERE userID = @1";
+            DataTable dt = d.PRQ(query, Session["UserID"]);
+            if(dt.Rows.Count != 0)
+            {
+                string hatImage = dt.Rows[0].Field<string>("hatImage");
+                string outfitImage = dt.Rows[0].Field<string>("outfitImage");
+
+                ViewData["hat"] = hatImage;
+                ViewData["outfit"] = outfitImage;
+            }
+            #endregion
+
+            #region Access Code
             string code = System.Web.Security.Membership.GeneratePassword(128, 25);
             ViewData["code"] = code;
             Database.CurrentInstance.PNQ("INSERT INTO saveaccess (userID, code) VALUES (@1, @2)",
                 Session["UserID"], code);
+            #endregion
+
             return View();
         }
     }

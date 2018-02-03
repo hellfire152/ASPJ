@@ -2,6 +2,9 @@
     ViewBag.Title = "Shop";
     Layout = "~/Content/ShopStyle/_Layout.cshtml";
 }
+@{
+    var BeanData = ViewBag.BeanPurchasesData;
+}
 <html>
 	<head>
         <style>
@@ -32,60 +35,21 @@
 		<!-- Wrapper -->
 			<div id="wrapper">
 
-                <!-- Hats -->
 					<section id="one" class="wrapper style3 fade-up">
 						<div class="inner">
 							<h1>Beans Purchase</h1>
 							<p>Need some beans? Purchase some here.</p>
 							<div class="features">
+                            @for(int i = 0; i < BeanData.Count; i++)
+                            {
 								<section>
-                                    <a href="/Shop/PurchaseConfirmation?beansAmount=60&price=2%2E99&beansName=Cup%20Of%20Beans">
-									    <span class="icon major fa-coffee"></span>
-									    <h2>Cup of Beans</h2>
-                                        <p>$2.99</p>
-									    <p>60 Beans</p>
-                                    </a>
+									<span class="icon major @BeanData[i].beanIcon"></span>
+									<h2>@BeanData[i].itemName</h2>
+                                    <p>$@BeanData[i].beansPrice</p>
+									<p>@BeanData[i].beanAmount Beans</p>
+                                    @Html.ActionLink("Purchase", "PurchaseSession", new { beansAmount = @BeanData[i].beanAmount, price = @BeanData[i].beansPrice, beansName = @BeanData[i].itemName }, new {@class="button"})
 								</section>
-                                <section>
-                                    <a href="/Shop/PurchaseConfirmation?beansAmount=150&price=5%2E99&beansName=Basket%20Of%20Beans"">
-									    <span class="icon major fa-shopping-basket"></span>
-									    <h2>Basket of Beans</h2>
-                                        <p>$5.99</p>
-									    <p>150 Beans</p>
-                                    </a>
-								</section>
-                                <section>
-                                    <a href="/Shop/PurchaseConfirmation?beansAmount=400&price=12%2E99&beansName=Bag%20Of%20Beans"">
-									    <span class="icon major fa-shopping-bag"></span>
-									    <h2>Bag of Beans</h2>
-                                        <p>$12.99</p>
-									    <p>400 Beans</p>
-                                    </a>
-								</section>
-                                <section>
-                                    <a href="/Shop/PurchaseConfirmation?beansAmount=1100&price=23%2E99&beansName=Box%20Of%20Beans"">
-									    <span class="icon major fa-archive"></span>
-									    <h2>Box of Beans</h2>
-                                        <p>$23.99</p>
-									    <p>1100 Beans</p>
-                                    </a>
-								</section>
-                                <section>
-                                    <a href="/Shop/PurchaseConfirmation?beansAmount=3200&price=52%2E99&beansName=Truck%20Of%20Beans"">
-									    <span class="icon major fa-truck"></span>
-									    <h2>Truck of Beans</h2>
-                                        <p>$52.99</p>
-									    <p>3200 Beans</p>
-                                    </a>
-								</section>
-                                <section>
-                                    <a href="/Shop/PurchaseConfirmation?beansAmount=7000&price=75%2E99&beansName=Ship%20Of%20Beans"">
-									    <span class="icon major fa-ship"></span>
-									    <h2>Ship of Beans</h2>
-                                        <p>$75.99</p>
-									    <p>7000 Beans</p>
-                                    </a>
-								</section>
+                            }
 							</div>
 							<ul class="actions">
 								<li><a href="/Shop/Shop" class="button">Go Back</a></li>

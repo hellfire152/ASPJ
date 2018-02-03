@@ -179,7 +179,13 @@ namespace ASPJ_Project.Controllers
         //}
         public ActionResult Chat()
         {
+            HttpCookie usernameCookie = new HttpCookie("UserID")
+            {
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt(""+Session["UserID"]))
+            };
+            Response.SetCookie(usernameCookie);
             DatabaseStuff db = new DatabaseStuff();
+            ViewBag.dateTime = db.ChatGetTime();
             ViewBag.chatList = db.ChatGetMessage();
             return View();
         }
@@ -341,6 +347,22 @@ namespace ASPJ_Project.Controllers
     //    }
     //}
 
+    public class DateAndTime
+    {
+        DateTime date = DateTime.Now;
+        string dateStr, timeStr, dateTimeStr;
+        public string Date()
+        {
+            dateStr = date.ToString("dd/MM/yyyy");
+            return dateStr;
+        }
+        public string Time()
+        {
+            timeStr = date.ToString("hh:mm tt");
+            return timeStr;
+        }
+    }
+
     public class DatabaseStuff
     {
         MySql.Data.MySqlClient.MySqlConnection conn;
@@ -354,12 +376,12 @@ namespace ASPJ_Project.Controllers
         public void ChatSendMessage(string chatMessageInsert)
         {
             //MySql.Data.MySqlClient.MySqlConnection conn;
-            //MySql.Data.MySqlClient.MySqlCommand cmd;            
+            //MySql.Data.MySqlClient.MySqlCommand cmd;
+            Models.Database d = Models.Database.CurrentInstance;
             try
-            {
-                Models.Database d = Models.Database.CurrentInstance;                
+            {               
                 MySqlCommand cmd = new MySqlCommand(queryString, d.conn);
-
+                d.OpenConnection();
                 /*
                  command.Parameters.AddWithValue("@chatId", chatid);
                  if(userid == chatinfo.firstUserID.ToString()){
@@ -368,12 +390,19 @@ namespace ASPJ_Project.Controllers
                     else{                                           
                     }
                   */
+                DateTime date = DateTime.Now;
+                string dateStr, timeStr, dateTimeStr;
+                dateTimeStr = date.ToString("dd/MM/yyy hh:mm tt");
+                dateStr = date.ToString("dd/MM/yyyy");
+                timeStr = date.ToString("hh:mm tt");
                 chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
                 //chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
-                queryString = "INSERT INTO dububase.chat(chatMessage) VALUES(@sendmessage)";
+                queryString = "INSERT INTO dububase.chat(chatMessage, chatDate, chatTime) VALUES(@sendmessage, @chatdate, @chattime)";
                 cmd.CommandText = queryString;
                 cmd.Parameters.AddWithValue("@sendmessage", chatMessageInsert);
+                cmd.Parameters.AddWithValue("@chatdate", dateStr);
+                cmd.Parameters.AddWithValue("@chattime", timeStr);
                 cmd.ExecuteNonQuery();
             }
             catch (System.Data.SqlClient.SqlException ex)
@@ -384,7 +413,7 @@ namespace ASPJ_Project.Controllers
             }
             finally
             {
-                conn.Close();
+                d.CloseConnection();
             }
         }
 
@@ -437,6 +466,39 @@ namespace ASPJ_Project.Controllers
                 reader.Close();
                 conn.Close();
             }           
+        }
+
+        public List<string> ChatGetTime()
+        {
+            //string chatInfo;
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                List<string> storeDate = new List<string>();
+                queryString = "SELECT chatTime FROM dububase.chat";
+                cmd.CommandText = queryString;
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+                reader = cmd.ExecuteReader();
+                while (reader.HasRows && reader.Read())
+                {
+                    storeDate.Add(reader["chatTime"].ToString());
+                }
+                return storeDate;
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                string errorMsg = "Error";
+                errorMsg += ex.Message;
+                throw new Exception(errorMsg);
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
         }
     }
 

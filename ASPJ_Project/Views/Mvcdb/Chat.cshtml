@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Chat";
     var chatData = ViewBag.chatList;
+    var chatTime = ViewBag.dateTime;
 }
 <head>
     <title>Chat Mvc Db</title>
@@ -53,7 +54,7 @@
                                                             {
                                                                 <section>
                                                                     <ul style="list-style-type:none;">
-                                                                        <li><strong>Name: </strong>@chatData[i]</li>
+                                                                        <li><strong>Name: </strong>@chatData[i]<small class="pull-right text-muted" id="chatTime">@chatTime[i]</small></li>
                                                                     </ul>                                                                   
                                                                 </section>
                                                             }
@@ -100,10 +101,10 @@
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
             // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, message) {
+            chat.client.addNewMessageToPage = function (name, message, time) {
                 // Add the message to the page.
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
-                    + '</strong>: ' + htmlEncode(message) + '</li>');
+                    + '</strong>: ' + htmlEncode(message) + '<small class="pull-right text-muted">' + htmlEncode(time) + '</small>' + '</li>');
             };
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));
@@ -113,7 +114,7 @@
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val());
+                    chat.server.send($('#displayname').val(), $('#message').val(), $('#chatTime').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });

@@ -15,6 +15,7 @@ namespace ASPJ_Project.Models
             long timePassed = (currentUtcTime - save.Time) / 1000;
 
             //check tofu click numbers
+            if (timePassed <= 0) timePassed = 1;
             double tofuClicksPerSecond = progress.tofuClicks / timePassed;
             if (tofuClicksPerSecond > 20 || (tofuClicksPerSecond > 10 && timePassed > 60))
                 return false;

@@ -372,7 +372,6 @@
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\MvcdbController.cs" />
     <Compile Include="Controllers\SMSController.cs" />
@@ -393,6 +392,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AESCryptoStuff.cs" />
+    <Compile Include="Models\Base32.cs" />
     <Compile Include="Models\BCrypt.cs" />
     <Compile Include="Models\Extended\user.cs" />
     <Compile Include="Models\Hmac.cs" />
@@ -789,7 +789,6 @@
     <None Include="App_Data\Saves\test.tusav" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -869,6 +868,7 @@
     <Content Include="Views\Shop\SuccessView.cshtml" />
     <Content Include="Views\Shop\Inventory.cshtml" />
     <Content Include="Views\SMS\SendOTP.cshtml" />
+    <Content Include="Views\User\VerifiedAccount.cshtml" />
     <Content Include="Views\Shared\Oops.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -892,7 +892,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

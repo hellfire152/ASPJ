@@ -9,12 +9,16 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+
+    @ViewBag.Message
+
+    @Session["UserID"].ToString();
+
     <div class="form-horizontal">
         <h4>OTP</h4>
         <hr />
 
-        <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SMS") formmethod="post" class="btn btn-default" />
+        <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SendOTP", "SMS") formmethod="post" class="btn btn-default" />
        
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -26,7 +30,7 @@
             </div>
         </div>
 
-        <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP") formmethod="post" class="btn btn-default" />
+        <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP", "VerifyOTP") formmethod="post" class="btn btn-default" />
      
     </div>
 }

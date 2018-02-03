@@ -299,7 +299,7 @@ function round(value, decimals) {
 }
 
 //sends progress data to the server
-function saveProgress() {
+function saveProgress(callback) {
     //get item data
     let owned = {};
     $.each(_tofuUniverse.player.items, (key, item) => {
@@ -320,18 +320,19 @@ function saveProgress() {
                 showNotification("Save success!", "");
                 break;
             case 0:
-                showNotification("You're saving too often!", "Only 3 saves / min allowed");
+                showNotification("You're saving too often!", "Just wait a little while...");
                 break;
             case -1:
                 showAlert();
                 break;
             case -2:
-                showNotification("Database is down", "");
+                showNotification("Error saving progress", "");
                 break;
             default:
                 console.log("Result ID not recognized!");
                 break;
         }
+        if (callback) callback(resultId);
     });
 
     //reset tracking variables
@@ -430,7 +431,7 @@ window.onload = () => {
     //load save (if any)
     $.connection.hub.start()
         .done(() => {
-            _tofuUniverse.conn.server.requestSave()
+            _tofuUniverse.conn.server.requestSave(_tofuUniverse.code)
                 .done((rawSave) => {
                     if (rawSave !== null) {
                         console.log("SAVE: " + rawSave);
@@ -472,8 +473,8 @@ window.onload = () => {
                 "font-size": "1.5em",
                 "-ms-transform": "scale(1.5)",
                 "-webkit-transform": "scale(1.5)",
-                "transform": "scale(1.5)"
-            })
+                "transform": "scale(1.5)",
+            });
             earning.text('+' + _tofuUniverse.player.items[0].tps);
             earning.append(tofuIcon());
             $("#click-earnings").append(earning);
@@ -514,6 +515,27 @@ window.onload = () => {
     //start game loop
     window.requestAnimationFrame(gameloop);
 };
+
+//Attempts to end the game
+_tofuUniverse.collapse = function() {
+    saveProgress(() => {
+        _tofuUniverse.conn.server.collapse()
+            .done((result) => {
+                $("body").empty();
+                let endVideoElement = $("<video autoplay id='ending-video'></video>");
+                let sourceElement = $("<source>", {
+                    "src": "tofu-collapse.mp4",
+                    "type": "video/mp4"
+                });
+                endVideoElement.append(sourceElement);
+
+                endVideoElement.on('ended', () => {
+                    console.log("You have reached the end!");
+                });
+                $('body').append(endVideoElement);
+            });
+    });
+}
 
 //TEST FUNCTIONS
 //gives the player more tofu without triggering anti-cheat

@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Tofu Universe!";
+
 }
+@if(ViewData["code"] != null) {
+    <script>_tofuUniverse.code = "@ViewData["code"]"</script>
+}
+
 <div class="container">
     <div class="col-md-5" id="left-side-container">
         <div id="shop-area">
@@ -8,6 +13,7 @@
                 <li class="active"><a href="#1" data-toggle="tab">Items</a></li>
                 <li><a href="#2" data-toggle="tab">Upgrades</a></li>
                 <li><a href="#3" data-toggle="tab">Options</a></li>
+                <li id="collapse-button"><a href="#4" onclick="_tofuUniverse.collapse();">Collapse</a></li>
             </ul>
             <div class="tab-content ">
                 <div class="tab-pane active" id="1">

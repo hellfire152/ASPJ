@@ -24,13 +24,12 @@ namespace ASPJ_Project.Models
             h = new HMACSHA1(key);
         }
 
-        //return a url encoded string of the input
+        //return a base 32 encoded string of the input
         public string Encode(string input)
         {
             byte[] messageBytes = Encoding.ASCII.GetBytes(input);
             byte[] encodedBytes = h.ComputeHash(messageBytes);
-            string encodedMessage = Encoding.ASCII.GetString(encodedBytes);
-            return HttpContext.Current.Server.UrlEncode(encodedMessage);
+            return Base32.Encode(encodedBytes);
         }
     }
 }

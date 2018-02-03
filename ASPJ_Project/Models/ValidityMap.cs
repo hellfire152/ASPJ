@@ -29,6 +29,10 @@ namespace ASPJ_Project.Models
             data.Add(index, validity);
             return true;
         }
+        public bool Add(int index, bool validity = true)
+        {
+            return Add("" + index, validity);
+        }
 
         public bool Remove(string index)
         {
@@ -39,10 +43,18 @@ namespace ASPJ_Project.Models
             }
             return false;
         }
+        public bool Remove(int index)
+        {
+            return Remove("" + index);
+        }
 
         public bool Contains(string index)
         {
             return data.ContainsKey(index);
+        }
+        public bool Contains(int index)
+        {
+            return Contains("" + index);
         }
 
         public bool this[string index]

@@ -28,8 +28,6 @@ namespace ASPJ_Project
             string rawItems = File.ReadAllText(dataRoot + @"\tofu-universe-items.js");
             string iv = WebConfigurationManager.AppSettings["iv"];
             string key = WebConfigurationManager.AppSettings["key"];
-            Debug.WriteLine("DATABASE IV: " + iv);
-            Debug.WriteLine("DATABASE KEY: " +key);
 
             //initialize all of our custom classes
             Database.Initialize(System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString());

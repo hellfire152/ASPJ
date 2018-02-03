@@ -69,8 +69,9 @@ namespace ASPJ_Project.Controllers
                 if (reader.HasRows && reader.Read())
                 {
                     ViewBag.Message = "Email is already been used. Please use another email.";
-                    return View();
                     conn.Close();
+                    return View();
+                    
                 }
                 else
                 {
@@ -187,7 +188,7 @@ namespace ASPJ_Project.Controllers
         [HttpPost]
         public ActionResult VerifyAccount()
         {
-            ViewBag.Message = "Account successfully verified! Please proceed to login";
+            
             return View();
 
         }
@@ -207,7 +208,7 @@ namespace ASPJ_Project.Controllers
 
                 if (activationCode != null)
                 {
-                    MySqlCommand cmd = new MySqlCommand("select * from accounts.activation where activationCode= @activationCode", con);
+                    MySqlCommand cmd = new MySqlCommand("select * from activation where activationCode= @activationCode", con);
                     cmd.Parameters.AddWithValue("@activationCode", activationCode);
                     cmd.ExecuteNonQuery();
 
@@ -220,21 +221,21 @@ namespace ASPJ_Project.Controllers
                     {
                         Uid = Convert.ToInt32(dt.Rows[0][1]);
                         //Debug.WriteLine("2");
+                        
                     }
                     else
                     {
-                        ViewBag.Message = "Your Activation Link is Expired or Invalid.";
-                        return View();
+
+                        return RedirectToAction("Login", "User");
 
                     }
 
-                    MySqlCommand cmd3 = new MySqlCommand("delete from accounts.activation where userID = @userID", con);
+                    MySqlCommand cmd3 = new MySqlCommand("delete from activation where userID = @userID", con);
                     cmd3.Parameters.AddWithValue("userID", Uid);
                     cmd3.ExecuteNonQuery();
-
                     con.Close();
-
-
+                    return RedirectToAction("VerifiedAccount", "User");
+                   
                 }
                 else
                 {
@@ -243,8 +244,11 @@ namespace ASPJ_Project.Controllers
                 //ViewBag.Message = "Hello";
             }
 
-            return View();
+        }
 
+        public ActionResult VerifiedAccount()
+        {
+            return View();
         }
 
         #endregion
@@ -274,7 +278,7 @@ namespace ASPJ_Project.Controllers
                     conn.Open();
 
                     MySqlCommand cmd = new MySqlCommand(queryStr, conn);
-                    queryStr = "SELECT * FROM accounts.users where email = @email and password = @password";
+                    queryStr = "SELECT * FROM users where email = @email and password = @password";
 
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
 
@@ -331,7 +335,7 @@ namespace ASPJ_Project.Controllers
                                     //cmd3.ExecuteNonQuery();
 
 
-                                    //Session["UserID"] = Username;
+                                    Session["UserID"] = Username;
                                     //return RedirectToAction("UsersHome", "User");
 
                                     return RedirectToAction("SendOTP", "SMS");
@@ -374,6 +378,8 @@ namespace ASPJ_Project.Controllers
             return View();
 
         }
+
+       
         #endregion
 
         #region MVC Login

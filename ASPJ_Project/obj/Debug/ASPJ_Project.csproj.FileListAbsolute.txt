@@ -736,3 +736,19 @@ D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.Genera
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.csproj.CoreCompileInputs.cache
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.dll
 D:\School\NYP\Year 2\ASPJ\ASPJ\ASPJ_Project\obj\Debug\ASPJ_Project.pdb
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\CaptchaMvc.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.AspNet.Common.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.AspNet.Mvc.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.dll
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\CaptchaMvc.pdb
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\CaptchaMvc.xml
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.xml

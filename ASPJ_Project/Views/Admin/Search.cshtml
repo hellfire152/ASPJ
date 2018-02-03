@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Search";
-    var Dummys = ViewBag.Dummy;
+    var Dummys = ViewBag.Dummys;
 }
 
 <h2>Search</h2>
@@ -11,7 +11,6 @@
 {
     <b> Search:</b>
     @Html.TextBox("search")
-    @Html.DropDownList("Help")
     <input type="submit" value="search" />
 }
 

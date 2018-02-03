@@ -1,0 +1,53 @@
+﻿@model ASPJ_Project.Models.BanUserModel
+@using ASPJ_Project.Models
+
+@{
+    ViewBag.Title = "BanUser";
+}
+
+<h2>Ban User</h2>
+<head>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <style>
+        .form-group {
+            margin-bottom: 10px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+@using (Html.BeginForm("BanUser", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Username, new { @readonly = "readonly", @Value="killjohn2017" , @class="form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.BanPeriod, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.BanPeriod,
+                                new SelectList(Enum.GetValues(typeof(Period))),
+                                "Period",new { @class="form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m=> m.BanReason, new { @class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.BanPeriod,new SelectList(Enum.GetValues(typeof(BannedReason))),"Reason", new { @class = "form-control" })
+        </div>
+    </div>
+        /*<div class="g-recaptcha" data-sitekey="6LenbkIUAAAAAGKcQ5G-vwsOFO5Vea-Smo7Wb8U-"></div>*/
+        
+    <input type="submit" value="Confirm" />
+    <input type="reset" value="Cancel" />
+}
+
+@*<span style="display:inline-block; font-size:20px;margin:20px 0;padding:20px;border:1px solid #D3D3D3">
+    @ViewBag.Message
+</span>*@ 

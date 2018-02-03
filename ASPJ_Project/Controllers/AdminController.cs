@@ -302,7 +302,7 @@ namespace ASPJ_Project.Controllers
                             BanUserModel noob = new BanUserModel {
                                 Username = (r["UserName"].ToString()),
                                 BanReason = (r["banReason"].ToString()),
-                                BanPeriod = (Int32.Parse(r["banPeriod"].ToString()))
+                                BanPeriod = (r["banPeriod"].ToString())
                             };
                             noobs.Add(noob);
                             ViewBag.noobs = noobs;

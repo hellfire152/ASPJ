@@ -32,7 +32,7 @@
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.BanPeriod,
                                 new SelectList(Model.BanPeriodOptions),
-                                "Id","BanPeriod","IntPeriod", new { @class="form-control"})
+                                "BanPeriod", new { @class="form-control"})
         </div>
     </div>
 
@@ -40,7 +40,7 @@
         @Html.LabelFor(m=> m.BanReason, new { @class = "col-md-2 control-label"})
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.BanReason,
-                                    new SelectList(Model.BanReasonOptions),"Id","Reason", new { @class = "form-control" })
+                                    new SelectList(Model.BanReasonOptions),"Reason", new { @class = "form-control" })
         </div>
     </div>
         /*<div class="g-recaptcha" data-sitekey="6LenbkIUAAAAAGKcQ5G-vwsOFO5Vea-Smo7Wb8U-"></div>*/

@@ -238,13 +238,5 @@ _tofuUniverse.UPGRADES = {
         "effect":"0.tps*100,1.tps*4,2.tps*5,3.tps*3,4.tps*3,5.tps*4,6.tps*2,1.name=Supercharged Cursor,2.name=Supercharged Farm,3.name=Supercharged Mine,4.name=Supercharged Generator,5.name=Supercharged Spaceship,6.name=Supercharged Wormhole Travel",
         "cost": 100000000000000,
         "icon": "ftl5.png"
-    },
-    1000: {
-        "name": "Test",
-        "description": "TESTING",
-        "effectDescription": "+1000 tofu per click",
-        "effect": "1.tps*1.2",
-        "cost": 1,
-        "icon": "test2.jpg"
-    },
+    }
 }

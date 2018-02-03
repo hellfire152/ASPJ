@@ -752,7 +752,6 @@ C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.AspNet.Identity.EntityFram
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.IdentityModel.Tokens.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.IdentityModel.Tokens.Jwt.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Twilio.xml
-C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\System.Xml.ReaderWriter.dll
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.Relational.xml
 C:\Users\Kuan\Desktop\ASPJ\ASPJ_Project\bin\Microsoft.EntityFrameworkCore.Relational.Design.xml

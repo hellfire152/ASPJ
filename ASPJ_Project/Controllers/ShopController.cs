@@ -144,7 +144,7 @@ namespace ASPJ_Project.Controllers
             int userID = 48; //Convert.ToInt32(Session["UserID"]);
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
-
+            EquippedItem equipment = new EquippedItem();
             try
             {
                 if (d.OpenConnection())
@@ -175,6 +175,7 @@ namespace ASPJ_Project.Controllers
                                 {
                                     itemName = (reader["itemName"].ToString()),
                                     itemDescription = (reader["itemDescription"].ToString()),
+                                    itemID = (reader["itemID"].ToString())
                                 };
                                 HatItems.Add(HatItem);
                             }
@@ -185,19 +186,47 @@ namespace ASPJ_Project.Controllers
                                 {
                                     itemName = (reader["itemName"].ToString()),
                                     itemDescription = (reader["itemDescription"].ToString()),
+                                    itemID = (reader["itemID"].ToString())
                                 };
                                 OutfitItems.Add(OutfitItem);
                             }
                         }
+                        reader.Close();
                     }
-                    ViewBag.OutfitItemData = OutfitItems;
-                    ViewBag.HatItemData = HatItems;
+                    ViewBag.OwnedOutfitItemData = OutfitItems;
+                    ViewBag.OwnedHatItemData = HatItems;
+
+                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM equippeditems WHERE userID = @userID", d.conn);
+                    c3.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r2 = c3.ExecuteReader())
+                    {
+
+                        while (r2.Read())
+                        {
+                            if (r2["userID"] != DBNull.Value)
+                            {
+                                if (r2["equippedHat"] != DBNull.Value)
+                                {
+                                    equipment.equippedHat = Convert.ToInt32(r2["equippedHat"]);
+                                }
+                                if (r2["equippedOutfit"] != DBNull.Value)
+                                {
+                                    equipment.equippedOutfit = Convert.ToInt32(r2["equippedOutfit"]);
+                                }
+                            }
+                            else break;
+                        }
+
+                        ViewBag.EquipmentData = equipment;
+                        r2.Close();
+                    }
                 }
             }
 
             catch (MySqlException e)
             {
-                Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e);
             }
             finally
             {
@@ -205,6 +234,103 @@ namespace ASPJ_Project.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult EquipItem(string equipitemID, string equipitemType)
+        {
+
+            Database d = Database.CurrentInstance;
+            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int itemID = Convert.ToInt32(equipitemID);
+            Debug.WriteLine(equipitemID + "equipitemID");
+            Debug.WriteLine(itemID + "ITEMID");
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    //Query on whether EquipItemTable is existing or not
+                    string tableQuery = "SELECT * FROM equippeditems WHERE userID = @userID"; 
+                    MySqlCommand c = new MySqlCommand(tableQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+                    bool EquipTableCreated = false;
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            EquipTableCreated = true;
+                            Debug.WriteLine("Table alr created");
+                        }
+                        else
+                        {
+                            EquipTableCreated = false;
+                            Debug.WriteLine("Table not created");
+                        }
+                        r.Close();
+                    }
+
+                    if (EquipTableCreated == true)
+                    {
+                        if (equipitemType == "Hat")
+                        {
+                            Debug.WriteLine("Hat Item Table Created");
+
+                            string updateQuery = "UPDATE equippeditems SET equippedHat = @hatID WHERE userID = @userID";
+                            MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                            c2.Parameters.AddWithValue("@hatID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+
+                        else if (equipitemType == "Outfit")
+                        {
+                            Debug.WriteLine("Outfit Item Table Created");
+
+                            string updateQuery = "UPDATE equippeditems SET equippedOutfit = @outfitID WHERE userID = @userID";
+                            MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                            c2.Parameters.AddWithValue("@outfitID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+                    }
+
+                    else if (EquipTableCreated == false)
+                    {
+                        if (equipitemType == "Hat")
+                        {
+                            Debug.WriteLine("Hat Item Table not Created");
+
+                            string insertQuery = "INSERT INTO equippeditems(userID, equippedHat) VALUES (@userID, @hatID)";
+                            MySqlCommand c2 = new MySqlCommand(insertQuery, d.conn);
+                            c2.Parameters.AddWithValue("@hatID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+
+                        else if (equipitemType == "Outfit")
+                        {
+                            Debug.WriteLine("Outfit Item Table not Created");
+                            string insertQuery = "INSERT INTO equippeditems(userID, equippedOutfit) VALUES (@userID, @outfitID)";
+                            MySqlCommand c2 = new MySqlCommand(insertQuery, d.conn);
+                            c2.Parameters.AddWithValue("@outfitID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+            return RedirectToAction("Inventory");
+
         }
 
         public ActionResult ItemPurchase(string beansPrice, string premiumItemName, string premiumItemID)

@@ -70,3 +70,12 @@ D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Censored.dll
 D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Censored.xml
 C:\Users\Kuan\Desktop\ASPJ\SaveFileTest\bin\Debug\SaveFileTest.dll.config
 D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\SaveFileTest.dll.config
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Twilio.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\CaptchaMvc.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Microsoft.IdentityModel.Logging.dll
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Twilio.xml
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\CaptchaMvc.xml
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
+D:\ASPJ\ASPJ_Project\SaveFileTest\bin\Debug\Microsoft.IdentityModel.Tokens.xml

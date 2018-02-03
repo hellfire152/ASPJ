@@ -39,7 +39,19 @@
     <div class="col-md-7" id="tofu-area">
         <div id="tofu-count-container"><span id="tofu-count">0</span> Tofu</div>
         <div id="tps-container"><span id="tps">0</span> Tofu / second</div>
-        <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
+        <div id="tofu-space">
+            @if(ViewData["hat"] != null)
+            {
+                <img id="tofu-hat" src="@Url.Content("~/Content/Images/ShopItems/" + ViewData["hat"] + ".png")" />
+            }
+            @if(ViewData["outfit"] != null)
+            {
+                <img id="tofu" src="@Url.Content("~/Content/Images/ShopItems/" + ViewData["outfit"] + ".png")" />
+            } else
+            {
+                <img id="tofu" src="@Url.Content("~/Content/images/tofu-clipart-cute-2.png")" />
+            }
+        </div>
     </div>
     <div id="notifications"></div>
     <!--Cheat alert-->

@@ -521,18 +521,22 @@ _tofuUniverse.collapse = function() {
     saveProgress(() => {
         _tofuUniverse.conn.server.collapse()
             .done((result) => {
-                $("body").empty();
-                let endVideoElement = $("<video autoplay id='ending-video'></video>");
-                let sourceElement = $("<source>", {
-                    "src": "tofu-collapse.mp4",
-                    "type": "video/mp4"
-                });
-                endVideoElement.append(sourceElement);
+                if (result == 1) {
+                    $("body").empty();
+                    let endVideoElement = $("<video autoplay id='ending-video'></video>");
+                    let sourceElement = $("<source>", {
+                        "src": "tofu-collapse.mp4",
+                        "type": "video/mp4"
+                    });
+                    endVideoElement.append(sourceElement);
 
-                endVideoElement.on('ended', () => {
-                    console.log("You have reached the end!");
-                });
-                $('body').append(endVideoElement);
+                    endVideoElement.on('ended', () => {
+                        console.log("You have reached the end!");
+                    });
+                    $('body').append(endVideoElement);
+                } else {
+                    showNotification("Not enough tofu!");
+                }
             });
     });
 }

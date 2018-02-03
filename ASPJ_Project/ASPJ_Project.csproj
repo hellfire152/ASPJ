@@ -603,7 +603,7 @@
     <Content Include="Content\Images\Items\wormhole.jpg" />
     <Content Include="Content\Images\ShopItems\ImageFedora.png" />
     <Content Include="Content\Images\ShopItems\ImageKarate.png" />
-    <Content Include="Content\Images\ShopItems\ImageMartialArts.jpg" />
+    <Content Include="Content\Images\ShopItems\ImageMartialArts.png" />
     <Content Include="Content\Images\ShopItems\ImageSuit.png" />
     <Content Include="Content\Images\tofu-clipart-cute-2.png" />
     <Content Include="Content\Images\tofu.png" />

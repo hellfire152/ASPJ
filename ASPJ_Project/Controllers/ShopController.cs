@@ -362,6 +362,7 @@ namespace ASPJ_Project.Controllers
                         }
                         r.Close();
 
+                        AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
                         string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
                         MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
                         c2.Parameters.AddWithValue("@beansAfter", beansAfter);
@@ -371,9 +372,9 @@ namespace ASPJ_Project.Controllers
                         string addItemTransQuery = "INSERT INTO itemtransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID)";
                         string transDesc = "Purchase of " + premiumItemName + " for " + beansPrice + " beans.";
                         MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
-                        c3.Parameters.AddWithValue("@transactionNo", KeyGenerator.GetUniqueKey(20));
-                        c3.Parameters.AddWithValue("@transactionDesc", transDesc);
-                        c3.Parameters.AddWithValue("@price", beansPrice);
+                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                        c3.Parameters.AddWithValue("@price", AES.AesEncrypt(beansPrice));
                         c3.Parameters.AddWithValue("@beansBefore", beansBefore);
                         c3.Parameters.AddWithValue("@beansAfter", beansAfter);
                         c3.Parameters.AddWithValue("@userID", userID);

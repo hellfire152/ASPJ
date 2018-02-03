@@ -594,6 +594,7 @@
     <Content Include="Content\ExtraUI.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\Error\four-oh-four_16.jpg" />
     <Content Include="Content\Images\Items\farm.png" />
     <Content Include="Content\Images\Items\cursor.png" />
     <Content Include="Content\Images\Items\generator.jpg" />
@@ -603,7 +604,7 @@
     <Content Include="Content\Images\Items\wormhole.jpg" />
     <Content Include="Content\Images\ShopItems\ImageFedora.png" />
     <Content Include="Content\Images\ShopItems\ImageKarate.png" />
-    <Content Include="Content\Images\ShopItems\ImageMartialArts.jpg" />
+    <Content Include="Content\Images\ShopItems\ImageMartialArts.png" />
     <Content Include="Content\Images\ShopItems\ImageSuit.png" />
     <Content Include="Content\Images\tofu-clipart-cute-2.png" />
     <Content Include="Content\Images\tofu.png" />
@@ -719,6 +720,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Oops.html" />
     <Content Include="Other\Censored_Words.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -869,7 +871,6 @@
     <Content Include="Views\Shop\Inventory.cshtml" />
     <Content Include="Views\SMS\SendOTP.cshtml" />
     <Content Include="Views\User\VerifiedAccount.cshtml" />
-    <Content Include="Views\Shared\Oops.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

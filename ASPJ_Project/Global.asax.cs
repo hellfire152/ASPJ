@@ -46,6 +46,21 @@ namespace ASPJ_Project
 
         }
 
+        protected void Application_BeginRequest()
+        {
+            HttpContext.Current.Response.Cache.SetAllowResponseInBrowserHistory(false);
+            //NOTE: Stopping IE from caching
+            HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            // Stop Caching in Firefox
+            HttpContext.Current.Response.Cache.SetNoStore();
+            //Prevent other websites from iframing except for origin
+            HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
+            //Enables XSS filtering, sanitizes page
+            HttpContext.Current.Response.AddHeader("X-XSS-Protection", "1");
+            Response.Cache.SetExpires(DateTime.Now);
+            Response.Cache.SetValidUntilExpires(true);
+        }
+
     }
 }
 

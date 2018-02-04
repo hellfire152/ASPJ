@@ -70,3 +70,12 @@ D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\obj\Debug\UnitTests.csprojResolveAss
 D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\obj\Debug\UnitTests.csproj.CoreCompileInputs.cache
 D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\obj\Debug\SaveFileTest.dll
 D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\obj\Debug\SaveFileTest.pdb
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\Twilio.dll
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\CaptchaMvc.dll
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\Microsoft.IdentityModel.Logging.dll
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\Twilio.xml
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\CaptchaMvc.xml
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
+D:\School\NYP\Year 2\ASPJ\ASPJ\SaveFileTest\bin\Debug\Microsoft.IdentityModel.Tokens.xml

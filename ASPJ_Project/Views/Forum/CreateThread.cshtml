@@ -1,4 +1,5 @@
 ﻿@model ASPJ_Project.Models.Thread
+@using CaptchaMvc.HtmlHelpers
 
 @{
     ViewBag.Title = "Create Thread";
@@ -48,11 +49,31 @@
                 <input type="submit" value="Post" class="btn btn-default" />
             </div>
         </div>
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <div class="col-md-6">
+
+                </div>
+                <div class="col-md-4">
+                    @Html.MathCaptcha()
+                    @Html.ValidationMessageFor(model => model.captcha, "", new { @class = "text-danger" })
+                    <p class="has-error">@ViewBag.ErrorMessage</p>
+                </div>
+
+                    <span class="field-validation-valid text-danger" data-valmsg-for="captcha" data-valmsg-replace="true" id="vali_CaptchaInputText"></span>
+                </div>
+        </div>
+
+  
         @{
-            if(ViewBag.message != null)
+            if (ViewBag.message != null)
             {
-                @ViewBag.message
-            }
+                <div class="alert alert-danger">
+                    @ViewBag.Message
+                    @ViewBag.ErrorMessage
+                </div>            }
         }
     </div>
 }

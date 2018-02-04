@@ -1,6 +1,7 @@
 ﻿using ASPJ_Project.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,24 +10,48 @@ namespace ASPJ_Project.Controllers
 {
     public class GameController : Controller
     {
-        //needed to set test accounts
-        public static string[] TestUsernames = {"1", "2", "3", "4"};
-        public static int TestCounter = 0;
-
         [HttpGet]
         public ActionResult Index()
         {
-            //set test username
-            HttpCookie usernameCookie = new HttpCookie("username")
-            {
-                Value = Crypto.CurrentInstance.Encrypt(
-                    TestUsernames[TestCounter])
-            };
-            //comment out this line to cycle between 1,2,3,4
-            usernameCookie.Value = "test2";
-            if (++TestCounter > 3) TestCounter = 0;
+            //test username
+            Session["UserID"] = 49;
+            if ((int)Session["UserID"] == 0) return View("Error");
 
+            //set username cookie
+            HttpCookie usernameCookie = new HttpCookie("UserID")
+            {
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt(""+Session["UserID"]))
+            };
             Response.SetCookie(usernameCookie);
+
+            #region Equip Items
+            Database d = Database.CurrentInstance;
+            string query =
+                @"SELECT e.userID, h.ItemImage AS hatImage, o.itemImage AS outfitImage
+                  FROM equippeditems AS e
+                  LEFT OUTER JOIN premiumitem AS h
+                  ON e.equippedHat = h.itemID
+                  LEFT OUTER JOIN premiumitem AS o
+                  ON e.equippedOutfit = o.itemID
+                  WHERE userID = @1";
+            DataTable dt = d.PRQ(query, Session["UserID"]);
+            if(dt.Rows.Count != 0)
+            {
+                string hatImage = dt.Rows[0].Field<string>("hatImage");
+                string outfitImage = dt.Rows[0].Field<string>("outfitImage");
+
+                ViewData["hat"] = hatImage;
+                ViewData["outfit"] = outfitImage;
+            }
+            #endregion
+
+            #region Access Code
+            string code = System.Web.Security.Membership.GeneratePassword(128, 25);
+            ViewData["code"] = code;
+            Database.CurrentInstance.PNQ("INSERT INTO saveaccess (userID, code) VALUES (@1, @2)",
+                Session["UserID"], code);
+            #endregion
+
             return View();
         }
     }

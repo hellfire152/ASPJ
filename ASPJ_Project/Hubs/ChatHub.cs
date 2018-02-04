@@ -32,15 +32,21 @@ namespace ASPJ_Project.Hubs
         }
 
         //On click send button Signalr connection open insert into database
-        public void Send(string name, string message)
+        public void Send(string storeCookie, string message, string storeTime)
         {
+            //Get value from cookie
+            //storeCookie = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["UserID"].Value));
             //Insert into db
             db.ChatSendMessage(message);
+            foreach(var g in db.ChatGetTime())
+            {
+                storeTime = g;
+            }
             //Censor Word
             Censors censorMessage = new Censors();
             string storeCensored = censorMessage.CrapCensor(message);
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(name, storeCensored);
+            Clients.All.addNewMessageToPage(storeCookie, storeCensored, storeTime);
         }
     }
 }

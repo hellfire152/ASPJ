@@ -27,14 +27,28 @@ namespace ASPJ_Project
                         "~/Scripts/TofuUniverse/big.min.js",
                         "~/Scripts/TofuUniverse/tofu-universe-items.js",
                         "~/Scripts/TofuUniverse/tofu-universe-upgrades.js",
-                        "~/Scripts/TofuUniverse/tofu-universe.js"));
+                        "~/Scripts/TofuUniverse/tofu-universe.js",
+                        "~/Scripts/TofuUniverse/UIScripts.js"));
 
             bundles.Add(new ScriptBundle("~/signalr").Include(
                         "~/Scripts/jquery.signalR-2.2.2.js"
                 ));
 
             bundles.Add(new StyleBundle("~/Shop/css").Include(
-                        "~/Content/PremiumShop/assets/css/main.css"));
+                        "~/Content/PremiumShop/assets/css/main.css",
+                        "~/Content/themes/base/jquery.ui.core.css",
+                        "~/Content/themes/base/jquery.ui.resizable.css",
+                        "~/Content/themes/base/jquery.ui.selectable.css",
+                        "~/Content/themes/base/jquery.ui.accordion.css",
+                        "~/Content/themes/base/jquery.ui.autocomplete.css",
+                        "~/Content/themes/base/jquery.ui.button.css",
+                        "~/Content/themes/base/jquery.ui.dialog.css",
+                        "~/Content/themes/base/jquery.ui.slider.css",
+                        "~/Content/themes/base/jquery.ui.tabs.css",
+                        "~/Content/themes/base/jquery.ui.datepicker.css",
+                        "~/Content/themes/base/jquery.ui.progressbar.css",
+                        "~/Content/themes/base/jquery.ui.theme.css"
+                          ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -42,7 +56,27 @@ namespace ASPJ_Project
 
             bundles.Add(new StyleBundle("~/game/css").Include(
                         "~/Content/Main.css",
-                        "~/Content/bootstrap.css"));
-        }
+                        "~/Content/bootstrap.css",
+                        "~/Content/ExtraUI.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+            "~/Scripts/jquery-ui-{version}.js"));
+
+
+            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+                          "~/Content/themes/base/jquery.ui.core.css",
+                          "~/Content/themes/base/jquery.ui.resizable.css",
+                          "~/Content/themes/base/jquery.ui.selectable.css",
+                          "~/Content/themes/base/jquery.ui.accordion.css",
+                          "~/Content/themes/base/jquery.ui.autocomplete.css",
+                          "~/Content/themes/base/jquery.ui.button.css",
+                          "~/Content/themes/base/jquery.ui.dialog.css",
+                          "~/Content/themes/base/jquery.ui.slider.css",
+                          "~/Content/themes/base/jquery.ui.tabs.css",
+                          "~/Content/themes/base/jquery.ui.datepicker.css",
+                          "~/Content/themes/base/jquery.ui.progressbar.css",
+                          "~/Content/themes/base/jquery.ui.theme.css"));
+
+                }
     }
 }

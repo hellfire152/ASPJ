@@ -13,188 +13,24 @@ using System.Text;
 using System.IO;
 using Censored;
 using MySql.Data.MySqlClient;
-using static ASPJ_Project.Models.ChatModel;
 using System.Collections;
 
 namespace ASPJ_Project.Controllers
 {
     public class MvcdbController : Controller
-    {
-
-        //private mvccruddbEntities dbModel = new mvccruddbEntities();
-        // GET: Mvcdb
-        //public ActionResult Index()
-        //{
-        //    List<user> userList = new List<user>();
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        IList<string> censoredWords = new List<string>
-        //        {
-        //          "gosh",
-        //          "drat",
-        //          "darn*",
-        //          "fuck*",
-        //          "idiot",
-        //          "stupid",
-        //          "ji bai",
-        //          "bitch",
-        //          "pussy",
-        //          "shit",
-        //          "cb",
-
-        //        };
-
-        //        //Censor censor = new Censor(censoredWords);
-        //        //string result;
-
-        //        //result = censor.CensorText("I stubbed my toe. Gosh it hurts!");
-        //        //// I stubbed my toe. **** it hurts!
-
-        //        //result = censor.CensorText("The midrate on the USD -> EUR forex trade has soured my day. Drat!");
-        //        //// The midrate on the USD -> EUR forex trade has soured my day. ****!
-
-        //        //result = censor.CensorText("Gosh darnit, my shoe laces are undone.");
-        //        userList = dbModel.users.ToList<user>();
-        //        //string censoredUserList;
-        //        //foreach (var item in userList)
-        //        //{
-        //        //    censoredUserList = censor.CensorText(item.FirstName);
-        //        //}
-
-        //    }
-        //    return View(userList);
-        //}
-
-        //public static void Encrypt(string value)
-        //{
-        //    using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
-        //    {
-        //        UTF8Encoding utf8 = new UTF8Encoding();
-        //        byte[] data = md5.ComputeHash(utf8.GetBytes(value));
-        //        Convert.ToBase64String(data);
-        //    }
-
-        //}
-
-        // GET: Mvcdb/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    user userModel = new user();
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
-        //    }
-        //    return View(userModel);
-        //}
-
-        // GET: Mvcdb/Create
-        //public ActionResult Create()
-        //{
-        //    return View(new user());
-        ////}
-
-        // POST: Mvcdb/Create
-        //[HttpPost]
-        //public ActionResult Create(user userModel)
-        //{            
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        //AESCryptoStuff aes_obj = new AESCryptoStuff();
-        //        //userModel = aes_obj.AesEncrypt(userModel);
-        //        dbModel.users.Add(userModel);
-        //        dbModel.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index");
-        //}
-
-        // GET: Mvcdb/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    user userModel = new user();
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
-        //    }
-        //    return View(userModel);
-        //}
-
-        // POST: Mvcdb/Edit/5
-        //[HttpPost]
-        //public ActionResult Edit(user userModel)
-        //{
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        dbModel.Entry(userModel).State = System.Data.Entity.EntityState.Modified;
-        //        dbModel.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index");
-        //}
-
-        // GET: Mvcdb/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    user userModel = new user();
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
-        //    }
-        //    return View(userModel);
-        //}
-
-        // POST: Mvcdb/Delete/5
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        user userModel = dbModel.users.Where(x => x.UserID == id).FirstOrDefault();
-        //        dbModel.users.Remove(userModel);
-        //        dbModel.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index");
-        //}
-
-        //public ActionResult ChatTest()
-        //{
-        //    List<user> userList = new List<user>();
-        //    using (mvccruddbEntities dbModel = new mvccruddbEntities())
-        //    {
-        //        userList = dbModel.users.ToList<user>();
-        //    }
-
-        //    return View(userList);
-        //}
-
-        //public ActionResult FriendList(string searchString)
-        //{
-        //    List<user> userList = new List<user>();
-        //    var searchList = from c in dbModel.users select c;
-        //    if (!string.IsNullOrEmpty(searchString))
-        //    {
-        //        //searchList = searchList.Where(c => c.FirstName == searchString);
-        //        searchList = searchList.Where(c => c.FirstName.Contains(searchString));
-        //    }
-        //    //userList = dbModel.users.ToList<user>();
-
-        //    return View(searchList);
-        //}
+    {       
         public ActionResult Chat()
         {
+            HttpCookie usernameCookie = new HttpCookie("UserID")
+            {
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt(""+Session["UserID"]))
+            };
+            Response.SetCookie(usernameCookie);
             DatabaseStuff db = new DatabaseStuff();
+            ViewBag.dateTime = db.ChatGetTime();
             ViewBag.chatList = db.ChatGetMessage();
             return View();
-        }
-
-        //protected void Page_Load(object sender, EventArgs e)
-        //{
-        //    if( Request.QueryString["chatId"] != null)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine('Loading some chat');
-        //        chatId = Request.QueryString["chatId"];
-
-        //    }
-        //}
-
+        }      
     }
 
     public class EncodeDecode
@@ -314,71 +150,47 @@ namespace ASPJ_Project.Controllers
         }
     }
 
-    //public class Censoring
-    //{
-    //    public string CensorStuff(string plaintext)
-    //    {
-    //        char censoredChar=' ';
-    //        string storeWord;
-    //        string censoredWord;
-    //        List<string> censoredWordList = new List<string>();
-    //        censoredWordList.Add("Fuck");
-    //        censoredWordList.Add("ballsack");
-            
-    //        foreach (char i in plaintext)
-    //        {
-    //            foreach (string w in censoredWordList)
-    //            {
-    //                storeWord = w;
-    //                if (plaintext.Contains(storeWord))
-    //                {
-    //                    censoredChar += i;
-    //                }
-    //            }
-    //        }
-    //        return censoredChar.ToString();
-    //        //Console.Write(censoredWord);
-    //    }
-    //}
 
     public class DatabaseStuff
     {
+        //Declare db mysql stuff
         MySql.Data.MySqlClient.MySqlConnection conn;
-        //MySql.Data.MySqlClient.MySqlCommand cmd;
         MySql.Data.MySqlClient.MySqlDataReader reader;
-        AESCryptoStuff aes_obj = new AESCryptoStuff();
+        AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
         EncodeDecode encInit = new EncodeDecode();
         string queryString;
 
         //Insert message into the database
         public void ChatSendMessage(string chatMessageInsert)
         {
-            //MySql.Data.MySqlClient.MySqlConnection conn;
-            //MySql.Data.MySqlClient.MySqlCommand cmd;            
+            Models.Database d = Models.Database.CurrentInstance;
             try
-            {
-                String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;                
-                conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-                conn.Open();                
-                MySqlCommand cmd = new MySqlCommand(queryString, conn);
-
-                /*
-                 command.Parameters.AddWithValue("@chatId", chatid);
-                 if(userid == chatinfo.firstUserID.ToString()){
-                    command.Parameters.AddWithValue("@senderUserID", chatinfo.firstuserID);
-                    }
-                    else{                                           
-                    }
-                  */
-                aes_obj.AesInitialize();
+            { 
+                //Initialize Command 
+                MySqlCommand cmd = new MySqlCommand(queryString, d.conn);
+                //Open connection
+                d.OpenConnection();
+                //Set date time
+                DateTime date = DateTime.Now;
+                string dateStr, timeStr, dateTimeStr;
+                dateTimeStr = date.ToString("dd/MM/yyy hh:mm tt");
+                dateStr = date.ToString("dd/MM/yyyy");
+                timeStr = date.ToString("hh:mm tt");
+                //Encode msg
                 chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
+                //Encrypt msg
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
-                //chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
-                queryString = "INSERT INTO dububase.chat(chatMessage) VALUES(@sendmessage)";
+                dateStr = aes_obj.AesEncrypt(dateStr);
+                timeStr = aes_obj.AesEncrypt(timeStr);
+                //Insert query
+                queryString = "INSERT INTO dububase.chat(chatMessage, chatDate, chatTime) VALUES(@sendmessage, @chatdate, @chattime)";
                 cmd.CommandText = queryString;
+                //Add parameters
                 cmd.Parameters.AddWithValue("@sendmessage", chatMessageInsert);
+                cmd.Parameters.AddWithValue("@chatdate", dateStr);
+                cmd.Parameters.AddWithValue("@chattime", timeStr);
                 cmd.ExecuteNonQuery();
-            }
+            }//Exception
             catch (System.Data.SqlClient.SqlException ex)
             {
                 string errorMsg = "Error";
@@ -387,47 +199,48 @@ namespace ASPJ_Project.Controllers
             }
             finally
             {
-                conn.Close();
+                //Close connection
+                d.CloseConnection();
             }
         }
 
+        //Retreive msg from db
         public List<string> ChatGetMessage()
         {
-            //string chatInfo;
+            //Set connection string
             String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
             try
             {
-                //string store="";
-                //string decryptedMsg;
-                ArrayList storeArray = new ArrayList();
+                //Storing list
                 List<string> chatList = new List<string>();
                 List<string> decodedList = new List<string>();
+                List<string> censoredList = new List<string>();
+                //Open connection
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(queryString, conn);
-                AESCryptoStuff aes_obj = new AESCryptoStuff();
-                aes_obj.AesInitialize();                
-                //queryString = "";
+                AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
+                Censors censorMessage = new Censors();
+                //QueryString set
                 queryString = "SELECT * FROM dububase.chat";
                 cmd.CommandText = queryString;
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
-                //cmd.Parameters.AddWithValue("@chatid", chatid);
                 reader = cmd.ExecuteReader();
                 while (reader.HasRows && reader.Read())
                 {
-                    //ChatMsg allChat = new ChatMsg
-                    //{
-                    //    ChatMessage = (reader["chatMessage"].ToString())
-                    //};
-
+                    //While rows are present read and add each row from chatmessage column to chatList
                     chatList.Add(aes_obj.AesDecrypt(reader["chatMessage"].ToString()));
-                    //chatList.Add(encInit.DecodeStuff(reader["chatMessage"].ToString()));
                 }
+                //Loop through list and decode
                 foreach (string i in chatList)
                 {
                     decodedList.Add(encInit.DecodeStuff(i));
                 }
-                return decodedList;
+                foreach(string b in decodedList)
+                {
+                    censoredList.Add(censorMessage.CrapCensor(b));
+                }
+                return censoredList;
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
@@ -441,172 +254,40 @@ namespace ASPJ_Project.Controllers
                 conn.Close();
             }           
         }
-    }
 
-    //class AesExample
-    //{
-    //    public static void Main()
-    //    {
-    //        try
-    //        {
-
-    //            string original = "Here is some data to encrypt!";
-
-    //            // Create a new instance of the Aes
-    //            // class.  This generates a new key and initialization 
-    //            // vector (IV).
-    //            using (Aes myAes = Aes.Create())
-    //            {
-
-    //                // Encrypt the string to an array of bytes.
-    //                byte[] encrypted = EncryptStringToBytes_Aes(original,
-    //                myAes.Key, myAes.IV);
-
-    //                // Decrypt the bytes to a string.
-    //                string roundtrip = DecryptStringFromBytes_Aes(encrypted,
-    //                    myAes.Key, myAes.IV);
-
-    //                //Display the original data and the decrypted data.
-    //                Console.WriteLine("Original:   {0}", original);
-    //                Console.WriteLine("Round Trip: {0}", roundtrip);
-    //            }
-
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            Console.WriteLine("Error: {0}", e.Message);
-    //        }
-    //    }
-    //    static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
-
-    //    {
-    //        // Check arguments.
-    //        if (plainText == null || plainText.Length <= 0)
-    //            throw new ArgumentNullException("plainText");
-    //        if (Key == null || Key.Length <= 0)
-    //            throw new ArgumentNullException("Key");
-    //        if (IV == null || IV.Length <= 0)
-    //            throw new ArgumentNullException("IV");
-    //        byte[] encrypted;
-    //        // Create an Aes object
-    //        // with the specified key and IV.
-    //        using (Aes aesAlg = Aes.Create())
-    //        {
-    //            aesAlg.Key = Key;
-    //            aesAlg.IV = IV;
-
-    //            // Create a decrytor to perform the stream transform.
-    //            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-
-    //            // Create the streams used for encryption.
-    //            using (MemoryStream msEncrypt = new MemoryStream())
-    //            {
-    //                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-
-    //                {
-    //                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-
-    //                    {
-
-    //                        //Write all data to the stream.
-    //                        swEncrypt.Write(plainText);
-    //                    }
-    //                    encrypted = msEncrypt.ToArray();
-    //                }
-    //            }
-    //        }
-
-
-    //        // Return the encrypted bytes from the memory stream.
-    //        return encrypted;
-
-    //    }
-
-    //    static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
-
-    //    {
-    //        // Check arguments.
-    //        if (cipherText == null || cipherText.Length <= 0)
-    //            throw new ArgumentNullException("cipherText");
-    //        if (Key == null || Key.Length <= 0)
-    //            throw new ArgumentNullException("Key");
-    //        if (IV == null || IV.Length <= 0)
-    //            throw new ArgumentNullException("IV");
-
-    //        // Declare the string used to hold
-    //        // the decrypted text.
-    //        string plaintext = null;
-
-    //        // Create an Aes object
-    //        // with the specified key and IV.
-    //        using (Aes aesAlg = Aes.Create())
-    //        {
-    //            aesAlg.Key = Key;
-    //            aesAlg.IV = IV;
-
-    //            // Create a decrytor to perform the stream transform.
-    //            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-
-    //            // Create the streams used for decryption.
-    //            using (MemoryStream msDecrypt = new MemoryStream(cipherText))
-    //            {
-    //                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-
-    //                {
-    //                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-
-    //                    {
-
-    //                        // Read the decrypted bytes from the decrypting 
-    //                        //stream
-    //                        //// and place them in a string.
-    //                        //plaintext = srDecrypt.ReadToEnd();
-    //                    }
-    //                }
-    //            }
-
-    //        }
-
-    //        return plaintext;
-
-    //    }
-    //}
-
-    public class AESCryptoStuff
-    {
-        AesCryptoServiceProvider cryptProvider;
-        private const string cryptoIV = @"G%h*Kd(3F/#35J0F";
-        private const string cryptoKey = @"BEFBBU7497%*ghfcUH?GHV/K6%Fgh#)3";
-        public void AesInitialize ()
+        //Retrieve time from db
+        public List<string> ChatGetTime()
         {
-            cryptProvider = new AesCryptoServiceProvider();
-
-            cryptProvider.BlockSize = 128;
-            cryptProvider.KeySize = 256;
-            cryptProvider.IV = Encoding.UTF8.GetBytes(cryptoIV);
-            cryptProvider.Key = Encoding.UTF8.GetBytes(cryptoKey);
-            cryptProvider.Mode = CipherMode.CBC;
-            cryptProvider.Padding = PaddingMode.PKCS7;
+            //string chatInfo;
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);            
+                List<string> storeDate = new List<string>();
+                AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
+                queryString = "SELECT chatTime FROM dububase.chat";
+                cmd.CommandText = queryString;
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+                reader = cmd.ExecuteReader();
+                while (reader.HasRows && reader.Read())
+                {
+                    storeDate.Add(aes_obj.AesDecrypt(reader["chatTime"].ToString()));
+                }
+                return storeDate;
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                string errorMsg = "Error";
+                errorMsg += ex.Message;
+                throw new Exception(errorMsg);
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
         }
-
-        public String AesEncrypt(String clear_text)
-        {
-            ICryptoTransform transform = cryptProvider.CreateEncryptor();
-            byte[] encrypted_bytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clear_text), 0, clear_text.Length);
-            string str = Convert.ToBase64String(encrypted_bytes);
-            return str;
-        }
-
-        public String AesDecrypt(String cipher_text)
-        {
-            ICryptoTransform transform = cryptProvider.CreateDecryptor();
-            byte[] enc_bytes = Convert.FromBase64String(cipher_text);
-            byte[] decrypted_bytes = transform.TransformFinalBlock(enc_bytes, 0, enc_bytes.Length);
-            string str = ASCIIEncoding.ASCII.GetString(decrypted_bytes);
-            return str;
-        }
-    }
-
+    }    
 }

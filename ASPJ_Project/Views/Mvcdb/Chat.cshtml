@@ -1,9 +1,31 @@
 ﻿@*@model ASPJ_Project.Models.ChatModel*@
 @{
-    ViewBag.Title = "Chat";
+    ViewBag.Title = "All Chat";
     var chatData = ViewBag.chatList;
     var chatTime = ViewBag.dateTime;
+    var username = ViewBag.cookie;
+    string storeTime="";
+
+    for (int i = 0; i < chatData.Count; i++)
+    {
+        storeTime = chatTime[i];
+    }
 }
+<style>
+    #numCount {
+        margin-top: 55px;
+        margin-left: 6px;
+        color: #D14D59;
+    }
+    #sendmessage {
+        padding: 9px 15px 5px 15px;
+        margin-right: 20px;
+        margin-bottom:20px;
+    }
+    #warning{
+        margin-left:6px;
+    }
+</style>
 <head>
     <title>Chat Mvc Db</title>
     @Styles.Render("~/CSS/ChatMvcDb.css")
@@ -29,59 +51,71 @@
                             @*<span class="glyphicon glyphicon-remove" onclick="showHideChat()"></span>*@
                         </div>
                     </div>
-                    <div class="panel-collapse collapse" id="collapseOne">
-                        <div class="panel-body" style="height:400px;">
-                            <ul class="nav nav-tabs" id="navPadding">
-                                <li class="active"><a data-toggle="tab" href="#chatTabActive">Home</a></li>
-                                <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-                            </ul>
+                    @*<div class="panel-collapse collapse" id="collapseOne">*@
+                    <div class="panel">
+                        <div class="panel-body" id="stuff" style="height:400px;">
+                            @*<ul class="nav nav-tabs" id="navPadding">
+                    <li class="active"><a data-toggle="tab" href="#chatTabActive">Home</a></li>
+                    <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                </ul>*@     
                             <div class="tab-content">
-                                <div id="chatTabActive" class="tab-pane fade in active">
-                                    <ul class="chat" style="padding-top: 30px;">
-                                        <li>
-                                            @*<span class="chat-img pull-left">
-                                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                                                </span>*@
-                                            <div class="chat-body clearfix">
-                                                <div class="header">
-                                                    <strong class="primary-font"><input type="hidden" id="displayname" /></strong> <small class="pull-right text-muted">
-                                                        @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
-                                                    </small>
-                                                    <div class="message-content">
-                                                        @*<ul id="chatHistory">@ViewBag.chatList</ul>*@
-                                                        <div>
-                                                            @for(int i=0;i < chatData.Count; i++)
-                                                            {
-                                                                <section>
-                                                                    <ul style="list-style-type:none;">
-                                                                        <li><strong>Name: </strong>@chatData[i]<small class="pull-right text-muted" id="chatTime">@chatTime[i]</small></li>
-                                                                    </ul>                                                                   
-                                                                </section>
-                                                            }
-                                                        </div>
-                                                        <ul id="discussion"></ul>
+                                <h2><strong><u><i>@ViewBag.Title</i></u></strong></h2>
+                                <br />
+                                @*<div id="chatTabActive" class="tab-pane fade in active">*@
+                                <ul class="chat" style="padding-top: 30px;">
+                                    <li>
+                                        @*<span class="chat-img pull-left">
+        <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+        </span>*@
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font"><input type="hidden" id="displayname" /></strong> <small class="pull-right text-muted">
+                                                    @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
+                                                </small>
+                                                <div class="message-content">
+                                                    @*<ul id="chatHistory">@ViewBag.chatList</ul>*@
+                                                    <div>
+                                                        @for (int i = 0; i < chatData.Count; i++)
+                    {
+                                    <section>
+                                        <ul style="list-style-type:none;">
+                                            <li><strong>@username </strong>@chatData[i]<small class="pull-right text-muted" id="chatTime">@chatTime[i]</small></li>
+                                        </ul>
+                                    </section>
+}
                                                     </div>
+                                                    <ul id="discussion"></ul>
                                                 </div>
                                             </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div id="menu1" class="tab-pane fade">
-                                    <h3>Menu 1</h3>
-                                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                @*</div>*@
+                                @*<div id="menu1" class="tab-pane fade">
+            <h3>Menu 1</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>*@                              
                             </div>
-                            @*<div class="panel-footer">*@
-                            <div class="input-group" style="margin-top: 220px;position:sticky;">
-                                <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..."/>                                
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning btn-sm" id="sendmessage" style="margin-right:30px;">
-                                        Send
-                                    </button>
-                                </span>
-                            </div>
-                            @*</div>*@
+                            @*<div>
+                                <div class="input-group" style="margin-top: 220px;">
+                        <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..."/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="sendmessage" style="margin-right:30px;">
+                                Send
+                            </button>
+                        </span>
+                    </div>
+                            </div>*@
                         </div>
+                    </div>
+                    <div class="input-group" style="padding:12px;">
+                        <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..." style="height:50px;padding-right:30px;font-size:15px;" />
+                        <div id="numCount"></div><div id="warning"></div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="sendmessage">
+                                <p style="font-size:16px;">Send</p>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -107,7 +141,7 @@
                     + '</strong>: ' + htmlEncode(message) + '<small class="pull-right text-muted">' + htmlEncode(time) + '</small>' + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            //$('#displayname').val(prompt('Enter your name:', ''));
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
@@ -125,5 +159,33 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
+
+       
+            //Display real time text count
+            $(document).ready(function () {
+                var text_max = 200;
+                $('#numCount').html(text_max + ' characters remaining');
+
+                $('#message').keyup(function () {
+                    var text_length = $('#message').val().length;
+                    var text_remaining = text_max - text_length;
+                    $('#numCount').html(text_remaining + ' characters remaining');
+                });
+        });
+
+            //Display warning
+            $(document).ready(function () {
+                $('#message').keypress(function () {
+                    var textWarn="";
+                    if ($('#message').val().includes("<script>")) {
+                        textWarn = '<b><p style="color:red;font-family:Arial;font-size:15px;">Using the script tag is at your own risk!!!</p></b>';
+                        $('#warning').html(textWarn);
+                    }
+                    else {
+                        textWarn = "";
+                        $('#warning').html(textWarn);
+                    }
+                });
+            });
     </script>
 }

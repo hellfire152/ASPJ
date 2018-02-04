@@ -6,7 +6,7 @@
 
     .chat li {
         margin-bottom: 10px;
-        padding-bottom: 50px;
+        /*padding-bottom: 10px;*/
     }
 
         .chat li.left .chat-body {
@@ -29,7 +29,7 @@
 
 
 .panel-body {
-    overflow-y: scroll;
+    overflow:auto;
     height: 300px;
 }
 

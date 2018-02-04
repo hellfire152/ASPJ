@@ -21,7 +21,6 @@ namespace ASPJ_Project.Controllers
     public class ShopController : Controller
     {
         private PayPal.Api.Payment payment;
-        // GET: Shop
 
         public static class CultureHelper
         {
@@ -55,13 +54,13 @@ namespace ASPJ_Project.Controllers
             Database d = Database.CurrentInstance;
 
             //Initialize UserID
-            int userID = 48; //Convert.ToInt32(Session["userID".ToString());
+            int userID = Convert.ToInt32(Session["userID"].ToString());
 
             //Create list for storing HatItems, OutfitItems, UserItems to pass to shop via ViewBag
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
             List<PremiumItem> UserItems = new List<PremiumItem>();
-
+            int userBeans = 0;
             try
             {
                 if (d.OpenConnection())
@@ -81,7 +80,7 @@ namespace ASPJ_Project.Controllers
                                     itemID = (r["itemID"].ToString()),
                                     itemName = (r["itemName"].ToString()),
                                     itemDescription = (r["itemDescription"].ToString()),
-                                    beansPrice = (double.Parse(r["beansPrice"].ToString()))
+                                    beansPrice = Convert.ToInt32(r["beansPrice"])
                                 };
                                 HatItems.Add(HatItem);
                                 ViewBag.HatItemData = HatItems;
@@ -95,7 +94,7 @@ namespace ASPJ_Project.Controllers
                                     itemID = (r["itemID"].ToString()),
                                     itemName = (r["itemName"].ToString()),
                                     itemDescription = (r["itemDescription"].ToString()),
-                                    beansPrice = (double.Parse(r["beansPrice"].ToString()))
+                                    beansPrice = Convert.ToInt32(r["beansPrice"])
                                 };
 
                                 OutfitItems.Add(OutfitItem);
@@ -121,12 +120,26 @@ namespace ASPJ_Project.Controllers
                         r2.Close();
                     }
                     ViewBag.UserItemsData = UserItems;
+
+                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
+                    c3.Parameters.AddWithValue("@userID", userID);
+                    using (MySqlDataReader r3 = c3.ExecuteReader())
+                    {
+                        while (r3.Read())
+                        {
+                            userBeans = Convert.ToInt32(r3["beansAmount"]);
+                        }
+                        r3.Close();
+                    }
+                    Debug.WriteLine(userBeans);
+                    ViewBag.userBeans = userBeans;
                 }
             }
 
             catch (MySqlException e)
             {
-                Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e);
+                return RedirectToAction("FailureView");
             }
             finally
             {
@@ -141,7 +154,7 @@ namespace ASPJ_Project.Controllers
             Database d = Database.CurrentInstance;
 
             List<int> itemIDs = new List<int>();
-            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
             EquippedItem equipment = new EquippedItem();
@@ -227,6 +240,7 @@ namespace ASPJ_Project.Controllers
             catch (MySqlException e)
             {
                 Debug.WriteLine(e);
+                return RedirectToAction("FailureView");
             }
             finally
             {
@@ -240,7 +254,7 @@ namespace ASPJ_Project.Controllers
         {
 
             Database d = Database.CurrentInstance;
-            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
             int itemID = Convert.ToInt32(equipitemID);
             Debug.WriteLine(equipitemID + "equipitemID");
             Debug.WriteLine(itemID + "ITEMID");
@@ -337,7 +351,7 @@ namespace ASPJ_Project.Controllers
         {
 
             Database d = Database.CurrentInstance;
-            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
             int itemID = Convert.ToInt32(premiumItemID);
 
             try
@@ -349,6 +363,7 @@ namespace ASPJ_Project.Controllers
                     c.Parameters.AddWithValue("@userID", userID);
                     int beansBefore = 0;
                     int beansAfter = 0;
+                    bool successfulPurchase = false;
 
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
@@ -358,33 +373,52 @@ namespace ASPJ_Project.Controllers
                             {
                                 beansBefore = Convert.ToInt32(r["beansAmount"].ToString());
                                 beansAfter = beansBefore - Convert.ToInt32(beansPrice);
+                                if (beansAfter < 0)
+                                {
+                                    successfulPurchase = false;
+                                }
+
+                                else if (beansAfter > 0)
+                                {
+                                    successfulPurchase = true;
+                                }
                             }
                         }
                         r.Close();
 
-                        AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
-                        string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
-                        MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
-                        c2.Parameters.AddWithValue("@beansAfter", beansAfter);
-                        c2.Parameters.AddWithValue("@userID", userID);
-                        c2.ExecuteNonQuery();
+                        if (successfulPurchase == true)
+                        {
+                            AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+                            string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
+                            MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                            c2.Parameters.AddWithValue("@beansAfter", beansAfter);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
 
-                        string addItemTransQuery = "INSERT INTO itemtransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID)";
-                        string transDesc = "Purchase of " + premiumItemName + " for " + beansPrice + " beans.";
-                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
-                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
-                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
-                        c3.Parameters.AddWithValue("@price", beansPrice);
-                        c3.Parameters.AddWithValue("@beansBefore", beansBefore);
-                        c3.Parameters.AddWithValue("@beansAfter", beansAfter);
-                        c3.Parameters.AddWithValue("@userID", userID);
-                        c3.ExecuteNonQuery();
+                            string addItemTransQuery = "INSERT INTO itemtransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID, @dateOfTransaction)";
+                            string transDesc = "Purchase of " + premiumItemName + " for " + beansPrice + " beans.";
+                            MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+                            c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                            c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                            c3.Parameters.AddWithValue("@price", beansPrice);
+                            c3.Parameters.AddWithValue("@beansBefore", beansBefore);
+                            c3.Parameters.AddWithValue("@beansAfter", beansAfter);
+                            c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                            c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                        
+                            c3.ExecuteNonQuery();
 
-                        string addInventoryQuery = "INSERT INTO inventory VALUES (@userID, @itemID)";
-                        MySqlCommand c4 = new MySqlCommand(addInventoryQuery, d.conn);
-                        c4.Parameters.AddWithValue("@userID", userID);
-                        c4.Parameters.AddWithValue("@itemID", itemID);
-                        c4.ExecuteNonQuery();
+                            string addInventoryQuery = "INSERT INTO inventory VALUES (@userID, @itemID)";
+                            MySqlCommand c4 = new MySqlCommand(addInventoryQuery, d.conn);
+                            c4.Parameters.AddWithValue("@userID", userID);
+                            c4.Parameters.AddWithValue("@itemID", itemID);
+                            c4.ExecuteNonQuery();
+                        }
+
+                        else
+                        {
+                            return RedirectToAction("FailureView");
+                        }
                     }
                 }
             }
@@ -405,7 +439,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult BeansPurchase()
         {
             Database d = Database.CurrentInstance;
-            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
             List<PremiumItem> beanPurchases = new List<PremiumItem>();
 
             try
@@ -422,7 +456,7 @@ namespace ASPJ_Project.Controllers
                             PremiumItem purchase = new PremiumItem
                             {
                                 itemName = (r["beanName"].ToString()),
-                                beansPrice = Convert.ToDouble((r["beanPrice"])),
+                                beansPrice = (Convert.ToInt32(r["beanPrice"])),
                                 beanAmount = Convert.ToInt32(r["beanAmount"]),
                                 beanIcon = (r["beanIcon"].ToString())
                             };
@@ -794,8 +828,8 @@ namespace ASPJ_Project.Controllers
                     var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
 
                     if (executedPayment.state.ToLower() != "approved")
-                    {
-                        return View("FailureView");
+                    {   
+                        return RedirectToAction("FailureView");
                     }
                 }
             }
@@ -806,8 +840,8 @@ namespace ASPJ_Project.Controllers
             }
 
             Database d = Database.CurrentInstance;
-
-            int userID = 48; //Session
+            AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+            int userID = Convert.ToInt32(Session["UserID"]);
             string price = string.Empty;
             price = Convert.ToString(Session["price"]);
             string beansName = string.Empty;
@@ -846,16 +880,18 @@ namespace ASPJ_Project.Controllers
                         c2.ExecuteNonQuery();
                         Debug.WriteLine(beansBefore + " " + beansAfter);
 
-                        string addItemTransQuery = "INSERT INTO beantransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID)";
+                        string addItemTransQuery = "INSERT INTO beantransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @status, @userID, @dateOfTransaction)";
                         string transDesc = "Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
                         MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
 
-                        c3.Parameters.AddWithValue("@transactionNo", KeyGenerator.GetUniqueKey(20));
-                        c3.Parameters.AddWithValue("@transactionDesc", transDesc);
+                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
                         c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
                         c3.Parameters.AddWithValue("@beansBefore", beansBefore);
                         c3.Parameters.AddWithValue("@beansAfter", beansAfter);
-                        c3.Parameters.AddWithValue("@userID", userID);
+                        c3.Parameters.AddWithValue("@status", "Successful");
+                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                        c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
 
                         c3.ExecuteNonQuery();
                     }
@@ -865,6 +901,19 @@ namespace ASPJ_Project.Controllers
             catch (MySqlException e)
             {
                 Debug.WriteLine(e);
+
+                string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
+                string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                c3.Parameters.AddWithValue("@status", "Failure");
+                c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+
+                return RedirectToAction("FailureView");
             }
             finally
             {

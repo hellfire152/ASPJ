@@ -21,6 +21,7 @@ namespace ASPJ_Project
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MvcHandler.DisableMvcResponseHeader = true; //to remove MVC version disclosure
 
             //getting all the data required for initialization
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();

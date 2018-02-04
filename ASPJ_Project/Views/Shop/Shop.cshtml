@@ -8,6 +8,7 @@
     var HatData = ViewBag.HatItemData;
     var OutfitData = ViewBag.OutfitItemData;
     var UserItemData = ViewBag.UserItemsData;
+    var userBeans = ViewBag.userBeans;
     var alreadyPurchased = 0;
 }
 <html>
@@ -31,6 +32,7 @@
         </script>
 	</head>
 	<body>
+       
 		<!-- Sidebar -->
 			<section id="sidebar">
 				<div class="inner">
@@ -54,7 +56,7 @@
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
 							<h1>Premium Shop</h1>
-							<p>Customize your own Tofu.</p>
+							<p>Customize your own Tofu.</p> 
 							<ul class="actions">
 								<li><a href="/Game/Index" class="button scrolly">Play Now</a></li>
 							</ul>
@@ -62,7 +64,6 @@
 					</section>
 
                 <!-- Hats -->
-                <!---
 					<section id="one" class="wrapper style3 fade-up">
 						<div class="inner">
 							<h2>Hats</h2>
@@ -92,15 +93,21 @@
                                                     break;
                                                 }
                                             }
-
-                                            if (alreadyPurchased == 0)
-                                            {
-                                                @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								            }
-
-                                            else
+                                            
+                                            if (alreadyPurchased == 1)
                                             {
                                                 <button>Already Purchased</button>
+								            }
+                                            else if (alreadyPurchased == 0)
+                                            {
+                                                if (userBeans < HatData[i].beansPrice)
+                                                {
+                                                    <button>Not Enough Beans</button>
+                                                }
+                                                else if (userBeans > HatData[i].beansPrice)
+                                                {
+                                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                                }
                                             }
                                         }
                                     
@@ -120,21 +127,34 @@
                                                 }
                                             }
 
-                                            if (alreadyPurchased == 0)
-                                            {
-                                                @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								            }
-
-                                            else
+                                            if (alreadyPurchased == 1)
                                             {
                                                 <button>Already Purchased</button>
+								            }
+                                            else if (alreadyPurchased == 0)
+                                            {
+                                                if (userBeans < HatData[i].beansPrice)
+                                                {
+                                                    <button>Not Enough Beans</button>
+                                                }
+                                                else if (userBeans > HatData[i].beansPrice)
+                                                {
+                                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                                }
                                             }
                                         }
                                     }
                                     else
                                     {
+                                        if (userBeans < HatData[i].beansPrice)
+                                        {
+                                            <button>Not Enough Beans</button>
+                                        }
+                                        else
+                                        {
                                         @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @HatData[i].beansPrice, premiumItemName = @HatData[i].itemName, premiumItemID = @HatData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								    }
+								        }
+                                    }
                                 </section>
                             }
 							</div>
@@ -172,15 +192,23 @@
                                                     }
                                                 }
 
-                                                if (alreadyPurchased == 0)
-                                                {
-                                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								                }
-
-                                                else
+                                                if (alreadyPurchased == 1)
                                                 {
                                                     <button>Already Purchased</button>
+								                }
+                                                
+                                                else if (alreadyPurchased == 0)
+                                                {
+                                                    if (userBeans < OutfitData[i].beansPrice)
+                                                    {
+                                                        <button>Not Enough Beans</button>
+                                                    }
+                                                    else if (userBeans > OutfitData[i].beansPrice)
+                                                    {
+                                                        @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                                    }
                                                 }
+
                                             }
 
                                             if (UserItemData.Count > OutfitData.Count)
@@ -198,21 +226,35 @@
                                                     }
                                                 }
 
-                                                if (alreadyPurchased == 0)
-                                                {
-                                                    @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
-								                }
-
-                                                else
+                                                 if (alreadyPurchased == 1)
                                                 {
                                                     <button>Already Purchased</button>
+								                }
+                                                
+                                                else if (alreadyPurchased == 0)
+                                                {
+                                                    if (userBeans < OutfitData[i].beansPrice)
+                                                    {
+                                                        <button>Not Enough Beans</button>
+                                                    }
+                                                    else if (userBeans > OutfitData[i].beansPrice)
+                                                    {
+                                                        @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                                    }
                                                 }
                                             }
                                         }
 
                                         else
                                         {
+                                            if (userBeans < OutfitData[i].beansPrice)
+                                            {
+                                            <button>Not Enough Beans</button>
+                                            }
+                                            else if (userBeans > OutfitData[i].beansPrice)
+                                            {
                                             @Html.ActionLink("Purchase", "ItemPurchase", new { beansPrice = @OutfitData[i].beansPrice, premiumItemName = @OutfitData[i].itemName, premiumItemID = @OutfitData[i].itemID }, new { onclick = "return confirm('Are you sure you want to purchase this item?');", @class="button"})
+                                            }
                                         }
                                     </section>
                                 }
@@ -221,7 +263,6 @@
 					</section>
 
 			</div>
-        ---->
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">

@@ -74,6 +74,7 @@ namespace ASPJ_Project.Models
 
         public String imageName { get; set; }
 
+        public bool isYou { get; set; }
 
         [DisplayName("Votes")]
         public long votes { get; set; }
@@ -85,9 +86,12 @@ namespace ASPJ_Project.Models
 
         public Boolean upVoted { get; set; }
         public Boolean downVoted { get; set; }
+
+        public string captcha { get; set; }
+
         //public virtual ForumUser ForumUser { get; set; }
     }
-    
+
     public class Vote
     {
         [Key]

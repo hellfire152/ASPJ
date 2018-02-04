@@ -28,9 +28,6 @@
         <th>
             @Html.DisplayNameFor(model => model.content)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.votes)
-        </th>
         <th></th>
     </tr>
 
@@ -45,18 +42,14 @@
         {
             <td></td>
         }
-        <td>
+        <td style="width:20%;">
             @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.date)
         </td>
-        <td style="width:60%;">
+        <td style="width:40%;">
             @Html.DisplayFor(modelItem => item.content)
-        </td>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.votes)
         </td>
         <td>
             @Html.ActionLink("Details", "GetThread", new { id=item.id }) |

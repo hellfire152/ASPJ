@@ -1,0 +1,14 @@
+Dependencies that may cause trouble:
+SMS OTP -> Twilio (in debug mode the otp is logged to get around it if you want to)
+You will not be able to receive the SMS OTP using the Twilio account specified in
+secret-keys.config
+
+Anti-Virus Scanning -> nClam (need to set up a nClam server)
+
+Database:
+Our project uses MySQL
+MySQL connection data is located in ASPJ_Project\connection-strings.config
+By default the project will try to connect to localhost:3360 using
+username : root
+password : mySQL1saroot
+Import dububase_compile.sql for all the tables

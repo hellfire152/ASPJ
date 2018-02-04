@@ -1,0 +1,38 @@
+﻿@using ASPJ_Project.Models;
+
+@{
+    ViewBag.Title = "Search";
+    var Dummys = ViewBag.Dummys;
+}
+
+<h2>Search</h2>
+
+@using (Html.BeginForm("Search","Admin",FormMethod.Post))
+{
+    <b> Search:</b>
+    @Html.TextBox("search")
+    <input type="submit" value="search" />
+}
+
+
+<table>
+    <tr>
+        <td>UserID</td>
+        <td>UserName</td>
+        <td>FirstName</td>
+        <td>Role</td>
+        <td>Email</td>
+        <td>Options</td>
+    </tr>
+@for(int i =0;i < Dummys.Count; i++)
+{
+    <tr>
+        <td>@Dummys[i].UserId</td>
+        <td>@Dummys[i].UserName</td>
+        <td>@Dummys[i].FirstName</td>
+        <td>@Dummys[i].Role</td>
+        <td>@Dummys[i].Email</td>
+        <td><button value="details">details</button></td>
+    </tr>
+}
+</table>

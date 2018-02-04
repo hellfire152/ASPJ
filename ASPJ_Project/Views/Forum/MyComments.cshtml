@@ -1,22 +1,27 @@
 ﻿@model IEnumerable<ASPJ_Project.Models.Comment>
 
 @{
-    ViewBag.Title = "MyComments";
+    ViewBag.Title = "My Comments";
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
 }
 
-<h2>MyComments</h2>
+<style>
+    td {
+        word-break: break-all
+        }
+</style>
+<h2>@ViewBag.Title</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Thread.title)
+            Image
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.thread.title)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.username)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.date)
@@ -26,19 +31,26 @@
 
 @foreach (var item in Model) {
     <tr>
+        @if (item.thread.imageName != "")
+        {
+            <td>
+                <img src="~/Content/UploadedImages/@item.thread.imageName" style="max-width: 60px; max-height: 30px;" />
+            </td>
+        } else
+        {
+            <td></td>
+        }
         <td>
-            @Html.DisplayFor(modelItem => item.Thread.title)
+            @Html.DisplayFor(modelItem => item.thread.title)
         </td>
-        <td>
+        <td style="width:60%;">
             @Html.DisplayFor(modelItem => item.content)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.username)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.date)
         </td>
-        <td>
+        <td style="word-break: normal;">
             @Html.ActionLink("Details", "GetThread", new { id=item.threadId }) |
             @Html.ActionLink("Delete", "DeleteComment", new { id=item.id })
         </td>

@@ -35,26 +35,27 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
+
                 <!-- Hats -->
-					<section id="one" class="wrapper style3 fade-up">
-						<div class="inner">
-							<h2>@Session["beansName"] (@Session["beansAmount"] Beans)</h2>
-							<p>$@Session["price"]</p>
-							<div class="features">
-								<section>
-                                     <span class="icon major fa-credit-card"></span>
-                                    <p>@Html.ActionLink("Pay Direct With Credit Card", "CreditCardInfo", "Shop")</p>
-                               </section>
-                                <section>
-                                     <span class="icon major fa-paypal"></span>
-                                    <p>@Html.ActionLink("Pay with PayPal", "PaymentWithPaypal", "Shop")</p>
-								</section>
-							</div>
-							<ul class="actions">
-								<li><a href="/Shop/BeansPurchase" class="button">Go Back</a></li>
-							</ul>
+				<section id="one" class="wrapper style3 fade-up">
+					<div class="inner">
+						<h2>@Session["beansName"] (@Session["beansAmount"] Beans)</h2>
+						<p>$@Session["price"]</p>
+						<div class="features">
+							<section>
+                                    <span class="icon major fa-credit-card"></span>
+                                <p>@Html.ActionLink("Pay Direct With Credit Card", "CreditCardInfo", "Shop")</p>
+                            </section>
+                            <section>
+                                    <span class="icon major fa-paypal"></span>
+                                <p>@Html.ActionLink("Pay with PayPal", "PaymentWithPaypal", "Shop")</p>
+							</section>
 						</div>
-					</section>
+						<ul class="actions">
+							<li><a href="/Shop/BeansPurchase" class="button">Go Back</a></li>
+						</ul>
+					</div>
+				</section>
 
 			</div>
 

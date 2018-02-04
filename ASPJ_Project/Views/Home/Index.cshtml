@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
+}
+<html>
+	<head>
+        <style>
+            h3{
+                font-size: 22px;
+            }
+            .description{
+                font-size: 18px;
+            }
+            .beansPrice{
+                font-size: 20px;
+            }
+            img{
+                height: 6%;
+                width: 3%;
+            }
+        </style>
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+        </script>
+	</head>
+	<body>
+		<!-- Sidebar -->
+        <section id="sidebar">
+        @if (@Session["userID"] == null)
+        {
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="/User/Login">Login</a></li>
+							<li><a href="/User/Register">Register</a></li>
+						</ul>
+					</nav>
+				</div>
+        }
+        else if(@Session["userID"] != null)
+        {
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="/Shop/Shop#one">Hats</a></li>
+							<li><a href="/Shop/Shop#two">Outfits</a></li>
+                            <li><a href="/Shop/Inventory">Inventory</a></li>
+                            <li><a href="/User/UserProfile">@ViewBag.username</a></li>
+                            <li><a>Beans: </a> </li>
+                            <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
+						</ul>
+					</nav>
+				</div>
+        }
+        </section>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1>T<img src="../../Content/Images/tofu-clipart-cute-2.png" />fu Universe</h1>
+							<p>It's time, time to tofu.</p>
+							<ul class="actions">
+								<li><a href="/Game/Index" class="button scrolly">Play Now</a></li>
+							</ul>
+						</div>
+					</section>
+
+                <!-- Hats -->
+					<section id="one" class="wrapper style3 fade-up">
+						<div class="inner">
+							<div class="features">
+                                <a href="/Shop/Shop">
+								    <section>
+                                        Shop
+                                    </section>
+                                </a>
+							</div>
+						</div>
+					</section>
+
+				
+					<section id="two" class="wrapper style3 fade-up">
+						<div class="inner">
+							<div class="features">
+						        <section>
+
+                               </section>
+							</div>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Tofu Universe All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+        </body>
+    </html>

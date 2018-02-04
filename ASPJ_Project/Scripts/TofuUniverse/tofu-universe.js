@@ -428,9 +428,17 @@ window.onload = () => {
         $("#shop-upgrades").append(shopUpgrade);
     });
 
+    initChat();
+
     //load save (if any)
     $.connection.hub.start()
         .done(() => {
+            $('#sendmessage').click(function () {
+                // Call the Send method on the hub.
+                chat.server.send($('#displayname').val(), $('#message').val(), $('#chatTime').val());
+                // Clear text box and reset focus for next comment.
+                $('#message').val('').focus();
+            });
             _tofuUniverse.conn.server.requestSave(_tofuUniverse.code)
                 .done((rawSave) => {
                     if (rawSave !== null) {
@@ -493,6 +501,7 @@ window.onload = () => {
     $(".shop-item").disableSelection();
     $(".shop-upgrade").disableSelection();
     $("#tofu").disableSelection();
+    $("#tofu-hat").disableSelection();
     $("#tofu-count-container").disableSelection();
     $("#tps-container").disableSelection();
     $("#tofu-area").disableSelection();

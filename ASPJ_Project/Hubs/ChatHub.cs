@@ -7,6 +7,7 @@ using ASPJ_Project.Controllers;
 using System.Configuration;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+using ASPJ_Project.Models;
 
 namespace ASPJ_Project.Hubs
 {

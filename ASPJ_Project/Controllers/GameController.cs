@@ -14,7 +14,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult Index()
         {
             //test username
-            //Session["userID"] = 49;
+            //Session["userID"] = 50;
             //not logged in
             if ((int)Session["userID"] == 0) return RedirectToAction("Login", "User");
 
@@ -52,6 +52,21 @@ namespace ASPJ_Project.Controllers
             Database.CurrentInstance.PNQ("INSERT INTO saveaccess (userID, code) VALUES (@1, @2)",
                 Session["userID"], code);
             #endregion
+
+            #region Chat Stuff
+            HttpCookie usernameCookie2 = new HttpCookie("UserID")
+            {
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt("" + Session["UserID"]))
+            };
+            Response.SetCookie(usernameCookie);
+            //get cookie
+            string getCookie = "";
+            getCookie = AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Request.Cookies["UserID"].Value));
+            DatabaseStuff db = new DatabaseStuff();
+            ViewBag.cookie = getCookie;
+            ViewBag.dateTime = db.ChatGetTime();
+            ViewBag.chatList = db.ChatGetMessage();
+            #endregion 
 
             return View();
         }

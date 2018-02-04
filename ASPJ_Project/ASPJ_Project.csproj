@@ -366,6 +366,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\ForumContext.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
@@ -877,6 +878,7 @@
     <Content Include="Views\User\VerifiedAccount.cshtml" />
     <Content Include="Views\User\Registration.cshtml" />
     <Content Include="Views\VerifyOTP\VerifyOTP.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

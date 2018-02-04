@@ -57,6 +57,7 @@ namespace ASPJ_Project
             HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
             //Enables XSS filtering, sanitizes page
             HttpContext.Current.Response.AddHeader("X-XSS-Protection", "1");
+            HttpContext.Current.Response.AddHeader("X-Content-Type-Options", "nosniff");
             Response.Cache.SetExpires(DateTime.Now);
             Response.Cache.SetValidUntilExpires(true);
         }

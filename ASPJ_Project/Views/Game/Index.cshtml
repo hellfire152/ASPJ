@@ -43,6 +43,9 @@
             @if(ViewData["hat"] != null)
             {
                 <img id="tofu-hat" src="@Url.Content("~/Content/Images/ShopItems/" + ViewData["hat"] + ".png")" />
+            } else
+            {
+                <img id="tofu-hat" src="@Url.Content("~/Content/Images/ShopItems/NullHat.png")" />
             }
             @if(ViewData["outfit"] != null)
             {

@@ -8,8 +8,11 @@ namespace ASPJ_Project.Models
 {
     public class OTP
     {
+        
         [Display(Name = "Enter OTP: ")]
         public string OTPvalue { get; set; }
+
+
 
     }
 }

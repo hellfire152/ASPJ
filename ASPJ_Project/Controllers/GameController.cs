@@ -14,13 +14,14 @@ namespace ASPJ_Project.Controllers
         public ActionResult Index()
         {
             //test username
-            Session["UserID"] = 49;
-            if ((int)Session["UserID"] == 0) return View("Error");
+            //Session["userID"] = 49;
+            //not logged in
+            if ((int)Session["userID"] == 0) return RedirectToAction("Login", "User");
 
             //set username cookie
-            HttpCookie usernameCookie = new HttpCookie("UserID")
+            HttpCookie usernameCookie = new HttpCookie("userID")
             {
-                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt(""+Session["UserID"]))
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt(""+Session["userID"]))
             };
             Response.SetCookie(usernameCookie);
 
@@ -34,7 +35,7 @@ namespace ASPJ_Project.Controllers
                   LEFT OUTER JOIN premiumitem AS o
                   ON e.equippedOutfit = o.itemID
                   WHERE userID = @1";
-            DataTable dt = d.PRQ(query, Session["UserID"]);
+            DataTable dt = d.PRQ(query, Session["userID"]);
             if(dt.Rows.Count != 0)
             {
                 string hatImage = dt.Rows[0].Field<string>("hatImage");
@@ -49,7 +50,7 @@ namespace ASPJ_Project.Controllers
             string code = System.Web.Security.Membership.GeneratePassword(128, 25);
             ViewData["code"] = code;
             Database.CurrentInstance.PNQ("INSERT INTO saveaccess (userID, code) VALUES (@1, @2)",
-                Session["UserID"], code);
+                Session["userID"], code);
             #endregion
 
             return View();

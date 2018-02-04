@@ -28,7 +28,7 @@ namespace ASPJ_Project.TofuUniverse
 
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
             //read cookie
-            string c = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["UserID"].Value));
+            string c = AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Context.RequestCookies["userID"].Value));
 
             //current time in UTC
             long utcTime = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
@@ -115,8 +115,8 @@ namespace ASPJ_Project.TofuUniverse
         {
             Hmac h = Hmac.CurrentInstance;
             //read cookie
-            Debug.WriteLine(Context.RequestCookies["UserID"].Value);
-            string c = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["UserID"].Value));
+            Debug.WriteLine(Context.RequestCookies["userID"].Value);
+            string c = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["userID"].Value));
 
             #region Check access code
             DataTable dt = Database.CurrentInstance.PRQ(
@@ -186,7 +186,7 @@ namespace ASPJ_Project.TofuUniverse
 
             Hmac h = Hmac.CurrentInstance;
             //read cookie
-            string c = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["UserID"].Value));
+            string c = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["userID"].Value));
             if (c == null || c == "guest") //you have to be logged in to collapse XD
             {
                 return -2;

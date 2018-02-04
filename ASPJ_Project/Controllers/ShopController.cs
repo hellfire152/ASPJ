@@ -374,7 +374,7 @@ namespace ASPJ_Project.Controllers
                         MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
                         c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
                         c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
-                        c3.Parameters.AddWithValue("@price", AES.AesEncrypt(beansPrice));
+                        c3.Parameters.AddWithValue("@price", beansPrice);
                         c3.Parameters.AddWithValue("@beansBefore", beansBefore);
                         c3.Parameters.AddWithValue("@beansAfter", beansAfter);
                         c3.Parameters.AddWithValue("@userID", userID);
@@ -404,29 +404,58 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult BeansPurchase()
         {
+            Database d = Database.CurrentInstance;
+            int userID = 48; //Convert.ToInt32(Session["UserID"]);
+            List<PremiumItem> beanPurchases = new List<PremiumItem>();
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string purchasesQuery = "SELECT * FROM beanpurchases";
+                    MySqlCommand c = new MySqlCommand(purchasesQuery, d.conn);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            PremiumItem purchase = new PremiumItem
+                            {
+                                itemName = (r["beanName"].ToString()),
+                                beansPrice = Convert.ToDouble((r["beanPrice"])),
+                                beanAmount = Convert.ToInt32(r["beanAmount"]),
+                                beanIcon = (r["beanIcon"].ToString())
+                            };
+                            beanPurchases.Add(purchase);
+                        }
+                        r.Close();
+                        ViewBag.BeanPurchasesData = beanPurchases;
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
             return View();
         }
 
-        public ActionResult PurchaseConfirmation(string username, int beansAmount, double price, string beansName)
+        public ActionResult PurchaseSession(int beansAmount, double price, string beansName)
         {
-
-            ViewData["username"] = username;
-            ViewData["beansName"] = beansName;
-            ViewData["beansAmount"] = beansAmount;
-            ViewData["price"] = price;
-
-            PremiumShop.BeanAndPrice beansPrice = new PremiumShop.BeanAndPrice
-            {
-                beans = beansAmount,
-                price = price,
-                beansName = beansName
-            };
-
-            Session["username"] = username;
             Session["beansName"] = beansName;
             Session["beansAmount"] = beansAmount;
             Session["price"] = price;
 
+            return RedirectToAction("PurchaseConfirmation");
+        }
+
+        public ActionResult PurchaseConfirmation()
+        {
             return View();
         }
 
@@ -859,7 +888,6 @@ namespace ASPJ_Project.Controllers
                 bool doSessionsMatch = BCrypt.CheckSession(sessionID1, sessionID2);
                 if (doSessionsMatch == true)
                 {
-                    //Add Beans to UserAccount
                     Session["ShopSessionID1"] = null;
                     Session["ShopSessionID2"] = null;
                     return View();

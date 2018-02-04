@@ -1,24 +1,30 @@
 ﻿@model ASPJ_Project.Models.OTP
 
 @{
-    ViewBag.Title = "One more step... Please check your phone number for the OTP to proceed.";
+    ViewBag.Title = "One more step... ";
 }
 
-<h4>One more step... Please check your phone number for the OTP to proceed.</h4>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
 
-    @ViewBag.Message
+   
 
+    <h2>Hello, </h2>
     @Session["UserID"].ToString();
 
+    <h5>OTP is sent to your mobile number. Contact us at dubuuniverse@gmail.com if you've any issues.</h5>
+    
+    <h5>Please check your phone number for the OTP to proceed.</h5>
+
     <div class="form-horizontal">
-        <h4>OTP</h4>
+        
         <hr />
 
-        <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SendOTP", "SMS") formmethod="post" class="btn btn-default" />
+        @ViewBag.Message
+
+        <hr/>
        
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -29,12 +35,15 @@
                 @Html.ValidationMessageFor(model => model.OTPvalue, "", new { @class = "text-danger" })
             </div>
         </div>
+        <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SendOTP", "SMS") formmethod="post" class="btn btn-default" />
 
-        <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP", "VerifyOTP") formmethod="post" class="btn btn-default" />
+        <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP", "VerifyOTP") formmethod="get" class="btn btn-default" />
      
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Login", "User") , 
+   
+    @Html.ActionLink("Registration", "User")
 </div>

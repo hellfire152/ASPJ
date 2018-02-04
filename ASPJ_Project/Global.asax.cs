@@ -21,6 +21,7 @@ namespace ASPJ_Project
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MvcHandler.DisableMvcResponseHeader = true; //to remove MVC version disclosure
 
             //getting all the data required for initialization
             string dataRoot = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
@@ -44,6 +45,22 @@ namespace ASPJ_Project
             File.WriteAllText(scriptsRoot + "tofu-universe-items.js", itemsFile);
             File.WriteAllText(scriptsRoot + "tofu-universe-upgrades.js", upgradesFile);
 
+        }
+
+        protected void Application_BeginRequest()
+        {
+            HttpContext.Current.Response.Cache.SetAllowResponseInBrowserHistory(false);
+            //NOTE: Stopping IE from caching
+            HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            // Stop Caching in Firefox
+            HttpContext.Current.Response.Cache.SetNoStore();
+            //Prevent other websites from iframing except for origin
+            HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
+            //Enables XSS filtering, sanitizes page
+            HttpContext.Current.Response.AddHeader("X-XSS-Protection", "1");
+            HttpContext.Current.Response.AddHeader("X-Content-Type-Options", "nosniff");
+            Response.Cache.SetExpires(DateTime.Now);
+            Response.Cache.SetValidUntilExpires(true);
         }
 
     }

@@ -16,7 +16,7 @@ namespace ASPJ_Project.Models
             public string itemID;
             public string itemImage;
             public string itemDescription;
-            public double beansPrice;
+            public int beansPrice;
             public int beanAmount;
             public string beanIcon;
         }

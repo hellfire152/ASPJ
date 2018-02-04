@@ -4,6 +4,11 @@
     ViewBag.Title = "MyThreads";
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
 }
+<style>
+    td {
+        word-break: break-all
+    }
+</style>
 
 <h2>MyThreads</h2>
 
@@ -13,6 +18,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.image)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.title).
         <th>
             @Html.DisplayNameFor(model => model.date)
@@ -21,36 +29,34 @@
             @Html.DisplayNameFor(model => model.content)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.imageName)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.votes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.username)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        @if (item.imageName != "")
+        {
+            <td>
+                <img src="~/Content/UploadedImages/@item.imageName" style="max-width: 60px; max-height: 30px;" />
+            </td>
+        } else
+        {
+            <td></td>
+        }
         <td>
             @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.date)
         </td>
-        <td>
+        <td style="width:60%;">
             @Html.DisplayFor(modelItem => item.content)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.imageName)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.votes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.username)
         </td>
         <td>
             @Html.ActionLink("Details", "GetThread", new { id=item.id }) |

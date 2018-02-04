@@ -5,11 +5,15 @@
 }
 
 @Styles.Render("~/css/thread.css")
-
-
+<style>
+    textarea {
+        overflow: hidden;
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
-        <div class="[ col-xs-12 col-sm-12 ]">
+        <div class="col-sm-1"></div>
+        <div class="[ col-xs-12 col-sm-10 ]">
             <div class="[ panel panel-default ] panel-google-plus">
                 <div class="dropdown">
                     <span class="dropdown-toggle" type="button" data-toggle="dropdown">
@@ -18,7 +22,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Report Thread</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Thread</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#deleteThread">Delete Thread</a></li>
                     </ul>
                 </div>
                 <div class="panel-heading">
@@ -28,20 +32,36 @@
                 </div>
                 <div class="panel-body">
                     <p>@Model.thread.content</p>
-                    @if(Model.thread.image != null) {
-                        <img src="~/Content/UploadedImages/@Model.thread.imageName" />
+                    @if(Model.thread.imageName != "") {
+                        <img src="~/Content/UploadedImages/@Model.thread.imageName" style="height:auto; max-width: 60%; "/>
                     }
                 </div>
                 <div class="panel-footer">
                     @using (Html.BeginForm("Upvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                     {
                         @Html.AntiForgeryToken();
-                        <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-up"></span></button>
+                        if (Model.thread.upVoted)
+                        {
+                            <button type="submit" class="[ btn btn-default ]" style="background-color:cornflowerblue"><span class="fa fa-thumbs-up"></span></button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-up"></span></button>
+
+                        }
                     }
                     @using (Html.BeginForm("Downvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                     {
                         @Html.AntiForgeryToken();
-                        <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-down"></span></button>
+                        if (Model.thread.downVoted)
+                        {
+                            <button type="submit" class="[ btn btn-default ]" style="background-color:orangered"><span class="fa fa-thumbs-down"></span></button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="[ btn btn-default ]"><span class="fa fa-thumbs-down"></span></button>
+
+                        }
                     }
                 </div>
                 <div class="panel-footer">
@@ -60,27 +80,100 @@
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
-                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control" }, cols = 4, rows = 2 })
-                            @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
+                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control"}, cols = 4, rows = 2 })
                             <button type="submit" class="[ btn btn-success ]">Post comment</button>
+                            @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
                         }
                     </div>
                 </div>
                 @foreach (var comment in Model.comments)
                 {
                     <div class="[ panel-default ] panel-google-plus">
+                        <div class="dropdown">
+                            <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="[ glyphicon glyphicon-chevron-down ]"></span>
+                            </span>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a role="menuitem" data-toggle="modal" data-target="#deleteComment">Delete Comment</a></li>
+                            </ul>
+                        </div>
                         <div class="panel-heading">
                             <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
                             <h3>@comment.username</h3>
                             <h5><span>Posted</span> on <span>@comment.date</span> </h5>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" style="word-break: break-all">
                             <p>@comment.content</p>
                         </div>
                     </div>
-                }
+                    @*<div id="deleteComment" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Are you sure you want to delete your comment?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Once deleted, it cannot be undone</p>
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => comment.date)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => comment.date)
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="modal-footer">
+
+                                    @using (Html.BeginForm("DeleteComment", "Forum", new { id = @comment.id }, FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-actions no-color">
+
+                                            <input type="submit" value="Delete" class="btn btn-default"/>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        *@
+                    }
+                <div id="deleteThread" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Are you sure you want to delete your thread?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Once deleted, it cannot be undone</p>
+                            </div>
+                            <div class="modal-footer">
+
+                                @using (Html.BeginForm("DeleteThread", "Forum", new { id = Model.thread.id }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-actions no-color">
+
+                                        <input type="submit" value="Delete" class="btn btn-default" />
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 

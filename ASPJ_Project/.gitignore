@@ -1,4 +1,4 @@
-ASPJ_Project/Content/UploadedImages/*
+Content/UploadedImages/*
 
 ###################
 # compiled source #
@@ -81,6 +81,3 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-\.vs/ASPJ_Project/v15/Server/sqlite3/storage\.ide-wal
-
-\.vs/ASPJ_Project/v15/Server/sqlite3/storage\.ide-shm

@@ -6,6 +6,7 @@ using Microsoft.AspNet.SignalR;
 using ASPJ_Project.Controllers;
 using System.Configuration;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace ASPJ_Project.Hubs
 {
@@ -32,10 +33,11 @@ namespace ASPJ_Project.Hubs
         }
 
         //On click send button Signalr connection open insert into database
-        public void Send(string storeCookie, string message, string storeTime)
+        public void Send(string getCookie, string message, string storeTime)
         {
             //Get value from cookie
-            //storeCookie = HttpUtility.UrlDecode(AESCryptoStuff.CurrentInstance.AesDecrypt(Context.RequestCookies["UserID"].Value));
+            getCookie = AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Context.RequestCookies["UserID"].Value));
+            //Debug.WriteLine(storeCookie);
             //Insert into db
             db.ChatSendMessage(message);
             foreach(var g in db.ChatGetTime())
@@ -46,7 +48,7 @@ namespace ASPJ_Project.Hubs
             Censors censorMessage = new Censors();
             string storeCensored = censorMessage.CrapCensor(message);
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(storeCookie, storeCensored, storeTime);
+            Clients.All.addNewMessageToPage(getCookie, storeCensored, storeTime);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model ASPJ_Project.Models.OTP
 
 @{
-    ViewBag.Title = "One more step... Please check your phone number for the OTP to proceed.";
+    ViewBag.Title = "One more step... ";
 }
 
 <h4>One more step... Please check your phone number for the OTP to proceed.</h4>
@@ -13,8 +13,10 @@
    
 
     @Session["UserID"].ToString();
-    @Session["Phonenumber"].ToString();
-    <h4>One more step... Please check your phone number for the OTP to proceed.</h4>
+
+    <h5>OTP is sent to your mobile number. Contact us at dubuuniverse@gmail.com if you've any issues.</h5>
+    
+    <h5>Please check your phone number for the OTP to proceed.</h5>
 
     <div class="form-horizontal">
         <h4>OTP</h4>
@@ -23,7 +25,6 @@
         @ViewBag.Message
 
         <hr/>
-        <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SendOTP", "SMS") formmethod="post" class="btn btn-default" />
        
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -34,6 +35,7 @@
                 @Html.ValidationMessageFor(model => model.OTPvalue, "", new { @class = "text-danger" })
             </div>
         </div>
+        <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SendOTP", "SMS") formmethod="post" class="btn btn-default" />
 
         <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP", "VerifyOTP") formmethod="get" class="btn btn-default" />
      
@@ -41,5 +43,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Login", "User") , 
+   
+    @Html.ActionLink("Registration", "User")
 </div>

@@ -27,9 +27,9 @@ namespace ASPJ_Project.Controllers
             }
             else
             {
-                ViewBag.Message = "Error";
+                
                 return RedirectToAction("SendOTP", "SMS");
-
+              
             }
 
         }

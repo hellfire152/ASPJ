@@ -24,11 +24,9 @@ namespace ASPJ_Project.Controllers
         [HttpGet]
         public ActionResult SendOTP(string Phonenumber)
         {
-            //Session["Phonenumber"] = Phonenumber;
-
+           
             return View();
-            
-
+         
         }
 
         [HttpPost]
@@ -55,17 +53,6 @@ namespace ASPJ_Project.Controllers
                 );
             return Content(message.Sid);
 
-            //HttpCookie otpCookie = new HttpCookie("OTP")
-            //{
-            //    Value = (Session["OTP"])
-            //};
-
-
-            //HttpCookie otpCookie = new HttpCookie("OTP");
-            //otpCookie["OTP"] = otp.ToString();
-            //otpCookie.Expires = DateTime.Now.AddMonths(3);
-            //Response.Cookies.Add(otpCookie);
-
             HttpCookie otpCookie = new HttpCookie("OTP")
             {
                 Value = otp.ToString()
@@ -74,36 +61,9 @@ namespace ASPJ_Project.Controllers
             otpCookie.Expires = DateTime.Now.AddMonths(3);
             Response.Cookies.Add(otpCookie);
 
-
-            //Session["OTP"] = otp;
-
             Content(message.Sid);
             
             return RedirectToAction("SendOTP", "SMS");
-
-            //string Username = ConfigurationManager.AppSettings["TwilioAccountsSid"];
-            //string APIKey = ConfigurationManager.AppSettings["TwilioAuthToken"];
-            //string SenderName = "Eunice";
-            //string Number = ConfigurationManager.AppSettings["MyPhoneNumber"];
-            //string Message = "Your otp ode is " + otp;
-            //string URL = "https://api.twilio.in/send/?username=" + Username + "&hash=" + APIKey + "&sender=" +
-            //    SenderName + "&numbers=" + Number + "&messsage=" + Message;
-
-
-            //    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(URL);
-            //    HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-            //    StreamReader sr = new StreamReader(resp.GetResponseStream());
-            //    string results = sr.ReadToEnd();
-            //    sr.Close();
-
-            //    
-
-            //    return RedirectToAction("SendOTP", "SMS");
-
-
-
-
-
 
         }
 

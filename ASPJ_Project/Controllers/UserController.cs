@@ -16,6 +16,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Configuration;
 using System.Diagnostics;
+using CaptchaMvc.Attributes;
 
 namespace ASPJ_Project.Controllers
 {
@@ -44,11 +45,12 @@ namespace ASPJ_Project.Controllers
             return View(userModel);
         }
 
+        
         //REGISTER USER
-        [HttpPost]
+        [HttpPost, CaptchaVerify("Captcha is not valid")]
         [ValidateAntiForgeryToken]
-        //[ValidateInput(false)]
-        public ActionResult Registration(string Username, string Password, string Firstname, string Lastname, string Email, string Phonenumber)
+        [ValidateInput(false)]
+        public ActionResult Registration(user model, string Username, string Password, string Firstname, string Lastname, string Email, string Phonenumber)
         {
             bool Status = false;
             string message = "";
@@ -168,12 +170,13 @@ namespace ASPJ_Project.Controllers
             }
             else
             {
-                message = "Invalid Request";
+                message = "Invalid Request, ";
+                //ViewBag.ErrorMessage = "Incorrect Captcha";
             }
             ViewBag.message = message;
             ViewBag.Status = Status;
 
-            return View();
+            return View(model);
         }
 
         #endregion
@@ -331,22 +334,15 @@ namespace ASPJ_Project.Controllers
                                 }
                                 else
                                 {
-                                    //MySqlCommand cmd3 = new MySqlCommand("select * from accounts.users where phoneNumber = @phoneNumber", con);
-                                    //cmd3.Parameters.AddWithValue("phoneNumber", Phonenumber);
-                                    //cmd3.ExecuteNonQuery();
-
-
+                                   
                                     Session["UserID"] = Username;
                                     Session["Phonenumber"] = Phonenumber;
-                                    //return RedirectToAction("UsersHome", "User");
-
+                                    
                                     return RedirectToAction("SendOTP", "SMS");
 
                                 }
-
-
+                                
                             }
-
                             else
                             {
                                 ViewBag.Message = "You have not activated your account.";
@@ -363,8 +359,6 @@ namespace ASPJ_Project.Controllers
                     }
 
                 }
-
-
                 catch (System.Data.SqlClient.SqlException ex)
                 {
                     string errorMsg = "Error";
@@ -378,53 +372,8 @@ namespace ASPJ_Project.Controllers
             }
 
             return View();
-
         }
-
-       
-        #endregion
-
-        #region MVC Login
-        //List<user> users = new List<user>();
-        //    string message = "";
-        //    using (accountsEntities2 db = new accountsEntities2())
-        //    {
-        //        var v = db.users.Where(a => a.email == login.email).FirstOrDefault();
-        //        if (v != null)
-        //        {
-        //            if (string.Compare((login.password), v.password) == 0)
-        //            //if (string.Compare(Crypto.Hash(login.password),v.password) == 0)
-        //            {
-        //                int timeout = login.RememberMe ? 525600 : 20; //525600 mins = 1 year
-        //                var ticket = new FormsAuthenticationTicket(login.email, login.RememberMe, timeout);
-        //                string encrypted = FormsAuthentication.Encrypt(ticket);
-        //                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-        //                cookie.Expires = DateTime.Now.AddMinutes(timeout);
-        //                cookie.HttpOnly = true; //no javascript allowed
-        //                Response.Cookies.Add(cookie);
-
-        //                if (Url.IsLocalUrl(ReturnUrl))
-        //                {
-        //                    return Redirect(ReturnUrl);
-        //                }
-        //                else
-        //                {
-        //                    return RedirectToAction("Index", "Home");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                message = "Invalid credentials provided. Please check again.";
-        //            }
-        //        }
-        //        else
-        //        {
-        //            message = "Invalid credentials provided. Please check again.";
-        //        }
-        //    }
-        //    ViewBag.Message = message;
-        //    return View();
-
+        
         #endregion
 
         #region Testing Out User home page after login
@@ -448,64 +397,7 @@ namespace ASPJ_Project.Controllers
 
         #endregion
 
-        #region SMTP (dont need)
-        //SMTP VERFICATION
-        [NonAction]
-        public void SendVerificationLinkEmail(string email, string activationCode, string emailFor = "VerifyAccount")
-        {
-            var verifyUrl = "/User/" + emailFor + "/?DubuID=" + activationCode;
-            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-
-            var fromEmail = new MailAddress("dubuuniverse@gmail.com", "dubuuniverse");
-            var toEmail = new MailAddress(email);
-            var fromEmailPassword = "P@ssw0rd123";
-
-            string subject = "";
-            string body = "";
-            if (emailFor == "VerifyAccount")
-            {
-                subject = "Your account is successfully created!";
-
-                body = "<br/><br/>We are pleased to tell you that your Dubu Universe is" +
-                   "succesfully created. Please click the link below to verify your account" +
-                   "<br/><br/><a href='" + link + "'>" + link + "</a> ";
-
-            }
-            else if (emailFor == "ResetPassword")
-            {
-                subject = "Reset Password";
-                body = "Hi, <br/><br/> We got a request for reset password for your account. Please click the link below to reset your password" +
-                    "<br/><br/><a href=" + link + ">Reset Password Link</a>";
-
-            }
-            else if (emailFor == "AccountActivated")
-            {
-                subject = "Account has been activated!";
-                body = "Hi, <br/><br/> Your account have been successfully activated. Please proceed to login here";
-            }
-
-
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
-            };
-
-            using (var message = new MailMessage(fromEmail, toEmail)
-            {
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
-            })
-                smtp.Send(message);
-
-        }
-        #endregion
-
+     
         //not done
         #region Captcha
         [HttpPost]
@@ -520,6 +412,7 @@ namespace ASPJ_Project.Controllers
         }
         #endregion
 
+        //Done
         #region Forget password, input email for reset password link
 
 
@@ -642,6 +535,12 @@ namespace ASPJ_Project.Controllers
         //    return View();
         //}
 
+        //[HttpGet]
+        //public ActionResult ResetPassword()
+        //{
+        //    return View();
+        //}
+
         [HttpPost]
         public ActionResult ResetPassword(string myGUID, ResetPassword resetpwModel, string Email)
         {
@@ -669,23 +568,29 @@ namespace ASPJ_Project.Controllers
 
                             if (dt.Rows.Count != 0)
                             {
+                                Debug.WriteLine("2");
                                 Uid = Convert.ToInt32(dt.Rows[0][1]);
 
                             }
                             else
                             {
-                                ViewBag.Message = "Your Reset Link is Expired or Invalid.";
-                                return View();
+                                //ViewBag.Message = "Your Reset Link is Expired or Invalid.";
+                                //return View();
                                 //HIDE page away
-                                //return RedirectToAction("Login", "User");
+                                return RedirectToAction("Login", "User");
 
                             }
 
-                            ////UPDATE PASSWORD TO DATEBASE
-                            //MySqlCommand cmd2 = new MySqlCommand("update accounts.users set password = @password  where userID= @userID", con);
-                            //cmd2.Parameters.AddWithValue("@password", resetpwModel.NewPassword);
-                            //cmd2.Parameters.AddWithValue("@userID", Uid);
-                            //cmd2.ExecuteNonQuery();
+                            
+                            //UPDATE PASSWORD TO DATEBASE
+                            MySqlCommand cmd2 = new MySqlCommand("update accounts.users set password = @password  where userID= @userID", con);
+                            cmd2.Parameters.AddWithValue("@password", resetpwModel.NewPassword);
+                            cmd2.Parameters.AddWithValue("@userID", Uid);
+                            cmd2.ExecuteNonQuery();
+
+                            MySqlCommand cmd3 = new MySqlCommand("delete from accounts.resetpasswordrequest where userID = @userID", con);
+                            cmd3.Parameters.AddWithValue("userID", Uid);
+                            cmd3.ExecuteNonQuery();
 
 
                             //MAIL USER AFTER PASSWORD UPDATED
@@ -724,6 +629,7 @@ namespace ASPJ_Project.Controllers
                                 SMTP.EnableSsl = true;
                                 SMTP.Send(PassRecMail);
 
+                                con.Close();
                             }
                             else
                             {
@@ -733,6 +639,7 @@ namespace ASPJ_Project.Controllers
                         }
 
                     }
+                   
                 }
 
                 catch (System.Data.SqlClient.SqlException ex)
@@ -741,13 +648,10 @@ namespace ASPJ_Project.Controllers
                     errorMsg += ex.Message;
                     throw new Exception(errorMsg);
                 }
-                finally
-                {
-                    conn.Close();
-                }
+                
             }
             return View();
-        } 
+        }
 
 
         [HttpGet]
@@ -780,31 +684,22 @@ namespace ASPJ_Project.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Your Reset Link is Expired or Invalid.";
-                        //HIDE page away
-                        //return RedirectToAction("Login", "User");
+                        //ViewBag.Message = "Your Reset Link is Expired or Invalid.";
+                        ////HIDE page away
+                        return RedirectToAction("Login", "User");
 
                     }
 
-                    ////UPDATE PASSWORD TO DATEBASE
-                    //MySqlCommand cmd2 = new MySqlCommand("update accounts.users set password = @password  where userID= @userID", con);
-                    //cmd2.Parameters.AddWithValue("@password", resetpwModel.NewPassword);
-                    //cmd2.Parameters.AddWithValue("@userID", Uid);
-                    //cmd2.ExecuteNonQuery();
-
-                    MySqlCommand cmd3 = new MySqlCommand("delete from accounts.resetpasswordrequest where userID = @userID", con);
-                    cmd3.Parameters.AddWithValue("userID", Uid);
-                    cmd3.ExecuteNonQuery();
 
                     con.Close();
 
                     ViewBag.Message = "Password Updated, Please proceed to login with your new password.";
 
 
-                   
 
-                    }
-                
+
+                }
+
                 else
                 {
                     return RedirectToAction("Login", "User");
@@ -816,45 +711,45 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
-    
 
 
 
 
-    #endregion
 
-    #region MVC reset password
-    //[HttpPost]
-    //[ValidateAntiForgeryToken]
-    //public ActionResult ResetPassword(ResetPassword model)
-    //{
-    //    var message = "";
-    //    if (ModelState.IsValid)
-    //    {
-    //        //using (accountsEntities2 db = new accountsEntities2())
-    //        //{
-    //        //    var user = db.users.Where(a => a.resetPasswordID == model.ResetCode).FirstOrDefault();
-    //        //    if(user != null)
-    //        //    {
-    //        //        user.password = Crypto.Hash(model.NewPassword);
-    //        //        user.resetPasswordID = ""; //ONLY VALID ONCE
+        #endregion
 
-    //        //        db.Configuration.ValidateOnSaveEnabled = false;
-    //        //        db.SaveChanges();
-    //        //        message = "New password updated successfully";
-    //        //    }
-    //        //}
-    //    }
-    //    else
-    //    {
-    //        message = "Invalid";
-    //    }
+        #region MVC reset password
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ResetPassword(ResetPassword model)
+        //{
+        //    var message = "";
+        //    if (ModelState.IsValid)
+        //    {
+        //        //using (accountsEntities2 db = new accountsEntities2())
+        //        //{
+        //        //    var user = db.users.Where(a => a.resetPasswordID == model.ResetCode).FirstOrDefault();
+        //        //    if(user != null)
+        //        //    {
+        //        //        user.password = Crypto.Hash(model.NewPassword);
+        //        //        user.resetPasswordID = ""; //ONLY VALID ONCE
 
-    //    ViewBag.Message = message;
-    //    return View(model);
-    //}
+        //        //        db.Configuration.ValidateOnSaveEnabled = false;
+        //        //        db.SaveChanges();
+        //        //        message = "New password updated successfully";
+        //        //    }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        message = "Invalid";
+        //    }
 
-    #endregion
+        //    ViewBag.Message = message;
+        //    return View(model);
+        //}
+
+        #endregion
 
 
     }

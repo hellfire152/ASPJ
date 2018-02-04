@@ -108,6 +108,7 @@
                             </div>*@
                         </div>
                     </div>
+                        @Html.AntiForgeryToken()
                     <div class="input-group" style="padding:12px;">
                         <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..." style="height:50px;padding-right:30px;font-size:15px;" />
                         <div id="numCount"></div><div id="warning"></div>
@@ -178,7 +179,7 @@
                 $('#message').keypress(function () {
                     var textWarn="";
                     if ($('#message').val().includes("<script>")) {
-                        textWarn = '<b><p style="color:red;font-family:Arial;font-size:15px;">Using the script tag is at your own risk!!!</p></b>';
+                        textWarn = '<b><p style="color:red;font-family:Arial;font-size:10px;">Using the script tag is at your own risk!!!</p></b>';
                         $('#warning').html(textWarn);
                     }
                     else {

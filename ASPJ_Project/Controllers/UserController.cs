@@ -296,6 +296,7 @@ namespace ASPJ_Project.Controllers
                         login.email = reader.GetString(reader.GetOrdinal("email"));
                         login.password = reader.GetString(reader.GetOrdinal("password"));
                         Phonenumber = reader.GetString(reader.GetOrdinal("phoneNumber"));
+
                     }
                     if (reader.HasRows)
                     {
@@ -336,6 +337,7 @@ namespace ASPJ_Project.Controllers
 
 
                                     Session["UserID"] = Username;
+                                    Session["Phonenumber"] = Phonenumber;
                                     //return RedirectToAction("UsersHome", "User");
 
                                     return RedirectToAction("SendOTP", "SMS");

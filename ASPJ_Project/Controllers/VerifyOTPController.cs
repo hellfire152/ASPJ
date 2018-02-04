@@ -12,11 +12,32 @@ namespace ASPJ_Project.Controllers
     public class VerifyOTPController : Controller
     {
         // GET: VerifyOTP
-        public ActionResult VerifyOTP(OTP otpModel)
+        [HttpPost]
+        public ActionResult VerifyOTP()
         {
+            return View();
+        }
 
-            //if (ModelState.IsValid)
-            //{
+        [HttpGet]
+        public ActionResult VerifyOTP(OTP otpModel, UserLogin loginModel, string Username)
+        {
+            //if (Session["OTP"].ToString() == otpModel.OTPvalue)
+
+            if (Request.Cookies["OTP"].Value == otpModel.OTPvalue)
+            {
+                return RedirectToAction("UsersHome", "User");
+            }
+            else
+            {
+                ViewBag.Message = "Error";
+                return RedirectToAction("SendOTP", "SMS");
+
+            }
+
+
+
+            //Session["OTP"] = null;
+
             //    try
             //    {
             //        String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
@@ -29,52 +50,37 @@ namespace ASPJ_Project.Controllers
             //        cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
 
             //        cmd.CommandText = queryStr;
-            //        cmd.Parameters.AddWithValue("@email", login.email);
-            //        cmd.Parameters.AddWithValue("@password", login.password);
+            //        cmd.Parameters.AddWithValue("@email", loginModel.email);
+            //        cmd.Parameters.AddWithValue("@password", loginModel.password);
             //        cmd.ExecuteNonQuery();
 
             //        reader = cmd.ExecuteReader();
 
             //        while (reader.HasRows && reader.Read())
             //        {
-            //            Uid = reader.GetInt32(reader.GetOrdinal("userID"));
             //            Username = reader.GetString(reader.GetOrdinal("userName"));
-            //            login.email = reader.GetString(reader.GetOrdinal("email"));
-            //            login.password = reader.GetString(reader.GetOrdinal("password"));
-            //            Phonenumber = reader.GetString(reader.GetOrdinal("phoneNumber"));
             //        }
-            //        String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
-            //using (MySqlConnection con = new MySqlConnection(CS))
-            //{
-            //    con.Open();
-            //    MySqlCommand cmd2 = new MySqlCommand("select * from accounts.users where email= @email", con);
-            //    cmd2.Parameters.AddWithValue("email", Email);
-            //    cmd2.ExecuteNonQuery();
-
-            //    MySqlDataAdapter sda = new MySqlDataAdapter(cmd2);
-            //    DataTable dt = new DataTable();
-            //    sda.Fill(dt);
-
-            //    if (dt.Rows.Count != 0)
-            //    {
-            //        int userID = Convert.ToInt32(dt.Rows[0][0]);
-            //        MySqlCommand cmd3 = new MySqlCommand("INSERT INTO accounts.otp(otp, userID) VALUES(@otp, @userID)", con);
-
-            //        cmd3.Parameters.AddWithValue("@otp", number);
-            //        cmd3.Parameters.AddWithValue("@userID", userID);
-
-            //        cmd3.ExecuteNonQuery();
-
-
+            //        if (reader.HasRows)
+            //        {
+            //            Session["UserID"] = Username;
+            //            return RedirectToAction("UsersHome", "User");
+            //        }
 
             //    }
-            //    con.Close();
+            //    catch (System.Data.SqlClient.SqlException ex)
+            //    {
+            //        string errorMsg = "Error";
+            //        errorMsg += ex.Message;
+            //        throw new Exception(errorMsg);
+            //    }
+            //    finally
+            //    {
+            //        conn.Close();
+            //    }
+
+            //    return View();
             //}
 
-
-
-
-            return View();
         }
     }
 }

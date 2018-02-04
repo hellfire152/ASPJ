@@ -10,7 +10,7 @@
 {
     @Html.AntiForgeryToken()
 
-    @ViewBag.Message
+   
 
     @Session["UserID"].ToString();
 
@@ -18,6 +18,9 @@
         <h4>OTP</h4>
         <hr />
 
+        @ViewBag.Message
+
+        <hr/>
         <input type="submit" name="response" value="Send OTP" formaction=@Url.Action("SendOTP", "SMS") formmethod="post" class="btn btn-default" />
        
 
@@ -30,7 +33,7 @@
             </div>
         </div>
 
-        <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP", "VerifyOTP") formmethod="post" class="btn btn-default" />
+        <input type="submit" name="response" value="Submit" formaction=@Url.Action("VerifyOTP", "VerifyOTP") formmethod="get" class="btn btn-default" />
      
     </div>
 }

@@ -23,7 +23,7 @@ namespace ASPJ_Project.Controllers
         {
             if (Request.Cookies["OTP"].Value == otpModel.OTPvalue)
             {
-                return RedirectToAction("UsersHome", "User");
+                return RedirectToAction("Index", "Game");
             }
             else
             {

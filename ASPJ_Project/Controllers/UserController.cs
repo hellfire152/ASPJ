@@ -45,7 +45,32 @@ namespace ASPJ_Project.Controllers
             return View(userModel);
         }
 
+       //CHECK IF USERNAME EXIST
+        public JsonResult IsUsernameExists(user model)
+        {
+                String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
+                conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
+                conn.Open();
+                MySqlCommand cmd1 = new MySqlCommand(queryStr, conn);
+                queryStr = "SELECT * FROM  users where userName= @userName";
+                cmd1.CommandText = queryStr;
+                cmd1.Parameters.AddWithValue("@userName", model.userName);
+                cmd1.ExecuteNonQuery();
+
+                reader = cmd1.ExecuteReader();
+                if (reader.HasRows && reader.Read())
+                {
+                return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
         
+    }
+           
+
         //REGISTER USER
         [HttpPost, CaptchaVerify("Captcha is not valid")]
         [ValidateAntiForgeryToken]
@@ -62,7 +87,7 @@ namespace ASPJ_Project.Controllers
                 conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
                 conn.Open();
                 MySqlCommand cmd1 = new MySqlCommand(queryStr, conn);
-                queryStr = "SELECT * FROM accounts.users where email= @email";
+                queryStr = "SELECT * FROM  users where email= @email";
                 cmd1.CommandText = queryStr;
                 cmd1.Parameters.AddWithValue("@email", Email);
                 cmd1.ExecuteNonQuery();
@@ -92,7 +117,7 @@ namespace ASPJ_Project.Controllers
                         conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
                         conn.Open();
                         MySqlCommand cmd = new MySqlCommand(queryStr, conn);
-                        queryStr = "INSERT INTO accounts.users(userName, password, firstName, lastName, email, phoneNumber) VALUES(@userName, @password, @firstName, @lastName, @email, @phoneNumber)";
+                        queryStr = "INSERT INTO  users(userName, password, firstName, lastName, email, phoneNumber) VALUES(@userName, @password, @firstName, @lastName, @email, @phoneNumber)";
                         cmd.CommandText = queryStr;
                         cmd.Parameters.AddWithValue("@userName", Username);
                         cmd.Parameters.AddWithValue("@password", model.password);
@@ -107,7 +132,7 @@ namespace ASPJ_Project.Controllers
                         using (MySqlConnection con = new MySqlConnection(CS))
                         {
                             con.Open();
-                            MySqlCommand cmd2 = new MySqlCommand("select * from accounts.users where email= @email", con);
+                            MySqlCommand cmd2 = new MySqlCommand("select * from  users where email= @email", con);
                             cmd2.Parameters.AddWithValue("email", Email);
 
                             MySqlDataAdapter sda = new MySqlDataAdapter(cmd2);
@@ -117,7 +142,7 @@ namespace ASPJ_Project.Controllers
                             if (dt.Rows.Count != 0)
                             {
                                 int userID = Convert.ToInt32(dt.Rows[0][0]);
-                                MySqlCommand cmd3 = new MySqlCommand("insert into accounts.activation(activationCode, userID) VALUES (@activationCode, @userID)", con);
+                                MySqlCommand cmd3 = new MySqlCommand("insert into  activation(activationCode, userID) VALUES (@activationCode, @userID)", con);
 
                                 cmd3.Parameters.AddWithValue("@activationCode", ActivationCode);
                                 cmd3.Parameters.AddWithValue("@userID", userID);
@@ -213,7 +238,7 @@ namespace ASPJ_Project.Controllers
 
                 if (activationCode != null)
                 {
-                    MySqlCommand cmd = new MySqlCommand("select * from activation where activationCode= @activationCode", con);
+                    MySqlCommand cmd = new MySqlCommand("select * from  activation where activationCode= @activationCode", con);
                     cmd.Parameters.AddWithValue("@activationCode", activationCode);
                     cmd.ExecuteNonQuery();
 
@@ -235,7 +260,7 @@ namespace ASPJ_Project.Controllers
 
                     }
 
-                    MySqlCommand cmd3 = new MySqlCommand("delete from activation where userID = @userID", con);
+                    MySqlCommand cmd3 = new MySqlCommand("delete from  activation where userID = @userID", con);
                     cmd3.Parameters.AddWithValue("userID", Uid);
                     cmd3.ExecuteNonQuery();
                     con.Close();
@@ -283,13 +308,13 @@ namespace ASPJ_Project.Controllers
                     conn.Open();
 
                     MySqlCommand cmd = new MySqlCommand(queryStr, conn);
-                    queryStr = "SELECT * FROM users where email = @email and password = @password";
+                    queryStr = "SELECT * FROM  users where email = @email and password = @password";
 
                     cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
 
                     cmd.CommandText = queryStr;
                     cmd.Parameters.AddWithValue("@email", login.email);
-                    cmd.Parameters.AddWithValue("@password", login.password);
+                    cmd.Parameters.AddWithValue("@password", Crypto.Hash(login.password));
                     cmd.ExecuteNonQuery();
 
                     reader = cmd.ExecuteReader();
@@ -309,7 +334,7 @@ namespace ASPJ_Project.Controllers
                         using (MySqlConnection con = new MySqlConnection(CS))
                         {
 
-                            MySqlCommand cmd2 = new MySqlCommand("select * from accounts.activation where userID = @userID", con);
+                            MySqlCommand cmd2 = new MySqlCommand("select * from  activation where userID = @userID", con);
 
                             cmd2.Parameters.AddWithValue("userID", Uid);
 
@@ -338,6 +363,7 @@ namespace ASPJ_Project.Controllers
                                 {
                                    
                                     Session["UserID"] = Username;
+                                    Session["userID"] = Uid;
                                     Session["Phonenumber"] = Phonenumber;
                                     
                                     return RedirectToAction("SendOTP", "SMS");
@@ -375,12 +401,35 @@ namespace ASPJ_Project.Controllers
 
             return View();
         }
-        
-        #endregion
 
-        #region Testing Out User home page after login
+        //CHECK IF EMAIL EXIST
+        public JsonResult IsEmailExists(user model)
+        {
+            String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
+            conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
+            conn.Open();
+            MySqlCommand cmd1 = new MySqlCommand(queryStr, conn);
+            queryStr = "SELECT * FROM accounts.users where email= @email";
+            cmd1.CommandText = queryStr;
+            cmd1.Parameters.AddWithValue("@email", model.email);
+            cmd1.ExecuteNonQuery();
 
-        public ActionResult UsersHome()
+            reader = cmd1.ExecuteReader();
+            if (reader.HasRows && reader.Read())
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+            #endregion
+
+            #region Testing Out User home page after login
+
+            public ActionResult UsersHome()
         {
             return View();
         }
@@ -422,7 +471,7 @@ namespace ASPJ_Project.Controllers
             {
                 //CHECK IF EMAIL EXIST IN DATABASE
                 con.Open();
-                MySqlCommand cmd = new MySqlCommand("select * from accounts.users where email = @email", con);
+                MySqlCommand cmd = new MySqlCommand("select * from  users where email = @email", con);
                 cmd.Parameters.AddWithValue("email", Email);
                 cmd.ExecuteNonQuery();
 
@@ -435,7 +484,7 @@ namespace ASPJ_Project.Controllers
                     //INSERT REQUEST INTO DATABASE
                     String myGUID = Guid.NewGuid().ToString();
                     int userID = Convert.ToInt32(dt.Rows[0][0]);
-                    MySqlCommand cmd1 = new MySqlCommand("insert into accounts.resetpasswordrequest(ID, userID, resetRequestDateTime) values(@ID, @userID, @resetRequestDateTime)", con);
+                    MySqlCommand cmd1 = new MySqlCommand("insert into  resetpasswordrequest(ID, userID, resetRequestDateTime) values(@ID, @userID, @resetRequestDateTime)", con);
                     cmd1.Parameters.AddWithValue("@ID", myGUID);
                     cmd1.Parameters.AddWithValue("userID", userID);
                     cmd1.Parameters.AddWithValue("@resetRequestDateTime", datetime);
@@ -499,12 +548,12 @@ namespace ASPJ_Project.Controllers
         //    using (MySqlConnection con = new MySqlConnection(CS))
         //    {
         //        //UPDATE PASSWORD TO DATEBASE
-        //        MySqlCommand cmd2 = new MySqlCommand("update accounts.users set password = @password  where userID= @userID", con);
+        //        MySqlCommand cmd2 = new MySqlCommand("update  users set password = @password  where userID= @userID", con);
         //        cmd2.Parameters.AddWithValue("@password", resetpwModel.NewPassword);
         //        cmd2.Parameters.AddWithValue("@userID", Uid);
         //        cmd2.ExecuteNonQuery();
 
-        //        MySqlCommand cmd3 = new MySqlCommand("delete from accounts.resetpasswordrequest where userID = @userID", con);
+        //        MySqlCommand cmd3 = new MySqlCommand("delete from  resetpasswordrequest where userID = @userID", con);
         //        cmd3.Parameters.AddWithValue("userID", Uid);
         //        cmd3.ExecuteNonQuery();
 
@@ -546,7 +595,7 @@ namespace ASPJ_Project.Controllers
 
                         if (myGUID != null)
                         {
-                            MySqlCommand cmd = new MySqlCommand("select * from accounts.resetpasswordrequest where ID= @ID", con);
+                            MySqlCommand cmd = new MySqlCommand("select * from  resetpasswordrequest where ID= @ID", con);
                             cmd.Parameters.AddWithValue("@ID", myGUID);
                             cmd.ExecuteNonQuery();
 
@@ -571,18 +620,18 @@ namespace ASPJ_Project.Controllers
 
                             
                             //UPDATE PASSWORD TO DATEBASE
-                            MySqlCommand cmd2 = new MySqlCommand("update accounts.users set password = @password  where userID= @userID", con);
+                            MySqlCommand cmd2 = new MySqlCommand("update  users set password = @password  where userID= @userID", con);
                             cmd2.Parameters.AddWithValue("@password", resetpwModel.NewPassword);
                             cmd2.Parameters.AddWithValue("@userID", Uid);
                             cmd2.ExecuteNonQuery();
 
-                            MySqlCommand cmd3 = new MySqlCommand("delete from accounts.resetpasswordrequest where userID = @userID", con);
+                            MySqlCommand cmd3 = new MySqlCommand("delete from  resetpasswordrequest where userID = @userID", con);
                             cmd3.Parameters.AddWithValue("userID", Uid);
                             cmd3.ExecuteNonQuery();
 
 
                             //MAIL USER AFTER PASSWORD UPDATED
-                            MySqlCommand cmd4 = new MySqlCommand("select * from accounts.users where email = @email", con);
+                            MySqlCommand cmd4 = new MySqlCommand("select * from  users where email = @email", con);
                             cmd.Parameters.AddWithValue("email", Email);
                             cmd.ExecuteNonQuery();
 
@@ -657,7 +706,7 @@ namespace ASPJ_Project.Controllers
 
                 if (myGUID != null)
                 {
-                    MySqlCommand cmd = new MySqlCommand("select * from accounts.resetpasswordrequest where ID= @ID", con);
+                    MySqlCommand cmd = new MySqlCommand("select * from  resetpasswordrequest where ID= @ID", con);
                     cmd.Parameters.AddWithValue("@ID", myGUID);
                     cmd.ExecuteNonQuery();
 

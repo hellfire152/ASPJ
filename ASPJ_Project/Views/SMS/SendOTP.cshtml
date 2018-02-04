@@ -4,7 +4,6 @@
     ViewBag.Title = "One more step... ";
 }
 
-<h4>One more step... Please check your phone number for the OTP to proceed.</h4>
 
 @using (Html.BeginForm()) 
 {
@@ -12,6 +11,7 @@
 
    
 
+    <h2>Hello, </h2>
     @Session["UserID"].ToString();
 
     <h5>OTP is sent to your mobile number. Contact us at dubuuniverse@gmail.com if you've any issues.</h5>
@@ -19,7 +19,7 @@
     <h5>Please check your phone number for the OTP to proceed.</h5>
 
     <div class="form-horizontal">
-        <h4>OTP</h4>
+        
         <hr />
 
         @ViewBag.Message

@@ -8,7 +8,7 @@ using ASPJ_Project.Models;
 namespace ASPJ_Project.Models
 {
     [MetadataType(typeof(UserMetadata))]
-    public class user
+    public partial class user
     {
         public int userID { get; set; }
         public string userName { get; set; }
@@ -32,11 +32,13 @@ namespace ASPJ_Project.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Last name required")]
         public string lastName { get; set; }
 
+        [System.Web.Mvc.Remote("IsEmailExists", "User", ErrorMessage = "Email already in use")]
         [Display(Name = "Email")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email required")]
         [DataType(DataType.EmailAddress)]
         public string email { get; set; }
 
+        [System.Web.Mvc.Remote("IsUsernameExists", "User",ErrorMessage="User Name already in use")]  
         [Display(Name = "Username")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Username required")]
         public string userName { get; set; }

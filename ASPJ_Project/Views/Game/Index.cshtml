@@ -1,12 +1,123 @@
 ﻿@{
     ViewBag.Title = "Tofu Universe!";
+}
+@{
+    var chatData = ViewBag.chatList;
+    var chatTime = ViewBag.dateTime;
+    var username = ViewBag.cookie;
+    string storeTime = "";
 
+    for (int i = 0; i < chatData.Count; i++)
+    {
+        storeTime = chatTime[i];
+    }
 }
 @if(ViewData["code"] != null) {
     <script>_tofuUniverse.code = "@ViewData["code"]"</script>
 }
+<!--Chat stuff-->
+<button class="btn btn-default" id="toggle">
+    <span class="glyphicon glyphicon-backward"></span>
+    Open Chat
+</button>
+<div class="sidenav" id="s">
+    <style>
+        #numCount {
+            margin-top: 55px;
+            margin-left: 6px;
+            color: #D14D59;
+        }
 
-<div class="container">
+        #sendmessage {
+            padding: 9px 15px 5px 15px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        #warning {
+            margin-left: 6px;
+        }
+    </style>
+    <div>
+        <div class="fill-height">
+            <div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" id="accordion">
+                        <span class="glyphicon glyphicon-comment"></span> Chat
+                    </div>
+                    @*<div class="panel-collapse collapse" id="collapseOne">*@
+                    <div class="panel">
+                        <div class="panel-body" id="stuff" style="height:400px;">
+                            @*<ul class="nav nav-tabs" id="navPadding">
+                                    <li class="active"><a data-toggle="tab" href="#chatTabActive">Home</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                                </ul>*@
+                            <div class="tab-content">
+                                <h2><strong><u><i>@ViewBag.Title</i></u></strong></h2>
+                                <br />
+                                @*<div id="chatTabActive" class="tab-pane fade in active">*@
+                                <ul class="chat" style="padding-top: 30px;">
+                                    <li>
+                                        @*<span class="chat-img pull-left">
+                                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                                            </span>*@
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font"><input type="hidden" id="displayname" /></strong> <small class="pull-right text-muted">
+                                                    @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
+                                                </small>
+                                                <div class="message-content">
+                                                    @*<ul id="chatHistory">@ViewBag.chatList</ul>*@
+                                                    <div>
+                                                        @for (int i = 0; i < chatData.Count; i++)
+                                                        {
+                                                            <section>
+                                                                <ul style="list-style-type:none;">
+                                                                    <li><strong>@username </strong>@chatData[i]<small class="pull-right text-muted" id="chatTime">@chatTime[i]</small></li>
+                                                                </ul>
+                                                            </section>
+                                                        }
+                                                    </div>
+                                                    <ul id="discussion"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                @*</div>*@
+                                @*<div id="menu1" class="tab-pane fade">
+                                        <h3>Menu 1</h3>
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>*@
+                            </div>
+                            @*<div>
+                                            <div class="input-group" style="margin-top: 220px;">
+                                    <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..."/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-warning btn-sm" id="sendmessage" style="margin-right:30px;">
+                                            Send
+                                        </button>
+                                    </span>
+                                </div>
+                                        </div>*@
+                        </div>
+                    </div>
+                    <div class="input-group" style="padding:12px;">
+                        <input id="message" type="text" class="form-control input-sm" maxlength="200" name="chatBox" placeholder="Type your message here..." style="height:50px;padding-right:30px;font-size:15px;" />
+                        <div id="numCount"></div><div id="warning"></div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="sendmessage">
+                                <p style="font-size:16px;">Send</p>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Chat stuff-->
+<div class="container" id="main">
     <div class="col-md-5" id="left-side-container">
         <div id="shop-area">
             <ul class="nav nav-tabs" id="shop-nav">

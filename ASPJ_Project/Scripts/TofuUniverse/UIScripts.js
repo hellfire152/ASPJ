@@ -36,6 +36,10 @@ $.ready(function ($) {
             $('.cd-popup').removeClass('is-visible');
         }
     });
+    $("#toggle").click(() => {
+        $("#contact").slideToggle();
+        return false;
+    });
 });
 
 function clickEarningsDisplay(tofuEarned) {
@@ -47,4 +51,53 @@ function clickEarningsDisplay(tofuEarned) {
         earning.text(_tofuUniverse.player.items[0].tps);
         $("#temp").append(earning);
     } else return null;
+}
+var chat;
+function initChat() {
+
+    var text_max = 200;
+    $('#numCount').html(text_max + ' characters remaining');
+
+    $('#message').keyup(function () {
+        var text_length = $('#message').val().length;
+        var text_remaining = text_max - text_length;
+        $('#numCount').html(text_remaining + ' characters remaining');
+    });
+    $('#message').keypress(function () {
+        var textWarn = "";
+        if ($('#message').val().includes("<script>")) {
+            textWarn = '<b><p style="color:red;font-family:Arial;font-size:15px;">Using the script tag is at your own risk!!!</p></b>';
+            $('#warning').html(textWarn);
+        }
+        else {
+            textWarn = "";
+            $('#warning').html(textWarn);
+        }
+    });
+    // Reference the auto-generated proxy for the hub.
+    chat = $.connection.chatHub;
+    // Create a function that the hub can call back to display messages.
+    chat.client.addNewMessageToPage = function (name, message, time) {
+        // Add the message to the page.
+        $('#discussion').append('<li><strong>' + htmlEncode(name)
+            + '</strong>: ' + htmlEncode(message) + '<small class="pull-right text-muted">' + htmlEncode(time) + '</small>' + '</li>');
+    };
+
+    $("#s").animate({ "right": "-=300" });
+    let isShown = false;
+    $("#toggle").click((e) => {
+        e.preventDefault();
+        if (isShown) {
+            $("#s").animate({ "right": "-=300" });
+            isShown = false;
+        } else {
+            $("#s").animate({ "right": "+=300" });
+            isShown = true;
+        }
+        return false;
+    });
+}
+function htmlEncode(value) {
+    var encodedValue = $('<div />').text(value).html();
+    return encodedValue;
 }

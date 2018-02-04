@@ -22,12 +22,13 @@
 				<div class="inner">
 					<nav>
 						<ul>
+							<li><a href="/User/UserProfile">@Session["username"]</a></li>
+                            <li><a>Beans: @Session["userBeans"]</a></li>
 							<li><a href="/Shop/Shop#one">Hats</a></li>
 							<li><a href="/Shop/Shop#two">Outfits</a></li>
                             <li><a href="/Shop/Inventory">Inventory</a></li>
-                            <li><a>Beans: </a></li> <!-- Place Amount of Beans Here -->
                             <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
-						</ul>
+                        </ul>
 					</nav>
 				</div>
 			</section>
@@ -45,9 +46,9 @@
 								<section>
 									<span class="icon major @BeanData[i].beanIcon"></span>
 									<h2>@BeanData[i].itemName</h2>
-                                    <p>$@BeanData[i].beansPrice</p>
+                                    <p>$@BeanData[i].priceOfBeans</p>
 									<p>@BeanData[i].beanAmount Beans</p>
-                                    @Html.ActionLink("Purchase", "PurchaseSession", new { beansAmount = @BeanData[i].beanAmount, price = @BeanData[i].beansPrice, beansName = @BeanData[i].itemName }, new {@class="button"})
+                                    @Html.ActionLink("Purchase", "PurchaseSession", new { beansAmount = @BeanData[i].beanAmount, price = @BeanData[i].priceOfBeans, beansName = @BeanData[i].itemName }, new {@class="button"})
 								</section>
                             }
 							</div>

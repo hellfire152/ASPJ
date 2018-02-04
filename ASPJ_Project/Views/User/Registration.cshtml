@@ -2,7 +2,7 @@
 @using CaptchaMvc.HtmlHelpers
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -11,14 +11,9 @@
 <head>
 
 
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width initial-scale=1"" />
     <title>Registration</title>
     <style type="text/css">
-        body {
-            font-family: Arial;
-            font-size: 10pt;
-        }
-
         .error {
             color: red;
         }
@@ -26,92 +21,122 @@
 
 </head>
 <body>
-
-    @using (Html.BeginForm())
+       <section id="sidebar">
+        @if (@Session["userID"] == null)
         {
-          @Html.AntiForgeryToken()
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="/User/Login">Login</a></li>
+							<li><a href="/User/Register">Register</a></li>
+						</ul>
+					</nav>
+				</div>
+        }
+        else if(@Session["userID"] != null)
+        {
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="/User/UserProfile">@Session["username"]</a></li>
+                            <li><a>Beans: @Session["userBeans"]</a></li>
+							<li><a href="#one">Hats</a></li>
+							<li><a href="#two">Outfits</a></li>
+                            <li><a href="/Shop/Inventory">Inventory</a></li>
+                            <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
+						</ul>
+					</nav>
+				</div>
+        }
+        </section>
+    <div id ="wrapper">
+        <section id="one" class="wrapper style3 fade-up">
+		    <div class="inner">
+                <h2>User Registration</h2>
+                <div class="features">
+                    @using (Html.BeginForm())
+                        {
+                          @Html.AntiForgeryToken()
+                            <section>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-            <div class="form-horizontal">
-
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
 
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.confirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.confirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.confirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.confirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.firstName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.firstName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.firstName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.firstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.firstName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.firstName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.lastName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.lastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-                        @Html.ValidationMessage("EmailExist", new { @class = "text-danger"})
-                    </div>
-                </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessage("EmailExist", new { @class = "text-danger"})
+                                        </div>
+                                    </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.phoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.phoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.phoneNumber, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.phoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.phoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.phoneNumber, "", new { @class = "text-danger" })
                        
-                    </div>
-                </div>
-                <div class="form-group">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                     
-                    <div class="col-md-10">
-                        @Html.MathCaptcha()
-                        @Html.ValidationMessageFor(model => model.captcha, "", new { @class = "text-danger" })
-                        <p class="has-error">@ViewBag.ErrorMessage</p>
+                                        <div class="col-md-10">
+                                            @Html.MathCaptcha()
+                                            @Html.ValidationMessageFor(model => model.captcha, "", new { @class = "text-danger" })
+                                            <p class="has-error">@ViewBag.ErrorMessage</p>
 
-                        <span class="field-validation-valid text-danger" data-valmsg-for="captcha" data-valmsg-replace="true" id="vali_CaptchaInputText"></span>
-                    </div>
-                </div>
+                                            <span class="field-validation-valid text-danger" data-valmsg-for="captcha" data-valmsg-replace="true" id="vali_CaptchaInputText"></span>
+                                        </div>
+                                    </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Register" class="btn btn-default"  />
-                    </div>
-                </div>
-            </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Register" class="btn btn-default"  />
+                                        </div>
+                                    </div>
+                            </section>
             if (ViewBag.Message != null)
             {
                 <div class="alert alert-danger">
@@ -120,6 +145,10 @@
                 </div>
             }
         }
+            </div>
+        </div>
+    </section>
+    </div>
 
 
     

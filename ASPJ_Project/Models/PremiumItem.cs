@@ -19,6 +19,7 @@ namespace ASPJ_Project.Models
             public int beansPrice;
             public int beanAmount;
             public string beanIcon;
+            public double priceOfBeans;
         }
 
 }

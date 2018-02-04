@@ -61,6 +61,7 @@ namespace ASPJ_Project.Controllers
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
             List<PremiumItem> UserItems = new List<PremiumItem>();
             int userBeans = 0;
+            string username = "";
             try
             {
                 if (d.OpenConnection())
@@ -128,11 +129,12 @@ namespace ASPJ_Project.Controllers
                         while (r3.Read())
                         {
                             userBeans = Convert.ToInt32(r3["beansAmount"]);
+                            username = r3["userName"].ToString();
                         }
                         r3.Close();
                     }
-                    Debug.WriteLine(userBeans);
-                    ViewBag.userBeans = userBeans;
+                    Session["userBeans"] = userBeans;
+                    Session["username"] = username;
                 }
             }
 
@@ -456,11 +458,12 @@ namespace ASPJ_Project.Controllers
                             PremiumItem purchase = new PremiumItem
                             {
                                 itemName = (r["beanName"].ToString()),
-                                beansPrice = (Convert.ToInt32(r["beanPrice"])),
+                                priceOfBeans = Convert.ToDouble(r["beanPrice"]),
                                 beanAmount = Convert.ToInt32(r["beanAmount"]),
                                 beanIcon = (r["beanIcon"].ToString())
                             };
                             beanPurchases.Add(purchase);
+                            Debug.WriteLine(purchase.priceOfBeans);
                         }
                         r.Close();
                         ViewBag.BeanPurchasesData = beanPurchases;
@@ -758,6 +761,16 @@ namespace ASPJ_Project.Controllers
         [ValidateInput(false)]
         public ActionResult PaymentWithPaypal(Models.CreditCard currentCard)
         {
+            Database d = Database.CurrentInstance;
+            AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+            int userID = Convert.ToInt32(Session["UserID"]);
+            string price = string.Empty;
+            price = Convert.ToString(Session["price"]);
+            string beansName = string.Empty;
+            beansName = Convert.ToString(Session["beansName"]);
+            string beansAmount = string.Empty;
+            beansAmount = Convert.ToString(Session["beansAmount"]);
+
             //getting the apiContext as earlier
             APIContext apiContext = Models.Configuration.GetAPIContext();
 
@@ -828,7 +841,17 @@ namespace ASPJ_Project.Controllers
                     var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
 
                     if (executedPayment.state.ToLower() != "approved")
-                    {   
+                    {
+                        string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
+                        string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                        c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                        c3.Parameters.AddWithValue("@status", "Failure");
+                        c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
                         return RedirectToAction("FailureView");
                     }
                 }
@@ -836,18 +859,18 @@ namespace ASPJ_Project.Controllers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
+                string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                c3.Parameters.AddWithValue("@status", "Failure");
+                c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
                 return View("FailureView");
             }
-
-            Database d = Database.CurrentInstance;
-            AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
-            int userID = Convert.ToInt32(Session["UserID"]);
-            string price = string.Empty;
-            price = Convert.ToString(Session["price"]);
-            string beansName = string.Empty;
-            beansName = Convert.ToString(Session["beansName"]);
-            string beansAmount = string.Empty;
-            beansAmount = Convert.ToString(Session["beansAmount"]);
 
             try
             {
@@ -880,8 +903,8 @@ namespace ASPJ_Project.Controllers
                         c2.ExecuteNonQuery();
                         Debug.WriteLine(beansBefore + " " + beansAfter);
 
-                        string addItemTransQuery = "INSERT INTO beantransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @status, @userID, @dateOfTransaction)";
-                        string transDesc = "Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                        string addItemTransQuery = "INSERT INTO beantransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @status, @dateOfTransaction, @userID)";
+                        string transDesc = "Purchase " + beansName + " (" + beansAmount + " Beans) for $" + price;
                         MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
 
                         c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
@@ -890,14 +913,13 @@ namespace ASPJ_Project.Controllers
                         c3.Parameters.AddWithValue("@beansBefore", beansBefore);
                         c3.Parameters.AddWithValue("@beansAfter", beansAfter);
                         c3.Parameters.AddWithValue("@status", "Successful");
-                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
                         c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
 
                         c3.ExecuteNonQuery();
                     }
                 }
             }
-
             catch (MySqlException e)
             {
                 Debug.WriteLine(e);
@@ -910,8 +932,8 @@ namespace ASPJ_Project.Controllers
                 c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
                 c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
                 c3.Parameters.AddWithValue("@status", "Failure");
-                c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
                 c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
 
                 return RedirectToAction("FailureView");
             }
@@ -919,7 +941,6 @@ namespace ASPJ_Project.Controllers
             {
                 d.CloseConnection();
             }
-
             return RedirectToAction("SuccessView");
         }
 

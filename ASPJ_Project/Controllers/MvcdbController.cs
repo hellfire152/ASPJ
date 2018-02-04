@@ -18,19 +18,24 @@ using System.Collections;
 namespace ASPJ_Project.Controllers
 {
     public class MvcdbController : Controller
-    {       
+    {  
         public ActionResult Chat()
         {
+            //set cookie
             HttpCookie usernameCookie = new HttpCookie("UserID")
             {
-                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt(""+Session["UserID"]))
-            };
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt("" + Session["UserID"]))
+            };       
             Response.SetCookie(usernameCookie);
+            //get cookie
+            string getCookie = "";
+            getCookie = AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Request.Cookies["UserID"].Value));
             DatabaseStuff db = new DatabaseStuff();
+            ViewBag.cookie = getCookie;
             ViewBag.dateTime = db.ChatGetTime();
             ViewBag.chatList = db.ChatGetMessage();
             return View();
-        }      
+        }       
     }
 
     public class EncodeDecode

@@ -828,18 +828,7 @@ namespace ASPJ_Project.Controllers
                     var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
 
                     if (executedPayment.state.ToLower() != "approved")
-                    {
-                        string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
-                        string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
-                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
-
-                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
-                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
-                        c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
-                        c3.Parameters.AddWithValue("@status", "Failure");
-                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
-                        c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
-
+                    {   
                         return RedirectToAction("FailureView");
                     }
                 }

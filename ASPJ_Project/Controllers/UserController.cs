@@ -30,7 +30,7 @@ namespace ASPJ_Project.Controllers
         String queryStr;
 
 
-        #region Registration
+        #region Registration w/ Hashing
 
         public ActionResult Registration()
         {
@@ -80,6 +80,14 @@ namespace ASPJ_Project.Controllers
                     try
                     {
                         string ActivationCode = Guid.NewGuid().ToString();
+                        
+                        #region Password Hashing
+                        
+                        model.password = Crypto.Hash(model.confirmPassword);
+                        model.confirmPassword = Crypto.Hash(model.confirmPassword);
+
+                        #endregion
+
                         //String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
                         conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
                         conn.Open();
@@ -87,7 +95,7 @@ namespace ASPJ_Project.Controllers
                         queryStr = "INSERT INTO accounts.users(userName, password, firstName, lastName, email, phoneNumber) VALUES(@userName, @password, @firstName, @lastName, @email, @phoneNumber)";
                         cmd.CommandText = queryStr;
                         cmd.Parameters.AddWithValue("@userName", Username);
-                        cmd.Parameters.AddWithValue("@password", Password);
+                        cmd.Parameters.AddWithValue("@password", model.password);
                         cmd.Parameters.AddWithValue("@firstName", Firstname);
                         cmd.Parameters.AddWithValue("@lastName", Lastname);
                         cmd.Parameters.AddWithValue("@email", Email);
@@ -180,13 +188,7 @@ namespace ASPJ_Project.Controllers
         }
 
         #endregion
-
-        //not done
-        #region Password Hashing
-        //userModel.password = Crypto.Hash(userModel.confirmPassword);
-        //userModel.confirmPassword = Crypto.Hash(userModel.confirmPassword);
-        #endregion
-
+        
         #region Verify Account
         [HttpPost]
         public ActionResult VerifyAccount()
@@ -398,20 +400,6 @@ namespace ASPJ_Project.Controllers
         #endregion
 
      
-        //not done
-        #region Captcha
-        [HttpPost]
-        public ActionResult CaptchaValidation(string captcha)
-        {
-            if (this.IsCaptchaValid("Captcha is not valid"))
-            {
-                return RedirectToAction("Registration");
-            }
-            ViewBag.ErrorMessage = "Error: captcha is not valid.";
-            return View();
-        }
-        #endregion
-
         //Done
         #region Forget password, input email for reset password link
 

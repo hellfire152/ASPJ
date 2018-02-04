@@ -57,7 +57,7 @@ namespace ASPJ_Project.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter your phone number")]
         [Display(Name = "Phone Number")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^(?:\d{8}|00\d{10}|\+\d{2}\d{8})$", ErrorMessage = "Not a valid Phone number")]
+        [RegularExpression(@"^(?:\d{8}|00\d{10}|\+\d{2}\d{8})$", ErrorMessage = "Please input your country code, followed by phone number. (+xx xxxx xxxx)")]
         public string phoneNumber { get; set; }
 
         //[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter this field")]

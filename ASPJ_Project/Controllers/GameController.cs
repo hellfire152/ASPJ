@@ -54,14 +54,14 @@ namespace ASPJ_Project.Controllers
             #endregion
 
             #region Chat Stuff
-            HttpCookie usernameCookie2 = new HttpCookie("UserID")
+            HttpCookie usernameCookie2 = new HttpCookie("uname")
             {
-                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt("" + Session["UserID"]))
+                Value = HttpUtility.UrlEncode(AESCryptoStuff.CurrentInstance.AesEncrypt("" + Session["uname"]))
             };
-            Response.SetCookie(usernameCookie);
+            Response.SetCookie(usernameCookie2);
             //get cookie
             string getCookie = "";
-            getCookie = AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Request.Cookies["UserID"].Value));
+            getCookie = AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Request.Cookies["uname"].Value));
             DatabaseStuff db = new DatabaseStuff();
             ViewBag.cookie = getCookie;
             ViewBag.dateTime = db.ChatGetTime();

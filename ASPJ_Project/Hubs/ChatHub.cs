@@ -37,7 +37,7 @@ namespace ASPJ_Project.Hubs
         public void Send(string getCookie, string message, string storeTime)
         {
             //Get value from cookie
-            getCookie = Models.AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Context.RequestCookies["UserID"].Value));
+            getCookie = Models.AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Context.RequestCookies["uname"].Value));
             //Debug.WriteLine(storeCookie);
             //Insert into db
             db.ChatSendMessage(message);

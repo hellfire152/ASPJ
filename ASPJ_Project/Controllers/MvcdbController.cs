@@ -185,8 +185,6 @@ namespace ASPJ_Project.Controllers
                 chatMessageInsert = encInit.EncodeStuff(chatMessageInsert);
                 //Encrypt msg
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
-                dateStr = aes_obj.AesEncrypt(dateStr);
-                timeStr = aes_obj.AesEncrypt(timeStr);
                 //Insert query
                 queryString = "INSERT INTO dububase.chat(chatMessage, chatDate, chatTime) VALUES(@sendmessage, @chatdate, @chattime)";
                 cmd.CommandText = queryString;
@@ -271,14 +269,13 @@ namespace ASPJ_Project.Controllers
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(queryString, conn);            
                 List<string> storeDate = new List<string>();
-                AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
                 queryString = "SELECT chatTime FROM dububase.chat";
                 cmd.CommandText = queryString;
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
                 reader = cmd.ExecuteReader();
                 while (reader.HasRows && reader.Read())
                 {
-                    storeDate.Add(aes_obj.AesDecrypt(reader["chatTime"].ToString()));
+                    storeDate.Add((reader["chatTime"].ToString()));
                 }
                 return storeDate;
             }

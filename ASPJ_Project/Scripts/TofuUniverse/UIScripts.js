@@ -80,7 +80,7 @@ function initChat() {
     chat.client.addNewMessageToPage = function (name, message, time) {
         // Add the message to the page.
         $('#discussion').append('<li><strong>' + htmlEncode(name)
-            + '</strong>: ' + htmlEncode(message) + '<small class="pull-right text-muted">' + htmlEncode(time) + '</small>' + '</li>');
+            + ': </strong> ' + htmlEncode(message) + '<small class="pull-right text-muted">' + htmlEncode(time) + '</small>' + '</li>');
     };
 
     $("#s").animate({ "right": "-=300" });

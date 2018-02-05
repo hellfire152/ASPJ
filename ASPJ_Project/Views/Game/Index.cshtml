@@ -56,14 +56,14 @@
                                 <h2><strong><u><i>@ViewBag.Title</i></u></strong></h2>
                                 <br />
                                 @*<div id="chatTabActive" class="tab-pane fade in active">*@
-                                <ul class="chat" style="padding-top: 30px;">
+                                <ul class="chat" style="padding-top: 30px;list-style-type:none;">
                                     <li>
                                         @*<span class="chat-img pull-left">
                                             <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
                                             </span>*@
                                         <div class="chat-body clearfix">
                                             <div class="header">
-                                                <strong class="primary-font"><input type="hidden" id="displayname" /></strong> <small class="pull-right text-muted">
+                                                <strong class="primary-font"><input type="hidden" id="displayname" class="pull-left" /></strong> <small class="pull-right text-muted">
                                                     @*<span class="glyphicon glyphicon-time"></span>12 mins ago*@
                                                 </small>
                                                 <div class="message-content">
@@ -73,12 +73,12 @@
                                                         {
                                                             <section>
                                                                 <ul style="list-style-type:none;">
-                                                                    <li><strong>@username </strong>@chatData[i]<small class="pull-right text-muted" id="chatTime">@chatTime[i]</small></li>
+                                                                    <li><span id="moveleft"><strong>@username: </strong></span>@chatData[i]<small class="pull-right text-muted" id="chatTime">@chatTime[i]</small></li>
                                                                 </ul>
                                                             </section>
                                                         }
                                                     </div>
-                                                    <ul id="discussion"></ul>
+                                                    <ul id="discussion"style="list-style-type:none;"></ul>
                                                 </div>
                                             </div>
                                         </div>

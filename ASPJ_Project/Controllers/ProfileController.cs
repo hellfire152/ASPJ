@@ -124,7 +124,7 @@ namespace ASPJ_Project.Controllers
             {
                 if (d.OpenConnection())
                 {
-                    string SearchQuery = "SELECT * FROM dububase.users Where username = @username;";
+                    string SearchQuery = "SELECT * FROM dububase.users Where userName = @username;";
 
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
                     c.Parameters.AddWithValue("@username",username);
@@ -142,8 +142,8 @@ namespace ASPJ_Project.Controllers
                                 lastName = (r["lastName"].ToString()),
                                 phoneNumber = (AES.AesDecrypt(r["phoneNumber"].ToString()))
                             };
-                            users.Add(user);
-                            ViewBag.Dummys = users;
+                            
+                            ViewBag.Dummys = user;
                         }
                     }
                 }
@@ -170,31 +170,32 @@ namespace ASPJ_Project.Controllers
             //{
             //    return RedirectToAction("TransactionHistory", "Profile", new { Username = Username });   
             //}
-
+            
             Database d = Database.CurrentInstance;
 
             try
             {
                 if (d.OpenConnection())
                 {
-                    string SearchQuery = "Select userID From dububase.users where username = @username;";
+                    string SearchQuery = "SELECT * FROM dububase.beantransaction Where userID = @userID Order by dateOfTransaction Desc";
+                    //string SearchQuery = "Select userID From dububase.users where username = @username;";
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-                    c.Parameters.AddWithValue("@username", Username);
-                    int userID = 0;
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            userID = Convert.ToInt32(r["userID"].ToString());
-                        }
-                    }
-
-                    SearchQuery = "SELECT * FROM dububase.beantransaction Where userID = @userID Order by dateOfTransaction Desc";
+                    //c.Parameters.AddWithValue("@username", Username);
+                    //int userID = 0;
+                    //using (MySqlDataReader r = c.ExecuteReader())
+                    //{
+                    //    while (r.Read())
+                    //    {
+                    //        userID = Convert.ToInt32(r["userID"].ToString());
+                    //    }
+                    //}
+                    var uid = Session["userID"].ToString();
+                    
                     c = new MySqlCommand(SearchQuery, d.conn);
                     AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
-                    c.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                    c.Parameters.AddWithValue("@userID", AES.AesEncrypt(uid.ToString()));
                     List<TransactionHistory> transactions = new List<TransactionHistory>();
-                    
+
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
@@ -203,22 +204,22 @@ namespace ASPJ_Project.Controllers
                             {
                                 TransactionNo = AES.AesDecrypt(r["transactionNo"].ToString()),
                                 TransactionDesc = AES.AesDecrypt(r["transactionDesc"].ToString()),
-                                Price = Convert.ToDouble(r["priceOfItem"]),
+                                Price = Convert.ToDouble(r["priceOfBeans"]),
                                 Status = r["status"].ToString(),
                                 BeansBefore = Convert.ToInt32(r["userBeansBefore"]),
                                 BeansAfter = Convert.ToInt32(r["userBeansAfter"]),
-                                DateOfTransaction = (Convert.ToDateTime(r["dateOfTransaction"])).ToString()
-                            }
-                            );
+                                DateOfTransaction = (Convert.ToDateTime(r["dateOfTransaction"])).ToString(),
+                                UserID = AES.AesDecrypt(r["UserID"].ToString())
+                            });
                         }
-                        ViewBag.usertransactions = transactions;
-                        return View();
                     }
+                    ViewBag.Transactions = transactions;
+                    return View();
                 }
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e);
             }
             finally
             {

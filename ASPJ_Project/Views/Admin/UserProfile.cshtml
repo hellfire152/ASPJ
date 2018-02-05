@@ -4,8 +4,6 @@
 @{
     ViewBag.Title = "UserProfile";
     var dummy = ViewBag.Dummy;
-    
-
     var username = Session["uname"];
 }
 <style>
@@ -98,8 +96,8 @@
             <div class="well profile">
                 <div class="col-sm-12">
                     <div class="col-xs-12 col-sm-8">
-                        <h2>@dummy.Username</h2>
-                        <p><strong>Email: </strong> @dummy.Email </p>
+                        <h2>@dummy.userName</h2>
+                        <p><strong>Email: </strong> @dummy.email </p>
                         
                         @if(Session["role"].ToString() == "Admin")
                         {
@@ -128,42 +126,25 @@
                 </div>
 
                 @*bottom text*@
-                @if (Session["role"].ToString() == "Player")
-                {
-                    <div class="col-xs-12 divider text-center">
-                        <div class="col-xs-12 col-sm-6 emphasis">
-                            <h2><strong>Edit </strong></h2>
-                            <p><small>Password</small></p>
-                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span>@Html.ActionLink("ChangePassword", "Profile", new { name = username }, null)</button>
-                        </div>
-                    </div>
-                }
+                
                 @if (Session["role"].ToString() == "Admin")
                 {
                     <div class="col-xs-12 divider text-center">
                         <div class="col-xs-12 col-sm-6 emphasis">
                             <h2><strong>Change </strong></h2>
                             <p><small>Role</small></p>
-                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span>@Html.ActionLink("RoleChange", "Admin", new { name = @username }, null)</button>
+                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span>@Html.ActionLink("RoleChange", "RoleChange", new { username = @dummy.userName }, null)</button>
                         </div>
                     </div>
                 }
 
-                @if (Session["role"].ToString() == "Player")
-                {
-                    <div class="col-xs-12 col-sm-6 emphasis">
-                        <h2><strong>View</strong></h2>
-                        <p><small>Transaction</small></p>
-                        <button class="btn btn-info btn-block"><span class="fa fa-user"></span> @Html.ActionLink("Transactions", "Profile", new { name = @username }, null) </button>
-                    </div>
-                }
-
+                
                 @if (Session["role"].ToString() == "Admin")
                 {
                     <div class="col-xs-12 col-sm-6 emphasis">
-                        <h2><strong>View</strong></h2>
-                        <p><small>Transaction</small></p>
-                        <button class="btn btn-info btn-block"><span class="fa fa-user"></span> @Html.ActionLink("BanUser", "Admin", new { name = @username }, null) </button>
+                        <h2><strong>Ban</strong></h2>
+                        <p><small>User</small></p>
+                        <button class="btn btn-info btn-block"><span class="fa fa-user"></span> @Html.ActionLink("BanUser", "BanUser", "Admin", new { username = @dummy.userName }, null) </button>
                     </div>
                 }
 

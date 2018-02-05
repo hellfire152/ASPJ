@@ -1,13 +1,18 @@
 ﻿
 @{
     ViewBag.Title = "Main";
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
+
 }
 
-<h2>Main</h2>
-@Html.ActionLink("Search for User", "Search", "Admin");
-@Html.ActionLink("Manage Items", "ItemManager", "Admin");
-@Html.ActionLink("Transactions", "Transactions", "Admin");
-@Html.ActionLink("Ban History", "BanHistory", "Admin");
+<h2>Admin</h2>
+@Html.ActionLink("Search for User", "Search", "Admin")
+<br />
+@Html.ActionLink("Manage Items", "ItemManager", "Admin")
+<br />
+@Html.ActionLink("Transactions", "TransactionHistory", "Admin")
+<br />
+@Html.ActionLink("Ban History", "BanHistory", "Admin")
 
 
 <table>

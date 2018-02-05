@@ -11,15 +11,15 @@ namespace ASPJ_Project.Models
 
     public class PremiumItem
         {
-            public string itemName;
-            public string itemType;
-            public string itemID;
-            public string itemImage;
-            public string itemDescription;
-            public int beansPrice;
-            public int beanAmount;
-            public string beanIcon;
-            public double priceOfBeans;
-        }
+        public string itemName { get; set; }
+        public string itemType { get; set; }
+        public string itemID { get; set; }
+        public string itemImage { get; set; }
+        public string itemDescription { get; set; }
+        public int beansPrice { get; set; }
+        public int beanAmount { get; set; }
+        public string beanIcon { get; set; }
+        public double priceOfBeans { get; set; }
+    }
 
 }

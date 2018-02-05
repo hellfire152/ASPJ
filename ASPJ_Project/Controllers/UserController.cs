@@ -355,8 +355,14 @@ namespace ASPJ_Project.Controllers
                         login.password = reader.GetString(reader.GetOrdinal("password"));
                         Phonenumber = reader.GetString(reader.GetOrdinal("phoneNumber"));
                         beansAmount = reader.GetString(reader.GetOrdinal("beansAmount"));
-                        banTill = reader.GetString(reader.GetOrdinal("banTill"));
-                        id = reader.GetString(reader.GetOrdinal("banID"));
+                        if (reader["banTill"] != DBNull.Value)
+                        {
+                            banTill = reader.GetString(reader.GetOrdinal("banTill"));
+                        }
+                        if (reader["banID"] != DBNull.Value)
+                        {
+                            id = reader.GetString(reader.GetOrdinal("banID"));
+                        }
                     }
                     if (isBan == "true")
                     {

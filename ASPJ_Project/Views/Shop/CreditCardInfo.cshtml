@@ -22,7 +22,7 @@
 				<div class="inner">
 					<nav>
 						<ul>
-							<li><a href="/User/UserProfile">@Session["username"]</a></li>
+							<li><a href="/Profile/UserProfile">@Session["username"]</a></li>
                             <li><a>Beans: @Session["userBeans"]</a></li>
                             <li><a href="/Game/Index">Play</a></li>
                             <li><a href="/Shop/Shop">Shop</a></li>
@@ -54,8 +54,9 @@
                                     <h3>CVV: </h3>
                                     @Html.TextBoxFor(model => model.cvv2)
                                     @Html.ValidationMessageFor(model => model.cvv2)
-                                    <h3>Expiry Date: </h3>
+                                    <h3>Expiry Month: </h3>
                                     @Html.TextBoxFor(model => model.expire_month, new { @type = "number" }) 
+                                    <h3>Expiry Year: </h3>
                                     @Html.TextBoxFor(model => model.expire_year, new { @type = "number" }) 
                                     <h3>First Name: </h3>
                                     @Html.TextBoxFor(model => model.first_name)

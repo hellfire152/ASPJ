@@ -4,13 +4,8 @@
 @{
     ViewBag.Title = "Item Edit";
     var item = ViewBag.item;
-    item = new PremiumItem
-    {
-        itemDescription = "meh",
-        itemName = "kill",
-        itemType = "Hat",
-        beansPrice = 2
-    };
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
+string itemType = item.itemType;
 }
 
 <h2>Edit Item</h2>
@@ -29,16 +24,13 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    @*Date TIme?*@
-    @* item id needed? *@
-    @* need a drop down list from item Type<div class="form-group">
-            @Html.LabelFor(m => m.itemType, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.itemType, new { @class = "form-control" })
-            </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.itemID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.itemID, new { @readonly = "readonly", @Value = item.itemID, @class = "form-control" })
         </div>
-    *@
-    @*how to add img?*@
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(m => m.itemName, new { @class = "col-md-2 control-label" })
@@ -57,14 +49,15 @@
     <div class="form-group">
         @Html.LabelFor(m => m.itemType, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.itemType, new { @Value = item.itemType, @class = "form-control" })
+            @Html.TextBoxFor(m => m.itemType,
+            new {@Value = item.itemType, @readonly = "readonly", @class = "form-control" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.beansPrice, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.priceOfBeans, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.beansPrice, new { @Value = item.beansPrice, @class = "form-control" })
+            @Html.TextBoxFor(m => m.priceOfBeans, new { @Value = item.priceOfBeans, @class = "form-control" })
         </div>
     </div>
 

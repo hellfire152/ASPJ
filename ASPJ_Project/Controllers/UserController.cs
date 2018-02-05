@@ -341,15 +341,29 @@ namespace ASPJ_Project.Controllers
                     cmd.ExecuteNonQuery();
 
                     reader = cmd.ExecuteReader();
-
+                    string role = "";
+                    string isBan = "false";
+                    string banTill = "";
+                    string id = "";
                     while (reader.HasRows && reader.Read())
                     {
+                        isBan = reader.GetString(reader.GetOrdinal("isBan"));
+                        role = reader.GetString(reader.GetOrdinal("role"));
                         Uid = reader.GetInt32(reader.GetOrdinal("userID"));
                         Username = reader.GetString(reader.GetOrdinal("userName"));
                         login.email = reader.GetString(reader.GetOrdinal("email"));
                         login.password = reader.GetString(reader.GetOrdinal("password"));
                         Phonenumber = reader.GetString(reader.GetOrdinal("phoneNumber"));
                         beansAmount = reader.GetString(reader.GetOrdinal("beansAmount"));
+                        banTill = reader.GetString(reader.GetOrdinal("banTill"));
+                        id = reader.GetString(reader.GetOrdinal("banID"));
+                    }
+                    if (isBan == "true")
+                    {
+                        TempData["username"] = Username;
+                        TempData["banID"] = id;
+                        TempData["banTill"] = banTill;
+                        return RedirectToAction("Banned", "Unauthorised");
                     }
                     if (reader.HasRows)
                     {
@@ -390,6 +404,7 @@ namespace ASPJ_Project.Controllers
                                     Session["Phonenumber"] = Phonenumber;
                                     Session["username"] = Username;
                                     Session["userBeans"] = beansAmount;
+                                    Session["role"] = role;
                                     return RedirectToAction("SendOTP", "SMS");
 
                                 }

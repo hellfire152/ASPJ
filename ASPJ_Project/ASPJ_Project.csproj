@@ -998,6 +998,7 @@
     <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Forum\Test.cshtml" />
     <Content Include="Views\Admin\RoleChange.cshtml" />
+    <Content Include="Views\Unauthorised\Banned.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

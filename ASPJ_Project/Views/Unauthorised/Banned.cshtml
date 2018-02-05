@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = "~/content/ShopStyle/_Layout";
+    ViewBag.Title = "Banned";
+    var id = TempData["username"];
+    var banReason = TempData["banReason"];
+    var banPeriod = TempData["banPeriod"];
+    var banTill = TempData["banTill"];
+
+    TempData.Remove("banID");
+    TempData.Remove("username");
+    TempData.Remove("banReason");
+    TempData.Remove("banPeriod");
+    TempData.Remove("banTill");
+}
+<h1>Banned from Application</h1>
+
+<h2>Your Account: @id  </h2>
+<br/>
+<p>Your Account has been banned till @banTill</p>
+<p>Banned Period: @banPeriod</p>
+<p>Banned Reason:@banReason</p>

@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Transaction";
+    var Listy = ViewBag.Listy;
+}
+
+<<h2>App Transaction</h2>
+
+
+<table>
+    <tr>
+        <td>Transaction Number:</td>
+        <td>Username</td>
+        <td>Transaction Description:</td>
+        <td>Price:</td>
+        <td>User bean before:</td>
+        <td>User bean after</td>
+        <td>Status:</td>
+        @* Date Time? wtf  *@
+    </tr>
+    @foreach (var dummy in Listy)
+    {
+        <tr>
+            <td>@dummy.TransactionNumber</td>
+            <td>@dummy.Username</td>
+            <td>@dummy.TransactionDesc</td>
+            <td>@dummy.Price</td>
+            <td>@dummy.UserBeanBefore</td>
+            <td>@dummy.UserBeanAfter</td>
+            <td>@dummy.status</td>
+        </tr>
+    }
+</table>

@@ -113,10 +113,46 @@ namespace ASPJ_Project.Controllers
             //    viewdata["user"] = db.users.find(username)
             //    return View();
             //}
-            DummyProfile dummy = new DummyProfile { Role = "Moderator", Username = "name" };
+            //userID,userName,password,firstName,lastName, email, phoneNumber,beansAmount
+            DummyProfile dummy = new DummyProfile { Email="killme@html.com",FirstName="meh", Role = "Moderator", Username = "name" };
 
-            ViewData["role"] = dummy.Role;
-            ViewData["username"] = dummy.Username;
+            ViewBag.dummy = dummy;
+            return View();
+        }
+        public ActionResult TransactionHistory(string Username)
+        {
+            Session["username"] = "";
+            if(Session["username"].ToString() != Username)
+            {
+                return RedirectToAction("TransactionHistory", "Profile", new { Username = Username });   
+            }
+
+            Database d = Database.CurrentInstance;
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string SearchQuery = "SELECT * FROM dububase.beantransaction Order by dateOfTransaction Desc";
+
+                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            //wait
+                        }
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
             return View();
         }
     }

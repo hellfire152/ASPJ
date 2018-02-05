@@ -1,79 +1,81 @@
-﻿.@{
+﻿@model PagedList.IPagedList<ASPJ_Project.Models.Thread>
+@using PagedList.Mvc;
+@{
     ViewBag.Title = "Home";
     Layout = "~/Views/Forum/_ForumLayout.cshtml";
 }
-@model List<ASPJ_Project.Models.Thread>
+
 <style>
-    
     .ForumTable, .TopicsTable {
         outline: auto;
         margin-bottom: 10px;
         background-color: black;
         color: white;
-
     }
+
     .ForumHeader {
         margin-bottom: 10px;
         border-bottom: 1px dashed #808080
     }
+
     .Thread {
         margin-top: 10px;
         padding: 10px 10px 10px 10px;
         border-bottom: 1px solid #808080
     }
+
     .row {
         margin-left: 0;
         margin-right: 0;
     }
-    .ThreadTitle {
-        
-    }
-    .ThreadImage, .ThreadTitle, .ThreadComments {
-        
-    }
-    
-  .container.fluid.ForumTable,.container.fluid.TopicsTable {
-      margin:0;
-  }
 
-  .SearchBox {
-      margin-top: 10px;
-  }
-   h4 {
+    .ThreadTitle {
+    }
+
+    .ThreadImage, .ThreadTitle, .ThreadComments {
+    }
+
+    .container.fluid.ForumTable, .container.fluid.TopicsTable {
+        margin: 0;
+    }
+
+    .SearchBox {
+        margin-top: 10px;
+    }
+
+    h4 {
         word-wrap: break-word;
     }
-
- </style>
+</style>
 
 <div class="container.fluid">
     <div class="row">
         <div class="col-md-3 col-xs-3">
-            <h2>Hot</h2>
         </div>
         <div class="col-md-6 col-xs-3">
 
         </div>
         <div class="col-md-3 col-xs-6 SearchBox">
-            @using (Html.BeginForm())
-            {
-                <p class="right">
-                    Search title: @Html.TextBox("SearchString")
-                    <input type="submit" value="submit"/>
-                </p>
-
-            }
+           @using (Html.BeginForm("Index", "Forum", FormMethod.Get))
+           {
+            <p>
+                Find by title: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Search" />
+            </p>
+           }
         </div>
 
     </div>
     <div class="row">
         <div class="col-md-9 col-xs-9">
-         
+
         </div>
         <div class="col-md-3 col-xs-3">
             @Html.ActionLink("Create New", "CreateThread")
         </div>
     </div>
     <div class="row">
+        <div class="col-md-1"></div>
         <div class="col-md-9 col-xs-12">
             <div class="container.fluid ForumTable">
                 <div class="row ForumHeader">
@@ -85,11 +87,11 @@
                 {
                     <div class="row Thread">
                         <div class="col-md-2 col-xs-3 ThreadImage">
-                            <img src="http://media.comicbook.com/2017/10/the-flash-s4-default-1037366.jpg" alt="..." height="60" width="60">
+                            <img src="~/Content/images/tofu.png" alt="..." height="60" width="60">
                         </div>
                         <div class="col-md-8 col-xs-6 ThreadTitle">
                             <div class="row">
-                                <h4>@Html.ActionLink( thread.title, "GetThread", new { id = thread.id })</h4>
+                                <h4>@Html.ActionLink(thread.title, "GetThread", new { id = thread.id })</h4>
                             </div>
                             <div class="row">
                                 <h5>Posted by @thread.username on <i>@thread.date</i></h5>
@@ -109,38 +111,11 @@
                 }
             </div>
         </div>
-        <div class="col-md-3 col-xs-12">
-            <div class="container.fluid TopicsTable">
-                <div class="row ForumHeader">
-                    <div class="col-md-12 col-sm-12">
-                        <h3>Trending</h3>
-                    </div> 
-                </div>
-                @*@foreach (var popularThread in popularThreads)
-                {
-                    <div class="row Thread">
-                        <div class="col-md-12 col-xs-6 ThreadTitle">
-                            <div class="row">
-                                <h4><a href="/GetThread/@popularThread.Key">@popularThread.Value.Title</a></h4>
-                            </div>
-                            <div class="row">
-                                <h5>Posted by @popularThread.Value.Username <small><i>Posted on @popularThread.Value.Date</i></small></h5>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-xs-3 ThreadComments">
-                            <div class="row">
-                                <h5>5 comments</h5>
-                            </div>
-                            <div class="row">
-                                <div class="votes">
-                                    <h5>@popularThread.Value.Votes votes</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }*@
-            </div>
-        </div>
-    </div>
-    
+
+       </div>
+         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))
 </div>
+

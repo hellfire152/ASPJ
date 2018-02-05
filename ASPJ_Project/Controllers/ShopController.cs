@@ -122,8 +122,8 @@ namespace ASPJ_Project.Controllers
                     }
                     ViewBag.UserItemsData = UserItems;
 
-                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
-                    c3.Parameters.AddWithValue("@userID", userID);
+                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM users where userName = @userName", d.conn);
+                    c3.Parameters.AddWithValue("@userName", Session["uname"].ToString());
                     using (MySqlDataReader r3 = c3.ExecuteReader())
                     {
                         while (r3.Read())
@@ -160,6 +160,8 @@ namespace ASPJ_Project.Controllers
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
             EquippedItem equipment = new EquippedItem();
+            int userBeans = 0;
+            string username = "";
             try
             {
                 if (d.OpenConnection())
@@ -236,6 +238,19 @@ namespace ASPJ_Project.Controllers
                         ViewBag.EquipmentData = equipment;
                         r2.Close();
                     }
+                    MySqlCommand c4 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
+                    c4.Parameters.AddWithValue("@userID", userID);
+                    using (MySqlDataReader r3 = c4.ExecuteReader())
+                    {
+                        while (r3.Read())
+                        {
+                            userBeans = Convert.ToInt32(r3["beansAmount"]);
+                            username = r3["userName"].ToString();
+                        }
+                        r3.Close();
+                    }
+                    Session["userBeans"] = userBeans;
+                    Session["username"] = username;
                 }
             }
 
@@ -443,7 +458,8 @@ namespace ASPJ_Project.Controllers
             Database d = Database.CurrentInstance;
             int userID = Convert.ToInt32(Session["UserID"]);
             List<PremiumItem> beanPurchases = new List<PremiumItem>();
-
+            int userBeans = 0;
+            string username = "";
             try
             {
                 if (d.OpenConnection())
@@ -468,6 +484,20 @@ namespace ASPJ_Project.Controllers
                         r.Close();
                         ViewBag.BeanPurchasesData = beanPurchases;
                     }
+
+                    MySqlCommand c4 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
+                    c4.Parameters.AddWithValue("@userID", userID);
+                    using (MySqlDataReader r3 = c4.ExecuteReader())
+                    {
+                        while (r3.Read())
+                        {
+                            userBeans = Convert.ToInt32(r3["beansAmount"]);
+                            username = r3["userName"].ToString();
+                        }
+                        r3.Close();
+                    }
+                    Session["userBeans"] = userBeans;
+                    Session["username"] = username;
                 }
             }
             catch (MySqlException e)
@@ -493,6 +523,40 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult PurchaseConfirmation()
         {
+            Database d = Database.CurrentInstance;
+            int userBeans = 0;
+            string username = "";
+            int userID = Convert.ToInt32(Session["UserID"]);
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+
+                    MySqlCommand c4 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
+                    c4.Parameters.AddWithValue("@userID", userID);
+                    using (MySqlDataReader r3 = c4.ExecuteReader())
+                    {
+                        while (r3.Read())
+                        {
+                            userBeans = Convert.ToInt32(r3["beansAmount"]);
+                            username = r3["userName"].ToString();
+                        }
+                        r3.Close();
+                    }
+                    Session["userBeans"] = userBeans;
+                    Session["username"] = username;
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
             return View();
         }
 

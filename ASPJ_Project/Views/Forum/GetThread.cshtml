@@ -29,7 +29,7 @@
                     </ul>
                 </div>
                 <div class="panel-heading">
-                    <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg"/>
+                    <img class="[ img-circle pull-left ]" src="~/Content/images/tofu.png"/>
                     <h3>@Model.thread.title</h3>
                     <h5><span>Posted by @Model.thread.username</span> on <span>@Model.thread.date</span> </h5>
                 </div>
@@ -78,12 +78,12 @@
                     }
                 </div>
                 <div class="panel-google-plus-comment">
-                    <img class="img-circle" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="User Image" />
+                    <img class="img-circle" src="~/Content/images/tofu.png" alt="User Image" style="width:50px;height:50px;"/>
                     <div class="panel-google-plus-textarea">
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
-                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control"}, cols = 4, rows = 2 })
+                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control"}})
                             <button type="submit" class="[ btn btn-success ]">Post comment</button>
                             @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
                         }
@@ -101,7 +101,7 @@
                             </ul>
                         </div>
                         <div class="panel-heading">
-                            <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
+                            <img class="[ img-circle pull-left ]" src="~/Content/images/tofu.png" alt="Mouse0270" style="width:50px;height:50px;"/>
                             <h3>@comment.username</h3>
                             <h5><span>Posted</span> on <span>@comment.date</span> </h5>
                         </div>

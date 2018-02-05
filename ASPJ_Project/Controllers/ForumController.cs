@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Diagnostics;
 using CaptchaMvc.Attributes;
+using PagedList;
 
 namespace ASPJ_Project.Controllers
 {
@@ -25,63 +26,30 @@ namespace ASPJ_Project.Controllers
         Database d = Database.CurrentInstance;
 
         // GET: Forum
-        //public ActionResult Index(string currentFilter, string searchString, int? page)
-        //{
-        //    if (searchString != null)
-        //    {
-        //        page = 1;
-        //    }
-        //    else
-        //    {
-        //        searchString = currentFilter;
-        //    }
-        //    ViewBag.CurrentView = searchString;
-        //    return View();
-        //}
-        public string getUsername()
+        public ActionResult Home(string currentFilter, string searchString, int? page)
         {
-            int userID = (int)Session["userID"];
-            var username = "";
-            try
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
-                if (d.OpenConnection())
-                {
-                    string getUserQuery = "select username from users where userID = @userId";
-                    MySqlCommand cu = new MySqlCommand(getUserQuery, d.conn);
-                    cu.Parameters.AddWithValue("@userId", userID);
-                    using (MySqlDataReader r = cu.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            username = r["username"].ToString();
-                        }
-                    }
-                }
+                return RedirectToAction("Login", "User");
             }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-            return username;
-        }
-        public ActionResult Home()
-        {
-            Database d = Database.CurrentInstance;
+            var username = getUsername();
+          
             List<Thread> threads = new List<Thread>();
-
+            int pageSize = 10;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentView = searchString;
             try
             {
                 if (d.OpenConnection())
                 {
-                    string query = 
+                    string query =
                         "SELECT thread.*," +
                         " (select COUNT(*) from comment where threadId = thread.id) AS c_count," +
                         " (SELECT COUNT(*) FROM vote v LEFT JOIN thread t ON (v.id = t.id) WHERE v.threadId = thread.id AND v.upvote = 1) - (SELECT COUNT(*) FROM vote v LEFT JOIN thread t on(v.id = t.id) where v.threadId = thread.id and v.downvote = 1) AS t_votes" +
@@ -104,25 +72,111 @@ namespace ASPJ_Project.Controllers
                                 comments = ((long)r["c_count"])
                             };
                             threads.Add(thread);
+
                         }
+
                     }
-                }
+                }     
             }
             catch (MySqlException e)
             {
                 Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e.Message);
             }
             finally
             {
                 d.CloseConnection();
             }
-            return View(threads);
+           if (!String.IsNullOrEmpty(searchString))
+           {
+              IEnumerable<Thread> threadss = threads.Where(t => t.title.Contains(searchString));
+           }
+
+            int pageNumber = (page ?? 1);
+            return View(threads.ToPagedList(pageNumber, (int)pageSize));
         }
-        [HttpGet]
-        public ActionResult Thread()
+        public string getUsername()
         {
-            return View();
+            
+            string username = Session["uname"].ToString();
+            //var username = "";
+            //try
+            //{
+            //    if (d.OpenConnection())
+            //    {
+            //        string getUserQuery = "select username from users where userID = @userId";
+            //        MySqlCommand cu = new MySqlCommand(getUserQuery, d.conn);
+            //        cu.Parameters.AddWithValue("@userId", userID);
+            //        using (MySqlDataReader r = cu.ExecuteReader())
+            //        {
+            //            while (r.Read())
+            //            {
+            //                username = r["username"].ToString();
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (MySqlException e)
+            //{
+            //    Debug.WriteLine(e.Message);
+            //}
+            //catch (Exception e)
+            //{
+            //    Debug.WriteLine(e.Message);
+            //}
+            //finally
+            //{
+            //    d.CloseConnection();
+            //}
+            return username;
         }
+        //public ActionResult Home()
+        //{
+        //    Database d = Database.CurrentInstance;
+        //    List<Thread> threads = new List<Thread>();
+
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string query = 
+        //                "SELECT thread.*," +
+        //                " (select COUNT(*) from comment where threadId = thread.id) AS c_count," +
+        //                " (SELECT COUNT(*) FROM vote v LEFT JOIN thread t ON (v.id = t.id) WHERE v.threadId = thread.id AND v.upvote = 1) - (SELECT COUNT(*) FROM vote v LEFT JOIN thread t on(v.id = t.id) where v.threadId = thread.id and v.downvote = 1) AS t_votes" +
+        //                " FROM thread" +
+        //                " GROUP BY thread.id" +
+        //                " ORDER BY t_votes DESC, thread.date DESC" +
+        //                " LIMIT 0, 10";
+        //            MySqlCommand c = new MySqlCommand(query, d.conn);
+        //            using (MySqlDataReader r = c.ExecuteReader())
+        //            {
+        //                while (r.Read())
+        //                {
+        //                    Thread thread = new Thread
+        //                    {
+        //                        id = ((int)r["id"]),
+        //                        title = (r["title"].ToString()),
+        //                        content = (r["content"].ToString()),
+        //                        date = ((DateTime)r["date"]),
+        //                        votes = ((long)r["t_votes"]),
+        //                        username = (r["username"].ToString()),
+        //                        comments = ((long)r["c_count"])
+        //                    };
+        //                    threads.Add(thread);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+        //    return View(threads);
+        //}
         [HttpGet]
         public ActionResult CreateThread()
         {
@@ -131,11 +185,11 @@ namespace ASPJ_Project.Controllers
         [HttpGet]
         public ActionResult GetThread(int? id)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
             Database d = Database.CurrentInstance;
             CommentViewModel viewModel = new CommentViewModel();
             List<Comment> comments = new List<Comment>();
@@ -281,20 +335,103 @@ namespace ASPJ_Project.Controllers
             return scan;
 
         }
-        [HttpPost, CaptchaVerify("Captcha is not valid")]
-        [ValidateInput(false)]
-        public async Task<ActionResult> CreateThread(Thread thread)
+
+        [HttpGet]
+        public ActionResult Test()
         {
-            var username = getUsername();
-            if (username == "")
-            {
-                return RedirectToAction("Login", "User");
-            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> Test(Thread thread)
+        {
+
             HttpPostedFileBase UploadedImage = thread.image;
             thread.imageName = "";
             string FolderPath = "";
             try
             {
+              
+                if (ModelState.IsValid)
+                {
+                    if (thread.image != null)
+                    {
+                        var UploadedImageFileName = Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
+                        string ext = Path.GetExtension(UploadedImage.FileName);
+                        bool isValidFile = false;
+                        
+                            String format = "JPEG";
+                            String[] formatTypes = { "tiff", "gif", "jpg", "bmp", "png", "ico", "jpeg" };
+                            if (formatTypes.Contains(format.ToLower()))
+                            {
+                                isValidFile = true;
+                            }
+                            if (!isValidFile)
+                            {
+                                ViewBag.Message = "Invalid File. Please upload an image file ";
+                                return View();
+                            }
+                            else
+                            {
+                                int fileSize = UploadedImage.ContentLength;
+                                if (fileSize > 2097152)
+                                {
+                                    ViewBag.Message = "Maximum file size (2MB) exceeded";
+                                    return View();
+                                }
+                                else
+                                {
+                                    string ImageFileName = Path.GetFileName(UploadedImageFileName) + Path.GetExtension(UploadedImage.FileName);
+                                    FolderPath = Path.Combine(Server.MapPath("~/Content/UploadedImages"), ImageFileName);
+                                    var fileScan = await ScanImage(thread.image.InputStream);
+                                    if (fileScan.secure == false)
+                                    {
+                                        ViewBag.Message = fileScan.message;
+                                        return View();
+                                    }
+                                    thread.imageName = ImageFileName;
+                                    ViewBag.Message = "File uploaded successfully.";
+
+                                }
+
+                            }
+                        }
+                    }
+
+                
+                return View(thread);
+            }
+            catch (System.ArgumentException)
+            {
+                ViewBag.Message = "Invalid File. Please upload an image file ";
+                return View(thread);
+            }
+            catch
+            {
+                return View();
+            }
+
+        }
+        [HttpPost, CaptchaVerify("Captcha is not valid")]
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateThread(Thread thread)
+        {
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+            ViewBag.Message = null;
+            var username = getUsername();
+         
+            HttpPostedFileBase UploadedImage = thread.image;
+            thread.imageName = "";
+            string FolderPath = "";
+            try
+            {
+                //if (ModelState["CaptchaInputText"].ToString() != null || ModelState["CaptchaInputText"].Errors.Count > 0)
+                //{
+                //    ViewBag.CaptchaError = "Invalid Captcha";
+                //}
                 if (ModelState.IsValid)
                 {
                     if (thread.image != null)
@@ -417,11 +554,12 @@ namespace ASPJ_Project.Controllers
         [HttpGet]
         public ActionResult DeleteThread(int? id)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+
             Database d = Database.CurrentInstance;
             Thread thread = new Thread();
             if (id == null)
@@ -503,11 +641,12 @@ namespace ASPJ_Project.Controllers
         public ActionResult DeleteThreadConfirmed(int? id)
         {
             CommentViewModel viewModel = new CommentViewModel();
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+           
             Database d = Database.CurrentInstance;
             Thread thread = new Thread();
             try
@@ -576,11 +715,12 @@ namespace ASPJ_Project.Controllers
         [HttpGet]
         public ActionResult MyThreads()
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+           
             Database d = Database.CurrentInstance;
             List<Thread> threads = new List<Thread>();
             Thread thread = new Thread();
@@ -635,11 +775,12 @@ namespace ASPJ_Project.Controllers
         public ActionResult MyComments()
         {
             //set username cookie
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+           
             Database d = Database.CurrentInstance;
             List<Comment> comments = new List<Comment>();
             Comment comment = new Comment();
@@ -702,11 +843,12 @@ namespace ASPJ_Project.Controllers
         [ValidateInput(false)]
         public ActionResult Comment(int? id, CommentingViewModel comment)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+           
             Thread thread = new Thread();
             Database d = Database.CurrentInstance;
             try
@@ -787,11 +929,12 @@ namespace ASPJ_Project.Controllers
         [HttpGet]
         public ActionResult DeleteComment(int? id)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+          
             CommentViewModel viewModel = new CommentViewModel();
             Database d = Database.CurrentInstance;
             Comment comment = new Comment();
@@ -876,11 +1019,12 @@ namespace ASPJ_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCommentConfirmed(int? id)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+            
             Database d = Database.CurrentInstance;
             Comment comment = new Comment();
             try
@@ -924,7 +1068,7 @@ namespace ASPJ_Project.Controllers
                         queryString = "DELETE FROM dububase.comment where id=@id and username = @username";
                         cmd.CommandText = queryString;
                         cmd.Parameters.AddWithValue("@id", comment.id);
-                        cmd.Parameters.AddWithValue("@id", username);
+                        cmd.Parameters.AddWithValue("@username", username);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -955,11 +1099,12 @@ namespace ASPJ_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upvote(int? id)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+          
             Thread thread = new Thread();
             Vote vote = new Vote();
             Database d = Database.CurrentInstance;
@@ -1065,11 +1210,12 @@ namespace ASPJ_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Downvote(int? id)
         {
-            var username = getUsername();
-            if (username == "")
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
                 return RedirectToAction("Login", "User");
             }
+            var username = getUsername();
+            
             Thread thread = new Thread();
             Vote vote = new Vote();
             Database d = Database.CurrentInstance;

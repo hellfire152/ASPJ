@@ -141,12 +141,12 @@
         background-color: rgb(245, 245, 245);
     }
 
-        .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea {
+        .panel-google-plus > .panel-google-plus-comment >  .panel-google-plus-textarea {
             float: right;
-            width: calc(100% - 56px);
+            width: calc(100% - 56PX);
         }
 
-            .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > form > textarea {
+        .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > form > textarea {
                 width: calc(100% - 130px);
                 max-width: none !important;
                 background-color: rgb(255, 255, 255);
@@ -176,6 +176,7 @@ textarea {
 .panel-google-plus .btn {
     border-radius: 3px;
 }
+
 
 .panel-google-plus .btn-default {
     border: 1px solid rgb(217, 217, 217);

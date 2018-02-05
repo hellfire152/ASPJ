@@ -19,7 +19,7 @@
     <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44370</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CaptchaMvc, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fe46ad421dd3b0e6, processorArchitecture=MSIL">
+      <HintPath>..\packages\CaptchaMvc.Mvc5.1.5.0\lib\net45-full\CaptchaMvc.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -61,6 +64,12 @@
     </Reference>
     <Reference Include="Censored, Version=1.0.5861.9523, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Censored.1.0.2\lib\portable-net40+wp8+wpa81+sl5+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10+Xamarin.Mac20\Censored.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -117,6 +126,12 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.2\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -186,10 +201,15 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO" />
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
@@ -210,9 +230,7 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
     </Reference>
@@ -220,13 +238,15 @@
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Threading" />
     <Reference Include="System.Threading.Tasks" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.3.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
@@ -304,6 +324,15 @@
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
+    <Reference Include="Twilio, Version=5.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.5.9.5\lib\net451\Twilio.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.AspNet.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.AspNet.Common.5.8.3\lib\net45\Twilio.AspNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.AspNet.Mvc, Version=5.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.AspNet.Mvc.5.8.3\lib\net451\Twilio.AspNet.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -337,14 +366,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\ForumContext.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\MvcdbController.cs" />
+    <Compile Include="Controllers\SMSController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\VerifyOTPController.cs" />
     <Compile Include="Controllers\UnauthorisedController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -361,8 +392,11 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\Base32.cs" />
     <Compile Include="Models\BCrypt.cs" />
     <Compile Include="Models\DummyProfile.cs" />
+    <Compile Include="Models\Extended\user.cs" />
+    <Compile Include="Models\Hmac.cs" />
     <Compile Include="Models\KeyGenerator.cs" />
     <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Database.cs" />
@@ -371,15 +405,20 @@
     <Compile Include="Hubs\TofuUniverseHub.cs" />
     <Compile Include="Models\Crypto.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\OTP.cs" />
     <Compile Include="Models\PremiumItem.cs" />
     <Compile Include="Models\PremiumShop.cs" />
     <Compile Include="Models\ProgressData.cs" />
     <Compile Include="Models\ProgressVerifier.cs" />
+    <Compile Include="Models\ResetPassword.cs" />
     <Compile Include="Models\SaveFile.cs" />
     <Compile Include="Models\Upgrade.cs" />
-    <Compile Include="Models\UserConnectionMap.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\ChatModel.cs" />
+    <Compile Include="Models\EquippedItem.cs" />
+    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\ValidityMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
   </ItemGroup>
@@ -553,30 +592,101 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ExtraUI.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\Error\four-oh-four_16.jpg" />
     <Content Include="Content\Images\Items\farm.png" />
     <Content Include="Content\Images\Items\cursor.png" />
+    <Content Include="Content\Images\Items\generator.jpg" />
+    <Content Include="Content\Images\Items\mine.jpg" />
+    <Content Include="Content\Images\Items\spaceship.png" />
     <Content Include="Content\Images\Items\test1.jpg" />
+    <Content Include="Content\Images\Items\wormhole.jpg" />
+    <Content Include="Content\Images\ShopItems\ImageFedora.png" />
+    <Content Include="Content\Images\ShopItems\ImageKarate.png" />
+    <Content Include="Content\Images\ShopItems\ImageMartialArts.png" />
+    <Content Include="Content\Images\ShopItems\ImageSuit.png" />
     <Content Include="Content\Images\tofu-clipart-cute-2.png" />
-    <Content Include="Content\Images\Upgrades\bettercursor.jpg" />
+    <Content Include="Content\Images\tofu.png" />
+    <Content Include="Content\Images\Upgrades\better2cursor.png" />
+    <Content Include="Content\Images\Upgrades\better3cursor.png" />
+    <Content Include="Content\Images\Upgrades\better4cursor.png" />
+    <Content Include="Content\Images\Upgrades\better5cursor.png" />
+    <Content Include="Content\Images\Upgrades\bettercursor.png" />
+    <Content Include="Content\Images\Upgrades\booster.png" />
+    <Content Include="Content\Images\Upgrades\booster2.png" />
+    <Content Include="Content\Images\Upgrades\booster3.png" />
+    <Content Include="Content\Images\Upgrades\booster4.png" />
+    <Content Include="Content\Images\Upgrades\booster5.png" />
+    <Content Include="Content\Images\Upgrades\ftl.png" />
+    <Content Include="Content\Images\Upgrades\ftl2.png" />
+    <Content Include="Content\Images\Upgrades\ftl3.png" />
+    <Content Include="Content\Images\Upgrades\ftl4.png" />
+    <Content Include="Content\Images\Upgrades\ftl5.png" />
+    <Content Include="Content\Images\Upgrades\hoe.png" />
+    <Content Include="Content\Images\Upgrades\hoe2.png" />
+    <Content Include="Content\Images\Upgrades\hoe3.png" />
+    <Content Include="Content\Images\Upgrades\hoe4.png" />
+    <Content Include="Content\Images\Upgrades\hoe5.png" />
+    <Content Include="Content\Images\Upgrades\pickaxe.png" />
+    <Content Include="Content\Images\Upgrades\pickaxe2.png" />
+    <Content Include="Content\Images\Upgrades\pickaxe3.png" />
+    <Content Include="Content\Images\Upgrades\pickaxe4.png" />
+    <Content Include="Content\Images\Upgrades\pickaxe5.png" />
     <Content Include="Content\Images\Upgrades\test2.jpg" />
+    <Content Include="Content\Images\Upgrades\turbine.png" />
+    <Content Include="Content\Images\Upgrades\turbine2.png" />
+    <Content Include="Content\Images\Upgrades\turbine3.png" />
+    <Content Include="Content\Images\Upgrades\turbine4.png" />
+    <Content Include="Content\Images\Upgrades\turbine5.png" />
     <Content Include="Content\Images\woodback.jpg" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\ShopStyle\assets\css\jquery-ui.css" />
+    <Content Include="Content\ShopStyle\assets\js\jquery-ui.js" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="css\Forum.css" />
-    <Content Include="Content\PremiumShop\assets\css\font-awesome.min.css" />
-    <Content Include="Content\PremiumShop\assets\css\ie8.css" />
-    <Content Include="Content\PremiumShop\assets\css\ie9.css" />
-    <Content Include="Content\PremiumShop\assets\css\images\intro.svg" />
-    <Content Include="Content\PremiumShop\assets\css\main.css" />
-    <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\PremiumShop\images\pic01.jpg" />
-    <Content Include="Content\PremiumShop\images\pic02.jpg" />
-    <Content Include="Content\PremiumShop\images\pic03.jpg" />
-    <Content Include="Content\PremiumShop\images\pic04.jpg" />
-    <Content Include="Content\PremiumShop\images\pic05.jpg" />
-    <Content Include="Content\PremiumShop\images\pic06.jpg" />
     <Content Include="Content\ShopStyle\assets\css\font-awesome.min.css" />
     <Content Include="Content\ShopStyle\assets\css\ie8.css" />
     <Content Include="Content\ShopStyle\assets\css\ie9.css" />
@@ -599,18 +709,8 @@
     <Content Include="Content\ShopStyle\images\pic05.jpg" />
     <Content Include="Content\ShopStyle\images\pic06.jpg" />
     <None Include="Content\ShopStyle\_Layout.cshtml" />
+    <Content Include="css\jquery-ui.css" />
     <Content Include="css\Thread.css" />
-    <Content Include="docs\MySqlCommand.xml" />
-    <Content Include="docs\MySqlCommandBuilder.xml" />
-    <Content Include="docs\MySqlConnection.xml" />
-    <Content Include="docs\MySqlConnectionStringBuilder.xml" />
-    <Content Include="docs\MySqlDataAdapter.xml" />
-    <Content Include="docs\MySqlDataReader.xml" />
-    <Content Include="docs\MySqlException.xml" />
-    <Content Include="docs\MySqlHelper.xml" />
-    <Content Include="docs\MySqlParameter.xml" />
-    <Content Include="docs\MySqlParameterCollection.xml" />
-    <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="CSS\Chat.css" />
     <Content Include="CSS\ChatMvcDb.css" />
     <Content Include="CSS\Friends.css" />
@@ -621,6 +721,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Oops.html" />
     <Content Include="Other\Censored_Words.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -673,39 +774,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App_Data\Saves\1.tusav" />
-    <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\PremiumShop\assets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\PremiumShop\assets\fonts\FontAwesome.otf" />
-    <Content Include="Content\PremiumShop\assets\sass\ie8.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\ie9.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\main.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\base\_page.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\base\_typography.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_box.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_button.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_features.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_form.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_icon.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_image.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_list.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_section.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_split.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_spotlights.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_table.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\components\_wrapper.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\layout\_footer.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\layout\_header.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\layout\_intro.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\layout\_sidebar.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\layout\_wrapper.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\libs\_functions.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\libs\_mixins.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\libs\_skel.scss" />
-    <Content Include="Content\PremiumShop\assets\sass\libs\_vars.scss" />
     <Content Include="bin\ApplicationInsights.config" />
     <Content Include="bin\ASPJ_Project.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
@@ -723,11 +792,20 @@
     <None Include="App_Data\Saves\test.tusav" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\freelancer.js" />
+    <Content Include="Scripts\freelancer.min.js" />
+    <Content Include="Scripts\jqBootstrapValidation.js" />
+    <Content Include="Scripts\jqBootstrapValidation.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.easing.min.js" />
+    <Content Include="Scripts\jquery.magnific-popup.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -743,10 +821,17 @@
     <Content Include="Scripts\PremiumShop\util.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TofuUniverse\big.min.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-items.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe-upgrades.js" />
     <Content Include="Scripts\TofuUniverse\tofu-universe.js" />
+    <Content Include="Scripts\TofuUniverse\UIScripts.js" />
+    <Content Include="Views\Shop\Shop.cshtml" />
+    <Content Include="Views\User\ForgotPassword.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\User\UserProfile.cshtml" />
+    <Content Include="Views\User\UsersHome.cshtml" />
+    <Content Include="Views\User\VerifyAccount.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -762,15 +847,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Game\_Layout.cshtml" />
     <Content Include="Views\Game\_ViewStart.cshtml" />
     <Content Include="Views\Forum\Home.cshtml" />
     <Content Include="Views\Forum\_ForumLayout.cshtml" />
     <Content Include="Views\Forum\Thread.cshtml" />
-    <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\CreditCardInfo.cshtml" />
@@ -784,9 +865,6 @@
     <Content Include="Views\Shop\BeansPurchase.cshtml" />
     <Content Include="Views\Shop\PurchaseConfirmation.cshtml" />
     <Content Include="Views\Shop\_Layout.cshtml" />
-    <Content Include="Views\Chat\Chat.cshtml" />
-    <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Home\TestPage.cshtml" />
     <Content Include="Views\Mvcdb\Chat.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Shop\FailureView.cshtml" />
@@ -799,10 +877,15 @@
     <Content Include="Views\Profile\UserProfile.cshtml" />
     <Content Include="Views\Unauthorised\Index.cshtml" />
     <Content Include="Views\Admin\BanUser.cshtml" />
+    <Content Include="Views\Shop\Inventory.cshtml" />
+    <Content Include="Views\SMS\SendOTP.cshtml" />
+    <Content Include="Views\User\VerifiedAccount.cshtml" />
+    <Content Include="Views\User\Registration.cshtml" />
+    <Content Include="Views\VerifyOTP\VerifyOTP.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />
-    <Folder Include="Views\Captcha\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -820,7 +903,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -843,7 +925,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55183</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55183/</IISUrl>
+          <IISUrl>https://localhost:44370/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -27,11 +27,13 @@ namespace ASPJ_Project.Models
 
     public class Comment
     {
+
         [Key]
         public int id { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
+        //[Required(AllowEmptyStrings = false)]
         [DisplayName("Content")]
+        //[StringLength(500, MinimumLength = 30, ErrorMessage = "Content cannot be longer than 500 characters and less than 30 characters")]
         public string content { get; set; }
 
         [Required]
@@ -45,7 +47,7 @@ namespace ASPJ_Project.Models
         [Required]
         [ForeignKey("Thread")]
         public int threadId { get; set; }
-        public virtual Thread Thread { get; set;  }
+        public Thread thread { get; set;  }
 
     }
     public class Thread
@@ -55,14 +57,15 @@ namespace ASPJ_Project.Models
 
         [Required(AllowEmptyStrings=false, ErrorMessage = "Title required!")]
         [DisplayName("Title")]
+        [StringLength(50, ErrorMessage = "Title cannot be longer than 50 characters")]
         public string title { get; set; }
 
-        [Required]
         [DisplayName("Date")]
         public DateTime date { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Content required!")]
         [DisplayName("Content")]
+        [StringLength(1000, ErrorMessage = "Content cannot be longer than 1000 characters")]
         public string content { get; set; }
 
         [NotMapped]
@@ -71,24 +74,37 @@ namespace ASPJ_Project.Models
 
         public String imageName { get; set; }
 
-        [Required]
-        [DisplayName("Votes")]
-        public int votes { get; set; }
+        public bool isYou { get; set; }
 
-        [Required]
+        [DisplayName("Votes")]
+        public long votes { get; set; }
+
         [DisplayName("Username")]
         public string username { get; set; }
 
-        public virtual List<Comment> comments { get; set; }
+        public long comments { get; set; }
+
+        public Boolean upVoted { get; set; }
+        public Boolean downVoted { get; set; }
+
+        public string captcha { get; set; }
+
         //public virtual ForumUser ForumUser { get; set; }
     }
-    
+
     public class Vote
     {
         [Key]
         public int id { get; set;  }
-        public Thread thread { get; set; }
-        public String user { get; set; }
+
+        public Boolean upvote { get; set; }
+        public Boolean downvote { get; set; }
+        public int userId { get; set; }
+        [Required]
+        public int threadId { get; set; }
+        [Required]
+        public String username { get; set; }
+
     }
 
     public class FileScan

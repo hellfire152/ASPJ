@@ -13,15 +13,17 @@ using System.Globalization;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace ASPJ_Project.Controllers
 {
     public class ShopController : Controller
     {
         private PayPal.Api.Payment payment;
-        // GET: Shop
 
-    public static class CultureHelper {
+        public static class CultureHelper
+        {
 
             public static Dictionary<string, string> CountryList()
             {
@@ -46,24 +48,32 @@ namespace ASPJ_Project.Controllers
             }
         }
 
-    public ActionResult Shop()
+        public ActionResult Shop()
         {
+            //Initialize Database Instance
             Database d = Database.CurrentInstance;
 
+            //Initialize UserID
+            int userID = Convert.ToInt32(Session["userID"].ToString());
+
+            //Create list for storing HatItems, OutfitItems, UserItems to pass to shop via ViewBag
             List<PremiumItem> HatItems = new List<PremiumItem>();
             List<PremiumItem> OutfitItems = new List<PremiumItem>();
-
+            List<PremiumItem> UserItems = new List<PremiumItem>();
+            int userBeans = 0;
+            string username = "";
             try
             {
                 if (d.OpenConnection())
                 {
-                    string hatQuery = "SELECT * FROM premiumitem";
-                    MySqlCommand c = new MySqlCommand(hatQuery, d.conn);
+                    string itemQuery = "SELECT * FROM premiumitem";
+                    MySqlCommand c = new MySqlCommand(itemQuery, d.conn);
 
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
+                            //If ItemType is Hat pass it into HatItems List
                             if (r["itemType"].ToString().Equals("Hat"))
                             {
                                 PremiumItem HatItem = new PremiumItem
@@ -71,12 +81,13 @@ namespace ASPJ_Project.Controllers
                                     itemID = (r["itemID"].ToString()),
                                     itemName = (r["itemName"].ToString()),
                                     itemDescription = (r["itemDescription"].ToString()),
-                                    beansPrice = (double.Parse(r["beansPrice"].ToString()))
+                                    beansPrice = Convert.ToInt32(r["beansPrice"])
                                 };
                                 HatItems.Add(HatItem);
                                 ViewBag.HatItemData = HatItems;
-                                Debug.WriteLine(HatItems[0]);
                             }
+
+                            //If ItemType is Outfit pass it into OutfitItems List
                             else if (r["itemType"].ToString().Equals("Outfit"))
                             {
                                 PremiumItem OutfitItem = new PremiumItem
@@ -84,66 +95,407 @@ namespace ASPJ_Project.Controllers
                                     itemID = (r["itemID"].ToString()),
                                     itemName = (r["itemName"].ToString()),
                                     itemDescription = (r["itemDescription"].ToString()),
-                                    beansPrice = (double.Parse(r["beansPrice"].ToString()))
+                                    beansPrice = Convert.ToInt32(r["beansPrice"])
                                 };
 
                                 OutfitItems.Add(OutfitItem);
                                 ViewBag.OutfitItemData = OutfitItems;
                             }
                         }
+                        r.Close();
                     }
-                }            
+
+                    MySqlCommand c2 = new MySqlCommand("SELECT * FROM inventory WHERE userID = @userID", d.conn);
+                    c2.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r2 = c2.ExecuteReader())
+                    {
+                        while (r2.Read())
+                        {
+                            PremiumItem UserItem = new PremiumItem
+                            {
+                                itemID = (r2["itemID"].ToString()),
+                            };
+                            UserItems.Add(UserItem);
+                        }
+                        r2.Close();
+                    }
+                    ViewBag.UserItemsData = UserItems;
+
+                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
+                    c3.Parameters.AddWithValue("@userID", userID);
+                    using (MySqlDataReader r3 = c3.ExecuteReader())
+                    {
+                        while (r3.Read())
+                        {
+                            userBeans = Convert.ToInt32(r3["beansAmount"]);
+                            username = r3["userName"].ToString();
+                        }
+                        r3.Close();
+                    }
+                    Session["userBeans"] = userBeans;
+                    Session["username"] = username;
+                }
             }
 
             catch (MySqlException e)
             {
-                Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e);
+                return RedirectToAction("FailureView");
             }
             finally
             {
                 d.CloseConnection();
             }
 
-            var currentUser = new PremiumShop.User { username = "jhn905", beansAmount = 400 };
+            return View();
+        }
+
+        public ActionResult Inventory()
+        {
+            Database d = Database.CurrentInstance;
+
+            List<int> itemIDs = new List<int>();
+            int userID = Convert.ToInt32(Session["UserID"]);
+            List<PremiumItem> HatItems = new List<PremiumItem>();
+            List<PremiumItem> OutfitItems = new List<PremiumItem>();
+            EquippedItem equipment = new EquippedItem();
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string inventoryQuery = "SELECT * FROM inventory where userID = @userID";
+                    MySqlCommand c = new MySqlCommand(inventoryQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            itemIDs.Add(Convert.ToInt32(r["itemID"]));
+                        }
+                        r.Close();
+                    }
+
+                    for (int i = 0; i < itemIDs.Count(); i++)
+                    {
+                        MySqlCommand c2 = new MySqlCommand("select * from premiumitem where itemID = @itemID", d.conn);
+                        c2.Parameters.AddWithValue("@itemID", itemIDs[i]);
+                        MySqlDataReader reader = c2.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            if (reader["itemType"].ToString() == "Hat")
+                            {
+                                PremiumItem HatItem = new PremiumItem
+                                {
+                                    itemName = (reader["itemName"].ToString()),
+                                    itemDescription = (reader["itemDescription"].ToString()),
+                                    itemID = (reader["itemID"].ToString())
+                                };
+                                HatItems.Add(HatItem);
+                            }
+
+                            if (reader["itemType"].ToString() == "Outfit")
+                            {
+                                PremiumItem OutfitItem = new PremiumItem
+                                {
+                                    itemName = (reader["itemName"].ToString()),
+                                    itemDescription = (reader["itemDescription"].ToString()),
+                                    itemID = (reader["itemID"].ToString())
+                                };
+                                OutfitItems.Add(OutfitItem);
+                            }
+                        }
+                        reader.Close();
+                    }
+                    ViewBag.OwnedOutfitItemData = OutfitItems;
+                    ViewBag.OwnedHatItemData = HatItems;
+
+                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM equippeditems WHERE userID = @userID", d.conn);
+                    c3.Parameters.AddWithValue("@userID", userID);
+
+                    using (MySqlDataReader r2 = c3.ExecuteReader())
+                    {
+
+                        while (r2.Read())
+                        {
+                            if (r2["userID"] != DBNull.Value)
+                            {
+                                if (r2["equippedHat"] != DBNull.Value)
+                                {
+                                    equipment.equippedHat = Convert.ToInt32(r2["equippedHat"]);
+                                }
+                                if (r2["equippedOutfit"] != DBNull.Value)
+                                {
+                                    equipment.equippedOutfit = Convert.ToInt32(r2["equippedOutfit"]);
+                                }
+                            }
+                            else break;
+                        }
+
+                        ViewBag.EquipmentData = equipment;
+                        r2.Close();
+                    }
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+                return RedirectToAction("FailureView");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
 
             return View();
         }
 
-        public void ItemPurchase()
+        public ActionResult EquipItem(string equipitemID, string equipitemType)
         {
-            //methods related to purchasing the item with beans
-            //add item ID to user's database to display that they have the item
+
+            Database d = Database.CurrentInstance;
+            int userID = Convert.ToInt32(Session["UserID"]);
+            int itemID = Convert.ToInt32(equipitemID);
+            Debug.WriteLine(equipitemID + "equipitemID");
+            Debug.WriteLine(itemID + "ITEMID");
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    //Query on whether EquipItemTable is existing or not
+                    string tableQuery = "SELECT * FROM equippeditems WHERE userID = @userID"; 
+                    MySqlCommand c = new MySqlCommand(tableQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+                    bool EquipTableCreated = false;
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        if (r.Read())
+                        {
+                            EquipTableCreated = true;
+                            Debug.WriteLine("Table alr created");
+                        }
+                        else
+                        {
+                            EquipTableCreated = false;
+                            Debug.WriteLine("Table not created");
+                        }
+                        r.Close();
+                    }
+
+                    if (EquipTableCreated == true)
+                    {
+                        if (equipitemType == "Hat")
+                        {
+                            Debug.WriteLine("Hat Item Table Created");
+
+                            string updateQuery = "UPDATE equippeditems SET equippedHat = @hatID WHERE userID = @userID";
+                            MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                            c2.Parameters.AddWithValue("@hatID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+
+                        else if (equipitemType == "Outfit")
+                        {
+                            Debug.WriteLine("Outfit Item Table Created");
+
+                            string updateQuery = "UPDATE equippeditems SET equippedOutfit = @outfitID WHERE userID = @userID";
+                            MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                            c2.Parameters.AddWithValue("@outfitID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+                    }
+
+                    else if (EquipTableCreated == false)
+                    {
+                        if (equipitemType == "Hat")
+                        {
+                            Debug.WriteLine("Hat Item Table not Created");
+
+                            string insertQuery = "INSERT INTO equippeditems(userID, equippedHat) VALUES (@userID, @hatID)";
+                            MySqlCommand c2 = new MySqlCommand(insertQuery, d.conn);
+                            c2.Parameters.AddWithValue("@hatID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+
+                        else if (equipitemType == "Outfit")
+                        {
+                            Debug.WriteLine("Outfit Item Table not Created");
+                            string insertQuery = "INSERT INTO equippeditems(userID, equippedOutfit) VALUES (@userID, @outfitID)";
+                            MySqlCommand c2 = new MySqlCommand(insertQuery, d.conn);
+                            c2.Parameters.AddWithValue("@outfitID", itemID);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+            return RedirectToAction("Inventory");
+
         }
-        public void TransactionLog()
+
+        public ActionResult ItemPurchase(string beansPrice, string premiumItemName, string premiumItemID)
         {
-            //transaction logging maybe?
+
+            Database d = Database.CurrentInstance;
+            int userID = Convert.ToInt32(Session["UserID"]);
+            int itemID = Convert.ToInt32(premiumItemID);
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string userQuery = "SELECT * FROM users WHERE userID = @userID";
+                    MySqlCommand c = new MySqlCommand(userQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+                    int beansBefore = 0;
+                    int beansAfter = 0;
+                    bool successfulPurchase = false;
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            if (Convert.ToInt32(r["userID"]) == userID)
+                            {
+                                beansBefore = Convert.ToInt32(r["beansAmount"].ToString());
+                                beansAfter = beansBefore - Convert.ToInt32(beansPrice);
+                                if (beansAfter < 0)
+                                {
+                                    successfulPurchase = false;
+                                }
+
+                                else if (beansAfter > 0)
+                                {
+                                    successfulPurchase = true;
+                                }
+                            }
+                        }
+                        r.Close();
+
+                        if (successfulPurchase == true)
+                        {
+                            AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+                            string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
+                            MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+                            c2.Parameters.AddWithValue("@beansAfter", beansAfter);
+                            c2.Parameters.AddWithValue("@userID", userID);
+                            c2.ExecuteNonQuery();
+
+                            string addItemTransQuery = "INSERT INTO itemtransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @userID, @dateOfTransaction)";
+                            string transDesc = "Purchase of " + premiumItemName + " for " + beansPrice + " beans.";
+                            MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+                            c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                            c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                            c3.Parameters.AddWithValue("@price", beansPrice);
+                            c3.Parameters.AddWithValue("@beansBefore", beansBefore);
+                            c3.Parameters.AddWithValue("@beansAfter", beansAfter);
+                            c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                            c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                        
+                            c3.ExecuteNonQuery();
+
+                            string addInventoryQuery = "INSERT INTO inventory VALUES (@userID, @itemID)";
+                            MySqlCommand c4 = new MySqlCommand(addInventoryQuery, d.conn);
+                            c4.Parameters.AddWithValue("@userID", userID);
+                            c4.Parameters.AddWithValue("@itemID", itemID);
+                            c4.ExecuteNonQuery();
+                        }
+
+                        else
+                        {
+                            return RedirectToAction("FailureView");
+                        }
+                    }
+                }
+            }
+
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
+            return RedirectToAction("Shop");
+
         }
+
         public ActionResult BeansPurchase()
         {
+            Database d = Database.CurrentInstance;
+            int userID = Convert.ToInt32(Session["UserID"]);
+            List<PremiumItem> beanPurchases = new List<PremiumItem>();
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string purchasesQuery = "SELECT * FROM beanpurchases";
+                    MySqlCommand c = new MySqlCommand(purchasesQuery, d.conn);
+
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            PremiumItem purchase = new PremiumItem
+                            {
+                                itemName = (r["beanName"].ToString()),
+                                priceOfBeans = Convert.ToDouble(r["beanPrice"]),
+                                beanAmount = Convert.ToInt32(r["beanAmount"]),
+                                beanIcon = (r["beanIcon"].ToString())
+                            };
+                            beanPurchases.Add(purchase);
+                            Debug.WriteLine(purchase.priceOfBeans);
+                        }
+                        r.Close();
+                        ViewBag.BeanPurchasesData = beanPurchases;
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+
             return View();
         }
 
-        public ActionResult PurchaseConfirmation(string username, int beansAmount, double price, string beansName)
+        public ActionResult PurchaseSession(int beansAmount, double price, string beansName)
         {
-            ViewData["username"] = username;
-            ViewData["beansName"] = beansName;
-            ViewData["beansAmount"] = beansAmount;
-            ViewData["price"] = price;
-
-            PremiumShop.BeanAndPrice beansPrice = new PremiumShop.BeanAndPrice
-            {
-                beans = beansAmount,
-                price = price,
-                beansName = beansName
-            };
-
-            Session["username"] = username;
             Session["beansName"] = beansName;
             Session["beansAmount"] = beansAmount;
             Session["price"] = price;
 
+            return RedirectToAction("PurchaseConfirmation");
+        }
+
+        public ActionResult PurchaseConfirmation()
+        {
             return View();
         }
+
         public ActionResult CreditCardInfo()
         {
             var list = new SelectList(CultureHelper.CountryList(), "Key", "Value");
@@ -308,7 +660,7 @@ namespace ASPJ_Project.Controllers
                     //to authenticate the payment to facilitator account.
                     //An access token could be an alphanumeric string
 
-                    APIContext apiContext = Configuration.GetAPIContext();
+                    APIContext apiContext = Models.Configuration.GetAPIContext();
 
                     //Create is a Payment class function which actually sends the payment details
                     //to the paypal API for the payment. The function is passed with the ApiContext
@@ -325,6 +677,7 @@ namespace ASPJ_Project.Controllers
                 }
                 catch (PayPal.PayPalException ex)
                 {
+                    Debug.WriteLine(ex);
                     return View("FailureView");
                 }
 
@@ -353,7 +706,7 @@ namespace ASPJ_Project.Controllers
             {
                 name = beansName + " (" + beansAmount + " Beans)",
                 currency = "SGD",
-                price =  price,
+                price = price,
                 quantity = "1",
                 sku = KeyGenerator.GetUniqueKey(20)
             });
@@ -408,8 +761,18 @@ namespace ASPJ_Project.Controllers
         [ValidateInput(false)]
         public ActionResult PaymentWithPaypal(Models.CreditCard currentCard)
         {
+            Database d = Database.CurrentInstance;
+            AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+            int userID = Convert.ToInt32(Session["UserID"]);
+            string price = string.Empty;
+            price = Convert.ToString(Session["price"]);
+            string beansName = string.Empty;
+            beansName = Convert.ToString(Session["beansName"]);
+            string beansAmount = string.Empty;
+            beansAmount = Convert.ToString(Session["beansAmount"]);
+
             //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext();
+            APIContext apiContext = Models.Configuration.GetAPIContext();
 
             //generating sessionID
             Session["ShopSessionID1"] = KeyGenerator.GetUniqueKey(20);
@@ -479,15 +842,105 @@ namespace ASPJ_Project.Controllers
 
                     if (executedPayment.state.ToLower() != "approved")
                     {
-                        return View("FailureView");
+                        string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
+                        string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                        c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                        c3.Parameters.AddWithValue("@status", "Failure");
+                        c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                        return RedirectToAction("FailureView");
                     }
                 }
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
+                string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
+                string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                c3.Parameters.AddWithValue("@status", "Failure");
+                c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
                 return View("FailureView");
             }
 
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string userQuery = "SELECT * FROM users WHERE userID = @userID";
+                    MySqlCommand c = new MySqlCommand(userQuery, d.conn);
+                    c.Parameters.AddWithValue("@userID", userID);
+                    int beansBefore = 0;
+                    int beansAfter = 0;
+
+                    Debug.WriteLine("SCARY");
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            if (Convert.ToInt32(r["userID"]) == userID)
+                            {
+                                beansBefore = Convert.ToInt32(r["beansAmount"].ToString());
+                                beansAfter = beansBefore + Convert.ToInt32(beansAmount);
+                            }
+                        }
+                        r.Close();
+
+                        string updateQuery = "UPDATE users SET beansAmount = @beansAfter WHERE userID = @userID";
+                        MySqlCommand c2 = new MySqlCommand(updateQuery, d.conn);
+
+                        c2.Parameters.AddWithValue("@beansAfter", beansAfter);
+                        c2.Parameters.AddWithValue("@userID", userID);
+                        c2.ExecuteNonQuery();
+                        Debug.WriteLine(beansBefore + " " + beansAfter);
+
+                        string addItemTransQuery = "INSERT INTO beantransaction VALUES (@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @status, @dateOfTransaction, @userID)";
+                        string transDesc = "Purchase " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                        MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                        c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                        c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                        c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                        c3.Parameters.AddWithValue("@beansBefore", beansBefore);
+                        c3.Parameters.AddWithValue("@beansAfter", beansAfter);
+                        c3.Parameters.AddWithValue("@status", "Successful");
+                        c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                        c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+
+                        c3.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+
+                string addItemTransQuery = "INSERT INTO beantransaction(transactionNo, transactionDesc, priceOfBeans, status, dateOfTransaction, userID) VALUES (@transactionNo, @transactionDesc, @price, @status, @dateOfTransaction, @userID)";
+                string transDesc = "Failed Purchase of " + beansName + " (" + beansAmount + " Beans) for $" + price;
+                MySqlCommand c3 = new MySqlCommand(addItemTransQuery, d.conn);
+
+                c3.Parameters.AddWithValue("@transactionNo", AES.AesEncrypt(KeyGenerator.GetUniqueKey(20)));
+                c3.Parameters.AddWithValue("@transactionDesc", AES.AesEncrypt(transDesc));
+                c3.Parameters.AddWithValue("@price", Convert.ToDouble(price));
+                c3.Parameters.AddWithValue("@status", "Failure");
+                c3.Parameters.AddWithValue("@dateOfTransaction", DateTime.Now);
+                c3.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+
+                return RedirectToAction("FailureView");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
             return RedirectToAction("SuccessView");
         }
 
@@ -505,7 +958,6 @@ namespace ASPJ_Project.Controllers
                 bool doSessionsMatch = BCrypt.CheckSession(sessionID1, sessionID2);
                 if (doSessionsMatch == true)
                 {
-                    //Add Beans to UserAccount
                     Session["ShopSessionID1"] = null;
                     Session["ShopSessionID2"] = null;
                     return View();

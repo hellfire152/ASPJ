@@ -1,5 +1,12 @@
 ﻿//This file contains the main game code of Tofu Universe
-
+//tofu icon used pretty much everywhere
+function tofuIcon() {
+    return $("<img>", {
+        "src": "\\Content\\Images\\tofu.png",
+        "width": "15px",
+        "height": "15px"
+    });
+}
 //extending jquery for my disableSelection function
 jQuery.fn.extend({
     disableSelection: function () {
@@ -141,7 +148,7 @@ function recalculateTotalTps() {
         tps += item.tps * item.owned;
     });
 
-    $("#tps").text(round(tps, 1));
+    $("#tps").text(formatTofuCount(tps));
     _tofuUniverse.player.tps = tps;
 }
 
@@ -182,7 +189,7 @@ function purchase(purchaseType, purchaseId, fromSave) {
                 $("#item-owned-" + purchaseId).text(p.items[purchaseId].owned);
                 break;
             } else {
-                console.log("Not enough Tofu!");
+                showNotification("Not enough Tofu!", "Go and earn more tofu!");
                 break;
             }
         case "upgrade":
@@ -198,10 +205,8 @@ function purchase(purchaseType, purchaseId, fromSave) {
                     $("#shop-upgrade-" + purchaseId).remove();
                 }
             } else {
-                console.log("Not enough tofu (upgrade)!");
+                showNotification("Not enough Tofu!", "Go and earn more tofu!");
             }
-            break;
-        case "beanUpgrade":
             break;
     }
     recalculateTotalTps();
@@ -215,7 +220,8 @@ function setText(itemId) {
     let i = _tofuUniverse.player.items[itemId];
     i.cost = Math.round(i.baseCost * Math.pow(1.15, i.owned));
     //update display
-    $("#shop-item-cost-" + itemId).text(round(i.cost, 0) + " Tofu");
+    $("#shop-item-cost-" + itemId).text(formatTofuCount(i.cost));
+    $("#shop-item-cost-" + itemId).append(tofuIcon());
     $("#shop-item-name-" + itemId).text(i.name);
     $("#shop-item-description" + itemId).text(i.description);
 }
@@ -242,10 +248,52 @@ function gameloop(time) {
     _tofuUniverse.player.tCount += s * _tofuUniverse.player.tps;
 
     //updating tofu count
-    $("#tofu-count").text(round(_tofuUniverse.player.tCount, 0));
+    $("#tofu-count").text(formatTofuCount(_tofuUniverse.player.tCount));
 
     //continue game loop
     requestAnimationFrame(gameloop);
+}
+
+//takes in ugly long numbers and writes them in terms of the highest fitting 'illion'
+function formatTofuCount(tCount, short) {
+    tCount = round(tCount, 1);
+    let tString = "" + tCount;
+    let tArr = tString.split('.');
+    tString = tArr[0];
+    tDecimal = (tArr[1]) ? '.' + tArr[1] : '';
+    let significantsCount = tString.length % 3;
+    if (tString.length <= 3) {
+        return tString + tDecimal;
+    } else if (tString.length <= 6) {
+        if (significantsCount == 0) significantsCount = 3;
+        let sigs = tString.substr(0, significantsCount);
+        return sigs + ',' + tString.substr(significantsCount);
+    } else {
+        let sig = tString.substr(0, significantsCount) + '.' + tString.substr(significantsCount, 2) + ' ';
+        switch (Math.floor(tString.length / 3)) {
+            case 2: {
+                sig += (short == true) ? "m" : "million";
+                break;
+            }
+            case 3: {
+                sig += (short == true) ? "b" : "billion";
+                break;
+            }
+            case 4: {
+                sig += (short == true) ? "t" : "trillion";
+                break;
+            }
+            case 5: {
+                sig += (short == true) ? "q" : "quadrillion";
+                break;
+            }
+            default: {
+                sig = "Just collapse into a singularity already..."
+                break;
+            }
+        }
+        return sig;
+    }
 }
 
 //function to help me with rounding decimals
@@ -254,7 +302,7 @@ function round(value, decimals) {
 }
 
 //sends progress data to the server
-function saveProgress() {
+function saveProgress(callback) {
     //get item data
     let owned = {};
     $.each(_tofuUniverse.player.items, (key, item) => {
@@ -268,13 +316,26 @@ function saveProgress() {
         "upgrades": _tofuUniverse.player.upgrades,
         "tofuClicks": _tofuUniverse.player.tofuClicks,
         "purchases": _tofuUniverse.player.purchases
-    }).done((success) => {
-        console.log(success);
-        if (success) {
-            console.log("File saved!");
-        } else {
-            console.log("Have you been cheating?");
+    }).done((resultId) => {
+        console.log(resultId);
+        switch (resultId) {
+            case 1:
+                showNotification("Save success!", "");
+                break;
+            case 0:
+                showNotification("You're saving too often!", "Just wait a little while...");
+                break;
+            case -1:
+                showAlert();
+                break;
+            case -2:
+                showNotification("Error saving progress", "");
+                break;
+            default:
+                console.log("Result ID not recognized!");
+                break;
         }
+        if (callback) callback(resultId);
     });
 
     //reset tracking variables
@@ -285,12 +346,6 @@ function saveProgress() {
 //tracking variables for mouse cursor
 var mouseX, mouseY;
 window.onload = () => {
-    //always track position of the mouse in tofu area
-    $("#tofu-area").mousemove((e) => {
-        mouseX = e.pageX;
-        mouseY = e.pageY;
-    });
-
     //dynamically generate all the item and upgrade displays
     //item shop
     $.each(_tofuUniverse.ITEMS, (index, item) => {
@@ -322,7 +377,8 @@ window.onload = () => {
             "class": "shop-item-cost",
             "id": "shop-item-cost-" + index
         });
-        cost.text(item.cost + ' Tofu')
+        cost.text(formatTofuCount(item.cost));
+        cost.append(tofuIcon());
         let owned = $("<span>", {
             "class": "shop-item-owned",
             "id": "item-owned-" + index
@@ -351,7 +407,8 @@ window.onload = () => {
             "id":"upgrade-description-cost-" + key,
             "class":"upgrade-description-cost"
         });
-        cost.text(upgrade.cost);
+        cost.text(formatTofuCount(upgrade.cost));
+        cost.append(tofuIcon());
         let flair = $("<div>", {
             "id": "upgrade-description-flair-" + key,
             "class": "upgrade-description-flair"
@@ -374,10 +431,18 @@ window.onload = () => {
         $("#shop-upgrades").append(shopUpgrade);
     });
 
+    initChat();
+
     //load save (if any)
     $.connection.hub.start()
         .done(() => {
-            _tofuUniverse.conn.server.requestSave()
+            $('#sendmessage').click(function () {
+                // Call the Send method on the hub.
+                chat.server.send($('#displayname').val(), $('#message').val(), $('#chatTime').val());
+                // Clear text box and reset focus for next comment.
+                $('#message').val('').focus();
+            });
+            _tofuUniverse.conn.server.requestSave(_tofuUniverse.code)
                 .done((rawSave) => {
                     if (rawSave !== null) {
                         console.log("SAVE: " + rawSave);
@@ -403,47 +468,90 @@ window.onload = () => {
         });
 
     //set tofu onclick
-    $("#tofu").click(() => {
+    $("#tofu").click((e) => {
         _tofuUniverse.player.tofuClicks++;
         _tofuUniverse.player.tCount += _tofuUniverse.player.items[0].tps;
 
         if (_tofuUniverse.settings.showEarnings) {
             //the +<tofu earned> thing
-            let earning = $("<span>", {
-                "class": "click-earn"
+            let earning = $("<span>");
+            earning.addClass("click-earn");
+            earning.disableSelection();
+            earning.css({
+                "position": "fixed",
+                "left": e.clientX,
+                "top": e.clientY,
+                "font-size": "1.5em",
+                "-ms-transform": "scale(1.5)",
+                "-webkit-transform": "scale(1.5)",
+                "transform": "scale(1.5)",
             });
-            earning.css("style", "position:absolute;left:"+mouseX +"px;top:" +mouseY +"px");
-            earning.text(_tofuUniverse.player.items[0].tps);
-            $("#temp").append(earning);
+            earning.text('+' + _tofuUniverse.player.items[0].tps);
+            earning.append(tofuIcon());
+            $("#click-earnings").append(earning);
             
             //animate the tofu
-            earning.css("opacity", 1);
-            earning.t = setInterval(() => {
-                if (earning.css("opacity") === 0) {
-                    earning.remove();
-                    clearInterval(earning.t);
-                }
-
-                //set opacity
-                earning.css("opacity", parseInt(earning.css("opacity") - 0.05));
-
-                //float up
-                earning.css("top", parseInt(mouseY) + 'px');
-            }, 50);
+            earning.animate({
+                top: "-=100",
+                opacity: 0
+            }, 3000, () => {
+                earning.remove();
+            });
         }
-       
     });
 
     //disabling selection so stuff isn't highlighted constantly
     $(".shop-item").disableSelection();
     $(".shop-upgrade").disableSelection();
     $("#tofu").disableSelection();
+    $("#tofu-hat").disableSelection();
     $("#tofu-count-container").disableSelection();
     $("#tps-container").disableSelection();
-    
+    $("#tofu-area").disableSelection();
+
+    /*---Cheat Alert code---*/
+    //close popup
+    $('.cd-popup').on('click', function (event) {
+        if ($(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup')) {
+            event.preventDefault();
+            $(this).removeClass('is-visible');
+        }
+    });
+    //close popup when clicking the esc keyboard button
+    $(document).keyup(function (event) {
+        if (event.which == '27') {
+            $('.cd-popup').removeClass('is-visible');
+        }
+    });
+
     //start game loop
     window.requestAnimationFrame(gameloop);
 };
+
+//Attempts to end the game
+_tofuUniverse.collapse = function() {
+    saveProgress(() => {
+        _tofuUniverse.conn.server.collapse()
+            .done((result) => {
+                if (result == 1) {
+                    $("body").empty();
+                    let endVideoElement = $("<video autoplay id='ending-video'></video>");
+                    let sourceElement = $("<source>", {
+                        "src": "tofu-collapse.mp4",
+                        "type": "video/mp4"
+                    });
+                    endVideoElement.append(sourceElement);
+
+                    endVideoElement.on('ended', () => {
+                        console.log("You have reached the end!");
+                    });
+                    $('body').append(endVideoElement);
+                } else {
+                    showNotification("Not enough tofu!");
+                }
+            });
+    });
+}
 
 //TEST FUNCTIONS
 //gives the player more tofu without triggering anti-cheat

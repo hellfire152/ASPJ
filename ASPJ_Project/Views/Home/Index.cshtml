@@ -1,30 +1,139 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
 }
-<div class="jumbotron">
-    <h1>@Html.ActionLink("Chat", "Chat", "Chat")</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<html>
+	<head>
+        <style>
+            h3{
+                font-size: 22px;
+            }
+            .description{
+                font-size: 18px;
+            }
+            .beansPrice{
+                font-size: 20px;
+            }
+            img{
+                height: 6%;
+                width: 3%;
+            }
+        </style>
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+        </script>
+	</head>
+	<body>
+		<!-- Sidebar -->
+        <section id="sidebar">
+        @if (@Session["userID"] == null)
+        {
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="/User/Login">Login</a></li>
+							<li><a href="/User/Register">Register</a></li>
+						</ul>
+					</nav>
+				</div>
+        }
+        else if(@Session["userID"] != null)
+        {
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="/User/UserProfile">@Session["username"]</a></li>
+                            <li><a>Beans: @Session["userBeans"]</a></li>
+							<li><a href="#one">Hats</a></li>
+							<li><a href="#two">Outfits</a></li>
+                            <li><a href="/Shop/Inventory">Inventory</a></li>
+                            <li><a href="/Shop/BeansPurchase">Purchase Beans</a></li>
+						</ul>
+					</nav>
+				</div>
+        }
+        </section>
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1>T<img src="../../Content/Images/tofu-clipart-cute-2.png" />fu Universe</h1>
+							<p>It's time, time to tofu.</p>
+							@if (@Session["userID"] != null)
+                            {
+                            <ul class="actions">       
+								<li><a href="/Game/Index" class="button scrolly">Play Now</a></li>
+							</ul>
+                            }
+                            else if (@Session["userID"] == null)
+                            {
+                            <ul class="actions">        
+                                <li><a href="/User/Login" class="button scrolly">Login</a></li>
+								<li><a href="/User/Registration" class="button scrolly">Register</a></li>
+							</ul>
+                            }
+						</div>
+					</section>
+
+                <!-- Hats -->
+					<section id="one" class="wrapper style3 fade-up">
+						<div class="inner">
+                            <h2>About Us</h2>
+							<div class="features">
+								<section>
+                                    <span class="icon major fa-info-circle"></span>
+                                    <p>Welcome to Tofu Universe! We are a group of students who are striving to create a fun and secure gaming application!</p>
+                                </section>
+							</div>
+						</div>
+					</section>
+
+				
+					<section id="two" class="wrapper style3 fade-up">
+						<div class="inner">
+                            <h2>Our Team</h2>
+							<div class="features">
+						        <section>
+                                    <span class="icon major fa-user"></span>
+                                    <h4>John Foo Heng Wei</h4>
+                               </section>
+                                <section>
+                                    <span class="icon major fa-user"></span>
+                                    <h4>Solomon Tay Chong</h4>
+                               </section>
+                                <section>
+                                    <span class="icon major fa-user"></span>
+                                    <h4>Ang Jin Kuan</h4>
+                               </section>
+                                <section>
+                                    <span class="icon major fa-user"></span>
+                                    <h4>Scott Tan Jun Wei</h4>
+                               </section>
+                                <section>
+                                    <span class="icon major fa-user"></span>
+                                    <h4>Alex Ang Wee Yi</h4>
+                               </section>
+                                <section>
+                                    <span class="icon major fa-user"></span>
+                                    <h4>Eunice Chiang Yi-En</h4>
+                               </section>
+							</div>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Tofu Universe All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+        </body>
+    </html>

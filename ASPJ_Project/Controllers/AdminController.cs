@@ -223,7 +223,7 @@ namespace ASPJ_Project.Controllers
             string username = model.Username;
             //db stuff
             MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
-            AESCryptoStuff aes_obj = new AESCryptoStuff();
+            AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
             //EncodeDecode encInit = new EncodeDecode();
             Debug.WriteLine("this is model.banPeriod"+model.BanPeriod);
             try
@@ -233,7 +233,6 @@ namespace ASPJ_Project.Controllers
                 conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(queryString, conn);
-                aes_obj.AesInitialize();
                 //chatMessageInsert.ChatMessage = encInit.EncodeStuff(chatMessageInsert.ChatMessage);
                 //chatMessageInsert.ChatMessage = aes_obj.AesEncrypt(chatMessageInsert.ChatMessage);
                 // queryString = "INSERT INTO dububase.chat(chatMessage) VALUES(@sendmessage)";
@@ -339,7 +338,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult RoleChange(ChangeRoleModel model)
         {
             MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
-            AESCryptoStuff aes_obj = new AESCryptoStuff();
+            AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
             try
             {
                 string queryString = "";

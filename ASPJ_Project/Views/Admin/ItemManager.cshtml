@@ -10,7 +10,6 @@
     <tr>
         <td>Item Name:</td>
         <td>Item Type:</td>
-        <td>Item Image:</td>
         <td>Item Description:</td>
         <td>Item Price:</td>
         <td colspan="2">Options</td>
@@ -24,8 +23,8 @@
         <td>@dummy.itemImage</td>
         <td>@dummy.itemDescription</td>
         <td>@dummy.beansPrice</td>
-        <td>@Html.ActionLink("edit", "ItemEdit", "Admin",new { itemName = @dummy.itemName},null)</td>
-        <td>@Html.ActionLink("delete", "ItemDelete", "Admin", new { itemName = @dummy.itemName},null)</td>
+        <td>@Html.ActionLink("edit", "ItemEdit", "Admin",new { name = dummy.itemName},null)</td>
+        <td>@Html.ActionLink("delete", "ItemDelete", "Admin", new { name = dummy.itemName},null)</td>
     </tr>
     }
 </table>

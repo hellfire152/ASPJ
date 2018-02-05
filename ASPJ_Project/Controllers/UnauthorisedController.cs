@@ -11,7 +11,6 @@ namespace RBACDemo.Areas.Steria.Controllers
         // GET: Unauthorised
         public ActionResult Index()
         {
-            Session.Abandon();
             return View();
         }
     }

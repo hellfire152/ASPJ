@@ -908,7 +908,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
-    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.easing.min.js" />
     <Content Include="Scripts\jquery.magnific-popup.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
@@ -989,8 +988,8 @@
     <Content Include="Views\VerifyOTP\VerifyOTP.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Admin\BanHistory.cshtml" />
-    <Content Include="Views\Admin\Transactions.cshtml" />
-    <Content Include="Views\Profile\Transactions.cshtml" />
+    <Content Include="Views\Admin\TransactionHistory.cshtml" />
+    <Content Include="Views\Profile\TransactionHistory.cshtml" />
     <Content Include="Views\Admin\ItemAdd.cshtml" />
     <Content Include="Views\Admin\ItemManager.cshtml" />
     <Content Include="Views\Admin\ItemDelete.cshtml" />
@@ -998,6 +997,7 @@
     <Content Include="Views\Admin\ChangeRole.cshtml" />
     <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Forum\Test.cshtml" />
+    <Content Include="Views\Admin\RoleChange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

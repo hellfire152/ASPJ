@@ -6,15 +6,21 @@
 
 @Styles.Render("~/css/thread.css")
 <style>
+    body {
+        background-color: #5e42a6;
+    }
     textarea {
         overflow: hidden;
+    }
+    h3, p {
+        color: white;
     }
 </style>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-1"></div>
-        <div class="[ col-xs-12 col-sm-10 ]">
-            <div class="[ panel panel-default ] panel-google-plus">
+        <div class="[ col-xs-12 col-sm-10 ]" >
+            <div class="[ panel panel-default ] panel-google-plus" style="background-color: rgb(49, 36, 80)" >
                 <div class="dropdown">
                     <span class="dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="[ glyphicon glyphicon-chevron-down ]"></span>
@@ -28,18 +34,18 @@
                         }
                     </ul>
                 </div>
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color: rgb(49, 36, 80)">
                     <img class="[ img-circle pull-left ]" src="~/Content/images/tofu.png"/>
                     <h3>@Model.thread.title</h3>
                     <h5><span>Posted by @Model.thread.username</span> on <span>@Model.thread.date</span> </h5>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="background-color: rgb(49, 36, 80)">
                     <p>@Model.thread.content</p>
                     @if(Model.thread.imageName != "") {
                         <img src="~/Content/UploadedImages/@Model.thread.imageName" style="height:auto; max-width: 60%; "/>
                     }
                 </div>
-                <div class="panel-footer">
+                <div class="panel-footer" style="background-color: rgb(49, 36, 80)">
                     @using (Html.BeginForm("Upvote", "Forum", new { id = Model.thread.id }, FormMethod.Post))
                     {
                         @Html.AntiForgeryToken();
@@ -67,7 +73,7 @@
                         }
                     }
                 </div>
-                <div class="panel-footer">
+                <div class="panel-footer" style="background-color: rgb(49, 36, 80)">
                     @if (Model.thread.votes >= 0)
                     {
                         <p>@Model.thread.votes <span class="fa fa-thumbs-up"></span></p>
@@ -77,7 +83,7 @@
                         <p>@Model.thread.votes <span class="fa fa-thumbs-down"></span></p>
                     }
                 </div>
-                <div class="panel-google-plus-comment">
+                <div class="panel-google-plus-comment" style="background-color: rgb(49, 36, 80)">
                     <img class="img-circle" src="~/Content/images/tofu.png" alt="User Image" style="width:50px;height:50px;"/>
                     <div class="panel-google-plus-textarea">
                         @using (Html.BeginForm())
@@ -91,7 +97,7 @@
                 </div>
                 @foreach (var comment in Model.comments)
                 {
-                    <div class="[ panel-default ] panel-google-plus">
+                    <div class="[ panel-default ] panel-google-plus" style="background-color: rgb(49, 36, 80)">
                         <div class="dropdown">
                             <span class="dropdown-toggle" type="button" data-toggle="dropdown">
                                 <span class="[ glyphicon glyphicon-chevron-down ]"></span>
@@ -100,7 +106,7 @@
                                 <li role="presentation"><a role="menuitem" data-toggle="modal" data-target="#deleteComment">Delete Comment</a></li>
                             </ul>
                         </div>
-                        <div class="panel-heading">
+                        <div class="panel-heading" style="background-color: rgb(49, 36, 80)">
                             <img class="[ img-circle pull-left ]" src="~/Content/images/tofu.png" alt="Mouse0270" style="width:50px;height:50px;"/>
                             <h3>@comment.username</h3>
                             <h5><span>Posted</span> on <span>@comment.date</span> </h5>
@@ -179,4 +185,3 @@
             </div>
         </div>
     </div>
-

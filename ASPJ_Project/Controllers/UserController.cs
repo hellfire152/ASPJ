@@ -45,31 +45,54 @@ namespace ASPJ_Project.Controllers
             return View(userModel);
         }
 
-       //CHECK IF USERNAME EXIST
+        //CHECK IF USERNAME EXIST
         public JsonResult IsUsernameExists(user model)
         {
+            String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
+            conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
+            conn.Open();
+            MySqlCommand cmd1 = new MySqlCommand(queryStr, conn);
+            queryStr = "SELECT * FROM  users where userName= @userName";
+            cmd1.CommandText = queryStr;
+            cmd1.Parameters.AddWithValue("@userName", model.userName);
+            cmd1.ExecuteNonQuery();
+
+            reader = cmd1.ExecuteReader();
+            if (reader.HasRows && reader.Read())
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+            //CHECK IF EMAIL EXIST
+            public JsonResult IsEmailExists(user model)
+            {
                 String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
                 conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
                 conn.Open();
                 MySqlCommand cmd1 = new MySqlCommand(queryStr, conn);
-                queryStr = "SELECT * FROM  users where userName= @userName";
+                queryStr = "SELECT * FROM users where email= @email";
                 cmd1.CommandText = queryStr;
-                cmd1.Parameters.AddWithValue("@userName", model.userName);
+                cmd1.Parameters.AddWithValue("@email", model.email);
                 cmd1.ExecuteNonQuery();
 
                 reader = cmd1.ExecuteReader();
                 if (reader.HasRows && reader.Read())
                 {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
-            else
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+
+
             }
 
-        
-    }
-           
 
         //REGISTER USER
         [HttpPost, CaptchaVerify("Captcha is not valid")]
@@ -294,7 +317,7 @@ namespace ASPJ_Project.Controllers
         //LOGIN
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UserLogin login, string Username, string Phonenumber, string returnUrl = "")
+        public ActionResult Login(UserLogin login, string Username, string Phonenumber, string beansAmount, string returnUrl = "")
         {
             //string Username;
             int Uid = 0;
@@ -326,7 +349,7 @@ namespace ASPJ_Project.Controllers
                         login.email = reader.GetString(reader.GetOrdinal("email"));
                         login.password = reader.GetString(reader.GetOrdinal("password"));
                         Phonenumber = reader.GetString(reader.GetOrdinal("phoneNumber"));
-
+                        beansAmount = reader.GetString(reader.GetOrdinal("beansAmount"));
                     }
                     if (reader.HasRows)
                     {
@@ -362,10 +385,11 @@ namespace ASPJ_Project.Controllers
                                 else
                                 {
                                    
-                                    Session["UserID"] = Username;
+                                    Session["uname"] = Username;
                                     Session["userID"] = Uid;
                                     Session["Phonenumber"] = Phonenumber;
-                                    
+                                    Session["username"] = Username;
+                                    Session["userBeans"] = beansAmount;
                                     return RedirectToAction("SendOTP", "SMS");
 
                                 }
@@ -402,28 +426,7 @@ namespace ASPJ_Project.Controllers
             return View();
         }
 
-        //CHECK IF EMAIL EXIST
-        public JsonResult IsEmailExists(user model)
-        {
-            String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
-            conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
-            conn.Open();
-            MySqlCommand cmd1 = new MySqlCommand(queryStr, conn);
-            queryStr = "SELECT * FROM accounts.users where email= @email";
-            cmd1.CommandText = queryStr;
-            cmd1.Parameters.AddWithValue("@email", model.email);
-            cmd1.ExecuteNonQuery();
-
-            reader = cmd1.ExecuteReader();
-            if (reader.HasRows && reader.Read())
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-        }
+      
 
             #endregion
 
@@ -438,12 +441,11 @@ namespace ASPJ_Project.Controllers
 
         #region Log Out
         //LOGOUT
-        [Authorize]
-        [HttpPost]
+       
         public ActionResult LogOut()
         {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Login", "user");
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion

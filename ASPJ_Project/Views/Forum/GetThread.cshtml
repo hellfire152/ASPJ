@@ -83,7 +83,7 @@
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
-                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control"}, cols = 4, rows = 2 })
+                            @Html.TextAreaFor(model => model.comment.content, new { htmlAttributes = new { @class = "form-control"}})
                             <button type="submit" class="[ btn btn-success ]">Post comment</button>
                             @Html.ValidationMessageFor(model => model.comment.content, "", new { @class = "text-danger" })
                         }

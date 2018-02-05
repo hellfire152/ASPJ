@@ -256,17 +256,20 @@ function gameloop(time) {
 
 //takes in ugly long numbers and writes them in terms of the highest fitting 'illion'
 function formatTofuCount(tCount, short) {
-    tCount = round(tCount, 0);
+    tCount = round(tCount, 1);
     let tString = "" + tCount;
+    let tArr = tString.split('.');
+    tString = tArr[0];
+    tDecimal = (tArr[1]) ? '.' + tArr[1] : '';
     let significantsCount = tString.length % 3;
     if (tString.length <= 3) {
-        return tString;
+        return tString + tDecimal;
     } else if (tString.length <= 6) {
         if (significantsCount == 0) significantsCount = 3;
         let sigs = tString.substr(0, significantsCount);
         return sigs + ',' + tString.substr(significantsCount);
     } else {
-        let sig = tString.substr(0, significantsCount + 2) + ' ';
+        let sig = tString.substr(0, significantsCount) + '.' + tString.substr(significantsCount, 2) + ' ';
         switch (Math.floor(tString.length / 3)) {
             case 2: {
                 sig += (short == true) ? "m" : "million";

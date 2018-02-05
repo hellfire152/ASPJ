@@ -1,4 +1,4 @@
-﻿    @model ASPJ_Project.Models.Thread
+﻿@model ASPJ_Project.Models.Thread
 @using CaptchaMvc.HtmlHelpers
 
 @{
@@ -49,7 +49,14 @@
                 <input type="submit" value="Post" class="btn btn-default" />
             </div>
         </div>
-
+        @{
+            if (ViewBag.message != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Message
+                </div>
+            }
+        }
         <div class="form-group">
 
             <div class="col-md-10">
@@ -68,12 +75,12 @@
 
   
         @{
-            if (ViewBag.message != null)
+            if (ViewBag.CaptchaError != null)
             {
                 <div class="alert alert-danger">
-                    @ViewBag.Message
-                    @ViewBag.ErrorMessage
-                </div>            }
+                    @ViewBag.CaptchaError
+                </div>            
+            }
         }
     </div>
 }

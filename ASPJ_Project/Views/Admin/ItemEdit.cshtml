@@ -1,0 +1,80 @@
+﻿@model ASPJ_Project.Models.PremiumItem
+@using ASPJ_Project.Models
+
+@{
+    ViewBag.Title = "Item Edit";
+    var item = ViewBag.item;
+    item = new PremiumItem
+    {
+        itemDescription = "meh",
+        itemName = "kill",
+        itemType = "Hat",
+        beansPrice = 2
+    };
+}
+
+<h2>Edit Item</h2>
+<head>
+    @*<script src='https://www.google.com/recaptcha/api.js'></script>*@
+    <style>
+        .form-group {
+            margin-bottom: 10px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+@using (Html.BeginForm("ItemEdit", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    @*Date TIme?*@
+    @* item id needed? *@
+    @* need a drop down list from item Type<div class="form-group">
+            @Html.LabelFor(m => m.itemType, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.itemType, new { @class = "form-control" })
+            </div>
+        </div>
+    *@
+    @*how to add img?*@
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.itemName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.itemName, new { @Value = item.itemName, @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.itemDescription, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.itemDescription, new { @Value = item.itemDescription, @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.itemType, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.itemType, new { @Value = item.itemType, @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.beansPrice, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.beansPrice, new { @Value = item.beansPrice, @class = "form-control" })
+        </div>
+    </div>
+
+
+    /*<div class="g-recaptcha" data-sitekey="6LenbkIUAAAAAGKcQ5G-vwsOFO5Vea-Smo7Wb8U-"></div>*/
+
+    <input type="submit" value="Confirm" />
+    <input type="reset" value="Cancel" />
+}
+
+@*<span style="display:inline-block; font-size:20px;margin:20px 0;padding:20px;border:1px solid #D3D3D3">
+        @ViewBag.Message
+    </span>*@ 

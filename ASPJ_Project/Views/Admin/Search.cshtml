@@ -1,4 +1,5 @@
 ﻿@using ASPJ_Project.Models;
+@model SearchModel
 
 @{
     ViewBag.Title = "Search";
@@ -7,11 +8,19 @@
 
 <h2>Search</h2>
 
-@using (Html.BeginForm("Search","Admin",FormMethod.Post))
+@using (Html.BeginForm("Search", "Admin", FormMethod.Post))
 {
-    <b> Search:</b>
-    @Html.TextBox("search")
-    <input type="submit" value="search" />
+   
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Search, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Search, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <input type="submit" value="search" />
 }
 
 
@@ -24,15 +33,15 @@
         <td>Email</td>
         <td>Options</td>
     </tr>
-@for(int i =0;i < Dummys.Count; i++)
-{
-    <tr>
-        <td>@Dummys[i].UserId</td>
-        <td>@Dummys[i].UserName</td>
-        <td>@Dummys[i].FirstName</td>
-        <td>@Dummys[i].Role</td>
-        <td>@Dummys[i].Email</td>
-        <td><button value="details">details</button></td>
-    </tr>
-}
+    @foreach (var dummy in Dummys)
+    {
+        <tr>
+            <td>@dummy.UserId</td>
+            <td>@dummy.UserName</td>
+            <td>@dummy.FirstName</td>
+            <td>@dummy.Role</td>
+            <td>@dummy.Email</td>
+            <td><button value="details">details</button></td>
+        </tr>
+    }
 </table>

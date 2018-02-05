@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Diagnostics;
 using CaptchaMvc.Attributes;
+using PagedList;
 
 namespace ASPJ_Project.Controllers
 {
@@ -25,19 +26,74 @@ namespace ASPJ_Project.Controllers
         Database d = Database.CurrentInstance;
 
         // GET: Forum
-        //public ActionResult Index(string currentFilter, string searchString, int? page)
-        //{
-        //    if (searchString != null)
-        //    {
-        //        page = 1;
-        //    }
-        //    else
-        //    {
-        //        searchString = currentFilter;
-        //    }
-        //    ViewBag.CurrentView = searchString;
-        //    return View();
-        //}
+        public ActionResult Home(string currentFilter, string searchString, int? page)
+        {
+            var username = getUsername();
+            if (username == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+            List<Thread> threads = new List<Thread>();
+            int pageSize = 10;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentView = searchString;
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string query =
+                        "SELECT thread.*," +
+                        " (select COUNT(*) from comment where threadId = thread.id) AS c_count," +
+                        " (SELECT COUNT(*) FROM vote v LEFT JOIN thread t ON (v.id = t.id) WHERE v.threadId = thread.id AND v.upvote = 1) - (SELECT COUNT(*) FROM vote v LEFT JOIN thread t on(v.id = t.id) where v.threadId = thread.id and v.downvote = 1) AS t_votes" +
+                        " FROM thread" +
+                        " GROUP BY thread.id" +
+                        " ORDER BY t_votes DESC, thread.date DESC";
+                    MySqlCommand c = new MySqlCommand(query, d.conn);
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            Thread thread = new Thread
+                            {
+                                id = ((int)r["id"]),
+                                title = (r["title"].ToString()),
+                                content = (r["content"].ToString()),
+                                date = ((DateTime)r["date"]),
+                                votes = ((long)r["t_votes"]),
+                                username = (r["username"].ToString()),
+                                comments = ((long)r["c_count"])
+                            };
+                            threads.Add(thread);
+
+                        }
+
+                    }
+                }     
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+           if (!String.IsNullOrEmpty(searchString))
+           {
+              IEnumerable<Thread> threadss = threads.Where(t => t.title.Contains(searchString));
+           }
+
+            int pageNumber = (page ?? 1);
+            return View(threads.ToPagedList(pageNumber, (int)pageSize));
+        }
         public string getUsername()
         {
             int userID = (int)Session["userID"];
@@ -72,52 +128,53 @@ namespace ASPJ_Project.Controllers
             }
             return username;
         }
-        public ActionResult Home()
-        {
-            Database d = Database.CurrentInstance;
-            List<Thread> threads = new List<Thread>();
+        //public ActionResult Home()
+        //{
+        //    Database d = Database.CurrentInstance;
+        //    List<Thread> threads = new List<Thread>();
 
-            try
-            {
-                if (d.OpenConnection())
-                {
-                    string query = 
-                        "SELECT thread.*," +
-                        " (select COUNT(*) from comment where threadId = thread.id) AS c_count," +
-                        " (SELECT COUNT(*) FROM vote v LEFT JOIN thread t ON (v.id = t.id) WHERE v.threadId = thread.id AND v.upvote = 1) - (SELECT COUNT(*) FROM vote v LEFT JOIN thread t on(v.id = t.id) where v.threadId = thread.id and v.downvote = 1) AS t_votes" +
-                        " FROM thread" +
-                        " GROUP BY thread.id" +
-                        " ORDER BY t_votes DESC, thread.date DESC";
-                    MySqlCommand c = new MySqlCommand(query, d.conn);
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            Thread thread = new Thread
-                            {
-                                id = ((int)r["id"]),
-                                title = (r["title"].ToString()),
-                                content = (r["content"].ToString()),
-                                date = ((DateTime)r["date"]),
-                                votes = ((long)r["t_votes"]),
-                                username = (r["username"].ToString()),
-                                comments = ((long)r["c_count"])
-                            };
-                            threads.Add(thread);
-                        }
-                    }
-                }
-            }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine("MySQL Error!");
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-            return View(threads);
-        }
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string query = 
+        //                "SELECT thread.*," +
+        //                " (select COUNT(*) from comment where threadId = thread.id) AS c_count," +
+        //                " (SELECT COUNT(*) FROM vote v LEFT JOIN thread t ON (v.id = t.id) WHERE v.threadId = thread.id AND v.upvote = 1) - (SELECT COUNT(*) FROM vote v LEFT JOIN thread t on(v.id = t.id) where v.threadId = thread.id and v.downvote = 1) AS t_votes" +
+        //                " FROM thread" +
+        //                " GROUP BY thread.id" +
+        //                " ORDER BY t_votes DESC, thread.date DESC" +
+        //                " LIMIT 0, 10";
+        //            MySqlCommand c = new MySqlCommand(query, d.conn);
+        //            using (MySqlDataReader r = c.ExecuteReader())
+        //            {
+        //                while (r.Read())
+        //                {
+        //                    Thread thread = new Thread
+        //                    {
+        //                        id = ((int)r["id"]),
+        //                        title = (r["title"].ToString()),
+        //                        content = (r["content"].ToString()),
+        //                        date = ((DateTime)r["date"]),
+        //                        votes = ((long)r["t_votes"]),
+        //                        username = (r["username"].ToString()),
+        //                        comments = ((long)r["c_count"])
+        //                    };
+        //                    threads.Add(thread);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+        //    return View(threads);
+        //}
         [HttpGet]
         public ActionResult Thread()
         {

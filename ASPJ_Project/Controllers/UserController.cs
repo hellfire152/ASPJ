@@ -131,11 +131,11 @@ namespace ASPJ_Project.Controllers
                         
                         #region Password Hashing
                         
-                        model.password = Crypto.Hash(model.confirmPassword);
-                        model.confirmPassword = Crypto.Hash(model.confirmPassword);
+                        model.password = AESCryptoStuff.CurrentInstance.AesEncrypt(Crypto.Hash(model.confirmPassword));
+                        model.confirmPassword = AESCryptoStuff.CurrentInstance.AesEncrypt(Crypto.Hash(model.confirmPassword));
 
                         #endregion
-
+                        model.phoneNumber = AESCryptoStuff.CurrentInstance.AesEncrypt(model.phoneNumber);
                         //String CS = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
                         conn = new MySql.Data.MySqlClient.MySqlConnection(CS);
                         conn.Open();
@@ -147,7 +147,7 @@ namespace ASPJ_Project.Controllers
                         cmd.Parameters.AddWithValue("@firstName", Firstname);
                         cmd.Parameters.AddWithValue("@lastName", Lastname);
                         cmd.Parameters.AddWithValue("@email", Email);
-                        cmd.Parameters.AddWithValue("@phoneNumber", Phonenumber);
+                        cmd.Parameters.AddWithValue("@phoneNumber", model.phoneNumber);
 
                         cmd.ExecuteNonQuery();
 
@@ -337,7 +337,7 @@ namespace ASPJ_Project.Controllers
 
                     cmd.CommandText = queryStr;
                     cmd.Parameters.AddWithValue("@email", login.email);
-                    cmd.Parameters.AddWithValue("@password", Crypto.Hash(login.password));
+                    cmd.Parameters.AddWithValue("@password", AESCryptoStuff.CurrentInstance.AesEncrypt(Crypto.Hash(login.password)));
                     cmd.ExecuteNonQuery();
 
                     reader = cmd.ExecuteReader();

@@ -2,19 +2,19 @@
 @using CaptchaMvc.HtmlHelpers
 
 @{
-    ViewBag.Title = "Create Thread";
+    ViewBag.Title = "Test without file type validation  ";
     Layout = "~/Views/Forum/_Forumlayout.cshtml";
 }
 
 <style>
-    textarea{
+    textarea {
         overflow-x: hidden;
         overflow-y: auto;
     }
 </style>
 <h2>@ViewBag.title</h2>
 
-@using (Html.BeginForm("CreateThread", "Forum", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm("Test", "Forum", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -57,33 +57,9 @@
                 </div>
             }
         }
-        <div class="form-group">
-
-            <div class="col-md-10">
-                <div class="col-md-6">
-
-                </div>
-                <div class="col-md-4">
-                    @Html.MathCaptcha()
-                    @Html.ValidationMessageFor(model => model.captcha, "", new { @class = "text-danger" })
-                    <p class="has-error">@ViewBag.ErrorMessage</p>
-                </div>
-
-                    <span class="field-validation-valid text-danger" data-valmsg-for="captcha" data-valmsg-replace="true" id="vali_CaptchaInputText"></span>
-                </div>
-        </div>
-
-  
-        @{
-            if (ViewBag.CaptchaError != null)
-            {
-                <div class="alert alert-danger">
-                    @ViewBag.CaptchaError
-                </div>            
-            }
-        }
+   
     </div>
-}
+            }
 
 <div>
     @Html.ActionLink("Back to List", "Index")

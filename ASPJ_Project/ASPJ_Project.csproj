@@ -997,6 +997,7 @@
     <Content Include="Views\Admin\ItemEdit.cshtml" />
     <Content Include="Views\Admin\ChangeRole.cshtml" />
     <Content Include="Views\Forum\Index.cshtml" />
+    <Content Include="Views\Forum\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UploadedImages\" />

@@ -428,10 +428,10 @@ namespace ASPJ_Project.Controllers
             string FolderPath = "";
             try
             {
-                if (ModelState["CaptchInputText"] != null || ModelState["CaptchaInputText"].Errors.Count > 0)
-                {
-                    ViewBag.CaptchaError = "Invalid Captcha";
-                }
+                //if (ModelState["CaptchaInputText"].ToString() != null || ModelState["CaptchaInputText"].Errors.Count > 0)
+                //{
+                //    ViewBag.CaptchaError = "Invalid Captcha";
+                //}
                 if (ModelState.IsValid)
                 {
                     if (thread.image != null)

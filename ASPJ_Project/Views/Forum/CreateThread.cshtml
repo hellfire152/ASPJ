@@ -14,7 +14,7 @@
 </style>
 <h2>@ViewBag.title</h2>
 
-@using (Html.BeginForm("CreateThread", "Forum", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm("CreateThread", "Forum", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -49,13 +49,12 @@
                 <input type="submit" value="Post" class="btn btn-default" />
             </div>
         </div>
-        @{
-            if (ViewBag.message != null)
-            {
-                <div class="alert alert-danger">
-                    @ViewBag.Message
-                </div>
-            }
+
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.Message
+            </div>
         }
         <div class="form-group">
 
@@ -69,21 +68,21 @@
                     <p class="has-error">@ViewBag.ErrorMessage</p>
                 </div>
 
-                    <span class="field-validation-valid text-danger" data-valmsg-for="captcha" data-valmsg-replace="true" id="vali_CaptchaInputText"></span>
-                </div>
+                <span class="field-validation-valid text-danger" data-valmsg-for="captcha" data-valmsg-replace="true" id="vali_CaptchaInputText"></span>
+            </div>
         </div>
 
-  
-        @{
-            if (ViewBag.CaptchaError != null)
-            {
-                <div class="alert alert-danger">
-                    @ViewBag.CaptchaError
-                </div>            
-            }
+
+        @if (ViewBag.CaptchaError != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.CaptchaError
+            </div>
         }
+
     </div>
 }
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")

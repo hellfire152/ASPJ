@@ -40,7 +40,7 @@ namespace ASPJ_Project.Hubs
             getCookie = Models.AESCryptoStuff.CurrentInstance.AesDecrypt(HttpUtility.UrlDecode(Context.RequestCookies["uname"].Value));
             //Debug.WriteLine(storeCookie);
             //Insert into db
-            db.ChatSendMessage(message);
+            db.ChatSendMessage(message, getCookie);
             foreach(var g in db.ChatGetTime())
             {
                 storeTime = g;

@@ -122,8 +122,8 @@ namespace ASPJ_Project.Controllers
                     }
                     ViewBag.UserItemsData = UserItems;
 
-                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM users where userID = @userID", d.conn);
-                    c3.Parameters.AddWithValue("@userID", userID);
+                    MySqlCommand c3 = new MySqlCommand("SELECT * FROM users where userName = @userName", d.conn);
+                    c3.Parameters.AddWithValue("@userName", Session["uname"].ToString());
                     using (MySqlDataReader r3 = c3.ExecuteReader())
                     {
                         while (r3.Read())

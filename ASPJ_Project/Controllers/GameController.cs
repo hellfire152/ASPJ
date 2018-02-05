@@ -13,8 +13,6 @@ namespace ASPJ_Project.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //test username
-            Session["userID"] = 50;
             //not logged in
             if ((int)Session["userID"] == 0) return RedirectToAction("Login", "User");
 
@@ -66,6 +64,7 @@ namespace ASPJ_Project.Controllers
             ViewBag.cookie = getCookie;
             ViewBag.dateTime = db.ChatGetTime();
             ViewBag.chatList = db.ChatGetMessage();
+            ViewBag.username = db.ChatGetUsername();
             #endregion 
 
             return View();

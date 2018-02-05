@@ -2,12 +2,13 @@
 @using ASPJ_Project.Models
 
 @{
-    ViewBag.Title = "BanUser";
-}
+    ViewBag.Title = "BanUser"; 
+    
+ }
 
 <h2>Ban User</h2>
 <head>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    @*<script src='https://www.google.com/recaptcha/api.js'></script>*@
     <style>
         .form-group {
             margin-bottom: 10px;
@@ -31,7 +32,10 @@
         @Html.LabelFor(m => m.BanPeriod, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.BanPeriod,
-                                new SelectList(Model.BanPeriodOptions),
+                                new SelectList(new List<string>
+                                {
+                                    "1 Week","2 Weeks","1 Month","3 Months","1 Year"
+                                }),
                                 "BanPeriod", new { @class="form-control"})
         </div>
     </div>
@@ -40,10 +44,13 @@
         @Html.LabelFor(m=> m.BanReason, new { @class = "col-md-2 control-label"})
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.BanReason,
-                                    new SelectList(Model.BanReasonOptions),"Reason", new { @class = "form-control" })
+                             new SelectList(new List<string>
+                             {
+                                         "Cheating","Suspicious Transaction","Bad Forum Behaviour","Bad Chat Behaviour","spamming"
+                             }),"Reason", new { @class = "form-control" })
         </div>
     </div>
-        /*<div class="g-recaptcha" data-sitekey="6LenbkIUAAAAAGKcQ5G-vwsOFO5Vea-Smo7Wb8U-"></div>*/
+        @*<div class="g-recaptcha" data-sitekey="6LenbkIUAAAAAGKcQ5G-vwsOFO5Vea-Smo7Wb8U-"></div>*@
         
     <input type="submit" value="Confirm" />
     <input type="reset" value="Cancel" />

@@ -14,7 +14,7 @@ namespace ASPJ_Project.Controllers
         public ActionResult Index()
         {
             //test username
-            //Session["userID"] = 50;
+            Session["userID"] = 50;
             //not logged in
             if ((int)Session["userID"] == 0) return RedirectToAction("Login", "User");
 

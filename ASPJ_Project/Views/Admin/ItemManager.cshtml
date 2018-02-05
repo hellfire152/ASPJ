@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Transaction";
+    var Listy = ViewBag.Listy;
+}
+
+<<h2>Item Management</h2>
+
+<table>
+    <tr>
+        <td>Item Name:</td>
+        <td>Item Type:</td>
+        <td>Item Image:</td>
+        <td>Item Description:</td>
+        <td>Item Price:</td>
+        <td colspan="2">Options</td>
+        @* Date Time? wtf  *@
+    </tr>
+    @foreach (var dummy in Listy)
+    {
+    <tr>
+        <td>@dummy.itemName</td>
+        <td>@dummy.itemType</td>
+        <td>@dummy.itemImage</td>
+        <td>@dummy.itemDescription</td>
+        <td>@dummy.beansPrice</td>
+        <td>@Html.ActionLink("edit", "ItemEdit", "Admin",new { itemName = @dummy.itemName},null)</td>
+        <td>@Html.ActionLink("delete", "ItemDelete", "Admin", new { itemName = @dummy.itemName},null)</td>
+    </tr>
+    }
+</table>

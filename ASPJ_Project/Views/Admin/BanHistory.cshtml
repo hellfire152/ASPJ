@@ -1,0 +1,49 @@
+﻿@using ASPJ_Project.Models
+@model BanSearchModel
+
+@{
+    ViewBag.Title = "BanHistory";
+    var Listy = ViewBag.Listy;
+}
+
+<h2>Search</h2>
+<head>
+    <style>
+        .form-group {
+            margin-bottom: 10px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+@using (Html.BeginForm("BanHistory", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <input type="submit" value="search" />
+}
+
+
+<table>
+    <tr>
+        <td>Username:</td>
+        <td>Ban Period:</td>
+        <td>Ban Reason:</td>
+        
+    </tr>
+    @foreach (var dummy in Listy)
+    {
+        <tr>
+            <td>@dummy.Username</td>
+            <td>@dummy.BanPeriod</td>
+            <td>@dummy.BanReason</td>
+        </tr>
+    }
+</table>

@@ -16,11 +16,7 @@ namespace ASPJ_Project.Controllers
     public class ProfileController : Controller
     {
         // GET: Profile
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+      
         public string GetSalt()
         {
             var random = new RNGCryptoServiceProvider();
@@ -32,31 +28,10 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult ChangePassword()
         {
-            Database d = Database.CurrentInstance;
-            try
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
-                if (d.OpenConnection())
-                {
-                    string SearchQuery = "SELECT * FROM dummyuser";
-
-                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                        }
-                    }
-                }
-            } catch (MySqlException e)
-            {
-                Debug.WriteLine("MySQL Error!");
+                return RedirectToAction("Login", "User");
             }
-            finally
-            {
-                d.CloseConnection();
-            }
-
             return View();
         }
 
@@ -65,6 +40,11 @@ namespace ASPJ_Project.Controllers
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
 
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             var response = Request["g-recaptcha-response"];
             string secretKey = "6LenbkIUAAAAAJGZh-mw37g7pIC-vLXNXAbxnsXd";
             var client = new WebClient();
@@ -72,76 +52,167 @@ namespace ASPJ_Project.Controllers
             var obj = JObject.Parse(result);
             var status = (bool)obj.SelectToken("success");
             ViewBag.Message = status ? "Google reCaptcha validation success" : "Google reCaptcha validation failed";
-            //if (status == true)
-            //{
-            //    Database d = Database.CurrentInstance;
-            //    try
-            //    {
-            //        if (d.OpenConnection(){
-            //            string passwordQuery = "SELECT * FROM ACCOUNT";
-            //            MySqlCommand c = new MySqlCommand(passwordQuery, d.conn);
 
-            //            using (MySqlDataReader r = c.ExecuteReader())
-            //            {
-            //                while (r.Read())
-            //                {
-            //                    //Logic Much
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch (MySQLException e)
-            //    {
-            //        Debug.WriteLine("MySQL Error!");
-            //    }
-            //    finally
-            //    {
-            //        d.CloseConnection();
-            //    }
-            //}
-            return View("ChangePassword");
+            if (status == true)
+            {
+                Database d = Database.CurrentInstance;
+                AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+                try
+                {
+                    if (d.OpenConnection())
+                    {
+                        var username = Session["uName"];
+                        string SearchQuery = "SELECT * FROM dububase.users Where @username";
+
+
+                        MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+                        c.Parameters.AddWithValue("@username", username);
+                        string password = "";
+                        using (MySqlDataReader r = c.ExecuteReader())
+                        {
+                            while (r.Read())
+                            {
+                                password = AES.AesDecrypt(r["password"].ToString());
+                            }
+                        }
+                        var OldPassword = Crypto.Hash(model.OldPassword);
+                        var NewPassword = Crypto.Hash(model.NewPassword);
+                        if (OldPassword == password)
+                        {
+                            string query = "Update dububase.users set password = @newPassword where username =@username;";
+                            c = new MySqlCommand(query, d.conn);
+                            c.Parameters.AddWithValue("@newPassword", AES.AesEncrypt(NewPassword));
+                            c.Parameters.AddWithValue("@username", username);
+                            c.BeginExecuteNonQuery();
+                            return View("Profile");
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Wrong Password";
+                            return View();
+                        };
+
+                    }
+                }
+                catch (MySqlException e)
+                {
+                    Debug.WriteLine("MySQL Error!");
+                }
+                finally
+                {
+                    d.CloseConnection();
+                }
+            }
+            return View();
         }
         //public Boolean ChangePassword(string old, string newpass, string repass)
         //{
         //    //Logic: IF (hash of (old+salt)) == hash in database, and if new match renew, then set hash of (new +salt) to database
         //}
 
-        public ActionResult UserProfile(string username)
+        
+        public ActionResult UserProfile()
         {
-            //if(username != null)
-            //{
-            //    viewdata["user"] = db.users.find(username)
-            //    return View();
-            //}
-            //userID,userName,password,firstName,lastName, email, phoneNumber,beansAmount
-            DummyProfile dummy = new DummyProfile { Email="killme@html.com",FirstName="meh", Role = "Moderator", Username = "name" };
-
-            ViewBag.dummy = dummy;
-            return View();
-        }
-        public ActionResult TransactionHistory(string Username)
-        {
-            Session["username"] = "";
-            if(Session["username"].ToString() != Username)
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
             {
-                return RedirectToAction("TransactionHistory", "Profile", new { Username = Username });   
+                return RedirectToAction("Login", "User");
             }
-
+            var username = Session["uname"].ToString();
             Database d = Database.CurrentInstance;
+            List<DummyProfile> Dummys = new List<DummyProfile>();
             try
             {
                 if (d.OpenConnection())
                 {
-                    string SearchQuery = "SELECT * FROM dububase.beantransaction Order by dateOfTransaction Desc";
+                    string SearchQuery = "SELECT * FROM dububase.users Where username = @username;";
 
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-
+                    c.Parameters.AddWithValue("@username",username);
+                    AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+                    List<user> users = new List<user>();
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
-                            //wait
+                            user user = new user
+                            {
+                                userName = (r["userName"].ToString()),
+                                email = (r["email"]).ToString(),
+                                firstName = (r["firstName"].ToString()),
+                                lastName = (r["lastName"].ToString()),
+                                phoneNumber = (AES.AesDecrypt(r["phoneNumber"].ToString()))
+                            };
+                            users.Add(user);
+                            ViewBag.Dummys = users;
                         }
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("MySQL Error!");
+            }
+            finally
+            {
+                d.CloseConnection();
+            }
+            return View();
+        }
+        public ActionResult TransactionHistory()
+        {
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var Username = Session["uname"];
+
+            //if(Session["u"].ToString() != Username)
+            //{
+            //    return RedirectToAction("TransactionHistory", "Profile", new { Username = Username });   
+            //}
+
+            Database d = Database.CurrentInstance;
+
+            try
+            {
+                if (d.OpenConnection())
+                {
+                    string SearchQuery = "Select userID From dububase.users where username = @username;";
+                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+                    c.Parameters.AddWithValue("@username", Username);
+                    int userID = 0;
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            userID = Convert.ToInt32(r["userID"].ToString());
+                        }
+                    }
+
+                    SearchQuery = "SELECT * FROM dububase.beantransaction Where userID = @userID Order by dateOfTransaction Desc";
+                    c = new MySqlCommand(SearchQuery, d.conn);
+                    AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+                    c.Parameters.AddWithValue("@userID", AES.AesEncrypt(userID.ToString()));
+                    List<TransactionHistory> transactions = new List<TransactionHistory>();
+                    
+                    using (MySqlDataReader r = c.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            transactions.Add(new TransactionHistory
+                            {
+                                TransactionNo = AES.AesDecrypt(r["transactionNo"].ToString()),
+                                TransactionDesc = AES.AesDecrypt(r["transactionDesc"].ToString()),
+                                Price = Convert.ToDouble(r["priceOfItem"]),
+                                Status = r["status"].ToString(),
+                                BeansBefore = Convert.ToInt32(r["userBeansBefore"]),
+                                BeansAfter = Convert.ToInt32(r["userBeansAfter"]),
+                                DateOfTransaction = (Convert.ToDateTime(r["dateOfTransaction"])).ToString()
+                            }
+                            );
+                        }
+                        ViewBag.usertransactions = transactions;
+                        return View();
                     }
                 }
             }

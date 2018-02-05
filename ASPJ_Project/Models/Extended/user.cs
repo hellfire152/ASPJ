@@ -16,6 +16,7 @@ namespace ASPJ_Project.Models
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string email { get; set; }
+        public string role { get; set; }
         public string confirmPassword { get; set; }
         public string captcha { get; set; }
         public string phoneNumber { get; set; }

@@ -11,45 +11,74 @@ namespace ASPJ_Project.Controllers
 {
     public class AdminController : Controller
     {
+        
         // GET: Admin
         public ActionResult Index()
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
+
             return View();
         }
 
         
-        //public ActionResult ViewUser(DummyProfile dummy)
-        //{
-        //    DummyProfile user = dummy;
-        //    ViewData["role"] = user.role;
-        //    if (dummy.role == "Admin")
-        //    {
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        return RedirectToRoute("action","index");
-        //    }
-        //}
         
         public ActionResult TransactionHistory()
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
+
             Database d = Database.CurrentInstance;
             try
             {
                 if (d.OpenConnection())
                 {
+                    List<TransactionHistory> transactions = new List<TransactionHistory>();
                     string SearchQuery = "SELECT * FROM dububase.beantransaction Order by dateOfTransaction Desc";
 
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-
+                    AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
-                           //wait
+                            transactions.Add(new TransactionHistory
+                            {
+                                TransactionNo =AES.AesDecrypt(r["transactionNo"].ToString()),
+                                TransactionDesc = AES.AesDecrypt(r["transactionDesc"].ToString()),
+                                Price = Convert.ToDouble(r["priceOfItem"]),
+                                Status = r["status"].ToString(),
+                                BeansBefore = Convert.ToInt32(r["userBeansBefore"]),
+                                BeansAfter = Convert.ToInt32(r["userBeansAfter  "]),
+                                DateOfTransaction = (Convert.ToDateTime(r["dateOfTransaction"])).ToString(),
+                                UserID = AES.AesDecrypt(r["userId"].ToString())
+                            });
                         }
                     }
+                    ViewBag.Transactions = transactions;
+                    return View();
                 }
             }
             catch (MySqlException e)
@@ -60,8 +89,10 @@ namespace ASPJ_Project.Controllers
             {
                 d.CloseConnection();
             }
+
             return View();
         }
+
         public ActionResult Search()
         {
             #region THE ROLE BASE CODE
@@ -75,18 +106,19 @@ namespace ASPJ_Project.Controllers
             //}
 
             //if user is not logged in
-            //if(Session["role"] == null)
+            //if (Session["uname"].ToString() == "" || Session["uname"].ToString() == null)
             //{
-            //    return RedirectToAction("Login", "User");
+            //    return RedirectToAction("login", "user");
             //}
 
             //if user is ban
-            //Session["isBan"] = "true";
+            //Session["isBan"] = "True";
             //string isBan = Session["isBan"].ToString();
             //if (isBan == "true")
             //{
             //    Database f = Database.CurrentInstance;
-            //    try{
+            //    try
+            //    {
             //        if (f.OpenConnection())
             //        {
             //            string SearchQuery = "SELECT * FROM dububase.users where username=@username";
@@ -98,7 +130,7 @@ namespace ASPJ_Project.Controllers
             //                while (r.Read())
             //                {
             //                    var date = DateTime.Parse(r["banTill"].ToString());
-            //                    if(DateTime.Compare(DateTime.Now,date)>0)
+            //                    if (DateTime.Compare(DateTime.Now, date) > 0)
             //                    {
             //                        SearchQuery = "UPDATE dububase.users set banTill = null,isBan = false where user = @session";
             //                        MySqlCommand cmd = new MySqlCommand(SearchQuery, f.conn);
@@ -129,7 +161,19 @@ namespace ASPJ_Project.Controllers
             //    return RedirectToAction("", "");
             //}
             #endregion
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
 
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             Database d = Database.CurrentInstance;
             List<DummyProfile> Dummys = new List<DummyProfile>();
 
@@ -140,21 +184,21 @@ namespace ASPJ_Project.Controllers
                     string SearchQuery = "SELECT * FROM dububase.users";
 
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-
+                    List<user> users = new List<user>();
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
-                            DummyProfile dummy = new DummyProfile
+                            user user = new user
                             {
-                                Id = (int.Parse(r["UserId"].ToString())),
-                                Username = (r["UserName"].ToString()),
-                                FirstName = (r["FirstName"]).ToString(),
-                                Role = (r["Role"].ToString()),
-                                Email = (r["Email"].ToString())
+                                userID = (Convert.ToInt32(r["UserId"])),
+                                userName = (r["userName"].ToString()),
+                                email = (r["email"]).ToString(),
+                                firstName = (r["firstName"].ToString()),
+                                lastName = (r["lastName"].ToString())
                             };
-                            Dummys.Add(dummy);
-                            ViewBag.Dummys = Dummys;
+                            users.Add(user);
+                            ViewBag.Dummys = users;
                         }
                     }
               }
@@ -192,7 +236,19 @@ namespace ASPJ_Project.Controllers
             //code from video
             //return View(db.Users.Where(x => x.Name.StartsWith(search) || search == null).toList());
             #endregion
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
 
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             #region db
             Database d = Database.CurrentInstance;
 
@@ -207,21 +263,21 @@ namespace ASPJ_Project.Controllers
                     //d.PNQ("SELECT * FROM dububase.users WHERE @searchtype LIKE @search%",model.SearchType, model.Search);
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
                     c.Parameters.AddWithValue("@username",model.Search);
+                    List<user> users = new List<user>();
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
-                            DummyProfile dummy = new DummyProfile
+                            user user = new user
                             {
-                                Id = (int.Parse(r["Id"].ToString())),
-                                Username = (r["username"].ToString()),
-                                Role = (r["role"].ToString()),
-                                Email = (r["email"].ToString()),
-                                Status = (r["status"].ToString())
+                                userID = (Convert.ToInt32(r["UserId"])),
+                                userName = (r["userName"].ToString()),
+                                email = (r["email"]).ToString(),
+                                firstName = (r["firstName"].ToString()),
+                                lastName = (r["lastName"].ToString())
                             };
-                            Dummys.Add(dummy);
-                            ViewBag.Dummys = Dummys;
-
+                            users.Add(user);
+                            ViewBag.Dummys = users;
                         }
                     }
                 }
@@ -242,6 +298,19 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult BanUser(string username)
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             Database d = Database.CurrentInstance;
             List<DummyProfile> Dummys = new List<DummyProfile>();
             
@@ -253,21 +322,19 @@ namespace ASPJ_Project.Controllers
 
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
                     c.Parameters.AddWithValue("@username",username);
+                    List<user> users = new List<user>();
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
-                        while (r.Read())
+                        user user = new user
                         {
-                            DummyProfile dummy = new DummyProfile
-                            {
-                                Id = (int.Parse(r["UserId"].ToString())),
-                                Username = (r["UserName"].ToString()),
-                                FirstName = (r["FirstName"]).ToString(),
-                                Role = (r["Role"].ToString()),
-                                Email = (r["Email"].ToString())
-                            };
-                            Dummys.Add(dummy);
-                            ViewBag.Dummys = Dummys;
-                        }
+                            userID = (Convert.ToInt32(r["UserId"])),
+                            userName = (r["userName"].ToString()),
+                            email = (r["email"]).ToString(),
+                            firstName = (r["firstName"].ToString()),
+                            lastName = (r["lastName"].ToString())
+                        };
+                        users.Add(user);
+                        ViewBag.Dummys = users;
                     }
                 }
             }
@@ -286,6 +353,18 @@ namespace ASPJ_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BanUser(BanUserModel model)
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             string username = model.Username;
             //db stuff
             MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
@@ -365,6 +444,19 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult BanHistory()
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             Database d = Database.CurrentInstance;
             List<BanUserModel> Dummys = new List<BanUserModel>();
 
@@ -406,6 +498,19 @@ namespace ASPJ_Project.Controllers
 
         public ActionResult BanHistory(BanSearchModel model)
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             Database d = Database.CurrentInstance;
             //MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
             //AESCryptoStuff aes_obj = new AESCryptoStuff();
@@ -457,9 +562,23 @@ namespace ASPJ_Project.Controllers
 
             return View();
         }
-        
+
+        [HttpGet]
         public ActionResult RoleChange(string username)
         {
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
             ViewBag.user = username;
             return View();
         }
@@ -468,22 +587,37 @@ namespace ASPJ_Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RoleChange(ChangeRoleModel model)
         {
-            MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
+            #region role and is logged in
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Index", "Unauthorized");
+            }
+
+
+            #endregion
+
+            Database d = Database.CurrentInstance;
+            
             AESCryptoStuff aes_obj = AESCryptoStuff.CurrentInstance;
             try
             {
-                string queryString = "";
-                String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
-                conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                if (d.OpenConnection())
+                {
+                    string queryString = "UPDATE dububase.users SET role = @role Where username=@username;";
+                    MySqlCommand cmd = new MySqlCommand(queryString, d.conn);
+                    cmd.CommandText = queryString;
+                    cmd.Parameters.AddWithValue("@role", model.NewRole);
+                    cmd.Parameters.AddWithValue("@username", model.Username);
+                    cmd.ExecuteNonQuery();
+                    return RedirectToAction("UserProfile","Admin",new { username = model.Username });
 
-                queryString = "UPDATE dububase.users SET role = @role Where username=@username;";
-                cmd.CommandText = queryString;
-                cmd.Parameters.AddWithValue("@role", model.NewRole);
-                cmd.Parameters.AddWithValue("@username", model.Username);
-                cmd.ExecuteNonQuery();
 
+                }
             }catch (System.Data.SqlClient.SqlException ex)
             {
                 string errorMsg = "Error";
@@ -492,196 +626,376 @@ namespace ASPJ_Project.Controllers
             }
             finally
             {
-                conn.Close();
+                d.CloseConnection();
             }
 
             //change to somewhere
             return View();
         }
 
-        public ActionResult ItemAdd()
-        {
-            return View();
-        }
+        //public ActionResult ItemAdd()
+        //{
+        //    #region role and is logged in
+        //    if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    {
+        //        return RedirectToAction("Login", "User");
+        //    }
 
-        public ActionResult ItemAdd(PremiumItem item)
+        //    if (Session["role"].ToString() != "Admin")
+        //    {
+        //        return RedirectToAction("Index", "Unauthorized");
+        //    }
+
+
+        //    #endregion
+        //    return View();
+        //}
+
+        //public ActionResult ItemAdd(PremiumItem item)
+        //{
+        //    #region role and is logged in
+        //    if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    {
+        //        return RedirectToAction("Login", "User");
+        //    }
+
+        //    if (Session["role"].ToString() != "Admin")
+        //    {
+        //        return RedirectToAction("Index", "Unauthorized");
+        //    }
+
+
+        //    #endregion
+        //    Database d = Database.CurrentInstance;
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string SearchQuery = "Select count(itemName) As itemExist From dububase.premiumitem where itemName = @item";
+        //            MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+        //            c.Parameters.AddWithValue("@item", item.itemName);
+        //            int itemExist = 0;
+        //            using (MySqlDataReader r = c.ExecuteReader())
+        //            {
+        //                while (r.Read())
+        //                {
+        //                    itemExist = Convert.ToInt32(r["itemExist"].ToString());
+        //                }
+        //            }
+
+        //            if (itemExist != 0)
+        //            {
+        //                SearchQuery = "INSERT INTO dububase.premiumitem(itemName,itemType,itemImage,itemDescription,beansPrice) VALUES(@name,@itemType,@itemImage,@itemDescription,@beansPrice);";
+        //                c = new MySqlCommand(SearchQuery, d.conn);
+        //                c.Parameters.AddWithValue("@itemName", item.itemName);
+        //                c.Parameters.AddWithValue("@itemType", item.itemType);
+        //                c.Parameters.AddWithValue("@itemDescription", item.itemDescription);
+        //                c.Parameters.AddWithValue("@beansPrice", item.beansPrice);
+        //                c.Parameters.AddWithValue("@itemImage", null);
+        //                //c.Parameters.AddWithValue("@dateStart", item.dateStart);
+        //                //c.Parameters.AddWithValue("@dateEnd", item.dateEnd);
+        //                //ALEX
+        //                //c.Parameters.AddWithValue("@itemImage", item.itemIamge);
+        //                c.ExecuteNonQuery();
+        //            }
+        //            else
+        //            {
+        //                ViewBag.Message = "Item Name Already Exists";
+        //                return View();
+        //            }
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+
+        //    return View("ItemManager");
+        //}
+
+        //[HttpGet]
+        //public ActionResult ItemDelete(string name)
+        //{
+        //    #region role and is logged in
+        //    if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    {
+        //        return RedirectToAction("Login", "User");
+        //    }
+
+        //    if (Session["role"].ToString() != "Admin")
+        //    {
+        //        return RedirectToAction("Index", "Unauthorized");
+        //    }
+
+
+        //    #endregion
+        //    Database d = Database.CurrentInstance;
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string SearchQuery = "SELECT * FROM dububase.premiumitem where itemName = @name";
+
+        //            MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+        //            c.Parameters.AddWithValue("@name",name);
+        //            using (MySqlDataReader r = c.ExecuteReader())
+        //            {
+        //                while (r.Read())
+        //                {
+        //                    //wait
+        //                    ViewBag.item = new PremiumItem
+        //                    {
+        //                        itemName = (r["itemName"]).ToString(),
+        //                        itemType = (r["itemType"]).ToString(),
+        //                        itemDescription = (r["itemDescription"]).ToString(),
+               
+                                
+        //                        //itemImage = (r["itemImage"]).ToString()
+        //                    };
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+        //    return View("ItemManager");
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ItemDelete(PremiumItem item)
+        //{
+        //    #region role and is logged in
+        //    if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    {
+        //        return RedirectToAction("Login", "User");
+        //    }
+
+        //    if (Session["role"].ToString() != "Admin")
+        //    {
+        //        return RedirectToAction("Index", "Unauthorized");
+        //    }
+
+
+        //    #endregion
+        //    Database d = Database.CurrentInstance;
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string SearchQuery = "DELETE FROM dububase.itemName WHERE itemName= @itemName;";
+        //            MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+        //            c.Parameters.AddWithValue("@itemName", item.itemName);
+        //            c.ExecuteNonQuery();
+        //            return View("ItemManager");
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+        //    return View();
+        //}
+
+
+        //public ActionResult ItemManager()
+        //{
+        //    #region role and is logged in
+        //    //if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    //{
+        //    //    return RedirectToAction("Login", "User");
+        //    //}
+        //    //Session["role"] = "Admin";
+        //    //if (Session["role"].ToString() != "Admin")
+        //    //{
+        //    //    return RedirectToAction("Index", "Unauthorized");
+        //    //}
+
+
+        //    #endregion
+        //    Database d = Database.CurrentInstance;
+        //    List<PremiumItem> listy = new List<PremiumItem>();
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string SearchQuery = "Select * from dububase.premiumitem";
+        //            MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+
+        //            using (MySqlDataReader r = c.ExecuteReader())
+        //            {
+        //                while (r.Read())
+        //                {
+        //                    PremiumItem item = new PremiumItem
+        //                    {
+        //                        itemName = (r["itemName"]).ToString(),
+        //                        beansPrice = Convert.ToInt32(r["beansPrice"].ToString()),
+        //                        itemDescription = (r["itemDescription"]).ToString(),
+        //                        itemType = (r["itemType"]).ToString()
+        //                    };
+        //                    listy.Add(item);
+        //                }
+        //            }
+        //            ViewBag.Listy = listy;
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+
+        //    return View();
+        //}
+        //[HttpGet]
+        //public ActionResult ItemEdit(string name)
+        //{
+        //    #region role and is logged in
+        //    //if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    //{
+        //    //    return RedirectToAction("Login", "User");
+        //    //}
+
+        //    //if (Session["role"].ToString() != "Admin")
+        //    //{
+
+        //    //    return RedirectToAction("Index", "Unauthorized");
+        //    //}
+
+
+        //    #endregion
+        //    Database d = Database.CurrentInstance;
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            string SearchQuery = "Select * from dububase.premiumitem where itemName = @name";
+        //            MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+        //            c.Parameters.AddWithValue("@name", name);
+        //            using (MySqlDataReader r = c.ExecuteReader())
+        //            {
+        //                while (r.Read())
+        //                {
+        //                    PremiumItem item = new PremiumItem
+        //                    {
+        //                        itemName = (r["itemName"]).ToString(),
+        //                        beansPrice = Convert.ToInt32(r["beansPrice"].ToString()),
+        //                        itemDescription = (r["itemDescription"]).ToString(),
+        //                        itemType = (r["itemType"]).ToString()
+        //                    };
+        //                    ViewBag.item = item;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+        //    return View("ItemManager");
+        //}
+        ////Actual one
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ItemEdit(PremiumItem item)
+        //{
+        //    #region role and is logged in
+        //    //if (Session["uname"] == null || Session["uname"].ToString() == "")
+        //    //{
+        //    //    return RedirectToAction("Login", "User");
+        //    //}
+
+        //    //if (Session["role"].ToString() != "Admin")
+        //    //{
+
+        //    //    return RedirectToAction("Index", "Unauthorized");
+        //    //}
+
+
+        //    #endregion
+        //    Database d = Database.CurrentInstance;
+        //    try
+        //    {
+        //        if (d.OpenConnection())
+        //        {
+        //            //update
+        //            string SearchQuery = "Update dububase.premiumitem set itemPrice = @2, itemDescription = @3, itemType=@4 where itemName = @5";
+        //            MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
+        //            c.Parameters.AddWithValue("@2", item.priceOfBeans);
+        //            c.Parameters.AddWithValue("@3", item.itemDescription);
+        //            c.Parameters.AddWithValue("@4", item.itemType);
+        //            c.Parameters.AddWithValue("@5", item.itemName);
+        //            c.ExecuteNonQuery();
+
+        //        }
+        //    }
+        //    catch (MySqlException e)
+        //    {
+        //        Debug.WriteLine("MySQL Error!");
+        //    }
+        //    finally
+        //    {
+        //        d.CloseConnection();
+        //    }
+        //    return View("ItemManager");
+        //}
+        public ActionResult UserProfile(string username)
         {
+            if (Session["uname"] == null || Session["uname"].ToString() == "")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (Session["role"].ToString() != "Admin")
+            {
+
+                return RedirectToAction("Index", "Unauthorized");
+            }
             Database d = Database.CurrentInstance;
+            List<DummyProfile> Dummys = new List<DummyProfile>();
             try
             {
                 if (d.OpenConnection())
                 {
-                    string SearchQuery = "Select count(itemName) As itemExist From dububase.premiumitem where itemName = @item";
+                    string SearchQuery = "SELECT * FROM dububase.users Where username = @username;";
+
                     MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-                    c.Parameters.AddWithValue("@item", item.itemName);
-                    int itemExist = 0;
+                    c.Parameters.AddWithValue("@username", username);
+                    AESCryptoStuff AES = AESCryptoStuff.CurrentInstance;
+                    List<user> users = new List<user>();
                     using (MySqlDataReader r = c.ExecuteReader())
                     {
                         while (r.Read())
                         {
-                            itemExist = Convert.ToInt32(r["itemExist"].ToString());
-                        }
-                    }
-
-                    if (itemExist != 0)
-                    {
-                        SearchQuery = "INSERT INTO dububase.premiumitem(itemName,itemType,itemImage,itemDescription,beansPrice,dateStart,dateEnd) VALUES(@name,@itemType,@itemImage,@itemDescription,@beansPrice,@dateStart,@dateEnd);";
-                        c = new MySqlCommand(SearchQuery, d.conn);
-                        c.Parameters.AddWithValue("@itemName", item.itemName);
-                        c.Parameters.AddWithValue("@itemType", item.itemType);
-                        c.Parameters.AddWithValue("@itemDescription", item.itemDescription);
-                        c.Parameters.AddWithValue("@beansPrice", item.beansPrice);
-                        //c.Parameters.AddWithValue("@dateStart", item.dateStart);
-                        //c.Parameters.AddWithValue("@dateEnd", item.dateEnd);
-                        //ALEX
-                        //c.Parameters.AddWithValue("@itemImage", item.itemIamge);
-                        c.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Item Name Already Exists";
-                        return View();
-                    }
-                }
-            }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine("MySQL Error!");
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-
-            return View("ItemManager");
-        }
-
-
-        public ActionResult ItemDelete(string name)
-        {
-            Database d = Database.CurrentInstance;
-            try
-            {
-                if (d.OpenConnection())
-                {
-                    string SearchQuery = "SELECT * FROM dububase.premiumitem where itemName = @name";
-
-                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-                    c.Parameters.AddWithValue("@name",name);
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            //wait
-                            ViewBag.item = new PremiumItem
+                            user user = new user
                             {
-                                itemName = (r["itemName"]).ToString(),
-                                itemType = (r["itemType"]).ToString(),
-                                itemDescription = (r["itemDescription"]).ToString()
-                                //itemImage = (r["itemImage"]).ToString()
+                                userName = (r["userName"].ToString()),
+                                email = (r["email"]).ToString(),
+                                role = (r["role"].ToString())
                             };
-                        }
-                    }
-                }
-            }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine("MySQL Error!");
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-            return View();
-        }
-
-        public ActionResult ItemDelete(PremiumItem item)
-        {
-            Database d = Database.CurrentInstance;
-            try
-            {
-                if (d.OpenConnection())
-                {
-                    string SearchQuery = "DELETE FROM dububase.itemName WHERE itemName= @itemName;";
-                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-                    c.Parameters.AddWithValue("@itemName", item.itemName);
-                    c.ExecuteNonQuery();
-                }
-            }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine("MySQL Error!");
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-            return View();
-        }
-
-        public ActionResult ItemManager()
-        {
-            Database d = Database.CurrentInstance;
-            List<PremiumItem> listy = new List<PremiumItem>();
-            try
-            {
-                if (d.OpenConnection())
-                {
-                    string SearchQuery = "Select * from dububase.premiumitem";
-                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            PremiumItem item = new PremiumItem
-                            {
-                                itemName = (r["itemName"]).ToString(),
-                                beansPrice = Convert.ToInt32(r["beansPrice"].ToString()),
-                                itemDescription = (r["itemDescription"]).ToString(),
-                                itemType = (r["itemType"]).ToString()
-                            };
-                            listy.Add(item);
-                        }
-                    }
-                    ViewBag.Listy = listy;
-                }
-            }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine("MySQL Error!");
-            }
-            finally
-            {
-                d.CloseConnection();
-            }
-
-            return View();
-        }
-        
-        //Actual one
-        public ActionResult ItemEdit(string name)
-        {
-            Database d = Database.CurrentInstance;
-            try
-            {
-                if (d.OpenConnection())
-                {
-                    string SearchQuery = "Select * from dububase.premiumitem where itemName = @name";
-                    MySqlCommand c = new MySqlCommand(SearchQuery, d.conn);
-                    c.Parameters.AddWithValue("@name", name);
-                    using (MySqlDataReader r = c.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            PremiumItem item = new PremiumItem
-                            {
-                                itemName = (r["itemName"]).ToString(),
-                                beansPrice = Convert.ToInt32(r["beansPrice"].ToString()),
-                                itemDescription = (r["itemDescription"]).ToString(),
-                                itemType = (r["itemType"]).ToString()
-                            };
-                            ViewBag.item = item;
+                            users.Add(user);
+                            ViewBag.Dummys = users;
                         }
                     }
                 }

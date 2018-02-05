@@ -60,6 +60,18 @@ namespace ASPJ_Project.Models
         public string Username { get; set; }
     }
 
+    public class TransactionHistory
+    {
+        //@transactionNo, @transactionDesc, @price, @beansBefore, @beansAfter, @status, @dateOfTransaction, @userID
+        public string TransactionNo { get; set; }
+        public string TransactionDesc { get; set; }
+        public double Price { get; set; }
+        public int BeansBefore { get; set; }
+        public int BeansAfter { get; set; }
+        public string Status { get; set; }
+        public string DateOfTransaction { get; set; }
+        public string UserID { get; set; }
+    }
     public class ChangeRoleModel
     {
         public string Username { get; set; }

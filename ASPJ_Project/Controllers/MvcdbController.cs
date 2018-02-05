@@ -14,6 +14,7 @@ using System.IO;
 using Censored;
 using MySql.Data.MySqlClient;
 using System.Collections;
+using ASPJ_Project.Controllers;
 
 namespace ASPJ_Project.Controllers
 {
@@ -166,11 +167,11 @@ namespace ASPJ_Project.Controllers
         string queryString;
 
         //Insert message into the database
-        public void ChatSendMessage(string chatMessageInsert)
+        public void ChatSendMessage(string chatMessageInsert, string username)
         {
             Models.Database d = Models.Database.CurrentInstance;
             try
-            { 
+            {
                 //Initialize Command 
                 MySqlCommand cmd = new MySqlCommand(queryString, d.conn);
                 //Open connection
@@ -186,12 +187,13 @@ namespace ASPJ_Project.Controllers
                 //Encrypt msg
                 chatMessageInsert = aes_obj.AesEncrypt(chatMessageInsert);
                 //Insert query
-                queryString = "INSERT INTO dububase.chat(chatMessage, chatDate, chatTime) VALUES(@sendmessage, @chatdate, @chattime)";
+                queryString = "INSERT INTO dububase.chat(chatMessage, chatDate, chatTime, username) VALUES(@sendmessage, @chatdate, @chattime, @username)";
                 cmd.CommandText = queryString;
                 //Add parameters
                 cmd.Parameters.AddWithValue("@sendmessage", chatMessageInsert);
                 cmd.Parameters.AddWithValue("@chatdate", dateStr);
-                cmd.Parameters.AddWithValue("@chattime", timeStr);
+                cmd.Parameters.AddWithValue("@chattime", dateTimeStr);
+                cmd.Parameters.AddWithValue("@username", username);
                 cmd.ExecuteNonQuery();
             }//Exception
             catch (System.Data.SqlClient.SqlException ex)
@@ -276,6 +278,39 @@ namespace ASPJ_Project.Controllers
                 while (reader.HasRows && reader.Read())
                 {
                     storeDate.Add((reader["chatTime"].ToString()));
+                }
+                return storeDate;
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                string errorMsg = "Error";
+                errorMsg += ex.Message;
+                throw new Exception(errorMsg);
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+        }
+
+        public List<string> ChatGetUsername()
+        {
+            //string chatInfo;
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ConnectionString;
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                List<string> storeDate = new List<string>();
+                queryString = "SELECT username FROM dububase.chat";
+                cmd.CommandText = queryString;
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(queryString, conn);
+                reader = cmd.ExecuteReader();
+                while (reader.HasRows && reader.Read())
+                {
+                    storeDate.Add((reader["username"].ToString()));
                 }
                 return storeDate;
             }

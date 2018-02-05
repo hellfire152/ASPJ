@@ -66,6 +66,7 @@ namespace ASPJ_Project.Controllers
             ViewBag.cookie = getCookie;
             ViewBag.dateTime = db.ChatGetTime();
             ViewBag.chatList = db.ChatGetMessage();
+            ViewBag.username = db.ChatGetUsername();
             #endregion 
 
             return View();

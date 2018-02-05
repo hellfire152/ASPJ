@@ -79,8 +79,8 @@ function initChat() {
     // Create a function that the hub can call back to display messages.
     chat.client.addNewMessageToPage = function (name, message, time) {
         // Add the message to the page.
-        $('#discussion').append('<li><strong>' + htmlEncode(name)
-            + '</strong>: ' + htmlEncode(message) + '<small class="pull-right text-muted">' + htmlEncode(time) + '</small>' + '</li>');
+        $('#discussion').append('<li><strong style="color:white;">' + htmlEncode(name)
+            + ': </strong> ' + '<span style="color:white;">' + htmlEncode(message) + '</span>' + '<small class="pull-right text-muted" style="color:#A9EDEB">' + htmlEncode(time) + '</small>' + '</li>');
     };
 
     $("#s").animate({ "right": "-=300" });

@@ -3,7 +3,8 @@
 
 @{
     ViewBag.Title = "BanHistory";
-    var Listy = ViewBag.Listy;
+    var Listy = ViewBag.Listys;
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
 }
 
 <h2>Search</h2>
@@ -16,19 +17,6 @@
     </style>
 </head>
 
-@using (Html.BeginForm("BanHistory", "Admin", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <input type="submit" value="search" />
-}
 
 
 <table>

@@ -3,8 +3,7 @@
 
 @{
     ViewBag.Title = "UserProfile";
-    var dummy = ViewBag.Dummy;
-
+    var dummy = ViewBag.Dummys;
     var username = Session["uname"];
 } 
 <style>
@@ -98,10 +97,11 @@
             <div class="well profile">
                 <div class="col-sm-12">
                     <div class="col-xs-12 col-sm-8">
-                        <h2>@dummy.Username</h2>
-                        <p><strong>Email: </strong> @dummy.Email </p>
-                        <p><strong>Phone number:</strong> @dummy.phonenumber</p>
-                        @*emptylulz*@
+                        <h2>@dummy.userName</h2>
+                        <p><strong>Email: </strong> @dummy.email </p>
+                        <p><strong>Phone number:</strong> @dummy.phoneNumber</p>
+                        <p><strong>First Name:</strong> @dummy.firstName</p>
+                        <p><strong>Last Name:</strong> @dummy.lastName</p>
                         <p>
                             <strong></strong>
                             @*<span class="tags"></span>
@@ -129,19 +129,19 @@
                     <div class="col-xs-12 col-sm-6 emphasis">
                         <h2><strong>Edit </strong></h2>
                         <p><small>Password</small></p>
-                        <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span>@Html.ActionLink("ChangePassword","Profile",new {name =username },null)</button>
+                        <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span>@Html.ActionLink("ChangePassword","ChangePassword","Profile")</button>
                     </div>
-                    </div>
+                    
                   
                         
                         <div class="col-xs-12 col-sm-6 emphasis">
                             <h2><strong>View</strong></h2>
                             <p><small>Transaction</small></p>
-                            <button class="btn btn-info btn-block"><span class="fa fa-user"></span> @Html.ActionLink("Transactions", "Profile", new { name= @username }, null) </button>
+                            <button class="btn btn-info btn-block"><span class="fa fa-user"></span> @Html.ActionLink("Transactions","TransactionHistory", "Profile") </button>
                         </div>
                         
 
-                        
+                        </div>
                     @*<div class="col-xs-12 col-sm-4 emphasis">
         <h2><strong></strong></h2>
         <p><small></small></p>

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Item Delete";
     var item = ViewBag.Item;
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
 
 }
 
@@ -21,6 +22,14 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.itemID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.itemID, new { @readonly = "readonly", @Value = item.itemID, @class = "form-control" })
+        </div>
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.itemName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -43,9 +52,9 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.beansPrice, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.priceOfBeans, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.beansPrice, new { @readonly = "readonly", @Value = item.beansPrice, @class = "form-control" })
+            @Html.TextBoxFor(m => m.priceOfBeans, new { @readonly = "readonly", @Value = item.priceOfBeans, @class = "form-control" })
         </div>
     </div>
 

@@ -2,12 +2,15 @@
 @{
     ViewBag.Title = "Transaction";
     var Listy = ViewBag.Listy;
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
+
 }
 
 <<h2>Item Management</h2>
 
 <table>
     <tr>
+        <td>Item ID:</td>
         <td>Item Name:</td>
         <td>Item Type:</td>
         <td>Item Description:</td>
@@ -18,13 +21,15 @@
     @foreach (var dummy in Listy)
     {
     <tr>
+        <td>@dummy.itemID</td>
         <td>@dummy.itemName</td>
         <td>@dummy.itemType</td>
-        <td>@dummy.itemImage</td>
         <td>@dummy.itemDescription</td>
         <td>@dummy.beansPrice</td>
-        <td>@Html.ActionLink("edit", "ItemEdit", "Admin",new { name = dummy.itemName},null)</td>
-        <td>@Html.ActionLink("delete", "ItemDelete", "Admin", new { name = dummy.itemName},null)</td>
+        <td>@Html.ActionLink("edit", "ItemEdit", "Admin",new { name = @dummy.itemName},null)</td>
+        <td>@Html.ActionLink("delete", "ItemDelete", "Admin", new { name = @dummy.itemName},null)</td>
     </tr>
     }
 </table>
+
+@Html.ActionLink("Add Item", "ItemAdd", "Admin")

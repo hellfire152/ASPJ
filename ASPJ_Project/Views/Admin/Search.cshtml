@@ -4,6 +4,8 @@
 @{
     ViewBag.Title = "Search";
     var Dummys = ViewBag.Dummys;
+    Layout = "~/Content/ShopStyle/_Layout.cshtml";
+
 }
 
 <h2>Search</h2>
@@ -36,12 +38,12 @@
     @foreach (var dummy in Dummys)
     {
         <tr>
-            <td>@dummy.UserId</td>
-            <td>@dummy.UserName</td>
-            <td>@dummy.FirstName</td>
-            <td>@dummy.Role</td>
-            <td>@dummy.Email</td>
-            <td><button value="details">details</button></td>
+            <td>@dummy.userID</td>
+            <td>@dummy.userName</td>
+            <td>@dummy.firstName</td>
+            <td>@dummy.role</td>
+            <td>@dummy.email</td>
+            <td>@Html.ActionLink("UserProfile", "UserProfile", new{ username = @dummy.userName})</td>
         </tr>
     }
 </table>

@@ -23,7 +23,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -44,7 +44,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -169,7 +169,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -244,7 +244,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -308,7 +308,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -365,7 +365,7 @@ namespace ASPJ_Project.Controllers
             }
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -448,7 +448,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -503,7 +503,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -571,7 +571,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -592,7 +592,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -640,7 +640,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -660,7 +660,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -728,7 +728,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -782,7 +782,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -818,10 +818,9 @@ namespace ASPJ_Project.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
-            Session["role"] = "Admin";
             if (Session["role"].ToString() != "Admin")
             {
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -875,8 +874,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -930,8 +928,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
 
 
@@ -976,8 +973,7 @@ namespace ASPJ_Project.Controllers
 
             if (Session["role"].ToString() != "Admin")
             {
-
-                return RedirectToAction("Index", "Unauthorized");
+                return RedirectToAction("Index", "Unauthorised");
             }
             Database d = Database.CurrentInstance;
             List<DummyProfile> Dummys = new List<DummyProfile>();

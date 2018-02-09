@@ -16,9 +16,6 @@ namespace ASPJ_Project.Models
 
             //check tofu click numbers
             if (timePassed <= 0) timePassed = 1;
-            double tofuClicksPerSecond = progress.tofuClicks / timePassed;
-            if (tofuClicksPerSecond > 20 || (tofuClicksPerSecond > 10 && timePassed > 60))
-                return false;
 
             //get all upgrades of save
             Upgrade[] upgradeArr = new Upgrade[save.Upgrades.Length];

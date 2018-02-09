@@ -23,6 +23,12 @@ namespace ASPJ_Project.Controllers
         {
             if (Request.Cookies["OTP"].Value == otpModel.OTPvalue)
             {
+                Session["uname"] = Session["tuname"];
+                Session["userID"] = Session["tuserID"];
+                Session["Phonenumber"] = Session["tPhonenumber"];
+                Session["username"] = Session["tusername"];
+                Session["userBeans"] = Session["tuserBeans"];
+                Session["role"] = Session["trole"];
                 return RedirectToAction("Index", "Game");
             }
             else

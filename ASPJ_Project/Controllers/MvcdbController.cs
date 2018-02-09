@@ -148,6 +148,7 @@ namespace ASPJ_Project.Controllers
                 "mf",
                 "motherfucker",
                 "stupid",
+                "faggot"
                 };
             var censor = new Censor(censoredWords);
             string result;

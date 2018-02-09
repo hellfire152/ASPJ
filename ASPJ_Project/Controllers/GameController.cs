@@ -14,7 +14,13 @@ namespace ASPJ_Project.Controllers
         public ActionResult Index()
         {
             //not logged in
-            if ((int)Session["userID"] == 0) return RedirectToAction("Login", "User");
+            try
+            {
+                if ((int)Session["userID"] == 0) return RedirectToAction("Login", "User");
+            } catch
+            {
+                return RedirectToAction("login", "user");
+            }
 
             //set username cookie
             HttpCookie usernameCookie = new HttpCookie("userID")

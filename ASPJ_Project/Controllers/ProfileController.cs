@@ -84,7 +84,7 @@ namespace ASPJ_Project.Controllers
                             c.Parameters.AddWithValue("@newPassword", AES.AesEncrypt(NewPassword));
                             c.Parameters.AddWithValue("@username", username);
                             c.BeginExecuteNonQuery();
-                            return View("Profile");
+                            return RedirectToAction("UserProfile", "Profile");
                         }
                         else
                         {

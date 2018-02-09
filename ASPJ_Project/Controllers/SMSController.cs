@@ -46,8 +46,8 @@ namespace ASPJ_Project.Controllers
             TwilioClient.Init(accountSid, authToken);
 
             //var to = new PhoneNumber(ConfigurationManager.AppSettings["MyPhoneNumber"]);
-            var to = Session["Phonenumber"].ToString();
-            var from = new PhoneNumber("+19104057634");
+            var to = Session["tPhonenumber"].ToString();
+            var from = new PhoneNumber("+13345696351");
 
             try
             {

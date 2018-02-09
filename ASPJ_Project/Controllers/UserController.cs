@@ -353,7 +353,7 @@ namespace ASPJ_Project.Controllers
                         Username = reader.GetString(reader.GetOrdinal("userName"));
                         login.email = reader.GetString(reader.GetOrdinal("email"));
                         login.password = reader.GetString(reader.GetOrdinal("password"));
-                        Phonenumber = reader.GetString(reader.GetOrdinal("phoneNumber"));
+                        Phonenumber = AESCryptoStuff.CurrentInstance.AesDecrypt(reader.GetString(reader.GetOrdinal("phoneNumber")));
                         beansAmount = reader.GetString(reader.GetOrdinal("beansAmount"));
                         if (reader["banTill"] != DBNull.Value)
                         {
@@ -405,12 +405,12 @@ namespace ASPJ_Project.Controllers
                                 else
                                 {
                                    
-                                    Session["uname"] = Username;
-                                    Session["userID"] = Uid;
-                                    Session["Phonenumber"] = Phonenumber;
-                                    Session["username"] = Username;
-                                    Session["userBeans"] = beansAmount;
-                                    Session["role"] = role;
+                                    Session["tuname"] = Username;
+                                    Session["tuserID"] = Uid;
+                                    Session["tPhonenumber"] = Phonenumber;
+                                    Session["tusername"] = Username;
+                                    Session["tuserBeans"] = beansAmount;
+                                    Session["trole"] = role;
                                     return RedirectToAction("SendOTP", "SMS");
 
                                 }
@@ -418,7 +418,7 @@ namespace ASPJ_Project.Controllers
                             }
                             else
                             {
-                                ViewBag.Message = "You have not activated your account.";
+                                ViewBag.Message = "You have not activated your account. Please check your email for activation link.";
                                 return View();
                             }
 
